@@ -53,7 +53,7 @@ export default function TradingPage({ params }: TradingPageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="bg-black">
       {/* Market Info Bar */}
       <MarketInfoBar key={symbolUpper} symbol={symbolUpper} />
 
