@@ -58,20 +58,20 @@ export default function TradingPage({ params }: TradingPageProps) {
       <MarketInfoBar key={symbolUpper} symbol={symbolUpper} />
 
       {/* Main Trading Layout */}
-      <div className="flex h-[calc(100vh-120px)] relative z-0">
+      <div className="flex flex-col lg:flex-row h-auto lg:h-[calc(100vh-120px)] overflow-y-auto lg:overflow-hidden relative z-0">
         {/* Center - Chart & Order Book */}
-        <div className="flex-1 flex flex-col p-4 min-w-0">
+        <div className="flex-1 flex flex-col p-4 min-w-0 overflow-hidden">
           {/* Top Row - Chart and Order Book side by side */}
-          <div className="flex flex-1 mb-4 gap-4">
+          <div className="flex flex-col lg:flex-row flex-1 mb-4 gap-4 min-h-0">
             {/* Chart */}
-            <div className="flex-1">
+            <div className="flex-1 min-h-[400px] lg:min-h-0">
               <ChartErrorBoundary>
                 <PriceChart key={symbolUpper} symbol={symbolUpper} />
               </ChartErrorBoundary>
             </div>
 
             {/* Order Book & Recent Trades Tabs */}
-            <div className="w-80 bg-gray-950 border border-gray-800 rounded-lg flex flex-col">
+            <div className="w-full lg:w-80 h-[500px] lg:h-auto bg-gray-950 border border-gray-800 rounded-lg flex flex-col">
               {/* Tab Headers */}
               <div className="flex border-b border-gray-800">
                 <button
@@ -112,7 +112,7 @@ export default function TradingPage({ params }: TradingPageProps) {
           </div>
 
           {/* Bottom Panel - Positions, Orders, History */}
-          <div className="h-64 bg-gray-950 border border-gray-800 rounded-lg">
+          <div className="min-h-[300px] lg:h-64 bg-gray-950 border border-gray-800 rounded-lg">
             <div className="flex space-x-1 px-4 pt-4 border-b border-gray-800">
               <button
                 onClick={() => setActiveTab('positions')}
@@ -172,7 +172,7 @@ export default function TradingPage({ params }: TradingPageProps) {
         </div>
 
         {/* Right Sidebar - Trading Panel */}
-        <div className="w-96 border-l border-gray-800 flex-shrink-0 flex flex-col p-4">
+        <div className="w-full lg:w-96 border-t lg:border-t-0 lg:border-l border-gray-800 flex-shrink-0 flex flex-col p-4">
           {/* Trading Panel */}
           <div className="flex-1">
             <TradingErrorBoundary>
