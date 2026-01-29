@@ -37,7 +37,7 @@ export function Navbar() {
   const pathname = usePathname();
 
   return (
-    <nav className="border-b border-gray-800 bg-black/50 backdrop-blur-sm">
+    <nav className="bg-black">
       <div className="mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
