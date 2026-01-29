@@ -31,7 +31,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
   const [searchMode, setSearchMode] = useState<'strict' | 'all'>('all');
   const [activeFilter, setActiveFilter] = useState<string>('All');
   const [dropdownPosition, setDropdownPosition] = useState({
-    top: 72,
+    top: 80,
     left: 24,
   });
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -421,7 +421,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
   return (
     <div className="border-b border-gray-800/50 bg-gradient-to-b from-gray-900/80 to-gray-900/60 backdrop-blur-md">
       <div className="w-full px-3 sm:px-4 md:px-6">
-        <div className="flex items-center justify-between h-14 sm:h-14 md:h-14">
+        <div className="flex items-center justify-between h-16">
           {/* Left Side - Market Info */}
           <div className="flex items-stretch space-x-2 sm:space-x-4 md:space-x-6 lg:space-x-8 overflow-x-auto scrollbar-hide">
             {/* Markets Dropdown */}
