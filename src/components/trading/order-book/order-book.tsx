@@ -34,15 +34,7 @@ export function OrderBook({ symbol, onPriceClick }: OrderBookProps) {
   }
 
   return (
-    <div className="flex flex-col h-full bg-gray-950 border border-gray-800 rounded-lg">
-      {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-800">
-        <h3 className="text-sm font-semibold text-white">Order Book</h3>
-        <div className="text-xs text-gray-400">
-          {symbol}
-        </div>
-      </div>
-
+    <div className="flex flex-col h-full">
       {/* Column Headers */}
       <div className="grid grid-cols-3 gap-2 px-4 py-2 text-xs text-gray-500 border-b border-gray-800">
         <div className="text-left">Price (USD)</div>
