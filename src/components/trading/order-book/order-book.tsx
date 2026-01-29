@@ -98,7 +98,7 @@ export function OrderBook({ symbol, onPriceClick }: OrderBookProps) {
         </div>
 
         {/* Bids (Buys) - Green */}
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1 overflow-hidden flex flex-col justify-end">
           {displayedBids.map((bid, idx) => {
             const depthPercent = (parseFloat(bid.size) / maxBidSize) * 100;
             let cumulative = 0;
