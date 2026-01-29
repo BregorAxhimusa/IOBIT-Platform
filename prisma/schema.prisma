@@ -1,0 +1,156 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User accounts
+model User {
+  id            String      @id @default(cuid())
+  address       String      @unique // Wallet address
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  // Relationships
+  trades        Trade[]
+  positions     Position[]
+  orders        Order[]
+  preferences   UserPreferences?
+
+  @@index([address])
+}
+
+// User preferences (settings, favorites)
+model UserPreferences {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  theme           String   @default("dark") // dark | light
+  defaultLeverage Int      @default(1)
+  favorites       String[] // Array of favorite symbols
+  chartType       String   @default("candlestick")
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+// Trade history (filled orders)
+model Trade {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Trade details
+  symbol        String   // e.g., "BTC-USD"
+  side          String   // "buy" | "sell"
+  price         Decimal  @db.Decimal(20, 8)
+  size          Decimal  @db.Decimal(20, 8)
+  value         Decimal  @db.Decimal(20, 8) // price * size
+  fee           Decimal  @db.Decimal(20, 8)
+
+  // Order reference
+  orderId       String?
+  order         Order?   @relation(fields: [orderId], references: [id])
+
+  // Hyperliquid metadata
+  hlTradeId     String?  @unique // Hyperliquid's trade ID
+
+  // Timestamps
+  executedAt    DateTime
+  createdAt     DateTime @default(now())
+
+  @@index([userId, symbol])
+  @@index([userId, executedAt])
+  @@index([hlTradeId])
+}
+
+// Orders (open + historical)
+model Order {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Order details
+  symbol        String
+  side          String   // "buy" | "sell"
+  type          String   // "market" | "limit"
+  price         Decimal? @db.Decimal(20, 8) // null for market orders
+  size          Decimal  @db.Decimal(20, 8)
+  filledSize    Decimal  @db.Decimal(20, 8) @default(0)
+
+  // Order options
+  reduceOnly    Boolean  @default(false)
+  postOnly      Boolean  @default(false)
+  timeInForce   String   @default("GTC") // GTC | IOC | ALO
+
+  // Status
+  status        String   // "open" | "filled" | "cancelled" | "rejected"
+
+  // Hyperliquid metadata
+  hlOrderId     String?  @unique // Hyperliquid's order ID
+
+  // Timestamps
+  placedAt      DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  filledAt      DateTime?
+  cancelledAt   DateTime?
+
+  // Relationships
+  trades        Trade[]
+
+  @@index([userId, status])
+  @@index([userId, symbol])
+  @@index([hlOrderId])
+}
+
+// Positions (open positions)
+model Position {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Position details
+  symbol          String
+  side            String   // "long" | "short"
+  size            Decimal  @db.Decimal(20, 8)
+  entryPrice      Decimal  @db.Decimal(20, 8)
+  leverage        Int
+
+  // PnL tracking (snapshot-based)
+  unrealizedPnL   Decimal  @db.Decimal(20, 8) @default(0)
+  realizedPnL     Decimal  @db.Decimal(20, 8) @default(0)
+
+  // Risk management
+  liquidationPrice Decimal? @db.Decimal(20, 8)
+  margin          Decimal  @db.Decimal(20, 8)
+
+  // Hyperliquid metadata
+  hlPositionId    String?  @unique
+
+  // Timestamps
+  openedAt        DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  closedAt        DateTime?
+
+  @@unique([userId, symbol]) // One position per symbol per user
+  @@index([userId, closedAt])
+}
+
+// Position history snapshots (for PnL tracking over time)
+model PositionSnapshot {
+  id              String   @id @default(cuid())
+  positionId      String
+
+  // Snapshot data
+  markPrice       Decimal  @db.Decimal(20, 8)
+  unrealizedPnL   Decimal  @db.Decimal(20, 8)
+  margin          Decimal  @db.Decimal(20, 8)
+
+  snapshotAt      DateTime @default(now())
+
+  @@index([positionId, snapshotAt])
+}
