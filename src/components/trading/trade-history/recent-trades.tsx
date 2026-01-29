@@ -10,6 +10,9 @@ interface RecentTradesProps {
 export function RecentTrades({ symbol }: RecentTradesProps) {
   const { trades } = useRecentTrades(symbol);
 
+  // Limit to 30 recent trades to match order book height
+  const displayedTrades = trades.slice(0, 30);
+
   return (
     <div className="flex flex-col h-full">
       {/* Column Headers */}
@@ -21,12 +24,12 @@ export function RecentTrades({ symbol }: RecentTradesProps) {
 
       {/* Trades List */}
       <div className="flex-1 overflow-y-auto">
-        {trades.length === 0 ? (
+        {displayedTrades.length === 0 ? (
           <div className="flex items-center justify-center h-full text-gray-500 text-sm">
             No trades yet
           </div>
         ) : (
-          trades.map((trade, idx) => {
+          displayedTrades.map((trade, idx) => {
             const date = new Date(trade.time);
             const timeStr = date.toLocaleTimeString('en-US', {
               hour: '2-digit',
