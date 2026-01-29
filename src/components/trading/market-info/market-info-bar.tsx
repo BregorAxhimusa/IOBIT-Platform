@@ -462,7 +462,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
             </div>
 
             {/* Price Display */}
-            <div className="flex flex-col justify-center border-l border-gray-700/60 pl-3 sm:pl-4 md:pl-4 lg:pl-4 py-2 md:py-2 flex-shrink-0">
+            <div className="flex flex-col justify-center pl-3 sm:pl-4 md:pl-4 lg:pl-4 py-2 md:py-2 flex-shrink-0 relative before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:h-8 before:w-px before:bg-gray-700/60">
               <span className="text-[9px] sm:text-[10px] md:text-[11px] font-medium text-gray-500 uppercase tracking-wide mb-0.5 md:mb-1">
                 Price
               </span>
@@ -472,7 +472,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
             </div>
 
             {/* 24h Change */}
-            <div className="flex flex-col justify-center border-l border-gray-700/60 pl-3 sm:pl-4 md:pl-4 lg:pl-4 py-2 md:py-2 flex-shrink-0">
+            <div className="flex flex-col justify-center pl-3 sm:pl-4 md:pl-4 lg:pl-4 py-2 md:py-2 flex-shrink-0 relative before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:h-8 before:w-px before:bg-gray-700/60">
               <span className="text-[9px] sm:text-[10px] md:text-[11px] font-medium text-gray-500 uppercase tracking-wide mb-0.5 md:mb-1">
                 24h Change
               </span>
@@ -487,7 +487,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
             </div>
 
             {/* 24h Volume - Hidden on mobile */}
-            <div className="hidden sm:flex flex-col justify-center border-l border-gray-700/60 pl-4 md:pl-4 lg:pl-4 py-2 md:py-2 flex-shrink-0">
+            <div className="hidden sm:flex flex-col justify-center pl-4 md:pl-4 lg:pl-4 py-2 md:py-2 flex-shrink-0 relative before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:h-8 before:w-px before:bg-gray-700/60">
               <span className="text-[10px] md:text-[11px] font-medium text-gray-500 uppercase tracking-wide mb-0.5 md:mb-1">
                 24h Volume
               </span>
@@ -497,7 +497,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
             </div>
 
             {/* Funding Rate - Hidden on mobile and tablet */}
-            <div className="hidden md:flex flex-col justify-center border-l border-gray-700/60 pl-4 lg:pl-4 py-2 flex-shrink-0">
+            <div className="hidden md:flex flex-col justify-center pl-4 lg:pl-4 py-2 flex-shrink-0 relative before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:h-8 before:w-px before:bg-gray-700/60">
               <span className="text-[11px] font-medium text-gray-500 uppercase tracking-wide mb-1">
                 Funding
               </span>
@@ -507,7 +507,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
             </div>
 
             {/* Open Interest - Hidden on mobile and tablet */}
-            <div className="hidden lg:flex flex-col justify-center border-l border-r border-gray-700/60 pl-4 pr-4 py-2 flex-shrink-0">
+            <div className="hidden lg:flex flex-col justify-center pl-4 pr-4 py-2 flex-shrink-0 relative before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:h-8 before:w-px before:bg-gray-700/60 after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:h-8 after:w-px after:bg-gray-700/60">
               <span className="text-[11px] font-medium text-gray-500 uppercase tracking-wide mb-1">
                 Open Interest
               </span>
