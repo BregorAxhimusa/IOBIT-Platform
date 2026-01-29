@@ -44,7 +44,7 @@ export function OrderBook({ symbol, onPriceClick }: OrderBookProps) {
 
       <div className="flex-1 overflow-hidden flex flex-col">
         {/* Asks (Sells) - Red */}
-        <div className="flex-1 overflow-y-auto flex flex-col-reverse">
+        <div className="flex-1 overflow-hidden flex flex-col-reverse">
           {displayedAsks.map((ask, idx) => {
             const depthPercent = (parseFloat(ask.size) / maxAskSize) * 100;
             let cumulative = 0;
@@ -98,7 +98,7 @@ export function OrderBook({ symbol, onPriceClick }: OrderBookProps) {
         </div>
 
         {/* Bids (Buys) - Green */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-hidden">
           {displayedBids.map((bid, idx) => {
             const depthPercent = (parseFloat(bid.size) / maxBidSize) * 100;
             let cumulative = 0;

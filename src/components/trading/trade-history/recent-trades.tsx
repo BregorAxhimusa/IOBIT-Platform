@@ -23,7 +23,7 @@ export function RecentTrades({ symbol }: RecentTradesProps) {
       </div>
 
       {/* Trades List */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-hidden">
         {displayedTrades.length === 0 ? (
           <div className="flex items-center justify-center h-full text-gray-500 text-sm">
             No trades yet
