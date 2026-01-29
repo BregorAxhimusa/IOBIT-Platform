@@ -58,7 +58,7 @@ export default function TradingPage({ params }: TradingPageProps) {
       <MarketInfoBar key={symbolUpper} symbol={symbolUpper} />
 
       {/* Main Trading Layout */}
-      <div className="flex flex-col lg:flex-row h-auto lg:h-[calc(100vh-128px)] overflow-y-auto lg:overflow-hidden scrollbar-hide relative z-0">
+      <div className="flex flex-col lg:flex-row h-auto lg:h-[calc(100vh-128px)] overflow-y-auto lg:overflow-hidden lg:scrollbar-hide relative z-0">
         {/* Center - Chart & Order Book */}
         <div className="flex-1 flex flex-col p-2 lg:p-3 min-w-0 overflow-hidden">
           {/* Top Row - Chart and Order Book side by side */}
