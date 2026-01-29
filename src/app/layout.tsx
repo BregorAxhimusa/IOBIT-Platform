@@ -20,7 +20,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body>
+      <body className="overflow-auto lg:overflow-hidden lg:scrollbar-hide">
         <ContextProvider cookies={cookies}>
           <Navbar />
           {children}
