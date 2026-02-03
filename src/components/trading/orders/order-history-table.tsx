@@ -1,10 +1,17 @@
 'use client';
 
 import { useOrdersStore } from '@/store/orders-store';
+import { useOrderHistory } from '@/hooks/use-order-history';
 import { cn } from '@/lib/utils/cn';
+import { TableSkeleton } from '@/components/ui/skeleton';
 
 export function OrderHistoryTable() {
   const orderHistory = useOrdersStore((state) => state.orderHistory);
+  const { isLoading } = useOrderHistory();
+
+  if (isLoading) {
+    return <TableSkeleton rows={5} columns={8} />;
+  }
 
   if (orderHistory.length === 0) {
     return (
@@ -47,7 +54,7 @@ export function OrderHistoryTable() {
             return (
               <tr
                 key={order.id}
-                className="border-b border-gray-800 hover:bg-gray-900/50 transition-colors"
+                className="border-b border-gray-800 hover:bg-[#1a2028]/50 transition-colors"
               >
                 <td className="py-3 px-4 text-gray-400 text-xs">{dateStr}</td>
                 <td className="py-3 px-4 font-medium text-white">{order.symbol}</td>
@@ -55,10 +62,10 @@ export function OrderHistoryTable() {
                 <td className="py-3 px-4">
                   <span
                     className={cn(
-                      'px-2 py-1 rounded text-xs font-medium',
+                      'px-2 py-1 rounded text-xs font-semibold',
                       order.side === 'buy'
-                        ? 'bg-green-500/10 text-green-400'
-                        : 'bg-red-500/10 text-red-400'
+                        ? 'bg-[#14b8a6]/10 text-[#14b8a6]'
+                        : 'bg-[#ef4444]/10 text-[#ef4444]'
                     )}
                   >
                     {order.side.toUpperCase()}
@@ -76,9 +83,9 @@ export function OrderHistoryTable() {
                     className={cn(
                       'px-2 py-1 rounded text-xs font-medium',
                       order.status === 'filled'
-                        ? 'bg-green-500/10 text-green-400'
+                        ? 'bg-[#14b8a6]/10 text-[#14b8a6]'
                         : order.status === 'cancelled'
-                        ? 'bg-red-500/10 text-red-400'
+                        ? 'bg-[#ef4444]/10 text-[#ef4444]'
                         : 'bg-gray-500/10 text-gray-400'
                     )}
                   >

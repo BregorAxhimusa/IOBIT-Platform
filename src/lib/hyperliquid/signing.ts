@@ -1,14 +1,15 @@
 import { type WalletClient } from 'viem';
+import type { Network } from '@/lib/utils/constants';
 
 /**
- * EIP-712 Domain for Hyperliquid
+ * Get EIP-712 Domain for Hyperliquid based on network
  */
-const HYPERLIQUID_DOMAIN = {
+const getHyperliquidDomain = (network: Network = 'mainnet') => ({
   name: 'Exchange',
   version: '1',
-  chainId: 421614, // Arbitrum Goerli for testnet, 42161 for mainnet
+  chainId: network === 'mainnet' ? 42161 : 421614, // Arbitrum One for mainnet, Arbitrum Sepolia for testnet
   verifyingContract: '0x0000000000000000000000000000000000000000' as `0x${string}`,
-};
+});
 
 /**
  * Create EIP-712 signature for placing an order
@@ -22,6 +23,7 @@ export async function signPlaceOrder(
     limitPrice: number;
     reduceOnly: boolean;
     nonce: number;
+    network?: Network;
   }
 ) {
   const account = walletClient.account;
@@ -40,7 +42,7 @@ export async function signPlaceOrder(
 
   const signature = await walletClient.signTypedData({
     account,
-    domain: HYPERLIQUID_DOMAIN,
+    domain: getHyperliquidDomain(params.network),
     types: {
       Order: [
         { name: 'coin', type: 'string' },
@@ -72,6 +74,7 @@ export async function signCancelOrder(
     coin: string;
     oid: number;
     nonce: number;
+    network?: Network;
   }
 ) {
   const account = walletClient.account;
@@ -87,7 +90,7 @@ export async function signCancelOrder(
 
   const signature = await walletClient.signTypedData({
     account,
-    domain: HYPERLIQUID_DOMAIN,
+    domain: getHyperliquidDomain(params.network),
     types: {
       Cancel: [
         { name: 'coin', type: 'string' },
@@ -100,6 +103,156 @@ export async function signCancelOrder(
   });
 
   // Parse signature into r, s, v components
+  const r = signature.slice(0, 66);
+  const s = '0x' + signature.slice(66, 130);
+  const v = parseInt(signature.slice(130, 132), 16);
+
+  return { r, s, v };
+}
+
+/**
+ * Create EIP-712 signature for USD transfer (Perps ⇄ Spot)
+ */
+export async function signUsdTransfer(
+  walletClient: WalletClient,
+  params: {
+    amount: number;
+    toPerp: boolean;
+    nonce: number;
+    network?: Network;
+  }
+) {
+  const account = walletClient.account;
+  if (!account) {
+    throw new Error('No account connected');
+  }
+
+  const message = {
+    hyperliquidChain: params.network === 'mainnet' ? 'Mainnet' : 'Testnet',
+    destination: 'spot', // or 'perp' based on toPerp
+    amount: BigInt(Math.floor(params.amount * 1e6)), // USDC has 6 decimals
+    time: BigInt(params.nonce),
+  };
+
+  const signature = await walletClient.signTypedData({
+    account,
+    domain: getHyperliquidDomain(params.network),
+    types: {
+      UsdTransfer: [
+        { name: 'hyperliquidChain', type: 'string' },
+        { name: 'destination', type: 'string' },
+        { name: 'amount', type: 'uint256' },
+        { name: 'time', type: 'uint256' },
+      ],
+    },
+    primaryType: 'UsdTransfer',
+    message,
+  });
+
+  // Parse signature into r, s, v components
+  const r = signature.slice(0, 66);
+  const s = '0x' + signature.slice(66, 130);
+  const v = parseInt(signature.slice(130, 132), 16);
+
+  return { r, s, v };
+}
+
+/**
+ * Create EIP-712 signature for withdrawal
+ */
+export async function signWithdraw(
+  walletClient: WalletClient,
+  params: {
+    amount: number;
+    destination: string;
+    nonce: number;
+    network?: Network;
+  }
+) {
+  const account = walletClient.account;
+  if (!account) {
+    throw new Error('No account connected');
+  }
+
+  const message = {
+    hyperliquidChain: params.network === 'mainnet' ? 'Mainnet' : 'Testnet',
+    destination: params.destination,
+    amount: BigInt(Math.floor(params.amount * 1e6)), // USDC has 6 decimals
+    time: BigInt(params.nonce),
+  };
+
+  const signature = await walletClient.signTypedData({
+    account,
+    domain: getHyperliquidDomain(params.network),
+    types: {
+      Withdraw: [
+        { name: 'hyperliquidChain', type: 'string' },
+        { name: 'destination', type: 'string' },
+        { name: 'amount', type: 'uint256' },
+        { name: 'time', type: 'uint256' },
+      ],
+    },
+    primaryType: 'Withdraw',
+    message,
+  });
+
+  // Parse signature into r, s, v components
+  const r = signature.slice(0, 66);
+  const s = '0x' + signature.slice(66, 130);
+  const v = parseInt(signature.slice(130, 132), 16);
+
+  return { r, s, v };
+}
+
+/**
+ * Create EIP-712 signature for TWAP order
+ */
+export async function signTwapOrder(
+  walletClient: WalletClient,
+  params: {
+    coin: string;
+    isBuy: boolean;
+    size: number;
+    durationMinutes: number;
+    randomTiming: boolean;
+    reduceOnly: boolean;
+    nonce: number;
+    network?: Network;
+  }
+) {
+  const account = walletClient.account;
+  if (!account) {
+    throw new Error('No account connected');
+  }
+
+  const message = {
+    coin: params.coin,
+    is_buy: params.isBuy,
+    sz: BigInt(Math.floor(params.size * 1e8)),
+    duration_minutes: BigInt(params.durationMinutes),
+    random_timing: params.randomTiming,
+    reduce_only: params.reduceOnly,
+    nonce: BigInt(params.nonce),
+  };
+
+  const signature = await walletClient.signTypedData({
+    account,
+    domain: getHyperliquidDomain(params.network),
+    types: {
+      TwapOrder: [
+        { name: 'coin', type: 'string' },
+        { name: 'is_buy', type: 'bool' },
+        { name: 'sz', type: 'uint256' },
+        { name: 'duration_minutes', type: 'uint256' },
+        { name: 'random_timing', type: 'bool' },
+        { name: 'reduce_only', type: 'bool' },
+        { name: 'nonce', type: 'uint256' },
+      ],
+    },
+    primaryType: 'TwapOrder',
+    message,
+  });
+
   const r = signature.slice(0, 66);
   const s = '0x' + signature.slice(66, 130);
   const v = parseInt(signature.slice(130, 132), 16);

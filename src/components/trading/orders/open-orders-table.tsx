@@ -41,7 +41,7 @@ export function OpenOrdersTable() {
         <button
           onClick={handleCancelAll}
           disabled={isCanceling || openOrders.length === 0}
-          className="px-3 py-1 text-xs bg-red-600/10 hover:bg-red-600/20 disabled:bg-gray-800 disabled:text-gray-500 text-red-400 rounded transition-colors"
+          className="px-3 py-1 text-xs bg-[#ef4444]/10 hover:bg-[#ef4444]/20 disabled:bg-gray-800 disabled:text-gray-500 text-[#ef4444] rounded transition-colors border border-[#ef4444]/20"
         >
           {isCanceling ? 'Canceling...' : 'Cancel All'}
         </button>
@@ -75,7 +75,7 @@ export function OpenOrdersTable() {
             return (
               <tr
                 key={order.id}
-                className="border-b border-gray-800 hover:bg-gray-900/50 transition-colors"
+                className="border-b border-gray-800 hover:bg-[#1a2028]/50 transition-colors"
               >
                 <td className="py-3 px-4 text-gray-400 text-xs">{timeStr}</td>
                 <td className="py-3 px-4 font-medium text-white">{order.symbol}</td>
@@ -83,10 +83,10 @@ export function OpenOrdersTable() {
                 <td className="py-3 px-4">
                   <span
                     className={cn(
-                      'px-2 py-1 rounded text-xs font-medium',
+                      'px-2 py-1 rounded text-xs font-semibold',
                       order.side === 'buy'
-                        ? 'bg-green-500/10 text-green-400'
-                        : 'bg-red-500/10 text-red-400'
+                        ? 'bg-[#14b8a6]/10 text-[#14b8a6]'
+                        : 'bg-[#ef4444]/10 text-[#ef4444]'
                     )}
                   >
                     {order.side.toUpperCase()}
@@ -104,11 +104,11 @@ export function OpenOrdersTable() {
                     className={cn(
                       'px-2 py-1 rounded text-xs font-medium',
                       order.status === 'open'
-                        ? 'bg-blue-500/10 text-blue-400'
+                        ? 'bg-[#3B82F6]/10 text-[#3B82F6]'
                         : order.status === 'partial'
-                        ? 'bg-yellow-500/10 text-yellow-400'
+                        ? 'bg-[#F59E0B]/10 text-[#F59E0B]'
                         : order.status === 'filled'
-                        ? 'bg-green-500/10 text-green-400'
+                        ? 'bg-[#14b8a6]/10 text-[#14b8a6]'
                         : 'bg-gray-500/10 text-gray-400'
                     )}
                   >
@@ -120,7 +120,7 @@ export function OpenOrdersTable() {
                     <button
                       onClick={() => handleCancelOrder(order.id, order.symbol, order.oid)}
                       disabled={isCanceling}
-                      className="px-3 py-1 text-xs bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-500 text-white rounded transition-colors"
+                      className="px-3 py-1 text-xs bg-[#1a2028] hover:bg-[#2a3038] disabled:bg-gray-800 disabled:text-gray-500 text-white rounded transition-colors border border-gray-700"
                     >
                       {isCanceling ? 'Canceling...' : 'Cancel'}
                     </button>

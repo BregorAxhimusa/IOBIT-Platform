@@ -53,25 +53,25 @@ export default function TradingPage({ params }: TradingPageProps) {
   };
 
   return (
-    <div className="bg-black">
+    <div className="bg-black min-h-screen">
       {/* Market Info Bar */}
       <MarketInfoBar key={symbolUpper} symbol={symbolUpper} />
 
       {/* Main Trading Layout */}
-      <div className="flex flex-col lg:flex-row h-auto lg:h-[calc(100vh-128px)] overflow-y-auto lg:overflow-hidden lg:scrollbar-hide relative z-0">
-        {/* Center - Chart & Order Book */}
-        <div className="flex-1 flex flex-col p-2 lg:p-3 min-w-0 overflow-hidden">
-          {/* Top Row - Chart and Order Book side by side */}
-          <div className="flex flex-col lg:flex-row flex-1 mb-2 lg:mb-3 gap-2 lg:gap-3 min-h-0">
+      <div className="flex flex-col lg:flex-row h-auto lg:h-[calc(100vh-128px)] relative">
+        {/* Left Section - Chart & OrderBook & Bottom Tables */}
+        <div className="flex-1 flex flex-col p-2 lg:p-1 min-w-0 space-y-2 lg:space-y-0">
+          {/* Top Row - Chart and Order Book/Trades */}
+          <div className="flex flex-col lg:flex-row flex-1 lg:mb-3 gap-2 lg:gap-3 lg:min-h-0">
             {/* Chart */}
-            <div className="flex-1 min-h-[400px] lg:min-h-0">
+            <div className="w-full lg:flex-1 h-[300px] sm:h-[400px] lg:h-auto lg:min-h-[350px] lg:max-h-[480px]">
               <ChartErrorBoundary>
                 <PriceChart key={symbolUpper} symbol={symbolUpper} />
               </ChartErrorBoundary>
             </div>
 
-            {/* Order Book & Recent Trades Tabs */}
-            <div className="w-full lg:w-80 h-[500px] lg:h-auto bg-gray-950 border border-gray-800 rounded-lg flex flex-col">
+            {/* Order Book & Recent Trades Tabs - Desktop Only */}
+            <div className="hidden lg:flex lg:w-80 bg-[#0f1419] border border-gray-800 rounded-lg flex-col">
               {/* Tab Headers */}
               <div className="flex border-b border-gray-800">
                 <button
@@ -79,8 +79,8 @@ export default function TradingPage({ params }: TradingPageProps) {
                   className={cn(
                     'flex-1 px-3 py-2 text-sm font-semibold transition-colors',
                     rightTab === 'orderbook'
-                      ? 'bg-gray-800 text-white border-b-2 border-teal-500'
-                      : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
+                      ? 'bg-[#1a2028] text-white border-b-2 border-[#14b8a6]'
+                      : 'text-gray-400 hover:text-white hover:bg-[#1a2028]/50'
                   )}
                 >
                   Order Book
@@ -90,8 +90,8 @@ export default function TradingPage({ params }: TradingPageProps) {
                   className={cn(
                     'flex-1 px-3 py-2 text-sm font-semibold transition-colors',
                     rightTab === 'trades'
-                      ? 'bg-gray-800 text-white border-b-2 border-teal-500'
-                      : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
+                      ? 'bg-[#1a2028] text-white border-b-2 border-[#14b8a6]'
+                      : 'text-gray-400 hover:text-white hover:bg-[#1a2028]/50'
                   )}
                 >
                   Recent Trades
@@ -111,16 +111,57 @@ export default function TradingPage({ params }: TradingPageProps) {
             </div>
           </div>
 
+          {/* Order Book & Recent Trades - Mobile Only */}
+          <div className="lg:hidden bg-[#0f1419] border border-gray-800 rounded-lg flex flex-col h-[350px]">
+            {/* Tab Headers */}
+            <div className="flex border-b border-gray-800">
+              <button
+                onClick={() => setRightTab('orderbook')}
+                className={cn(
+                  'flex-1 px-3 py-2 text-xs sm:text-sm font-semibold transition-colors',
+                  rightTab === 'orderbook'
+                    ? 'bg-[#1a2028] text-white border-b-2 border-[#14b8a6]'
+                    : 'text-gray-400 hover:text-white hover:bg-[#1a2028]/50'
+                )}
+              >
+                Order Book
+              </button>
+              <button
+                onClick={() => setRightTab('trades')}
+                className={cn(
+                  'flex-1 px-3 py-2 text-xs sm:text-sm font-semibold transition-colors',
+                  rightTab === 'trades'
+                    ? 'bg-[#1a2028] text-white border-b-2 border-[#14b8a6]'
+                    : 'text-gray-400 hover:text-white hover:bg-[#1a2028]/50'
+                )}
+              >
+                Recent Trades
+              </button>
+            </div>
+
+            {/* Tab Content */}
+            <div className="flex-1 overflow-hidden">
+              <DataErrorBoundary>
+                {rightTab === 'orderbook' ? (
+                  <OrderBook key={symbolUpper} symbol={symbolUpper} onPriceClick={handlePriceClick} />
+                ) : (
+                  <RecentTrades key={symbolUpper} symbol={symbolUpper} />
+                )}
+              </DataErrorBoundary>
+            </div>
+          </div>
+
           {/* Bottom Panel - Positions, Orders, History */}
-          <div className="min-h-[300px] lg:h-52 bg-gray-950 border border-gray-800 rounded-lg">
-            <div className="flex space-x-1 px-3 pt-2 border-b border-gray-800">
+          <div className="bg-[#0f1419] border border-gray-800 rounded-lg overflow-hidden lg:h-72">
+            {/* Tab Headers - Horizontal Scroll on Mobile */}
+            <div className="flex overflow-x-auto lg:overflow-visible border-b border-gray-800 scrollbar-hide lg:space-x-1 lg:px-3 lg:pt-2">
               <button
                 onClick={() => setActiveTab('positions')}
                 className={cn(
-                  'px-3 py-1.5 text-sm font-medium rounded-t transition-colors',
+                  'px-3 py-2 lg:py-1.5 text-xs sm:text-sm font-medium whitespace-nowrap lg:rounded-t transition-colors',
                   activeTab === 'positions'
-                    ? 'bg-gray-800 text-white'
-                    : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
+                    ? 'bg-[#1a2028] text-white border-b-2 border-[#14b8a6] lg:border-b-0'
+                    : 'text-gray-400 hover:text-white hover:bg-[#1a2028]/50'
                 )}
               >
                 Positions
@@ -128,10 +169,10 @@ export default function TradingPage({ params }: TradingPageProps) {
               <button
                 onClick={() => setActiveTab('orders')}
                 className={cn(
-                  'px-3 py-1.5 text-sm font-medium rounded-t transition-colors',
+                  'px-3 py-2 lg:py-1.5 text-xs sm:text-sm font-medium whitespace-nowrap lg:rounded-t transition-colors',
                   activeTab === 'orders'
-                    ? 'bg-gray-800 text-white'
-                    : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
+                    ? 'bg-[#1a2028] text-white border-b-2 border-[#14b8a6] lg:border-b-0'
+                    : 'text-gray-400 hover:text-white hover:bg-[#1a2028]/50'
                 )}
               >
                 Open Orders
@@ -139,10 +180,10 @@ export default function TradingPage({ params }: TradingPageProps) {
               <button
                 onClick={() => setActiveTab('history')}
                 className={cn(
-                  'px-3 py-1.5 text-sm font-medium rounded-t transition-colors',
+                  'px-3 py-2 lg:py-1.5 text-xs sm:text-sm font-medium whitespace-nowrap lg:rounded-t transition-colors',
                   activeTab === 'history'
-                    ? 'bg-gray-800 text-white'
-                    : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
+                    ? 'bg-[#1a2028] text-white border-b-2 border-[#14b8a6] lg:border-b-0'
+                    : 'text-gray-400 hover:text-white hover:bg-[#1a2028]/50'
                 )}
               >
                 Order History
@@ -150,17 +191,18 @@ export default function TradingPage({ params }: TradingPageProps) {
               <button
                 onClick={() => setActiveTab('trades')}
                 className={cn(
-                  'px-3 py-1.5 text-sm font-medium rounded-t transition-colors',
+                  'px-3 py-2 lg:py-1.5 text-xs sm:text-sm font-medium whitespace-nowrap lg:rounded-t transition-colors',
                   activeTab === 'trades'
-                    ? 'bg-gray-800 text-white'
-                    : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
+                    ? 'bg-[#1a2028] text-white border-b-2 border-[#14b8a6] lg:border-b-0'
+                    : 'text-gray-400 hover:text-white hover:bg-[#1a2028]/50'
                 )}
               >
                 Trade History
               </button>
             </div>
 
-            <div className="p-2 h-[calc(100%-44px)] overflow-auto">
+            {/* Tab Content - Horizontal Scroll */}
+            <div className="p-2 h-[250px] sm:h-[300px] lg:h-[calc(100%-44px)] overflow-auto">
               <DataErrorBoundary>
                 {activeTab === 'positions' && <PositionsTable />}
                 {activeTab === 'orders' && <OpenOrdersTable />}
@@ -172,13 +214,10 @@ export default function TradingPage({ params }: TradingPageProps) {
         </div>
 
         {/* Right Sidebar - Trading Panel */}
-        <div className="w-full lg:w-96 border-t lg:border-t-0 lg:border-l border-gray-800 flex-shrink-0 flex flex-col p-2 lg:p-3">
-          {/* Trading Panel */}
-          <div className="flex-1">
-            <TradingErrorBoundary>
-              <TradingPanel key={symbolUpper} symbol={symbolUpper} currentPrice={currentPrice} />
-            </TradingErrorBoundary>
-          </div>
+        <div className="w-full lg:w-96 border-t lg:border-t-0 lg:border-l border-gray-800 p-2 lg:p-1 flex-shrink-0">
+          <TradingErrorBoundary>
+            <TradingPanel key={symbolUpper} symbol={symbolUpper} currentPrice={currentPrice} />
+          </TradingErrorBoundary>
         </div>
       </div>
     </div>

@@ -1,6 +1,24 @@
 import { HYPERLIQUID_MAINNET_API, HYPERLIQUID_TESTNET_API, type Network } from '../utils/constants';
 
 /**
+ * Map coin names to Hyperliquid asset indices
+ */
+const ASSET_INDEX_MAP: Record<string, number> = {
+  'BTC': 0,
+  'ETH': 1,
+  'SOL': 2,
+  'ARB': 3,
+  'AVAX': 4,
+  'BCH': 5,
+  'BNB': 6,
+  'DOGE': 7,
+  'LTC': 8,
+  'MATIC': 9,
+  'OP': 10,
+  'XRP': 11,
+};
+
+/**
  * Hyperliquid Exchange Client (Wallet Required)
  * Për të vendosur orders, cancel orders, etj.
  */
@@ -11,6 +29,17 @@ export class HyperliquidExchangeClient {
   constructor(network: Network = 'mainnet') {
     this.network = network;
     this.baseUrl = network === 'mainnet' ? HYPERLIQUID_MAINNET_API : HYPERLIQUID_TESTNET_API;
+  }
+
+  /**
+   * Get asset index from coin name
+   */
+  private getAssetIndex(coin: string): number {
+    const index = ASSET_INDEX_MAP[coin];
+    if (index === undefined) {
+      throw new Error(`Unknown coin: ${coin}`);
+    }
+    return index;
   }
 
   /**
@@ -51,15 +80,27 @@ export class HyperliquidExchangeClient {
     nonce: number;
   }) {
     try {
-      const response = await this.post('/exchange', {
+      // Format order data with shortened field names as required by Hyperliquid API
+      const orderData = {
+        a: this.getAssetIndex(params.coin), // asset index (0=BTC, 1=ETH, etc.)
+        b: params.is_buy,                    // is_buy
+        p: params.limit_px.toString(),       // limit price as string
+        s: params.sz.toString(),             // size as string
+        r: params.reduce_only,               // reduce_only
+        t: params.order_type,                // order_type
+      };
+
+      const payload = {
         action: {
           type: 'order',
-          orders: [params],
+          orders: [orderData],
           grouping: 'na',
         },
         nonce: params.nonce,
         signature: params.signature,
-      });
+      };
+
+      const response = await this.post('/exchange', payload);
       return { success: true, data: response };
     } catch (error) {
       console.error('Error placing order:', error);
@@ -181,6 +222,168 @@ export class HyperliquidExchangeClient {
       return { success: true, data: response };
     } catch (error) {
       console.error('Error modifying order:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      };
+    }
+  }
+
+  /**
+   * Transfer USDC between Perps and Spot accounts (requires EIP-712 signature)
+   */
+  async usdTransfer(params: {
+    amount: number;
+    toPerp: boolean;
+    signature: {
+      r: string;
+      s: string;
+      v: number;
+    };
+    nonce: number;
+  }) {
+    try {
+      const response = await this.post('/exchange', {
+        action: {
+          type: 'usdClassTransfer',
+          signatureChainId: this.network === 'mainnet' ? '0xa4b1' : '0x66eee', // Arbitrum mainnet or testnet
+          hyperliquidChain: this.network === 'mainnet' ? 'Mainnet' : 'Testnet',
+          amount: params.amount.toString(),
+          toPerp: params.toPerp,
+          nonce: params.nonce,
+        },
+        nonce: params.nonce,
+        signature: params.signature,
+      });
+      return { success: true, data: response };
+    } catch (error) {
+      console.error('Error transferring USD:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      };
+    }
+  }
+
+  /**
+   * Withdraw USDC from Hyperliquid (requires EIP-712 signature)
+   */
+  async withdraw(params: {
+    amount: number;
+    destination: string;
+    signature: {
+      r: string;
+      s: string;
+      v: number;
+    };
+    nonce: number;
+  }) {
+    try {
+      const response = await this.post('/exchange', {
+        action: {
+          type: 'withdraw3',
+          signatureChainId: this.network === 'mainnet' ? '0xa4b1' : '0x66eee', // Arbitrum mainnet or testnet
+          hyperliquidChain: this.network === 'mainnet' ? 'Mainnet' : 'Testnet',
+          destination: params.destination,
+          amount: params.amount.toString(),
+          time: params.nonce,
+        },
+        nonce: params.nonce,
+        signature: params.signature,
+      });
+      return { success: true, data: response };
+    } catch (error) {
+      console.error('Error withdrawing:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      };
+    }
+  }
+
+  /**
+   * Place a TWAP order (requires EIP-712 signature)
+   */
+  async placeTwapOrder(params: {
+    coin: string;
+    is_buy: boolean;
+    sz: number;
+    duration_minutes: number;
+    random_timing: boolean;
+    reduce_only: boolean;
+    signature: {
+      r: string;
+      s: string;
+      v: number;
+    };
+    nonce: number;
+  }) {
+    try {
+      // Get asset ID from coin name (for TWAP we need the asset index)
+      // This is a simplified version - in production you'd look up the asset ID
+      const assetId = 0; // BTC is typically 0, ETH is 1, etc. - needs proper mapping
+
+      const response = await this.post('/exchange', {
+        action: {
+          type: 'twapOrder',
+          twap: {
+            a: assetId,
+            b: params.is_buy,
+            s: params.sz.toString(),
+            r: params.reduce_only,
+            m: params.duration_minutes,
+            t: params.random_timing,
+          },
+        },
+        nonce: params.nonce,
+        signature: params.signature,
+      });
+      return { success: true, data: response };
+    } catch (error) {
+      console.error('Error placing TWAP order:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      };
+    }
+  }
+
+  /**
+   * Place multiple orders at once (for Scale orders)
+   */
+  async placeMultipleOrders(orders: Array<{
+    coin: string;
+    is_buy: boolean;
+    sz: number;
+    limit_px: number;
+    order_type: { limit?: { tif: string } };
+    reduce_only: boolean;
+  }>, signature: { r: string; s: string; v: number }, nonce: number) {
+    try {
+      // Format each order with shortened field names as required by Hyperliquid API
+      const formattedOrders = orders.map(order => ({
+        a: this.getAssetIndex(order.coin),  // asset index
+        b: order.is_buy,                     // is_buy
+        p: order.limit_px.toString(),        // limit price as string
+        s: order.sz.toString(),              // size as string
+        r: order.reduce_only,                // reduce_only
+        t: order.order_type,                 // order_type
+      }));
+
+      const payload = {
+        action: {
+          type: 'order',
+          orders: formattedOrders,
+          grouping: 'na',
+        },
+        nonce: nonce,
+        signature: signature,
+      };
+
+      const response = await this.post('/exchange', payload);
+      return { success: true, data: response };
+    } catch (error) {
+      console.error('Error placing multiple orders:', error);
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error',

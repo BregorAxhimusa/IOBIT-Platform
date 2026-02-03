@@ -205,6 +205,22 @@ export class HyperliquidInfoClient {
   }
 
   /**
+   * Merr historical orders (order history) për një user
+   */
+  async getHistoricalOrders(address: string) {
+    try {
+      const response = await this.post('/info', {
+        type: 'historicalOrders',
+        user: address,
+      });
+      return response;
+    } catch (error) {
+      console.error(`Error fetching historical orders for ${address}:`, error);
+      return [];
+    }
+  }
+
+  /**
    * Merr leaderboard data
    */
   async getLeaderboard() {

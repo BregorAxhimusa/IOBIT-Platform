@@ -1,24 +1,65 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { useAccount } from 'wagmi';
+import { useAccount, useSwitchChain } from 'wagmi';
 import { useAppKit } from '@reown/appkit/react';
+import { arbitrum } from 'wagmi/chains';
 import { useTradingStore } from '@/store/trading-store';
 import { usePlaceOrder } from '@/hooks/use-place-order';
-import { useTradingShortcuts } from '@/hooks/use-keyboard-shortcuts';
+import { useAccountBalance } from '@/hooks/use-account-balance';
+import { useWalletUsdcBalance } from '@/hooks/use-wallet-usdc-balance';
+import { useTransfer } from '@/hooks/use-transfer';
+import { useWithdraw } from '@/hooks/use-withdraw';
+import { useTwapOrder } from '@/hooks/use-twap-order';
+import { useScaleOrders } from '@/hooks/use-scale-orders';
 import { cn } from '@/lib/utils/cn';
+import { ChevronDown } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 interface TradingPanelProps {
   symbol: string;
   currentPrice?: number;
 }
 
+type OrderTab = 'market' | 'limit' | 'pro';
+type ProOption = 'scale' | 'twap';
+type TimeInForce = 'GTC' | 'IOC' | 'ALO';
+
 export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
-  const { isConnected } = useAccount();
+  const { isConnected, chain } = useAccount();
+  const { switchChain } = useSwitchChain();
   const { open } = useAppKit();
-  const [showConfirmation, setShowConfirmation] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [activeTab, setActiveTab] = useState<OrderTab>('market');
+  const [showProDropdown, setShowProDropdown] = useState(false);
+  const [selectedProOption, setSelectedProOption] = useState<ProOption>('scale');
+  const [showDepositModal, setShowDepositModal] = useState(false);
+  const [showWithdrawModal, setShowWithdrawModal] = useState(false);
+  const [showTransferModal, setShowTransferModal] = useState(false);
+  const [sizePercentage, setSizePercentage] = useState(0);
+  const [timeInForce, setTimeInForce] = useState<TimeInForce>('GTC');
+  const [showTifDropdown, setShowTifDropdown] = useState(false);
+
+  // Pro tab state - TWAP
+  const [twapHours, setTwapHours] = useState('');
+  const [twapMinutes, setTwapMinutes] = useState('30');
+  const [twapRandomize, setTwapRandomize] = useState(false);
+
+  // Pro tab state - Scale
+  const [scaleStartPrice, setScaleStartPrice] = useState('');
+  const [scaleEndPrice, setScaleEndPrice] = useState('');
+  const [scaleTotalOrders, setScaleTotalOrders] = useState('');
+  const [scaleSizeSkew, setScaleSizeSkew] = useState('1.00');
+
+  // Size denomination (USDC or crypto symbol)
+  const [sizeDenomination, setSizeDenomination] = useState<'crypto' | 'usdc'>('crypto');
+
   const { placeOrder, isPlacing } = usePlaceOrder();
+  const { balance, fullBalance } = useAccountBalance();
+  const { balance: walletUsdcBalance } = useWalletUsdcBalance();
+  const { placeTwapOrder, isPlacing: isTwapPlacing } = useTwapOrder();
+  const { placeScaleOrders, isPlacing: isScalePlacing } = useScaleOrders();
+
   const priceInputRef = useRef<HTMLInputElement>(null);
   const sizeInputRef = useRef<HTMLInputElement>(null);
 
@@ -28,305 +69,1102 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
   }, []);
 
   const {
-    orderType,
     orderSide,
     price,
     size,
-    leverage,
     reduceOnly,
     postOnly,
-    setOrderType,
     setOrderSide,
     setPrice,
     setSize,
-    setLeverage,
     setReduceOnly,
     setPostOnly,
     resetForm,
   } = useTradingStore();
 
-  // Keyboard shortcuts
-  useTradingShortcuts({
-    setBuySide: () => setOrderSide('buy'),
-    setSellSide: () => setOrderSide('sell'),
-    setMarketType: () => setOrderType('market'),
-    setLimitType: () => setOrderType('limit'),
-    focusPriceInput: () => priceInputRef.current?.focus(),
-    focusSizeInput: () => sizeInputRef.current?.focus(),
-    submitOrder: () => {
-      if (isConnected && size && (orderType === 'market' || price)) {
-        handlePlaceOrder();
-      }
-    },
-  });
-
-  const handlePlaceOrder = () => {
+  const handlePlaceOrder = async () => {
     if (!isConnected) {
       open();
       return;
     }
 
-    // Show confirmation modal
-    setShowConfirmation(true);
-  };
+    // Handle Pro tab orders
+    if (activeTab === 'pro') {
+      if (selectedProOption === 'twap') {
+        // Calculate total duration from hours and minutes
+        const hours = parseInt(twapHours || '0');
+        const minutes = parseInt(twapMinutes || '0');
+        const duration = hours * 60 + minutes;
 
-  const handleConfirmOrder = async () => {
+        if (duration < 5 || duration > 1440) {
+          toast.error('Duration must be between 5 minutes and 24 hours');
+          return;
+        }
+
+        const sizeNum = parseFloat(size || '0');
+        if (isNaN(sizeNum) || sizeNum <= 0) {
+          toast.error('Invalid order size');
+          return;
+        }
+
+        const result = await placeTwapOrder({
+          symbol,
+          side: orderSide,
+          size,
+          durationMinutes: duration,
+          randomTiming: twapRandomize,
+          reduceOnly,
+        });
+
+        if (result.success) {
+          resetForm();
+          setSizePercentage(0);
+          setTwapHours('');
+          setTwapMinutes('30');
+        }
+        return;
+      }
+
+      if (selectedProOption === 'scale') {
+        const startPrice = parseFloat(scaleStartPrice);
+        const endPrice = parseFloat(scaleEndPrice);
+        const totalOrders = parseInt(scaleTotalOrders);
+        const sizeSkew = parseFloat(scaleSizeSkew);
+        const totalSize = parseFloat(size || '0');
+
+        if (isNaN(startPrice) || startPrice <= 0) {
+          toast.error('Please enter a valid start price');
+          return;
+        }
+
+        if (isNaN(endPrice) || endPrice <= 0) {
+          toast.error('Please enter a valid end price');
+          return;
+        }
+
+        if (isNaN(totalOrders) || totalOrders < 2 || totalOrders > 10) {
+          toast.error('Total orders must be between 2 and 10');
+          return;
+        }
+
+        if (isNaN(totalSize) || totalSize <= 0) {
+          toast.error('Invalid total size');
+          return;
+        }
+
+        // Calculate base price and range percentage from start/end
+        const basePrice = orderSide === 'buy' ? endPrice : startPrice;
+        const priceRange = Math.abs(endPrice - startPrice);
+        const priceRangePercent = (priceRange / basePrice) * 100;
+
+        // Determine distribution based on size skew
+        const distribution = sizeSkew === 1.0 ? 'equal' : 'weighted';
+
+        const result = await placeScaleOrders({
+          symbol,
+          side: orderSide,
+          basePrice: basePrice.toString(),
+          totalSize: size,
+          orderCount: totalOrders,
+          priceRangePercent,
+          distribution,
+          reduceOnly,
+        });
+
+        if (result.success) {
+          resetForm();
+          setSizePercentage(0);
+          setScaleStartPrice('');
+          setScaleEndPrice('');
+          setScaleTotalOrders('');
+          setScaleSizeSkew('1.00');
+        }
+        return;
+      }
+
+    }
+
+    // Handle regular orders (Market/Limit)
+    const sizeNum = parseFloat(size || '0');
+    if (isNaN(sizeNum) || sizeNum <= 0) {
+      toast.error('Invalid order size');
+      return;
+    }
+
+    // Check if user has sufficient balance
+    const availableBalanceNum = parseFloat(balance?.usdc || '0');
+    const orderValueNum = sizeNum * (currentPrice || 0);
+
+    if (availableBalanceNum === 0) {
+      toast.error('No balance available. Please deposit funds first.');
+      return;
+    }
+
+    if (orderValueNum > availableBalanceNum) {
+      toast.error('Insufficient balance. Please deposit more funds or reduce order size.');
+      return;
+    }
+
     const result = await placeOrder({
       symbol,
       side: orderSide,
-      orderType,
-      price: orderType === 'limit' ? price : undefined,
+      orderType: activeTab === 'market' ? 'market' : 'limit',
+      price: activeTab === 'limit' ? price : undefined,
       size,
-      leverage,
       reduceOnly,
-      postOnly: orderType === 'limit' ? postOnly : undefined,
+      postOnly: activeTab === 'limit' ? postOnly : undefined,
+      timeInForce: activeTab === 'limit' ? timeInForce : 'IOC',
     });
 
     if (result.success) {
       resetForm();
-      setShowConfirmation(false);
+      setSizePercentage(0);
     }
   };
 
-  const estimatedTotal = orderType === 'market' && currentPrice
-    ? (parseFloat(size || '0') * currentPrice).toFixed(2)
-    : orderType === 'limit' && price
-    ? (parseFloat(size || '0') * parseFloat(price)).toFixed(2)
-    : '0.00';
+  // Calculate size based on percentage (slider only controls percentage)
+  const handlePercentageChange = (percentage: number) => {
+    setSizePercentage(percentage);
+    if (currentPrice) {
+      // Use wallet USDC balance for buy orders
+      const availableUsdc = parseFloat(walletUsdcBalance || '0');
+      const priceToUse = activeTab === 'limit' && price ? parseFloat(price) : currentPrice;
+      if (priceToUse && priceToUse > 0) {
+        const calculatedSize = (availableUsdc * percentage / 100) / priceToUse;
+        // Use more decimals for very small amounts
+        let decimals = 4;
+        if (calculatedSize < 0.0001) decimals = 8;
+        else if (calculatedSize < 0.01) decimals = 6;
+        setSize(calculatedSize.toFixed(decimals));
+      }
+    }
+  };
+
+  const calculateOrderValue = () => {
+    const sizeNum = parseFloat(size || '0');
+
+    if (sizeNum === 0 || isNaN(sizeNum)) {
+      return 'N/A';
+    }
+
+    if (activeTab === 'market' && currentPrice) {
+      return `$${(sizeNum * currentPrice).toFixed(2)}`;
+    }
+
+    if (activeTab === 'limit' && price) {
+      const priceNum = parseFloat(price);
+      if (!isNaN(priceNum) && priceNum > 0) {
+        return `$${(sizeNum * priceNum).toFixed(2)}`;
+      }
+    }
+
+    return 'N/A';
+  };
+
+  const orderValue = calculateOrderValue();
+
+  const availableBalance = walletUsdcBalance || '0.00';
+  const makerFee = '0.0700%';
+  const takerFee = '0.0400%';
+  const slippageEst = '0%';
+  const slippageMax = '8.00%';
+
+  // Validation for button disabled state
+  const getValidationError = () => {
+    if (!mounted || !isConnected) return null;
+
+    // Check if user is on the correct chain (Arbitrum One - chainId 42161)
+    if (chain?.id !== arbitrum.id) {
+      return 'Switch to Arbitrum network';
+    }
+
+    const sizeNum = parseFloat(size || '0');
+    if (isNaN(sizeNum) || sizeNum <= 0) return 'Enter order size';
+
+    if (activeTab === 'limit') {
+      const priceNum = parseFloat(price || '0');
+      if (isNaN(priceNum) || priceNum <= 0) return 'Enter limit price';
+    }
+
+    if (activeTab === 'pro' && selectedProOption === 'twap') {
+      const hours = parseInt(twapHours || '0');
+      const minutes = parseInt(twapMinutes || '0');
+      const duration = hours * 60 + minutes;
+      if (duration < 5 || duration > 1440) return 'Duration must be 5min - 24h';
+    }
+
+    if (activeTab === 'pro' && selectedProOption === 'scale') {
+      const startPrice = parseFloat(scaleStartPrice);
+      const endPrice = parseFloat(scaleEndPrice);
+      const totalOrders = parseInt(scaleTotalOrders);
+      if (isNaN(startPrice) || startPrice <= 0) return 'Enter start price';
+      if (isNaN(endPrice) || endPrice <= 0) return 'Enter end price';
+      if (isNaN(totalOrders) || totalOrders < 2 || totalOrders > 10) return 'Enter 2-10 orders';
+    }
+
+    return null;
+  };
+
+  const isFormInvalid = () => {
+    return getValidationError() !== null;
+  };
 
   return (
-    <div className="flex flex-col h-full bg-gray-950 border border-gray-800 rounded-lg">
-      {/* Header */}
-      <div className="px-4 py-3 border-b border-gray-800">
-        <h3 className="text-sm font-semibold text-white">Trade {symbol}</h3>
+    <div className="flex flex-col h-full bg-[#0f1419] text-white rounded-lg">
+      {/* Tabs: Market, Limit, Pro */}
+      <div className="flex items-center border-b border-gray-800">
+        <button
+          onClick={() => {
+            setActiveTab('market');
+            setSelectedProOption('scale'); // Reset to default when leaving Pro
+          }}
+          className={cn(
+            'flex-1 px-4 py-3 text-sm font-medium transition-colors',
+            activeTab === 'market'
+              ? 'text-white border-b-2 border-white'
+              : 'text-gray-400 hover:text-gray-300'
+          )}
+        >
+          Market
+        </button>
+        <button
+          onClick={() => {
+            setActiveTab('limit');
+            setSelectedProOption('scale'); // Reset to default when leaving Pro
+          }}
+          className={cn(
+            'flex-1 px-4 py-3 text-sm font-medium transition-colors',
+            activeTab === 'limit'
+              ? 'text-white border-b-2 border-white'
+              : 'text-gray-400 hover:text-gray-300'
+          )}
+        >
+          Limit
+        </button>
+        <div className="relative flex-1">
+          <button
+            onClick={() => {
+              setActiveTab('pro');
+              setShowProDropdown(!showProDropdown);
+            }}
+            className={cn(
+              'w-full px-4 py-3 text-sm font-medium transition-colors flex items-center justify-center gap-1',
+              activeTab === 'pro'
+                ? 'text-white border-b-2 border-white'
+                : 'text-gray-400 hover:text-gray-300'
+            )}
+          >
+            {activeTab === 'pro' ? (selectedProOption === 'scale' ? 'Scale' : 'TWAP') : 'Pro'}
+            <ChevronDown className="w-4 h-4" />
+          </button>
+
+          {/* Pro Dropdown */}
+          {showProDropdown && (
+            <div className="absolute top-full right-0 mt-1 bg-[#1a2028] border border-gray-700 rounded shadow-lg z-50 min-w-[100px]">
+              <button
+                onClick={() => {
+                  setSelectedProOption('scale');
+                  setShowProDropdown(false);
+                }}
+                className="w-full px-4 py-2 text-sm text-left hover:bg-gray-700 transition-colors"
+              >
+                Scale
+              </button>
+              <button
+                onClick={() => {
+                  setSelectedProOption('twap');
+                  setShowProDropdown(false);
+                }}
+                className="w-full px-4 py-2 text-sm text-left hover:bg-gray-700 transition-colors"
+              >
+                TWAP
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {/* Order Type Tabs */}
-        <div className="flex gap-2">
-          <button
-            onClick={() => setOrderType('market')}
-            className={cn(
-              'flex-1 px-4 py-2 text-sm font-medium rounded transition-colors',
-              orderType === 'market'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-800 text-gray-400 hover:text-white'
-            )}
-          >
-            Market <span className="text-xs opacity-60">(M)</span>
-          </button>
-          <button
-            onClick={() => setOrderType('limit')}
-            className={cn(
-              'flex-1 px-4 py-2 text-sm font-medium rounded transition-colors',
-              orderType === 'limit'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-800 text-gray-400 hover:text-white'
-            )}
-          >
-            Limit <span className="text-xs opacity-60">(L)</span>
-          </button>
-        </div>
+      <div className="flex-1 overflow-y-auto flex flex-col">
+        <div className="p-4 space-y-4 flex-1">
+          {/* Buy/Sell Toggle */}
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={() => setOrderSide('buy')}
+              className={cn(
+                'px-3 py-1.5 text-xs font-semibold rounded transition-colors',
+                orderSide === 'buy'
+                  ? 'bg-[#14b8a6] text-white'
+                  : 'bg-[#1a2028] text-gray-400 hover:text-white'
+              )}
+            >
+              Buy
+            </button>
+            <button
+              onClick={() => setOrderSide('sell')}
+              className={cn(
+                'px-3 py-1.5 text-xs font-semibold rounded transition-colors',
+                orderSide === 'sell'
+                  ? 'bg-[#1e293b] text-white'
+                  : 'bg-[#1a2028] text-gray-400 hover:text-white'
+              )}
+            >
+              Sell
+            </button>
+          </div>
 
-        {/* Buy/Sell Toggle */}
-        <div className="flex gap-2">
-          <button
-            onClick={() => setOrderSide('buy')}
-            className={cn(
-              'flex-1 px-4 py-2 text-sm font-medium rounded transition-colors',
-              orderSide === 'buy'
-                ? 'bg-green-600 text-white'
-                : 'bg-gray-800 text-gray-400 hover:text-white'
-            )}
-          >
-            Buy <span className="text-xs opacity-60">(B)</span>
-          </button>
-          <button
-            onClick={() => setOrderSide('sell')}
-            className={cn(
-              'flex-1 px-4 py-2 text-sm font-medium rounded transition-colors',
-              orderSide === 'sell'
-                ? 'bg-red-600 text-white'
-                : 'bg-gray-800 text-gray-400 hover:text-white'
-            )}
-          >
-            Sell <span className="text-xs opacity-60">(S)</span>
-          </button>
-        </div>
+          {/* Available to Trade */}
+          <div className="flex items-center justify-between text-xs">
+            <span
+              onClick={() => setShowTransferModal(true)}
+              className="text-gray-400 underline cursor-pointer hover:text-gray-300"
+            >
+              Available to Trade
+            </span>
+            <span className="text-white">
+              {availableBalance} USDC
+            </span>
+          </div>
 
-        {/* Price Input (only for limit orders) */}
-        {orderType === 'limit' && (
+          {/* Pro Tab - TWAP Orders */}
+          {activeTab === 'pro' && selectedProOption === 'twap' && (
+            <>
+              <div>
+                <label className="text-xs text-gray-400 mb-2 block">Running Time (5m - 24H)</label>
+                <div className="grid grid-cols-2 gap-2">
+                  <input
+                    type="number"
+                    value={twapHours}
+                    onChange={(e) => setTwapHours(e.target.value)}
+                    placeholder="Hour(s)"
+                    min="0"
+                    max="24"
+                    className="px-3 py-2 bg-[#1a2028] border border-gray-700 rounded text-white text-xs focus:outline-none focus:border-[#14b8a6]"
+                  />
+                  <input
+                    type="number"
+                    value={twapMinutes}
+                    onChange={(e) => setTwapMinutes(e.target.value)}
+                    placeholder="Minute(s)"
+                    min="0"
+                    max="59"
+                    className="px-3 py-2 bg-[#1a2028] border border-gray-700 rounded text-white text-xs focus:outline-none focus:border-[#14b8a6]"
+                  />
+                </div>
+              </div>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={twapRandomize}
+                  onChange={(e) => setTwapRandomize(e.target.checked)}
+                  className="w-3.5 h-3.5 rounded border-gray-600 bg-[#1a2028] text-[#14b8a6] focus:ring-[#14b8a6] focus:ring-offset-0 cursor-pointer"
+                />
+                <span className="text-xs text-gray-300">Randomize</span>
+              </label>
+            </>
+          )}
+
+          {/* Pro Tab - Scale Orders */}
+          {activeTab === 'pro' && selectedProOption === 'scale' && (
+            <>
+              <div>
+                <label className="text-xs text-gray-400 mb-2 block">Start (USDC)</label>
+                <input
+                  type="number"
+                  value={scaleStartPrice}
+                  onChange={(e) => setScaleStartPrice(e.target.value)}
+                  placeholder="0"
+                  step="0.01"
+                  className="w-full px-3 py-2 bg-[#1a2028] border border-gray-700 rounded text-white text-xs focus:outline-none focus:border-[#14b8a6]"
+                />
+              </div>
+              <div>
+                <label className="text-xs text-gray-400 mb-2 block">End (USDC)</label>
+                <input
+                  type="number"
+                  value={scaleEndPrice}
+                  onChange={(e) => setScaleEndPrice(e.target.value)}
+                  placeholder="0"
+                  step="0.01"
+                  className="w-full px-3 py-2 bg-[#1a2028] border border-gray-700 rounded text-white text-xs focus:outline-none focus:border-[#14b8a6]"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="text-xs text-gray-400 mb-2 block">Total Orders</label>
+                  <input
+                    type="number"
+                    value={scaleTotalOrders}
+                    onChange={(e) => setScaleTotalOrders(e.target.value)}
+                    placeholder="0"
+                    min="2"
+                    max="10"
+                    className="w-full px-3 py-2 bg-[#1a2028] border border-gray-700 rounded text-white text-xs focus:outline-none focus:border-[#14b8a6]"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs text-gray-400 mb-2 block">Size Skew</label>
+                  <input
+                    type="number"
+                    value={scaleSizeSkew}
+                    onChange={(e) => setScaleSizeSkew(e.target.value)}
+                    step="0.01"
+                    className="w-full px-3 py-2 bg-[#1a2028] border border-gray-700 rounded text-white text-xs focus:outline-none focus:border-[#14b8a6]"
+                  />
+                </div>
+              </div>
+            </>
+          )}
+
+
+          {/* Price Input (Limit only) */}
+          {activeTab === 'limit' && (
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-xs text-gray-400">Price (USDC)</label>
+                <button
+                  onClick={() => currentPrice && setPrice(currentPrice.toString())}
+                  className="text-xs text-[#14b8a6] hover:underline"
+                >
+                  Mid
+                </button>
+              </div>
+              <input
+                ref={priceInputRef}
+                type="number"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                placeholder={currentPrice?.toString() || '0'}
+                className="w-full px-3 py-2 bg-[#1a2028] border border-gray-700 rounded text-white text-xs focus:outline-none focus:border-[#14b8a6]"
+              />
+            </div>
+          )}
+
+          {/* Size Input */}
+          {(
           <div>
-            <label className="block text-xs text-gray-400 mb-2">Price (USD) <span className="text-gray-600 text-[10px]">Press P</span></label>
-            <input
-              ref={priceInputRef}
-              type="number"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              placeholder="0.00"
-              className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-blue-500"
-            />
+            <label className="text-xs text-gray-400 mb-2 block">Size</label>
+            <div className="relative">
+              <input
+                ref={sizeInputRef}
+                type="text"
+                value={size}
+                onChange={(e) => setSize(e.target.value)}
+                placeholder="0"
+                className="w-full px-3 py-2 pr-20 bg-[#1a2028] border border-gray-700 rounded text-white text-xs focus:outline-none focus:border-[#14b8a6]"
+              />
+              <select
+                value={sizeDenomination}
+                onChange={(e) => setSizeDenomination(e.target.value as 'crypto' | 'usdc')}
+                className="absolute right-2 top-1/2 -translate-y-1/2 bg-transparent text-white text-xs border-none focus:outline-none cursor-pointer"
+              >
+                <option value="crypto">{symbol.replace('-USD', '').replace('/USD', '')}</option>
+                <option value="usdc">USDC</option>
+              </select>
+            </div>
           </div>
-        )}
+          )}
 
-        {/* Size Input */}
-        <div>
-          <label className="block text-xs text-gray-400 mb-2">Size ({symbol}) <span className="text-gray-600 text-[10px]">Press A</span></label>
-          <input
-            ref={sizeInputRef}
-            type="number"
-            value={size}
-            onChange={(e) => setSize(e.target.value)}
-            placeholder="0.0000"
-            className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-blue-500"
-          />
-        </div>
+          {/* Percentage Slider */}
+          {(
+          <div className="space-y-2">
+            {/* Quick Percentage Buttons */}
+            <div className="grid grid-cols-4 gap-2">
+              <button
+                onClick={() => handlePercentageChange(25)}
+                className={cn(
+                  "px-2 py-1 text-xs rounded transition-colors",
+                  sizePercentage === 25
+                    ? "bg-[#14b8a6] text-white"
+                    : "bg-[#1a2028] text-gray-400 hover:text-white hover:bg-[#2a3038]"
+                )}
+              >
+                25%
+              </button>
+              <button
+                onClick={() => handlePercentageChange(50)}
+                className={cn(
+                  "px-2 py-1 text-xs rounded transition-colors",
+                  sizePercentage === 50
+                    ? "bg-[#14b8a6] text-white"
+                    : "bg-[#1a2028] text-gray-400 hover:text-white hover:bg-[#2a3038]"
+                )}
+              >
+                50%
+              </button>
+              <button
+                onClick={() => handlePercentageChange(75)}
+                className={cn(
+                  "px-2 py-1 text-xs rounded transition-colors",
+                  sizePercentage === 75
+                    ? "bg-[#14b8a6] text-white"
+                    : "bg-[#1a2028] text-gray-400 hover:text-white hover:bg-[#2a3038]"
+                )}
+              >
+                75%
+              </button>
+              <button
+                onClick={() => handlePercentageChange(100)}
+                className={cn(
+                  "px-2 py-1 text-xs rounded transition-colors",
+                  sizePercentage === 100
+                    ? "bg-[#14b8a6] text-white"
+                    : "bg-[#1a2028] text-gray-400 hover:text-white hover:bg-[#2a3038]"
+                )}
+              >
+                100%
+              </button>
+            </div>
 
-        {/* Leverage Slider */}
-        <div>
-          <div className="flex items-center justify-between mb-2">
-            <label className="text-xs text-gray-400">Leverage</label>
-            <span className="text-sm font-medium text-white">{leverage}x</span>
+            <div className="flex items-center gap-3">
+              <div className="relative flex-1">
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={isNaN(sizePercentage) ? 0 : sizePercentage}
+                  onChange={(e) => handlePercentageChange(parseFloat(e.target.value) || 0)}
+                  className="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-[#14b8a6]"
+                  style={{
+                    background: `linear-gradient(to right, #14b8a6 0%, #14b8a6 ${isNaN(sizePercentage) ? 0 : sizePercentage}%, #374151 ${isNaN(sizePercentage) ? 0 : sizePercentage}%, #374151 100%)`
+                  }}
+                />
+              </div>
+              <div className="flex items-center gap-1 min-w-[60px]">
+                <input
+                  type="number"
+                  value={isNaN(sizePercentage) ? 0 : Math.round(sizePercentage)}
+                  onChange={(e) => handlePercentageChange(parseFloat(e.target.value) || 0)}
+                  className="w-12 px-2 py-1 bg-[#1a2028] border border-gray-700 rounded text-white text-sm text-right focus:outline-none focus:border-[#14b8a6]"
+                  min="0"
+                  max="100"
+                />
+                <span className="text-sm text-gray-400">%</span>
+              </div>
+            </div>
           </div>
-          <input
-            type="range"
-            min="1"
-            max="50"
-            value={leverage}
-            onChange={(e) => setLeverage(parseInt(e.target.value))}
-            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-600"
-          />
-          <div className="flex justify-between mt-1 text-xs text-gray-500">
-            <span>1x</span>
-            <span>25x</span>
-            <span>50x</span>
-          </div>
-        </div>
+          )}
 
-        {/* Order Options */}
-        <div className="space-y-2">
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={reduceOnly}
-              onChange={(e) => setReduceOnly(e.target.checked)}
-              className="w-4 h-4 rounded bg-gray-700 border-gray-600 text-blue-600 focus:ring-blue-500"
-            />
-            <span className="text-sm text-gray-300">Reduce Only</span>
-          </label>
+          {/* TIF Selector (Limit only) */}
+          {activeTab === 'limit' && (
+            <div className="relative">
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-xs text-gray-400">TIF</label>
+              </div>
+              <button
+                onClick={() => setShowTifDropdown(!showTifDropdown)}
+                className="w-full px-3 py-2 bg-[#1a2028] border border-gray-700 rounded text-white text-xs text-left flex items-center justify-between"
+              >
+                {timeInForce}
+                <ChevronDown className="w-3 h-3" />
+              </button>
+              {showTifDropdown && (
+                <div className="absolute top-full left-0 right-0 mt-1 bg-[#1a2028] border border-gray-700 rounded shadow-lg z-50">
+                  <button
+                    onClick={() => {
+                      setTimeInForce('GTC');
+                      setShowTifDropdown(false);
+                    }}
+                    className="w-full px-3 py-2 text-xs text-left hover:bg-gray-700 transition-colors"
+                  >
+                    GTC
+                  </button>
+                  <button
+                    onClick={() => {
+                      setTimeInForce('IOC');
+                      setShowTifDropdown(false);
+                    }}
+                    className="w-full px-3 py-2 text-xs text-left hover:bg-gray-700 transition-colors"
+                  >
+                    IOC
+                  </button>
+                  <button
+                    onClick={() => {
+                      setTimeInForce('ALO');
+                      setShowTifDropdown(false);
+                    }}
+                    className="w-full px-3 py-2 text-xs text-left hover:bg-gray-700 transition-colors"
+                  >
+                    ALO
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
 
-          {orderType === 'limit' && (
+          {/* Trading Options Checkboxes */}
+          <div className="space-y-2">
+            {/* Reduce Only - Available for all order types */}
             <label className="flex items-center gap-2 cursor-pointer">
               <input
                 type="checkbox"
-                checked={postOnly}
-                onChange={(e) => setPostOnly(e.target.checked)}
-                className="w-4 h-4 rounded bg-gray-700 border-gray-600 text-blue-600 focus:ring-blue-500"
+                checked={reduceOnly}
+                onChange={(e) => setReduceOnly(e.target.checked)}
+                className="w-3.5 h-3.5 rounded border-gray-600 bg-[#1a2028] text-[#14b8a6] focus:ring-[#14b8a6] focus:ring-offset-0 cursor-pointer"
               />
-              <span className="text-sm text-gray-300">Post Only</span>
+              <span className="text-xs text-gray-300">Reduce Only</span>
             </label>
-          )}
-        </div>
 
-        {/* Estimated Total */}
-        <div className="pt-2 border-t border-gray-800">
-          <div className="flex justify-between text-sm">
-            <span className="text-gray-400">Estimated Total</span>
-            <span className="text-white font-medium">${estimatedTotal}</span>
+            {/* Post Only - Only for limit orders */}
+            {activeTab === 'limit' && (
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={postOnly}
+                  onChange={(e) => setPostOnly(e.target.checked)}
+                  className="w-3.5 h-3.5 rounded border-gray-600 bg-[#1a2028] text-[#14b8a6] focus:ring-[#14b8a6] focus:ring-offset-0 cursor-pointer"
+                />
+                <span className="text-xs text-gray-300">Post Only</span>
+              </label>
+            )}
           </div>
         </div>
-      </div>
 
-      {/* Place Order Button */}
-      <div className="p-4 border-t border-gray-800">
-        <button
-          onClick={handlePlaceOrder}
-          disabled={!isConnected || !size || (orderType === 'limit' && !price)}
-          className={cn(
-            'w-full px-4 py-3 text-sm font-semibold rounded transition-colors',
-            !isConnected
-              ? 'bg-blue-600 hover:bg-blue-700 text-white'
-              : orderSide === 'buy'
-              ? 'bg-green-600 hover:bg-green-700 text-white disabled:bg-gray-700 disabled:text-gray-400'
-              : 'bg-red-600 hover:bg-red-700 text-white disabled:bg-gray-700 disabled:text-gray-400'
-          )}
-          suppressHydrationWarning
-        >
-          {!mounted || !isConnected
-            ? 'Connect Wallet'
-            : orderSide === 'buy'
-            ? `Buy ${symbol}`
-            : `Sell ${symbol}`}
-        </button>
-      </div>
-
-      {/* Confirmation Modal */}
-      {showConfirmation && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-          <div className="bg-gray-900 border border-gray-700 rounded-lg p-6 max-w-md w-full mx-4">
-            <h3 className="text-lg font-semibold text-white mb-4">Confirm Order</h3>
-
-            {/* Order Details */}
-            <div className="space-y-3 mb-6 p-4 bg-gray-800/50 rounded-lg">
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Market</span>
-                <span className="text-white font-medium">{symbol}/USD</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Side</span>
-                <span className={cn('font-medium', orderSide === 'buy' ? 'text-green-400' : 'text-red-400')}>
-                  {orderSide.toUpperCase()}
-                </span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Type</span>
-                <span className="text-white font-medium capitalize">{orderType}</span>
-              </div>
-              {orderType === 'limit' && price && (
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">Price</span>
-                  <span className="text-white font-medium">${parseFloat(price).toLocaleString()}</span>
-                </div>
+        {/* Bottom Section - Stays at bottom */}
+        <div className="mt-auto">
+          {/* Main Action Button */}
+          <div className="px-4 pb-4">
+          <button
+            onClick={handlePlaceOrder}
+            disabled={isPlacing || isTwapPlacing || isScalePlacing || isFormInvalid()}
+            className={cn(
+              'w-full py-1.5 rounded font-semibold transition-colors text-xs',
+              orderSide === 'buy'
+                ? 'bg-[#14b8a6] hover:bg-[#0f9a8a] text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                : 'bg-[#ef4444] hover:bg-[#dc2626] text-white disabled:opacity-50 disabled:cursor-not-allowed'
+            )}
+          >
+            {!mounted ? 'Enable Trading'
+              : !isConnected ? 'Connect'
+              : isPlacing || isTwapPlacing || isScalePlacing ? 'Placing...'
+              : activeTab === 'pro' && selectedProOption === 'twap' ? 'Start TWAP'
+              : activeTab === 'pro' && selectedProOption === 'scale' ? 'Place Scale Orders'
+              : activeTab === 'market' ? `${orderSide === 'buy' ? 'Buy' : 'Sell'} Market`
+              : activeTab === 'limit' ? `${orderSide === 'buy' ? 'Buy' : 'Sell'} Limit`
+              : 'Place Order'}
+          </button>
+          {mounted && isConnected && getValidationError() && (
+            <div className="mt-2">
+              {chain?.id !== arbitrum.id ? (
+                <button
+                  onClick={async () => {
+                    try {
+                      await switchChain?.({ chainId: arbitrum.id });
+                      toast.success('Switched to Arbitrum network');
+                    } catch (error) {
+                      console.error('Failed to switch network:', error);
+                      toast.error('Failed to switch network. Please switch manually in your wallet.');
+                    }
+                  }}
+                  className="w-full py-1.5 bg-[#3B82F6] hover:bg-[#2563EB] text-white rounded font-medium transition-colors text-xs"
+                >
+                  Switch to Arbitrum
+                </button>
+              ) : (
+                <p className="text-xs text-[#ef4444] text-center">{getValidationError()}</p>
               )}
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Size</span>
-                <span className="text-white font-medium">{size} {symbol}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Leverage</span>
-                <span className="text-white font-medium">{leverage}x</span>
-              </div>
-              <div className="flex justify-between text-sm border-t border-gray-700 pt-3">
-                <span className="text-gray-400">Estimated Total</span>
-                <span className="text-white font-semibold">${estimatedTotal}</span>
-              </div>
             </div>
+          )}
+        </div>
 
-            <div className="flex gap-2">
-              <button
-                onClick={() => setShowConfirmation(false)}
-                disabled={isPlacing}
-                className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-500 text-white rounded transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleConfirmOrder}
-                disabled={isPlacing}
-                className={cn(
-                  'flex-1 px-4 py-2 rounded transition-colors font-semibold',
-                  orderSide === 'buy'
-                    ? 'bg-green-600 hover:bg-green-700 text-white'
-                    : 'bg-red-600 hover:bg-red-700 text-white',
-                  isPlacing && 'opacity-50 cursor-not-allowed'
-                )}
-              >
-                {isPlacing ? 'Placing...' : 'Confirm Order'}
-              </button>
+        {/* Order Details */}
+        <div className="px-4 pb-4 space-y-2 text-xs">
+          <div className="flex items-center justify-between pt-3 border-t border-gray-800">
+            <span className="text-gray-400">Order Value</span>
+            <span className="text-white">{orderValue}</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-gray-400 underline cursor-pointer">Slippage</span>
+            <span className="text-white">Est: {slippageEst} / Max: {slippageMax}</span>
+          </div>
+          <div className="flex items-center justify-between pb-3 border-b border-gray-800">
+            <span className="text-gray-400">Fees</span>
+            <span className="text-white">{makerFee} / {takerFee}</span>
+          </div>
+        </div>
+
+        {/* Deposit Button */}
+        <div className="px-4 pb-4">
+          <button
+            onClick={() => setShowDepositModal(true)}
+            className="w-full py-1.5 bg-[#0f5549] hover:bg-[#0a3d34] text-white rounded font-medium transition-colors text-xs"
+          >
+            Deposit
+          </button>
+        </div>
+
+        {/* Perps/Spot Transfer & Withdraw */}
+        <div className="px-4 pb-4 grid grid-cols-2 gap-2">
+          <button
+            onClick={() => setShowTransferModal(true)}
+            className="px-2.5 py-1.5 bg-transparent border border-gray-700 hover:border-gray-600 text-white rounded text-xs font-medium transition-colors flex items-center justify-center gap-1"
+          >
+            Perps ⇄ Spot
+          </button>
+          <button
+            onClick={() => setShowWithdrawModal(true)}
+            className="px-2.5 py-1.5 bg-transparent border border-gray-700 hover:border-gray-600 text-white rounded text-xs font-medium transition-colors"
+          >
+            Withdraw
+          </button>
+        </div>
+
+        {/* Account Equity */}
+        <div className="px-4 pb-3 pt-3 border-t border-gray-800">
+          <h3 className="text-xs font-semibold mb-2">Account Equity</h3>
+          <div className="space-y-1.5 text-xs">
+            <div className="flex items-center justify-between">
+              <span className="text-gray-400">Spot</span>
+              <span className="text-white">${balance?.spot || '0.00'}</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-gray-400 underline cursor-pointer">Perps</span>
+              <span className="text-white">${balance?.perps || '0.00'}</span>
             </div>
           </div>
         </div>
+
+        {/* Perps Overview */}
+        <div className="px-4 pb-4">
+          <h3 className="text-xs font-semibold mb-2">Perps Overview</h3>
+          <div className="space-y-1.5 text-xs">
+            <div className="flex items-center justify-between">
+              <span className="text-gray-400 underline cursor-pointer">Balance</span>
+              <span className="text-white">${fullBalance?.accountValue.toFixed(2) || '0.00'}</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-gray-400">Unrealized PNL</span>
+              <span className={cn(
+                "text-white",
+                fullBalance && fullBalance.totalNtlPos > 0 ? 'text-green-400' : fullBalance && fullBalance.totalNtlPos < 0 ? 'text-red-400' : ''
+              )}>
+                ${fullBalance?.totalNtlPos.toFixed(2) || '0.00'}
+              </span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-gray-400 underline cursor-pointer">Cross Margin Ratio</span>
+              <span className="text-white">
+                {fullBalance && fullBalance.accountValue > 0
+                  ? ((fullBalance.totalMarginUsed / fullBalance.accountValue) * 100).toFixed(2)
+                  : '0.00'}%
+              </span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-gray-400 underline cursor-pointer">Maintenance Margin</span>
+              <span className="text-white">${fullBalance?.totalMarginUsed.toFixed(2) || '0.00'}</span>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+
+      {/* Deposit Modal */}
+      {showDepositModal && (
+        <DepositModal onClose={() => setShowDepositModal(false)} />
       )}
+
+      {/* Withdraw Modal */}
+      {showWithdrawModal && (
+        <WithdrawModal onClose={() => setShowWithdrawModal(false)} />
+      )}
+
+      {/* Transfer Modal */}
+      {showTransferModal && (
+        <TransferModal onClose={() => setShowTransferModal(false)} />
+      )}
+    </div>
+  );
+}
+
+// Deposit Modal Component
+function DepositModal({ onClose }: { onClose: () => void }) {
+  const [amount, setAmount] = useState('');
+  const { balance: walletUsdcBalance } = useWalletUsdcBalance();
+  const maxAmount = walletUsdcBalance;
+
+  const handlePercentageClick = (percentage: number) => {
+    const walletBalance = parseFloat(walletUsdcBalance || '0');
+    const calculatedAmount = (walletBalance * percentage) / 100;
+    setAmount(calculatedAmount.toFixed(6));
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+      <div className="bg-[#1a2028] border border-gray-700 rounded-lg max-w-md w-full relative">
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-400 hover:text-white text-xl z-10"
+        >
+          ✕
+        </button>
+
+        <div className="p-6">
+          {/* Header */}
+          <div className="flex flex-col items-center mb-6">
+            <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center mb-3">
+              <span className="text-2xl">$</span>
+            </div>
+            <h2 className="text-lg font-semibold text-white">Deposit USDC from Arbitrum</h2>
+          </div>
+
+          {/* Form */}
+          <div className="space-y-4">
+            {/* Asset */}
+            <div>
+              <label className="block text-sm text-gray-400 mb-2">Asset</label>
+              <select className="w-full px-3 py-2.5 bg-[#0f1419] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6]">
+                <option>USDC</option>
+              </select>
+            </div>
+
+            {/* Deposit Chain */}
+            <div>
+              <label className="block text-sm text-gray-400 mb-2">Deposit Chain</label>
+              <select className="w-full px-3 py-2.5 bg-[#0f1419] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6]">
+                <option>Arbitrum</option>
+              </select>
+            </div>
+
+            {/* Amount */}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-sm text-gray-400">Amount</label>
+                <span className="text-sm text-[#14b8a6]">MAX: {maxAmount}</span>
+              </div>
+              <input
+                type="number"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                placeholder="0.00"
+                className="w-full px-3 py-2.5 bg-[#0f1419] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6]"
+              />
+
+              {/* Quick Percentage Buttons */}
+              <div className="grid grid-cols-4 gap-2 mt-3">
+                <button
+                  onClick={() => handlePercentageClick(25)}
+                  className="px-2 py-1.5 text-xs rounded bg-[#1a2028] text-gray-400 hover:text-white hover:bg-[#2a3038] transition-colors"
+                >
+                  25%
+                </button>
+                <button
+                  onClick={() => handlePercentageClick(50)}
+                  className="px-2 py-1.5 text-xs rounded bg-[#1a2028] text-gray-400 hover:text-white hover:bg-[#2a3038] transition-colors"
+                >
+                  50%
+                </button>
+                <button
+                  onClick={() => handlePercentageClick(75)}
+                  className="px-2 py-1.5 text-xs rounded bg-[#1a2028] text-gray-400 hover:text-white hover:bg-[#2a3038] transition-colors"
+                >
+                  75%
+                </button>
+                <button
+                  onClick={() => handlePercentageClick(100)}
+                  className="px-2 py-1.5 text-xs rounded bg-[#1a2028] text-gray-400 hover:text-white hover:bg-[#2a3038] transition-colors"
+                >
+                  100%
+                </button>
+              </div>
+            </div>
+
+            {/* Deposit Button */}
+            <button className="w-full py-3 bg-[#0f5549] hover:bg-[#0a3d34] text-white rounded font-semibold transition-colors">
+              Deposit
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Withdraw Modal Component
+function WithdrawModal({ onClose }: { onClose: () => void }) {
+  const [amount, setAmount] = useState('');
+  const { balance } = useAccountBalance();
+  const { withdraw, isWithdrawing } = useWithdraw();
+
+  // Max amount is from perps balance (need to be in perps to withdraw)
+  const maxAmount = balance?.perps || '0.00';
+
+  const handleWithdraw = async () => {
+    const result = await withdraw(amount);
+    if (result.success) {
+      setAmount('');
+      onClose();
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+      <div className="bg-[#1a2028] border border-gray-700 rounded-lg max-w-md w-full relative">
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-400 hover:text-white text-xl z-10"
+        >
+          ✕
+        </button>
+
+        <div className="p-6">
+          {/* Header */}
+          <div className="flex flex-col items-center mb-6">
+            <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center mb-3">
+              <span className="text-2xl">$</span>
+            </div>
+            <h2 className="text-lg font-semibold text-white mb-1">Withdraw USDC to Arbitrum</h2>
+            <p className="text-xs text-gray-400 text-center">
+              USDC will be sent over the Arbitrum network to your address.
+              <br />A 1 USDC fee will be deducted from the USDC withdrawn.
+            </p>
+          </div>
+
+          {/* Form */}
+          <div className="space-y-4">
+            {/* Asset */}
+            <div>
+              <label className="block text-sm text-gray-400 mb-2">Asset</label>
+              <select className="w-full px-3 py-2.5 bg-[#0f1419] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6]">
+                <option>USDC</option>
+              </select>
+            </div>
+
+            {/* Withdrawal Chain */}
+            <div>
+              <label className="block text-sm text-gray-400 mb-2">Withdrawal Chain</label>
+              <select className="w-full px-3 py-2.5 bg-[#0f1419] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6]">
+                <option>Arbitrum</option>
+              </select>
+            </div>
+
+            {/* Amount */}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-sm text-gray-400">Amount</label>
+                <span className="text-sm text-[#14b8a6]">MAX: {maxAmount}</span>
+              </div>
+              <input
+                type="number"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                placeholder="0.00"
+                className="w-full px-3 py-2.5 bg-[#0f1419] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6]"
+              />
+            </div>
+
+            {/* Withdraw Button */}
+            <button
+              onClick={handleWithdraw}
+              disabled={isWithdrawing || !amount || parseFloat(amount) <= 0}
+              className="w-full py-3 bg-[#0f5549] hover:bg-[#0a3d34] disabled:bg-gray-700 disabled:cursor-not-allowed text-white rounded font-semibold transition-colors"
+            >
+              {isWithdrawing ? 'Processing...' : 'Withdraw to Arbitrum'}
+            </button>
+
+            {/* Info Text */}
+            <p className="text-xs text-gray-400 text-center">
+              If you have USDC in your Spot Balances, transfer to Perps to make it available to
+              withdraw. Withdrawals should arrive within 5 minutes.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Transfer Modal Component
+function TransferModal({ onClose }: { onClose: () => void }) {
+  const [amount, setAmount] = useState('');
+  const [direction, setDirection] = useState<'perps-to-spot' | 'spot-to-perps'>('perps-to-spot');
+  const { balance } = useAccountBalance();
+  const { transfer, isTransferring } = useTransfer();
+
+  // Calculate max amount based on direction
+  const maxAmount = direction === 'perps-to-spot'
+    ? balance?.perps || '0.00'
+    : balance?.spot || '0.00';
+
+  const toggleDirection = () => {
+    setDirection(direction === 'perps-to-spot' ? 'spot-to-perps' : 'perps-to-spot');
+  };
+
+  const handleTransfer = async () => {
+    const toPerps = direction === 'spot-to-perps';
+    const result = await transfer(amount, toPerps);
+    if (result.success) {
+      setAmount('');
+      onClose();
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+      <div className="bg-[#1a2028] border border-gray-700 rounded-lg max-w-md w-full relative">
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-400 hover:text-white text-xl z-10"
+        >
+          ✕
+        </button>
+
+        <div className="p-6">
+          {/* Header */}
+          <div className="flex flex-col items-center mb-6">
+            <h2 className="text-lg font-semibold text-white mb-1">Transfer USDC</h2>
+            <p className="text-xs text-gray-400 text-center">
+              Transfer USDC between your Perps and Spot balances.
+            </p>
+          </div>
+
+          {/* Direction Selector */}
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <span className={`text-sm font-medium ${direction === 'perps-to-spot' ? 'text-white' : 'text-gray-400'}`}>
+              Perps
+            </span>
+            <button
+              onClick={toggleDirection}
+              className="p-2 hover:bg-gray-700 rounded transition-colors"
+            >
+              <svg className="w-5 h-5 text-[#14b8a6]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+              </svg>
+            </button>
+            <span className={`text-sm font-medium ${direction === 'spot-to-perps' ? 'text-white' : 'text-gray-400'}`}>
+              Spot
+            </span>
+          </div>
+
+          {/* Form */}
+          <div className="space-y-4">
+            {/* Amount */}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-sm text-gray-400">Amount</label>
+                <span className="text-sm text-[#14b8a6]">MAX: {maxAmount}</span>
+              </div>
+              <input
+                type="number"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                placeholder="0.00"
+                className="w-full px-3 py-2.5 bg-[#0f1419] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6]"
+              />
+            </div>
+
+            {/* Confirm Button */}
+            <button
+              onClick={handleTransfer}
+              disabled={isTransferring || !amount || parseFloat(amount) <= 0}
+              className="w-full py-3 bg-[#0f5549] hover:bg-[#0a3d34] disabled:bg-gray-700 disabled:cursor-not-allowed text-white rounded font-semibold transition-colors"
+            >
+              {isTransferring ? 'Transferring...' : 'Confirm'}
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -16,6 +16,7 @@ export interface PlaceOrderParams {
   leverage?: number;
   reduceOnly?: boolean;
   postOnly?: boolean;
+  timeInForce?: 'GTC' | 'IOC' | 'ALO';
 }
 
 /**
@@ -61,27 +62,42 @@ export function usePlaceOrder() {
       // Generate nonce
       const nonce = generateNonce();
 
+      // For market orders, use a price far from current price to ensure immediate execution
+      // Buy orders use a very high price, sell orders use a very low price (near 0)
+      const orderPrice = params.orderType === 'market'
+        ? (params.side === 'buy' ? 999999999 : 0.01)
+        : limitPrice;
+
       // Sign the order
       const signature = await signPlaceOrder(walletClient, {
         coin,
         isBuy: params.side === 'buy',
         size,
-        limitPrice: params.orderType === 'market' ? 0 : limitPrice,
+        limitPrice: orderPrice,
         reduceOnly: params.reduceOnly || false,
         nonce,
+        network,
       });
 
       // Prepare order type
-      const order_type = params.orderType === 'market'
-        ? { trigger: { triggerPx: limitPrice, isMarket: true, tpsl: 'tp' } }
-        : { limit: { tif: params.postOnly ? 'Alo' : 'Gtc' } };
+      // Market orders use IOC (Immediate Or Cancel), limit orders use configured TIF
+      // Convert TIF from all caps to capitalized format (GTC -> Gtc, IOC -> Ioc, ALO -> Alo)
+      const tifValue = params.orderType === 'market'
+        ? 'Ioc'  // Market orders always use IOC
+        : params.postOnly
+          ? 'Alo'
+          : params.timeInForce
+            ? params.timeInForce.charAt(0) + params.timeInForce.slice(1).toLowerCase()
+            : 'Gtc';
+
+      const order_type = { limit: { tif: tifValue } };
 
       // Place the order
       const result = await exchangeClient.placeOrder({
         coin,
         is_buy: params.side === 'buy',
         sz: size,
-        limit_px: limitPrice,
+        limit_px: orderPrice,
         order_type,
         reduce_only: params.reduceOnly || false,
         signature,

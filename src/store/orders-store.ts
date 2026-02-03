@@ -9,7 +9,7 @@ export interface Order {
   price: string;
   size: string;
   filledSize: string;
-  status: 'open' | 'filled' | 'cancelled' | 'partial';
+  status: 'open' | 'filled' | 'cancelled' | 'partial' | 'rejected';
   timestamp: number;
   reduceOnly?: boolean;
   postOnly?: boolean;

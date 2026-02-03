@@ -52,17 +52,17 @@ export function TradeHistoryTable() {
             return (
               <tr
                 key={trade.id}
-                className="border-b border-gray-800 hover:bg-gray-900/50 transition-colors"
+                className="border-b border-gray-800 hover:bg-[#1a2028]/50 transition-colors"
               >
                 <td className="py-3 px-4 text-gray-400 text-xs">{dateStr}</td>
                 <td className="py-3 px-4 font-medium text-white">{trade.symbol}</td>
                 <td className="py-3 px-4">
                   <span
                     className={cn(
-                      'px-2 py-1 rounded text-xs font-medium',
+                      'px-2 py-1 rounded text-xs font-semibold',
                       trade.side === 'buy'
-                        ? 'bg-green-500/10 text-green-400'
-                        : 'bg-red-500/10 text-red-400'
+                        ? 'bg-[#14b8a6]/10 text-[#14b8a6]'
+                        : 'bg-[#ef4444]/10 text-[#ef4444]'
                     )}
                   >
                     {trade.side.toUpperCase()}
@@ -80,7 +80,7 @@ export function TradeHistoryTable() {
                     <span
                       className={cn(
                         'font-medium',
-                        realizedPnl >= 0 ? 'text-green-400' : 'text-red-400'
+                        realizedPnl >= 0 ? 'text-[#14b8a6]' : 'text-[#ef4444]'
                       )}
                     >
                       {realizedPnl >= 0 ? '+' : ''}${realizedPnl.toFixed(2)}

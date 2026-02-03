@@ -62,16 +62,16 @@ export function PositionsTable() {
             return (
               <tr
                 key={position.symbol}
-                className="border-b border-gray-800 hover:bg-gray-900/50 transition-colors"
+                className="border-b border-gray-800 hover:bg-[#1a2028]/50 transition-colors"
               >
                 <td className="py-3 px-4 font-medium text-white">{position.symbol}</td>
                 <td className="py-3 px-4">
                   <span
                     className={cn(
-                      'px-2 py-1 rounded text-xs font-medium',
+                      'px-2 py-1 rounded text-xs font-semibold',
                       position.side === 'long'
-                        ? 'bg-green-500/10 text-green-400'
-                        : 'bg-red-500/10 text-red-400'
+                        ? 'bg-[#14b8a6]/10 text-[#14b8a6]'
+                        : 'bg-[#ef4444]/10 text-[#ef4444]'
                     )}
                   >
                     {position.side.toUpperCase()}
@@ -91,10 +91,10 @@ export function PositionsTable() {
                 </td>
                 <td className="py-3 px-4 text-center text-gray-300">{position.leverage}x</td>
                 <td className="py-3 px-4 text-right">
-                  <div className={cn('font-medium', pnl >= 0 ? 'text-green-400' : 'text-red-400')}>
+                  <div className={cn('font-medium', pnl >= 0 ? 'text-[#14b8a6]' : 'text-[#ef4444]')}>
                     {pnl >= 0 ? '+' : ''}${pnl.toFixed(2)}
                   </div>
-                  <div className={cn('text-xs', pnl >= 0 ? 'text-green-400/70' : 'text-red-400/70')}>
+                  <div className={cn('text-xs', pnl >= 0 ? 'text-[#14b8a6]/70' : 'text-[#ef4444]/70')}>
                     {pnlPercent >= 0 ? '+' : ''}
                     {pnlPercent.toFixed(2)}%
                   </div>
@@ -107,7 +107,7 @@ export function PositionsTable() {
                     <button
                       onClick={() => handleClosePosition(position.symbol, position.side, position.size)}
                       disabled={isClosing}
-                      className="px-3 py-1 text-xs bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-500 disabled:cursor-not-allowed text-white rounded transition-colors"
+                      className="px-3 py-1 text-xs bg-[#1a2028] hover:bg-[#2a3038] disabled:bg-gray-800 disabled:text-gray-500 disabled:cursor-not-allowed text-white rounded transition-colors border border-gray-700"
                     >
                       {isClosing ? 'Closing...' : 'Close'}
                     </button>
@@ -123,7 +123,7 @@ export function PositionsTable() {
               Total Unrealized PnL
             </td>
             <td className="py-3 px-4 text-right">
-              <span className={cn('font-semibold', totalPnl >= 0 ? 'text-green-400' : 'text-red-400')}>
+              <span className={cn('font-semibold', totalPnl >= 0 ? 'text-[#14b8a6]' : 'text-[#ef4444]')}>
                 {totalPnl >= 0 ? '+' : ''}${totalPnl.toFixed(2)}
               </span>
             </td>

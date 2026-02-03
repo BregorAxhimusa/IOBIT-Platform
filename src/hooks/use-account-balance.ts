@@ -88,8 +88,16 @@ export function useAccountBalance() {
     staleTime: 1000,
   });
 
+  // Create simplified balance object with USDC
+  const simpleBalance = data ? {
+    usdc: data.withdrawable.toFixed(2),
+    spot: data.withdrawable.toFixed(2),
+    perps: data.accountValue.toFixed(2),
+  } : null;
+
   return {
-    balance: data,
+    balance: simpleBalance,
+    fullBalance: data,
     isLoading,
     error,
     refetch,
@@ -100,12 +108,12 @@ export function useAccountBalance() {
  * Hook for calculating portfolio statistics
  */
 export function usePortfolioStats() {
-  const { balance } = useAccountBalance();
+  const { fullBalance } = useAccountBalance();
   const { address } = useAccount();
 
   // For now, we'll calculate PnL based on current unrealized PnL
   // In the future, we can fetch historical data from database
-  const totalUnrealizedPnl = balance?.assetPositions.reduce((sum, pos) => {
+  const totalUnrealizedPnl = fullBalance?.assetPositions.reduce((sum, pos) => {
     return sum + parseFloat(pos.position.unrealizedPnl || '0');
   }, 0) || 0;
 
@@ -116,13 +124,13 @@ export function usePortfolioStats() {
   const monthlyPnl = totalUnrealizedPnl; // Current unrealized
 
   return {
-    accountValue: balance?.accountValue || 0,
-    availableBalance: balance?.withdrawable || 0,
-    totalMargin: balance?.totalMarginUsed || 0,
+    accountValue: fullBalance?.accountValue || 0,
+    availableBalance: fullBalance?.withdrawable || 0,
+    totalMargin: fullBalance?.totalMarginUsed || 0,
     totalUnrealizedPnl,
     dailyPnl,
     weeklyPnl,
     monthlyPnl,
-    isLoading: !balance && !!address,
+    isLoading: !fullBalance && !!address,
   };
 }
