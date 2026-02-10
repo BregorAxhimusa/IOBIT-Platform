@@ -1,5 +1,5 @@
 import { HYPERLIQUID_MAINNET_API, HYPERLIQUID_TESTNET_API, type Network } from '../utils/constants';
-import type { AllMids, L2Book, UserState, CandleSnapshot, SpotMeta, SpotClearinghouseState, SpotAssetCtx, UserFill, FundingPayment, LedgerUpdate, VaultDetails, UserVaultEquity, VaultStatsData, SubAccount, ApiWallet, ReferralInfo } from './types';
+import type { AllMids, L2Book, UserState, CandleSnapshot, SpotMeta, SpotClearinghouseState, SpotAssetCtx, UserFill, FundingPayment, LedgerUpdate, VaultDetails, UserVaultEquity, VaultStatsData, SubAccount, ApiWallet, ReferralInfo, ValidatorSummary, Delegation, StakingState, DelegatorHistoryEvent, DelegatorReward, UserFees } from './types';
 
 /**
  * Hyperliquid Info Client (Read-Only)
@@ -480,6 +480,87 @@ export class HyperliquidInfoClient {
       return response;
     } catch (error) {
       console.error(`Error fetching referral info for ${user}:`, error);
+      return null;
+    }
+  }
+
+  // ===== STAKING ENDPOINTS =====
+
+  async getValidatorSummaries(): Promise<ValidatorSummary[]> {
+    try {
+      const response = await this.post<ValidatorSummary[]>('/info', {
+        type: 'validatorSummaries',
+      });
+      return response || [];
+    } catch (error) {
+      console.error('Error fetching validator summaries:', error);
+      return [];
+    }
+  }
+
+  async getDelegations(user: string): Promise<Delegation[]> {
+    try {
+      const response = await this.post<Delegation[]>('/info', {
+        type: 'delegations',
+        user,
+      });
+      return response || [];
+    } catch (error) {
+      console.error(`Error fetching delegations for ${user}:`, error);
+      return [];
+    }
+  }
+
+  async getStakingState(user: string): Promise<StakingState | null> {
+    try {
+      const response = await this.post<StakingState>('/info', {
+        type: 'stakingState',
+        user,
+      });
+      return response;
+    } catch (error) {
+      console.error(`Error fetching staking state for ${user}:`, error);
+      return null;
+    }
+  }
+
+  async getDelegatorHistory(user: string): Promise<DelegatorHistoryEvent[]> {
+    try {
+      const response = await this.post<DelegatorHistoryEvent[]>('/info', {
+        type: 'delegatorHistory',
+        user,
+      });
+      return response || [];
+    } catch (error) {
+      console.error(`Error fetching delegator history for ${user}:`, error);
+      return [];
+    }
+  }
+
+  async getDelegatorRewards(user: string): Promise<DelegatorReward[]> {
+    try {
+      const response = await this.post<DelegatorReward[]>('/info', {
+        type: 'delegatorRewards',
+        user,
+      });
+      return response || [];
+    } catch (error) {
+      console.error(`Error fetching delegator rewards for ${user}:`, error);
+      return [];
+    }
+  }
+
+  // ===== USER FEES ENDPOINT =====
+
+  async getUserFees(user: string): Promise<UserFees | null> {
+    try {
+      const response = await this.post<UserFees>('/info', {
+        type: 'userFees',
+        user,
+      });
+      return response;
+    } catch (error) {
+      console.error(`Error fetching user fees for ${user}:`, error);
       return null;
     }
   }

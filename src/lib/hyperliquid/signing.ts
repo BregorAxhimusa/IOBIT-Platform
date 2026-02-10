@@ -586,6 +586,141 @@ export async function signApproveAgent(
 }
 
 /**
+ * Create EIP-712 signature for token delegation
+ */
+export async function signTokenDelegate(
+  walletClient: WalletClient,
+  params: {
+    validator: string;
+    amount: string;
+    isUndelegate: boolean;
+    nonce: number;
+    network?: Network;
+  }
+) {
+  const account = walletClient.account;
+  if (!account) {
+    throw new Error('No account connected');
+  }
+
+  const message = {
+    hyperliquidChain: params.network === 'mainnet' ? 'Mainnet' : 'Testnet',
+    validator: params.validator as `0x${string}`,
+    amount: params.amount,
+    isUndelegate: params.isUndelegate,
+    nonce: BigInt(params.nonce),
+  };
+
+  const signature = await walletClient.signTypedData({
+    account,
+    domain: getHyperliquidDomain(params.network),
+    types: {
+      TokenDelegate: [
+        { name: 'hyperliquidChain', type: 'string' },
+        { name: 'validator', type: 'address' },
+        { name: 'amount', type: 'string' },
+        { name: 'isUndelegate', type: 'bool' },
+        { name: 'nonce', type: 'uint256' },
+      ],
+    },
+    primaryType: 'TokenDelegate',
+    message,
+  });
+
+  const r = signature.slice(0, 66);
+  const s = '0x' + signature.slice(66, 130);
+  const v = parseInt(signature.slice(130, 132), 16);
+
+  return { r, s, v };
+}
+
+/**
+ * Create EIP-712 signature for staking deposit (Spot -> Staking)
+ */
+export async function signStakingDeposit(
+  walletClient: WalletClient,
+  params: {
+    amount: string;
+    nonce: number;
+    network?: Network;
+  }
+) {
+  const account = walletClient.account;
+  if (!account) {
+    throw new Error('No account connected');
+  }
+
+  const message = {
+    hyperliquidChain: params.network === 'mainnet' ? 'Mainnet' : 'Testnet',
+    amount: params.amount,
+    nonce: BigInt(params.nonce),
+  };
+
+  const signature = await walletClient.signTypedData({
+    account,
+    domain: getHyperliquidDomain(params.network),
+    types: {
+      CDeposit: [
+        { name: 'hyperliquidChain', type: 'string' },
+        { name: 'amount', type: 'string' },
+        { name: 'nonce', type: 'uint256' },
+      ],
+    },
+    primaryType: 'CDeposit',
+    message,
+  });
+
+  const r = signature.slice(0, 66);
+  const s = '0x' + signature.slice(66, 130);
+  const v = parseInt(signature.slice(130, 132), 16);
+
+  return { r, s, v };
+}
+
+/**
+ * Create EIP-712 signature for staking withdraw (Staking -> Spot)
+ */
+export async function signStakingWithdraw(
+  walletClient: WalletClient,
+  params: {
+    amount: string;
+    nonce: number;
+    network?: Network;
+  }
+) {
+  const account = walletClient.account;
+  if (!account) {
+    throw new Error('No account connected');
+  }
+
+  const message = {
+    hyperliquidChain: params.network === 'mainnet' ? 'Mainnet' : 'Testnet',
+    amount: params.amount,
+    nonce: BigInt(params.nonce),
+  };
+
+  const signature = await walletClient.signTypedData({
+    account,
+    domain: getHyperliquidDomain(params.network),
+    types: {
+      CWithdraw: [
+        { name: 'hyperliquidChain', type: 'string' },
+        { name: 'amount', type: 'string' },
+        { name: 'nonce', type: 'uint256' },
+      ],
+    },
+    primaryType: 'CWithdraw',
+    message,
+  });
+
+  const r = signature.slice(0, 66);
+  const s = '0x' + signature.slice(66, 130);
+  const v = parseInt(signature.slice(130, 132), 16);
+
+  return { r, s, v };
+}
+
+/**
  * Create EIP-712 signature for creating a referrer code
  */
 export async function signCreateReferrerCode(

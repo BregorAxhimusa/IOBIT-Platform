@@ -11,6 +11,7 @@ import { PerformanceStatsSection } from '@/components/portfolio/performance-stat
 import { FundingHistory } from '@/components/portfolio/funding-history';
 import { SpotBalancesTable } from '@/components/trading/spot/spot-balances-table';
 import { TradeHistoryTable } from '@/components/trading/trade-history/trade-history-table';
+import { FeeSavingsCard } from '@/components/portfolio/fee-savings-card';
 import { cn } from '@/lib/utils/cn';
 
 type TimeRange = '24h' | '7d' | '30d' | '90d' | 'all';
@@ -155,6 +156,11 @@ export default function PortfolioPage() {
               {accountValue > 0 ? ((totalUnrealizedPnl / accountValue) * 100).toFixed(2) : '0.00'}%
             </div>
           </div>
+        </div>
+
+        {/* Fee Status Card */}
+        <div className="mb-6">
+          <FeeSavingsCard />
         </div>
 
         {/* Portfolio Chart */}

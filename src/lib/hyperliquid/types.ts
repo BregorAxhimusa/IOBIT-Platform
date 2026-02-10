@@ -362,6 +362,73 @@ export interface ReferralInfo {
   }[];
 }
 
+// ===== STAKING TYPES =====
+
+export interface ValidatorSummary {
+  validator: string;
+  name: string;
+  commission: string;
+  stake: string;
+  recentBlocks: number;
+  isJailed: boolean;
+  nJailedByStake: number;
+}
+
+export interface Delegation {
+  validator: string;
+  amount: string;
+  lockedUntil: number;
+}
+
+export interface StakingState {
+  delegated: string;
+  undelegated: string;
+  totalPendingWithdrawal: string;
+  nPendingWithdrawals: number;
+}
+
+export interface DelegatorHistoryEvent {
+  time: number;
+  hash: string;
+  delta: {
+    delegate?: {
+      validator: string;
+      amount: string;
+      isUndelegate: boolean;
+    };
+    withdrawal?: {
+      amount: string;
+    };
+    deposit?: {
+      amount: string;
+    };
+  };
+}
+
+export interface DelegatorReward {
+  time: number;
+  source: 'delegation' | 'commission';
+  totalAmount: string;
+}
+
+// ===== USER FEES TYPES =====
+
+export interface UserFeeTier {
+  ntlCutoff: string;
+  maker: string;
+  taker: string;
+}
+
+export interface UserFees {
+  activeReferralDiscount: string;
+  dailyUserVlm: [string, string][];
+  feeSchedule: {
+    tiers: UserFeeTier[];
+  };
+  userCrossRate: string;
+  userAddRate: string;
+}
+
 // Market types
 export type MarketType = 'perp' | 'spot';
 

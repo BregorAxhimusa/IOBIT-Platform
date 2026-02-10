@@ -752,6 +752,84 @@ export class HyperliquidExchangeClient {
       };
     }
   }
+
+  // ===== STAKING METHODS =====
+
+  async tokenDelegate(params: {
+    validator: string;
+    amount: string;
+    isUndelegate: boolean;
+    signature: { r: string; s: string; v: number };
+    nonce: number;
+  }) {
+    try {
+      const response = await this.post('/exchange', {
+        action: {
+          type: 'tokenDelegate',
+          validator: params.validator,
+          amount: params.amount,
+          isUndelegate: params.isUndelegate,
+        },
+        nonce: params.nonce,
+        signature: params.signature,
+      });
+      return { success: true, data: response };
+    } catch (error) {
+      console.error('Error delegating token:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      };
+    }
+  }
+
+  async stakingDeposit(params: {
+    amount: string;
+    signature: { r: string; s: string; v: number };
+    nonce: number;
+  }) {
+    try {
+      const response = await this.post('/exchange', {
+        action: {
+          type: 'cDeposit',
+          amount: params.amount,
+        },
+        nonce: params.nonce,
+        signature: params.signature,
+      });
+      return { success: true, data: response };
+    } catch (error) {
+      console.error('Error depositing to staking:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      };
+    }
+  }
+
+  async stakingWithdraw(params: {
+    amount: string;
+    signature: { r: string; s: string; v: number };
+    nonce: number;
+  }) {
+    try {
+      const response = await this.post('/exchange', {
+        action: {
+          type: 'cWithdraw',
+          amount: params.amount,
+        },
+        nonce: params.nonce,
+        signature: params.signature,
+      });
+      return { success: true, data: response };
+    } catch (error) {
+      console.error('Error withdrawing from staking:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      };
+    }
+  }
 }
 
 // Export singleton instance

@@ -11,6 +11,7 @@ import { AccountSwitcher } from '@/components/layout/account-switcher';
 const navLinks = [
   { href: '/trade/BTC', label: 'Trade' },
   { href: '/portfolio', label: 'Portfolio' },
+  { href: '/staking', label: 'Staking' },
   { href: '/vaults', label: 'Vaults' },
   { href: '/leaderboard', label: 'Leaderboard' },
   { href: '/referrals', label: 'Referrals' },
@@ -77,7 +78,7 @@ export function Navbar() {
           {isConnected && <AccountSwitcher />}
           {isConnected && (
             <Link
-              href="/settings/accounts"
+              href="/settings"
               className={cn(
                 'p-2 rounded-lg transition-colors',
                 pathname?.startsWith('/settings')
