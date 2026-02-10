@@ -231,6 +231,75 @@ export interface PerformanceStats {
   avgTradeSize: number;
 }
 
+// ===== VAULT TYPES =====
+
+export interface VaultSummary {
+  vaultAddress: string;
+  name: string;
+  leader: string;
+  leaderCommission: number;
+  apr: number;
+  tvl: string;
+  pnl: string;
+  followerCount: number;
+  description: string;
+  portfolioPeriods: VaultPortfolioPeriod[];
+  isClosed: boolean;
+  maxDistributable: string;
+  maxWithdrawable: string;
+  relationship?: {
+    type: 'leader' | 'follower';
+    equity: string;
+  };
+}
+
+export interface VaultFollower {
+  user: string;
+  equity: string;
+  pnl: string;
+  lockedUntil: number;
+  vaultEntryTime: number;
+}
+
+export interface VaultPortfolioPeriod {
+  period: string;
+  pnl: string;
+  apr: number;
+  vlm: string;
+}
+
+export interface VaultDetails {
+  summary: VaultSummary;
+  followers: VaultFollower[];
+  portfolio: Array<{
+    coin: string;
+    szi: string;
+    entryPx: string;
+    positionValue: string;
+    unrealizedPnl: string;
+  }>;
+}
+
+export interface UserVaultEquity {
+  vaultAddress: string;
+  equity: string;
+  pnl: string;
+  allTimePnl: string;
+  lockedUntil: number;
+}
+
+export interface VaultStatsData {
+  vaultAddress: string;
+  name: string;
+  leader: string;
+  tvl: number;
+  apr30d: number;
+  allTimePnl: number;
+  followerCount: number;
+  leaderCommission: number;
+  isClosed: boolean;
+}
+
 // Market types
 export type MarketType = 'perp' | 'spot';
 

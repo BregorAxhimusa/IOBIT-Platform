@@ -399,6 +399,55 @@ export async function signTwapCancel(
 }
 
 /**
+ * Create EIP-712 signature for vault deposit/withdraw
+ */
+export async function signVaultTransfer(
+  walletClient: WalletClient,
+  params: {
+    vaultAddress: string;
+    isDeposit: boolean;
+    usd: number;
+    nonce: number;
+    network?: Network;
+  }
+) {
+  const account = walletClient.account;
+  if (!account) {
+    throw new Error('No account connected');
+  }
+
+  const message = {
+    hyperliquidChain: params.network === 'mainnet' ? 'Mainnet' : 'Testnet',
+    vaultAddress: params.vaultAddress as `0x${string}`,
+    action: params.isDeposit ? 'deposit' : 'withdraw',
+    usd: BigInt(Math.floor(params.usd * 1e6)),
+    nonce: BigInt(params.nonce),
+  };
+
+  const signature = await walletClient.signTypedData({
+    account,
+    domain: getHyperliquidDomain(params.network),
+    types: {
+      VaultTransfer: [
+        { name: 'hyperliquidChain', type: 'string' },
+        { name: 'vaultAddress', type: 'address' },
+        { name: 'action', type: 'string' },
+        { name: 'usd', type: 'uint256' },
+        { name: 'nonce', type: 'uint256' },
+      ],
+    },
+    primaryType: 'VaultTransfer',
+    message,
+  });
+
+  const r = signature.slice(0, 66);
+  const s = '0x' + signature.slice(66, 130);
+  const v = parseInt(signature.slice(130, 132), 16);
+
+  return { r, s, v };
+}
+
+/**
  * Generate a nonce for transactions
  */
 export function generateNonce(): number {

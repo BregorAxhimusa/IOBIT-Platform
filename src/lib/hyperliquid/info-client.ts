@@ -1,5 +1,5 @@
 import { HYPERLIQUID_MAINNET_API, HYPERLIQUID_TESTNET_API, type Network } from '../utils/constants';
-import type { AllMids, L2Book, UserState, CandleSnapshot, SpotMeta, SpotClearinghouseState, SpotAssetCtx, UserFill, FundingPayment, LedgerUpdate } from './types';
+import type { AllMids, L2Book, UserState, CandleSnapshot, SpotMeta, SpotClearinghouseState, SpotAssetCtx, UserFill, FundingPayment, LedgerUpdate, VaultDetails, UserVaultEquity, VaultStatsData } from './types';
 
 /**
  * Hyperliquid Info Client (Read-Only)
@@ -348,6 +348,73 @@ export class HyperliquidInfoClient {
       return response || [];
     } catch (error) {
       console.error(`Error fetching ledger updates for ${address}:`, error);
+      return [];
+    }
+  }
+
+  // ===== VAULT ENDPOINTS =====
+
+  /**
+   * Merr vault summaries (mund të kthejë [] nëse nuk ka të dhëna)
+   */
+  async getVaultSummaries(): Promise<unknown[]> {
+    try {
+      const response = await this.post<unknown[]>('/info', {
+        type: 'vaultSummaries',
+      });
+      return response || [];
+    } catch (error) {
+      console.error('Error fetching vault summaries:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Merr detajet e një vault-i specifik
+   */
+  async getVaultDetails(vaultAddress: string, user?: string): Promise<VaultDetails | null> {
+    try {
+      const response = await this.post<VaultDetails>('/info', {
+        type: 'vaultDetails',
+        vaultAddress,
+        ...(user && { user }),
+      });
+      return response;
+    } catch (error) {
+      console.error(`Error fetching vault details for ${vaultAddress}:`, error);
+      return null;
+    }
+  }
+
+  /**
+   * Merr equity-t e userit në vault-e
+   */
+  async getUserVaultEquities(user: string): Promise<UserVaultEquity[]> {
+    try {
+      const response = await this.post<UserVaultEquity[]>('/info', {
+        type: 'userVaultEquities',
+        user,
+      });
+      return response || [];
+    } catch (error) {
+      console.error(`Error fetching user vault equities for ${user}:`, error);
+      return [];
+    }
+  }
+
+  /**
+   * Merr listën e vault-eve nga stats-data endpoint (fallback)
+   */
+  async getVaultsList(): Promise<VaultStatsData[]> {
+    try {
+      const networkStr = this.network === 'mainnet' ? 'Mainnet' : 'Testnet';
+      const response = await fetch(`https://stats-data.hyperliquid.xyz/${networkStr}/vaults`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    } catch (error) {
+      console.error('Error fetching vaults list from stats-data:', error);
       return [];
     }
   }

@@ -380,6 +380,41 @@ export class HyperliquidExchangeClient {
   }
 
   /**
+   * Vault deposit or withdraw (requires EIP-712 signature)
+   */
+  async vaultTransfer(params: {
+    vaultAddress: string;
+    isDeposit: boolean;
+    usd: number;
+    signature: {
+      r: string;
+      s: string;
+      v: number;
+    };
+    nonce: number;
+  }) {
+    try {
+      const response = await this.post('/exchange', {
+        action: {
+          type: 'vaultTransfer',
+          vaultAddress: params.vaultAddress,
+          isDeposit: params.isDeposit,
+          usd: params.usd,
+        },
+        nonce: params.nonce,
+        signature: params.signature,
+      });
+      return { success: true, data: response };
+    } catch (error) {
+      console.error('Error vault transfer:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      };
+    }
+  }
+
+  /**
    * Place multiple orders at once (for Scale orders)
    */
   async placeMultipleOrders(orders: Array<{

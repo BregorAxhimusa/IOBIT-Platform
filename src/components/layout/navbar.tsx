@@ -10,6 +10,7 @@ import { formatAddress } from '@/lib/utils/format';
 const navLinks = [
   { href: '/trade/BTC', label: 'Trade' },
   { href: '/portfolio', label: 'Portfolio' },
+  { href: '/vaults', label: 'Vaults' },
   { href: '/leaderboard', label: 'Leaderboard' },
 ];
 
