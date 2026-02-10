@@ -1,5 +1,5 @@
 import { HYPERLIQUID_MAINNET_API, HYPERLIQUID_TESTNET_API, type Network } from '../utils/constants';
-import type { AllMids, L2Book, UserState, CandleSnapshot, SpotMeta, SpotClearinghouseState, SpotAssetCtx, UserFill, FundingPayment, LedgerUpdate, VaultDetails, UserVaultEquity, VaultStatsData, SubAccount, ApiWallet } from './types';
+import type { AllMids, L2Book, UserState, CandleSnapshot, SpotMeta, SpotClearinghouseState, SpotAssetCtx, UserFill, FundingPayment, LedgerUpdate, VaultDetails, UserVaultEquity, VaultStatsData, SubAccount, ApiWallet, ReferralInfo } from './types';
 
 /**
  * Hyperliquid Info Client (Read-Only)
@@ -465,6 +465,21 @@ export class HyperliquidInfoClient {
       return response;
     } catch (error) {
       console.error(`Error fetching user role for ${user}:`, error);
+      return null;
+    }
+  }
+
+  // ===== REFERRAL ENDPOINTS =====
+
+  async getReferralInfo(user: string): Promise<ReferralInfo | null> {
+    try {
+      const response = await this.post<ReferralInfo>('/info', {
+        type: 'referral',
+        user,
+      });
+      return response;
+    } catch (error) {
+      console.error(`Error fetching referral info for ${user}:`, error);
       return null;
     }
   }

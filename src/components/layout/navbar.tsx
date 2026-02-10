@@ -13,6 +13,7 @@ const navLinks = [
   { href: '/portfolio', label: 'Portfolio' },
   { href: '/vaults', label: 'Vaults' },
   { href: '/leaderboard', label: 'Leaderboard' },
+  { href: '/referrals', label: 'Referrals' },
 ];
 
 // Wallet Button Component

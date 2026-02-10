@@ -586,6 +586,132 @@ export async function signApproveAgent(
 }
 
 /**
+ * Create EIP-712 signature for creating a referrer code
+ */
+export async function signCreateReferrerCode(
+  walletClient: WalletClient,
+  params: {
+    code: string;
+    nonce: number;
+    network?: Network;
+  }
+) {
+  const account = walletClient.account;
+  if (!account) {
+    throw new Error('No account connected');
+  }
+
+  const message = {
+    hyperliquidChain: params.network === 'mainnet' ? 'Mainnet' : 'Testnet',
+    code: params.code,
+    nonce: BigInt(params.nonce),
+  };
+
+  const signature = await walletClient.signTypedData({
+    account,
+    domain: getHyperliquidDomain(params.network),
+    types: {
+      CreateReferrerCode: [
+        { name: 'hyperliquidChain', type: 'string' },
+        { name: 'code', type: 'string' },
+        { name: 'nonce', type: 'uint256' },
+      ],
+    },
+    primaryType: 'CreateReferrerCode',
+    message,
+  });
+
+  const r = signature.slice(0, 66);
+  const s = '0x' + signature.slice(66, 130);
+  const v = parseInt(signature.slice(130, 132), 16);
+
+  return { r, s, v };
+}
+
+/**
+ * Create EIP-712 signature for setting a referrer
+ */
+export async function signSetReferrer(
+  walletClient: WalletClient,
+  params: {
+    code: string;
+    nonce: number;
+    network?: Network;
+  }
+) {
+  const account = walletClient.account;
+  if (!account) {
+    throw new Error('No account connected');
+  }
+
+  const message = {
+    hyperliquidChain: params.network === 'mainnet' ? 'Mainnet' : 'Testnet',
+    code: params.code,
+    nonce: BigInt(params.nonce),
+  };
+
+  const signature = await walletClient.signTypedData({
+    account,
+    domain: getHyperliquidDomain(params.network),
+    types: {
+      SetReferrer: [
+        { name: 'hyperliquidChain', type: 'string' },
+        { name: 'code', type: 'string' },
+        { name: 'nonce', type: 'uint256' },
+      ],
+    },
+    primaryType: 'SetReferrer',
+    message,
+  });
+
+  const r = signature.slice(0, 66);
+  const s = '0x' + signature.slice(66, 130);
+  const v = parseInt(signature.slice(130, 132), 16);
+
+  return { r, s, v };
+}
+
+/**
+ * Create EIP-712 signature for claiming referral rewards
+ */
+export async function signClaimReferralRewards(
+  walletClient: WalletClient,
+  params: {
+    nonce: number;
+    network?: Network;
+  }
+) {
+  const account = walletClient.account;
+  if (!account) {
+    throw new Error('No account connected');
+  }
+
+  const message = {
+    hyperliquidChain: params.network === 'mainnet' ? 'Mainnet' : 'Testnet',
+    nonce: BigInt(params.nonce),
+  };
+
+  const signature = await walletClient.signTypedData({
+    account,
+    domain: getHyperliquidDomain(params.network),
+    types: {
+      ClaimReferralRewards: [
+        { name: 'hyperliquidChain', type: 'string' },
+        { name: 'nonce', type: 'uint256' },
+      ],
+    },
+    primaryType: 'ClaimReferralRewards',
+    message,
+  });
+
+  const r = signature.slice(0, 66);
+  const s = '0x' + signature.slice(66, 130);
+  const v = parseInt(signature.slice(130, 132), 16);
+
+  return { r, s, v };
+}
+
+/**
  * Generate a nonce for transactions
  */
 export function generateNonce(): number {

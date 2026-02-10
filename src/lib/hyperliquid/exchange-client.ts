@@ -680,6 +680,78 @@ export class HyperliquidExchangeClient {
       };
     }
   }
+
+  // ===== REFERRAL METHODS =====
+
+  async createReferrerCode(params: {
+    code: string;
+    signature: { r: string; s: string; v: number };
+    nonce: number;
+  }) {
+    try {
+      const response = await this.post('/exchange', {
+        action: {
+          type: 'createReferrerCode',
+          code: params.code,
+        },
+        nonce: params.nonce,
+        signature: params.signature,
+      });
+      return { success: true, data: response };
+    } catch (error) {
+      console.error('Error creating referrer code:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      };
+    }
+  }
+
+  async setReferrer(params: {
+    code: string;
+    signature: { r: string; s: string; v: number };
+    nonce: number;
+  }) {
+    try {
+      const response = await this.post('/exchange', {
+        action: {
+          type: 'setReferrer',
+          code: params.code,
+        },
+        nonce: params.nonce,
+        signature: params.signature,
+      });
+      return { success: true, data: response };
+    } catch (error) {
+      console.error('Error setting referrer:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      };
+    }
+  }
+
+  async claimReferralRewards(params: {
+    signature: { r: string; s: string; v: number };
+    nonce: number;
+  }) {
+    try {
+      const response = await this.post('/exchange', {
+        action: {
+          type: 'claimReferralRewards',
+        },
+        nonce: params.nonce,
+        signature: params.signature,
+      });
+      return { success: true, data: response };
+    } catch (error) {
+      console.error('Error claiming referral rewards:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      };
+    }
+  }
 }
 
 // Export singleton instance

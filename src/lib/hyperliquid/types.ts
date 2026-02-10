@@ -325,6 +325,43 @@ export interface TradingContext {
   vaultAddress?: string;
 }
 
+// ===== REFERRAL TYPES =====
+
+export interface ReferralState {
+  user: string;
+  cumVlm: string;
+  cumRewardedFeesSinceReferred: string;
+  cumFeesRewardedToReferrer: string;
+  timeJoined: number;
+}
+
+export interface ReferrerData {
+  code: string;
+  referralStates: ReferralState[];
+}
+
+export interface ReferrerInfo {
+  stage: 'ready' | 'needsVolume';
+  data: ReferrerData | null;
+}
+
+export interface ReferralInfo {
+  referredBy: {
+    referrer: string;
+    code: string;
+  } | null;
+  cumVlm: string;
+  unclaimedRewards: string;
+  claimedRewards: string;
+  builderRewards: string;
+  referrerState: ReferrerInfo | null;
+  rewardHistory: {
+    time: number;
+    amount: string;
+    token: string;
+  }[];
+}
+
 // Market types
 export type MarketType = 'perp' | 'spot';
 
