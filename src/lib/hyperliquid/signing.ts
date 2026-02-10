@@ -261,6 +261,144 @@ export async function signTwapOrder(
 }
 
 /**
+ * Create EIP-712 signature for updating leverage
+ */
+export async function signUpdateLeverage(
+  walletClient: WalletClient,
+  params: {
+    coin: string;
+    isCross: boolean;
+    leverage: number;
+    nonce: number;
+    network?: Network;
+  }
+) {
+  const account = walletClient.account;
+  if (!account) {
+    throw new Error('No account connected');
+  }
+
+  const message = {
+    coin: params.coin,
+    is_cross: params.isCross,
+    leverage: BigInt(params.leverage),
+    nonce: BigInt(params.nonce),
+  };
+
+  const signature = await walletClient.signTypedData({
+    account,
+    domain: getHyperliquidDomain(params.network),
+    types: {
+      UpdateLeverage: [
+        { name: 'coin', type: 'string' },
+        { name: 'is_cross', type: 'bool' },
+        { name: 'leverage', type: 'uint256' },
+        { name: 'nonce', type: 'uint256' },
+      ],
+    },
+    primaryType: 'UpdateLeverage',
+    message,
+  });
+
+  const r = signature.slice(0, 66);
+  const s = '0x' + signature.slice(66, 130);
+  const v = parseInt(signature.slice(130, 132), 16);
+
+  return { r, s, v };
+}
+
+/**
+ * Create EIP-712 signature for updating isolated margin
+ */
+export async function signUpdateIsolatedMargin(
+  walletClient: WalletClient,
+  params: {
+    coin: string;
+    isBuy: boolean;
+    ntli: number; // notional value change
+    nonce: number;
+    network?: Network;
+  }
+) {
+  const account = walletClient.account;
+  if (!account) {
+    throw new Error('No account connected');
+  }
+
+  const message = {
+    coin: params.coin,
+    is_buy: params.isBuy,
+    ntli: BigInt(Math.floor(params.ntli * 1e8)),
+    nonce: BigInt(params.nonce),
+  };
+
+  const signature = await walletClient.signTypedData({
+    account,
+    domain: getHyperliquidDomain(params.network),
+    types: {
+      UpdateIsolatedMargin: [
+        { name: 'coin', type: 'string' },
+        { name: 'is_buy', type: 'bool' },
+        { name: 'ntli', type: 'int256' },
+        { name: 'nonce', type: 'uint256' },
+      ],
+    },
+    primaryType: 'UpdateIsolatedMargin',
+    message,
+  });
+
+  const r = signature.slice(0, 66);
+  const s = '0x' + signature.slice(66, 130);
+  const v = parseInt(signature.slice(130, 132), 16);
+
+  return { r, s, v };
+}
+
+/**
+ * Create EIP-712 signature for canceling a TWAP order
+ */
+export async function signTwapCancel(
+  walletClient: WalletClient,
+  params: {
+    assetIndex: number;
+    twapId: number;
+    nonce: number;
+    network?: Network;
+  }
+) {
+  const account = walletClient.account;
+  if (!account) {
+    throw new Error('No account connected');
+  }
+
+  const message = {
+    a: BigInt(params.assetIndex),
+    t: BigInt(params.twapId),
+    nonce: BigInt(params.nonce),
+  };
+
+  const signature = await walletClient.signTypedData({
+    account,
+    domain: getHyperliquidDomain(params.network),
+    types: {
+      TwapCancel: [
+        { name: 'a', type: 'uint256' },
+        { name: 't', type: 'uint256' },
+        { name: 'nonce', type: 'uint256' },
+      ],
+    },
+    primaryType: 'TwapCancel',
+    message,
+  });
+
+  const r = signature.slice(0, 66);
+  const s = '0x' + signature.slice(66, 130);
+  const v = parseInt(signature.slice(130, 132), 16);
+
+  return { r, s, v };
+}
+
+/**
  * Generate a nonce for transactions
  */
 export function generateNonce(): number {

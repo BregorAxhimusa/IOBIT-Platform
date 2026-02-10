@@ -35,6 +35,7 @@ export function OrderHistoryTable() {
             <th className="text-left py-3 px-4 text-xs font-medium text-gray-400">Type</th>
             <th className="text-left py-3 px-4 text-xs font-medium text-gray-400">Side</th>
             <th className="text-right py-3 px-4 text-xs font-medium text-gray-400">Price</th>
+            <th className="text-right py-3 px-4 text-xs font-medium text-gray-400">Trigger</th>
             <th className="text-right py-3 px-4 text-xs font-medium text-gray-400">Size</th>
             <th className="text-right py-3 px-4 text-xs font-medium text-gray-400">Filled</th>
             <th className="text-left py-3 px-4 text-xs font-medium text-gray-400">Status</th>
@@ -58,7 +59,13 @@ export function OrderHistoryTable() {
               >
                 <td className="py-3 px-4 text-gray-400 text-xs">{dateStr}</td>
                 <td className="py-3 px-4 font-medium text-white">{order.symbol}</td>
-                <td className="py-3 px-4 text-gray-300 capitalize">{order.type}</td>
+                <td className="py-3 px-4 text-gray-300 capitalize">
+                  {order.type === 'stop-market'
+                    ? 'Stop Market'
+                    : order.type === 'stop-limit'
+                    ? 'Stop Limit'
+                    : order.type}
+                </td>
                 <td className="py-3 px-4">
                   <span
                     className={cn(
@@ -73,6 +80,9 @@ export function OrderHistoryTable() {
                 </td>
                 <td className="py-3 px-4 text-right text-gray-300">
                   {order.type === 'market' ? 'Market' : `$${parseFloat(order.price).toLocaleString()}`}
+                </td>
+                <td className="py-3 px-4 text-right text-gray-300">
+                  {order.triggerPrice ? `$${parseFloat(order.triggerPrice).toLocaleString()}` : '-'}
                 </td>
                 <td className="py-3 px-4 text-right text-gray-300">{order.size}</td>
                 <td className="py-3 px-4 text-right text-gray-300">

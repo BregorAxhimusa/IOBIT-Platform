@@ -5,7 +5,7 @@ export interface Order {
   oid: number; // Hyperliquid order ID
   symbol: string;
   side: 'buy' | 'sell';
-  type: 'market' | 'limit';
+  type: 'market' | 'limit' | 'stop-market' | 'stop-limit';
   price: string;
   size: string;
   filledSize: string;
@@ -13,6 +13,7 @@ export interface Order {
   timestamp: number;
   reduceOnly?: boolean;
   postOnly?: boolean;
+  triggerPrice?: string; // For stop orders
 }
 
 interface OrdersState {

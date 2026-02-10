@@ -39,6 +39,8 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const markets = useMarketStore((state) => state.markets);
+  const marketType = useMarketStore((state) => state.marketType);
+  const isSpot = marketType === 'spot';
   const { isFavorite, toggleFavorite } = useFavoritesStore();
 
   useEffect(() => {
@@ -87,7 +89,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
         // For now, assume most markets are perps (this is true for Hyperliquid)
         filtered = filtered; // All markets are perpetuals on Hyperliquid
       } else if (activeFilter === 'Spot') {
-        // Filter for spot markets (if any exist)
+        // Spot filter handled below after search
         filtered = [];
       } else if (activeFilter === 'Crypto') {
         // Traditional crypto assets (BTC, ETH, major coins)
@@ -439,7 +441,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                     ●
                   </span>
                   <h1 className="text-base sm:text-lg md:text-xl font-bold text-white tracking-tight whitespace-nowrap">
-                    {symbol}/USDC
+                    {isSpot ? symbol : `${symbol}/USDC`}
                   </h1>
                 </div>
                 <svg
@@ -496,7 +498,8 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
               </span>
             </div>
 
-            {/* Funding Rate - Hidden on mobile and tablet */}
+            {/* Funding Rate - Perps only, hidden on mobile */}
+            {!isSpot && (
             <div className="hidden md:flex flex-col justify-center border-l border-gray-700/60 pl-4 lg:pl-4 py-2 flex-shrink-0">
               <span className="text-[11px] font-medium text-gray-500 uppercase tracking-wide mb-1">
                 Funding
@@ -505,8 +508,10 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                 {market ? `${(parseFloat(funding) * 100).toFixed(4)}%` : '--'}
               </span>
             </div>
+            )}
 
-            {/* Open Interest - Hidden on mobile and tablet */}
+            {/* Open Interest - Perps only, hidden on mobile */}
+            {!isSpot && (
             <div className="hidden lg:flex flex-col justify-center border-l border-r border-gray-700/60 pl-4 pr-4 py-2 flex-shrink-0">
               <span className="text-[11px] font-medium text-gray-500 uppercase tracking-wide mb-1">
                 Open Interest
@@ -515,6 +520,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                 ${market ? formatCompactNumber(openInterest) : '--'}
               </span>
             </div>
+            )}
           </div>
 
           {/* Right Side - Network Switcher */}

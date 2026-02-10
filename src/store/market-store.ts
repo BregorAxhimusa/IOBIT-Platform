@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import type { MarketType } from '@/lib/hyperliquid/types';
 
 export interface MarketData {
   symbol: string;
@@ -18,6 +19,9 @@ interface MarketState {
   // Current symbol being viewed
   currentSymbol: string;
 
+  // Market type (perp or spot)
+  marketType: MarketType;
+
   // All markets data (symbol -> data)
   markets: Map<string, MarketData>;
 
@@ -27,6 +31,7 @@ interface MarketState {
 
   // Actions
   setCurrentSymbol: (symbol: string) => void;
+  setMarketType: (type: MarketType) => void;
   updateMarket: (symbol: string, data: Partial<MarketData>) => void;
   updateMarkets: (updates: [string, Partial<MarketData>][]) => void;
   setMarkets: (markets: Map<string, MarketData>) => void;
@@ -46,6 +51,7 @@ interface MarketState {
  */
 export const useMarketStore = create<MarketState>((set, get) => ({
   currentSymbol: 'BTC',
+  marketType: 'perp' as MarketType,
   markets: new Map(),
   isLoading: false,
   error: null,
@@ -53,6 +59,8 @@ export const useMarketStore = create<MarketState>((set, get) => ({
   setCurrentSymbol: (symbol) => {
     set({ currentSymbol: symbol.toUpperCase() });
   },
+
+  setMarketType: (marketType) => set({ marketType }),
 
   updateMarket: (symbol, data) => {
     set((state) => {

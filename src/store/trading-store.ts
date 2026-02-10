@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-export type OrderType = 'market' | 'limit';
+export type OrderType = 'market' | 'limit' | 'stop-market' | 'stop-limit';
 export type OrderSide = 'buy' | 'sell';
 
 interface TradingState {
@@ -13,6 +13,10 @@ interface TradingState {
   reduceOnly: boolean;
   postOnly: boolean;
 
+  // Stop order specific
+  triggerPrice: string;
+  stopOrderType: 'stop-market' | 'stop-limit';
+
   // Actions
   setOrderType: (type: OrderType) => void;
   setOrderSide: (side: OrderSide) => void;
@@ -21,6 +25,8 @@ interface TradingState {
   setLeverage: (leverage: number) => void;
   setReduceOnly: (reduceOnly: boolean) => void;
   setPostOnly: (postOnly: boolean) => void;
+  setTriggerPrice: (price: string) => void;
+  setStopOrderType: (type: 'stop-market' | 'stop-limit') => void;
   resetForm: () => void;
 }
 
@@ -32,6 +38,8 @@ const initialState = {
   leverage: 1,
   reduceOnly: false,
   postOnly: false,
+  triggerPrice: '',
+  stopOrderType: 'stop-market' as 'stop-market' | 'stop-limit',
 };
 
 export const useTradingStore = create<TradingState>((set) => ({
@@ -44,6 +52,8 @@ export const useTradingStore = create<TradingState>((set) => ({
   setLeverage: (leverage) => set({ leverage }),
   setReduceOnly: (reduceOnly) => set({ reduceOnly }),
   setPostOnly: (postOnly) => set({ postOnly }),
+  setTriggerPrice: (triggerPrice) => set({ triggerPrice }),
+  setStopOrderType: (stopOrderType) => set({ stopOrderType }),
 
   resetForm: () => set(initialState),
 }));

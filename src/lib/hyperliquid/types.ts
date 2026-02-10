@@ -123,6 +123,51 @@ export interface WSMessage {
   data: unknown;
 }
 
+// ===== SPOT TYPES =====
+
+export interface SpotToken {
+  name: string;
+  szDecimals: number;
+  weiDecimals: number;
+  index: number;
+  tokenId: string;
+  isCanonical: boolean;
+}
+
+export interface SpotPair {
+  name: string;
+  tokens: [number, number]; // [baseTokenIndex, quoteTokenIndex]
+  index: number;
+  isCanonical: boolean;
+}
+
+export interface SpotMeta {
+  universe: SpotPair[];
+  tokens: SpotToken[];
+}
+
+export interface SpotBalance {
+  coin: string;
+  token: number;
+  hold: string;
+  total: string;
+}
+
+export interface SpotClearinghouseState {
+  balances: SpotBalance[];
+}
+
+export interface SpotAssetCtx {
+  dayNtlVlm: string;
+  markPx: string;
+  midPx: string;
+  prevDayPx: string;
+  circulatingSupply: string;
+}
+
+// Market types
+export type MarketType = 'perp' | 'spot';
+
 // Client config
 export interface HyperliquidConfig {
   network: Network;

@@ -3,37 +3,83 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useMarketStore } from '@/store/market-store';
+import { useSpotStore } from '@/store/spot-store';
+import { displayToSymbol } from '@/lib/utils/spot-helpers';
 import { cn } from '@/lib/utils/cn';
 
 interface MarketsListProps {
   currentSymbol?: string;
 }
 
+interface DisplayMarket {
+  symbol: string;
+  displayName: string;
+  suffix: string;
+  price: number;
+  change24h: number;
+  volume24h: number;
+  href: string;
+  type: 'perp' | 'spot';
+}
+
 export function MarketsList({ currentSymbol }: MarketsListProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeFilter, setActiveFilter] = useState<'All' | 'Perps' | 'Spot'>('All');
   const markets = useMarketStore((state) => state.markets);
+  const setMarketType = useMarketStore((state) => state.setMarketType);
+  const getSpotMarkets = useSpotStore((state) => state.getSpotMarkets);
+  const spotMarkets = getSpotMarkets();
 
-  // Convert Map to array and filter/sort
+  // Build unified market list
   const filteredMarkets = useMemo(() => {
-    let filtered = Array.from(markets.values());
+    const allMarkets: DisplayMarket[] = [];
+
+    // Add perp markets
+    if (activeFilter !== 'Spot') {
+      Array.from(markets.values()).forEach((market) => {
+        allMarkets.push({
+          symbol: market.symbol,
+          displayName: market.symbol,
+          suffix: '-USD',
+          price: parseFloat(market.price || '0'),
+          change24h: market.change24h || 0,
+          volume24h: parseFloat(market.volume24h || '0'),
+          href: `/trade/${market.symbol}`,
+          type: 'perp',
+        });
+      });
+    }
+
+    // Add spot markets
+    if (activeFilter !== 'Perps') {
+      spotMarkets.forEach((spot) => {
+        allMarkets.push({
+          symbol: spot.pairName,
+          displayName: spot.base,
+          suffix: `/${spot.quote}`,
+          price: parseFloat(spot.midPx || '0'),
+          change24h: spot.change24h,
+          volume24h: parseFloat(spot.dayNtlVlm || '0'),
+          href: `/trade/${displayToSymbol(spot.pairName)}`,
+          type: 'spot',
+        });
+      });
+    }
 
     // Search filter
+    let filtered = allMarkets;
     if (searchTerm) {
-      filtered = filtered.filter((market) =>
-        market.symbol.toLowerCase().includes(searchTerm.toLowerCase())
+      filtered = filtered.filter((m) =>
+        m.symbol.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        m.displayName.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
     // Sort by volume (high to low)
-    filtered.sort((a, b) => {
-      const volA = parseFloat(a.volume24h || '0');
-      const volB = parseFloat(b.volume24h || '0');
-      return volB - volA;
-    });
+    filtered.sort((a, b) => b.volume24h - a.volume24h);
 
     return filtered;
-  }, [markets, searchTerm]);
+  }, [markets, spotMarkets, searchTerm, activeFilter]);
 
   return (
     <div className="flex flex-col h-full bg-[#0a0a0a]">
@@ -82,15 +128,13 @@ export function MarketsList({ currentSymbol }: MarketsListProps) {
           </div>
         ) : (
           filteredMarkets.map((market) => {
-            const price = parseFloat(market.price || '0');
-            const change24h = market.change24h || 0;
-            const volume = parseFloat(market.volume24h || '0');
-            const isActive = market.symbol === currentSymbol;
+            const isActive = market.symbol === currentSymbol || market.displayName === currentSymbol;
 
             return (
               <Link
-                key={market.symbol}
-                href={`/trade/${market.symbol}`}
+                key={`${market.type}-${market.symbol}`}
+                href={market.href}
+                onClick={() => setMarketType(market.type)}
                 className={cn(
                   'grid grid-cols-12 gap-1 px-2 py-1 border-b border-gray-800/30 hover:bg-[#1a1a1a] transition-colors text-[10px]',
                   isActive && 'bg-[#1a1a1a] border-l-2 border-l-blue-500'
@@ -98,16 +142,16 @@ export function MarketsList({ currentSymbol }: MarketsListProps) {
               >
                 {/* Symbol */}
                 <div className="col-span-4 font-medium text-gray-200 truncate flex items-center">
-                  {market.symbol}
-                  <span className="text-gray-700 text-[9px] ml-0.5">-USD</span>
+                  {market.displayName}
+                  <span className="text-gray-700 text-[9px] ml-0.5">{market.suffix}</span>
                 </div>
 
                 {/* Price */}
                 <div className="col-span-3 text-right text-gray-400 font-mono text-[10px] flex items-center justify-end">
-                  {price > 0
-                    ? price.toLocaleString(undefined, {
-                        minimumFractionDigits: price < 1 ? 4 : price < 100 ? 3 : 2,
-                        maximumFractionDigits: price < 1 ? 4 : price < 100 ? 3 : 2,
+                  {market.price > 0
+                    ? market.price.toLocaleString(undefined, {
+                        minimumFractionDigits: market.price < 1 ? 4 : market.price < 100 ? 3 : 2,
+                        maximumFractionDigits: market.price < 1 ? 4 : market.price < 100 ? 3 : 2,
                       })
                     : '--'}
                 </div>
@@ -116,13 +160,13 @@ export function MarketsList({ currentSymbol }: MarketsListProps) {
                 <div
                   className={cn(
                     'col-span-2 text-right font-medium flex items-center justify-end',
-                    change24h >= 0 ? 'text-green-500' : 'text-red-500'
+                    market.change24h >= 0 ? 'text-green-500' : 'text-red-500'
                   )}
                 >
-                  {change24h !== 0 ? (
+                  {market.change24h !== 0 ? (
                     <>
-                      {change24h >= 0 ? '+' : ''}
-                      {change24h.toFixed(2)}%
+                      {market.change24h >= 0 ? '+' : ''}
+                      {market.change24h.toFixed(2)}%
                     </>
                   ) : (
                     <span className="text-gray-600">--</span>
@@ -131,14 +175,14 @@ export function MarketsList({ currentSymbol }: MarketsListProps) {
 
                 {/* Volume */}
                 <div className="col-span-3 text-right text-gray-500 text-[10px] flex items-center justify-end">
-                  {volume > 0
-                    ? volume >= 1000000000
-                      ? `${(volume / 1000000000).toFixed(2)}B`
-                      : volume >= 1000000
-                      ? `${(volume / 1000000).toFixed(1)}M`
-                      : volume >= 1000
-                      ? `${(volume / 1000).toFixed(0)}K`
-                      : volume.toFixed(0)
+                  {market.volume24h > 0
+                    ? market.volume24h >= 1000000000
+                      ? `${(market.volume24h / 1000000000).toFixed(2)}B`
+                      : market.volume24h >= 1000000
+                      ? `${(market.volume24h / 1000000).toFixed(1)}M`
+                      : market.volume24h >= 1000
+                      ? `${(market.volume24h / 1000).toFixed(0)}K`
+                      : market.volume24h.toFixed(0)
                     : '--'}
                 </div>
               </Link>

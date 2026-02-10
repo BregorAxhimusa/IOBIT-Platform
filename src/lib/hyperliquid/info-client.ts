@@ -1,5 +1,5 @@
 import { HYPERLIQUID_MAINNET_API, HYPERLIQUID_TESTNET_API, type Network } from '../utils/constants';
-import type { AllMids, L2Book, UserState, CandleSnapshot } from './types';
+import type { AllMids, L2Book, UserState, CandleSnapshot, SpotMeta, SpotClearinghouseState, SpotAssetCtx } from './types';
 
 /**
  * Hyperliquid Info Client (Read-Only)
@@ -217,6 +217,70 @@ export class HyperliquidInfoClient {
     } catch (error) {
       console.error(`Error fetching historical orders for ${address}:`, error);
       return [];
+    }
+  }
+
+  /**
+   * Merr TWAP slice fills per user (to track TWAP progress)
+   */
+  async getUserTwapSliceFills(address: string) {
+    try {
+      const response = await this.post('/info', {
+        type: 'userTwapSliceFills',
+        user: address,
+      });
+      return response;
+    } catch (error) {
+      console.error(`Error fetching TWAP slice fills for ${address}:`, error);
+      return [];
+    }
+  }
+
+  // ===== SPOT ENDPOINTS =====
+
+  /**
+   * Merr metadata për të gjitha spot asset-et
+   */
+  async getSpotMeta(): Promise<SpotMeta | null> {
+    try {
+      const response = await this.post<SpotMeta>('/info', {
+        type: 'spotMeta',
+      });
+      return response;
+    } catch (error) {
+      console.error('Error fetching spot meta:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Merr bilancin spot të userit (token balances)
+   */
+  async getSpotClearinghouseState(address: string): Promise<SpotClearinghouseState | null> {
+    try {
+      const response = await this.post<SpotClearinghouseState>('/info', {
+        type: 'spotClearinghouseState',
+        user: address,
+      });
+      return response;
+    } catch (error) {
+      console.error(`Error fetching spot clearinghouse state for ${address}:`, error);
+      return null;
+    }
+  }
+
+  /**
+   * Merr spot meta + kontekstin e çmimeve
+   */
+  async getSpotMetaAndAssetCtxs(): Promise<[SpotMeta, SpotAssetCtx[]] | null> {
+    try {
+      const response = await this.post<[SpotMeta, SpotAssetCtx[]]>('/info', {
+        type: 'spotMetaAndAssetCtxs',
+      });
+      return response;
+    } catch (error) {
+      console.error('Error fetching spot meta and asset ctxs:', error);
+      return null;
     }
   }
 

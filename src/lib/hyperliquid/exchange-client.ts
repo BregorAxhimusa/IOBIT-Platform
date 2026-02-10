@@ -319,9 +319,7 @@ export class HyperliquidExchangeClient {
     nonce: number;
   }) {
     try {
-      // Get asset ID from coin name (for TWAP we need the asset index)
-      // This is a simplified version - in production you'd look up the asset ID
-      const assetId = 0; // BTC is typically 0, ETH is 1, etc. - needs proper mapping
+      const assetId = this.getAssetIndex(params.coin);
 
       const response = await this.post('/exchange', {
         action: {
@@ -341,6 +339,39 @@ export class HyperliquidExchangeClient {
       return { success: true, data: response };
     } catch (error) {
       console.error('Error placing TWAP order:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      };
+    }
+  }
+
+  /**
+   * Cancel a TWAP order (requires EIP-712 signature)
+   */
+  async cancelTwapOrder(params: {
+    coin: string;
+    twapId: number;
+    signature: {
+      r: string;
+      s: string;
+      v: number;
+    };
+    nonce: number;
+  }) {
+    try {
+      const response = await this.post('/exchange', {
+        action: {
+          type: 'twapCancel',
+          a: this.getAssetIndex(params.coin),
+          t: params.twapId,
+        },
+        nonce: params.nonce,
+        signature: params.signature,
+      });
+      return { success: true, data: response };
+    } catch (error) {
+      console.error('Error canceling TWAP order:', error);
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error',
@@ -384,6 +415,76 @@ export class HyperliquidExchangeClient {
       return { success: true, data: response };
     } catch (error) {
       console.error('Error placing multiple orders:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      };
+    }
+  }
+
+  /**
+   * Update leverage for an asset (requires EIP-712 signature)
+   */
+  async updateLeverage(params: {
+    coin: string;
+    isCross: boolean;
+    leverage: number;
+    signature: {
+      r: string;
+      s: string;
+      v: number;
+    };
+    nonce: number;
+  }) {
+    try {
+      const response = await this.post('/exchange', {
+        action: {
+          type: 'updateLeverage',
+          asset: this.getAssetIndex(params.coin),
+          isCross: params.isCross,
+          leverage: params.leverage,
+        },
+        nonce: params.nonce,
+        signature: params.signature,
+      });
+      return { success: true, data: response };
+    } catch (error) {
+      console.error('Error updating leverage:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      };
+    }
+  }
+
+  /**
+   * Update isolated margin for a position (requires EIP-712 signature)
+   */
+  async updateIsolatedMargin(params: {
+    coin: string;
+    isBuy: boolean;
+    ntli: number;
+    signature: {
+      r: string;
+      s: string;
+      v: number;
+    };
+    nonce: number;
+  }) {
+    try {
+      const response = await this.post('/exchange', {
+        action: {
+          type: 'updateIsolatedMargin',
+          asset: this.getAssetIndex(params.coin),
+          isBuy: params.isBuy,
+          ntli: params.ntli,
+        },
+        nonce: params.nonce,
+        signature: params.signature,
+      });
+      return { success: true, data: response };
+    } catch (error) {
+      console.error('Error updating isolated margin:', error);
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error',

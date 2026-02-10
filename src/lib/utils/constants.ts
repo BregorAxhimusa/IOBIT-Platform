@@ -42,6 +42,10 @@ export const DEFAULT_TRADING_PAIRS = [
   'WIF',
 ];
 
+// Spot Trading
+export const SPOT_QUOTE_TOKEN = 'USDC';
+export const SPOT_ASSET_INDEX_OFFSET = 10000;
+
 // UI
 export const NAVBAR_HEIGHT = 64;
 export const MARKET_INFO_HEIGHT = 48;

@@ -10,11 +10,15 @@ import { PositionsTable } from '@/components/trading/positions/positions-table';
 import { OpenOrdersTable } from '@/components/trading/orders/open-orders-table';
 import { OrderHistoryTable } from '@/components/trading/orders/order-history-table';
 import { TradeHistoryTable } from '@/components/trading/trade-history/trade-history-table';
+import { SpotBalancesTable } from '@/components/trading/spot/spot-balances-table';
 import { useMarketStore } from '@/store/market-store';
+import { useSpotStore } from '@/store/spot-store';
 import { useMarketData } from '@/hooks/use-market-data';
+import { useSpotMeta } from '@/hooks/use-spot-meta';
 import { useUserPositions } from '@/hooks/use-user-positions';
 import { useUserOrders } from '@/hooks/use-user-orders';
 import { useTradingStore } from '@/store/trading-store';
+import { isSpotSymbol, symbolToDisplay } from '@/lib/utils/spot-helpers';
 import { useEffect } from 'react';
 import { cn } from '@/lib/utils/cn';
 import { TradingErrorBoundary, ChartErrorBoundary, DataErrorBoundary } from '@/components/error-boundary';
@@ -25,7 +29,7 @@ interface TradingPageProps {
   }>;
 }
 
-type BottomTab = 'positions' | 'orders' | 'history' | 'trades';
+type BottomTab = 'positions' | 'orders' | 'history' | 'trades' | 'balances';
 type RightSidebarTab = 'orderbook' | 'trades';
 
 export default function TradingPage({ params }: TradingPageProps) {
@@ -34,18 +38,45 @@ export default function TradingPage({ params }: TradingPageProps) {
   const [activeTab, setActiveTab] = useState<BottomTab>('positions');
   const [rightTab, setRightTab] = useState<RightSidebarTab>('orderbook');
 
-  const { setCurrentSymbol, getMarket } = useMarketStore();
+  const { setCurrentSymbol, setMarketType, getMarket, marketType } = useMarketStore();
   const { setPrice } = useTradingStore();
+  const spotDetected = isSpotSymbol(symbolUpper);
+  const isSpot = marketType === 'spot';
+  const displaySymbol = spotDetected ? symbolToDisplay(symbolUpper) : symbolUpper;
+
   useMarketData(); // Initialize market data
+  useSpotMeta(); // Initialize spot meta data
   useUserPositions(); // Fetch user positions
   useUserOrders(); // Fetch user orders
 
+  // Detect market type from URL and set it
   useEffect(() => {
-    setCurrentSymbol(symbolUpper);
-  }, [symbolUpper, setCurrentSymbol]);
+    if (spotDetected) {
+      setMarketType('spot');
+      setCurrentSymbol(displaySymbol);
+    } else {
+      setMarketType('perp');
+      setCurrentSymbol(symbolUpper);
+    }
+  }, [symbolUpper, spotDetected, displaySymbol, setCurrentSymbol, setMarketType]);
 
-  const market = getMarket(symbolUpper);
-  const currentPrice = market ? parseFloat(market.price) : undefined;
+  // Get price - for spot, try spot store first
+  const spotAssetCtxs = useSpotStore((state) => state.spotAssetCtxs);
+  const spotMeta = useSpotStore((state) => state.spotMeta);
+
+  const getPrice = (): number | undefined => {
+    if (isSpot && spotMeta) {
+      const pairIdx = spotMeta.universe.findIndex((p) => p.name === displaySymbol);
+      if (pairIdx >= 0 && spotAssetCtxs[pairIdx]) {
+        const ctx = spotAssetCtxs[pairIdx];
+        return parseFloat(ctx.midPx) || parseFloat(ctx.markPx) || undefined;
+      }
+    }
+    const market = getMarket(isSpot ? displaySymbol : symbolUpper);
+    return market ? parseFloat(market.price) : undefined;
+  };
+
+  const currentPrice = getPrice();
 
   // Handle price click from order book
   const handlePriceClick = (price: string) => {
@@ -55,7 +86,7 @@ export default function TradingPage({ params }: TradingPageProps) {
   return (
     <div className="bg-black min-h-screen">
       {/* Market Info Bar */}
-      <MarketInfoBar key={symbolUpper} symbol={symbolUpper} />
+      <MarketInfoBar key={symbolUpper} symbol={isSpot ? displaySymbol : symbolUpper} />
 
       {/* Main Trading Layout */}
       <div className="flex flex-col lg:flex-row h-auto lg:h-[calc(100vh-128px)] relative">
@@ -199,6 +230,19 @@ export default function TradingPage({ params }: TradingPageProps) {
               >
                 Trade History
               </button>
+              {isSpot && (
+                <button
+                  onClick={() => setActiveTab('balances')}
+                  className={cn(
+                    'px-3 py-2 lg:py-1.5 text-xs sm:text-sm font-medium whitespace-nowrap lg:rounded-t transition-colors',
+                    activeTab === 'balances'
+                      ? 'bg-[#1a2028] text-white border-b-2 border-[#14b8a6] lg:border-b-0'
+                      : 'text-gray-400 hover:text-white hover:bg-[#1a2028]/50'
+                  )}
+                >
+                  Balances
+                </button>
+              )}
             </div>
 
             {/* Tab Content - Horizontal Scroll */}
@@ -208,6 +252,7 @@ export default function TradingPage({ params }: TradingPageProps) {
                 {activeTab === 'orders' && <OpenOrdersTable />}
                 {activeTab === 'history' && <OrderHistoryTable />}
                 {activeTab === 'trades' && <TradeHistoryTable />}
+                {activeTab === 'balances' && <SpotBalancesTable />}
               </DataErrorBoundary>
             </div>
           </div>
@@ -216,7 +261,7 @@ export default function TradingPage({ params }: TradingPageProps) {
         {/* Right Sidebar - Trading Panel */}
         <div className="w-full lg:w-96 border-t lg:border-t-0 lg:border-l border-gray-800 p-2 lg:p-1 flex-shrink-0">
           <TradingErrorBoundary>
-            <TradingPanel key={symbolUpper} symbol={symbolUpper} currentPrice={currentPrice} />
+            <TradingPanel key={symbolUpper} symbol={isSpot ? displaySymbol : symbolUpper} currentPrice={currentPrice} />
           </TradingErrorBoundary>
         </div>
       </div>
