@@ -78,13 +78,13 @@ export default function PortfolioPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-black page-enter">
       <div className="container mx-auto px-4 py-6">
         {/* Header */}
         <h1 className="text-2xl font-bold text-white mb-6">Portfolio</h1>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6 stagger-children" aria-live="polite">
           {/* Account Value */}
           <div className="bg-[#0f1419] border border-gray-800 rounded-lg p-4">
             <div className="text-xs text-gray-400 mb-1">Account Value</div>

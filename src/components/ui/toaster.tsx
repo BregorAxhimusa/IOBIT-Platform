@@ -6,12 +6,14 @@ export function Toaster() {
   return (
     <HotToaster
       position="bottom-right"
+      containerStyle={{ bottom: 20, right: 20 }}
+      gutter={8}
       toastOptions={{
         duration: 4000,
         style: {
-          background: '#1F2937',
+          background: '#111118',
           color: '#fff',
-          border: '1px solid #374151',
+          border: '1px solid #2a2a3a',
           borderRadius: '8px',
           fontSize: '14px',
           fontWeight: '500',
@@ -20,9 +22,10 @@ export function Toaster() {
         },
         success: {
           style: {
-            background: '#10B981',
+            background: '#111118',
             color: '#fff',
-            border: '1px solid #059669',
+            border: '1px solid #2a2a3a',
+            borderLeft: '3px solid #10B981',
           },
           iconTheme: {
             primary: '#fff',
@@ -31,9 +34,10 @@ export function Toaster() {
         },
         error: {
           style: {
-            background: '#EF4444',
+            background: '#111118',
             color: '#fff',
-            border: '1px solid #DC2626',
+            border: '1px solid #2a2a3a',
+            borderLeft: '3px solid #EF4444',
           },
           iconTheme: {
             primary: '#fff',
@@ -42,9 +46,10 @@ export function Toaster() {
         },
         loading: {
           style: {
-            background: '#3B82F6',
+            background: '#111118',
             color: '#fff',
-            border: '1px solid #2563EB',
+            border: '1px solid #2a2a3a',
+            borderLeft: '3px solid #3B82F6',
           },
           iconTheme: {
             primary: '#fff',

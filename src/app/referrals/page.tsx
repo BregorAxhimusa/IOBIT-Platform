@@ -31,7 +31,7 @@ export default function ReferralsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0b0e11] text-white">
+    <div className="min-h-screen bg-[#0b0e11] text-white page-enter">
       <div className="max-w-5xl mx-auto px-4 py-6">
         {/* Header */}
         <div className="mb-6">

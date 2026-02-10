@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils/cn';
 export function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn('animate-pulse rounded-md bg-gray-800/50', className)}
+      className={cn('animate-shimmer rounded-md bg-gradient-to-r from-gray-800/50 via-gray-700/30 to-gray-800/50 bg-[length:200%_100%]', className)}
       {...props}
     />
   );
