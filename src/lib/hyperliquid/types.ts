@@ -165,6 +165,72 @@ export interface SpotAssetCtx {
   circulatingSupply: string;
 }
 
+// ===== PORTFOLIO TYPES =====
+
+export interface UserFill {
+  coin: string;
+  px: string;
+  sz: string;
+  side: 'B' | 'A';
+  time: number;
+  startPosition: string;
+  dir: string;
+  closedPnl: string;
+  hash: string;
+  oid: number;
+  crossed: boolean;
+  fee: string;
+  feeToken: string;
+  tid: number;
+  builderFee?: string;
+}
+
+export interface FundingPayment {
+  time: number;
+  coin: string;
+  usdc: string;
+  szi: string;
+  fundingRate: string;
+}
+
+export interface LedgerUpdate {
+  time: number;
+  hash: string;
+  delta: {
+    type: string;
+    usdc: string;
+  };
+}
+
+export interface PnLData {
+  date: string;
+  realizedPnl: number;
+  fundingPnl: number;
+  totalPnl: number;
+  cumulativePnl: number;
+  trades: number;
+  volume: number;
+  fees: number;
+}
+
+export interface PerformanceStats {
+  totalTrades: number;
+  winningTrades: number;
+  losingTrades: number;
+  winRate: number;
+  avgWin: number;
+  avgLoss: number;
+  largestWin: number;
+  largestLoss: number;
+  profitFactor: number;
+  totalRealizedPnl: number;
+  totalFunding: number;
+  totalFees: number;
+  netPnl: number;
+  totalVolume: number;
+  avgTradeSize: number;
+}
+
 // Market types
 export type MarketType = 'perp' | 'spot';
 

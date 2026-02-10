@@ -1,5 +1,5 @@
 import { HYPERLIQUID_MAINNET_API, HYPERLIQUID_TESTNET_API, type Network } from '../utils/constants';
-import type { AllMids, L2Book, UserState, CandleSnapshot, SpotMeta, SpotClearinghouseState, SpotAssetCtx } from './types';
+import type { AllMids, L2Book, UserState, CandleSnapshot, SpotMeta, SpotClearinghouseState, SpotAssetCtx, UserFill, FundingPayment, LedgerUpdate } from './types';
 
 /**
  * Hyperliquid Info Client (Read-Only)
@@ -281,6 +281,74 @@ export class HyperliquidInfoClient {
     } catch (error) {
       console.error('Error fetching spot meta and asset ctxs:', error);
       return null;
+    }
+  }
+
+  // ===== PORTFOLIO ENDPOINTS =====
+
+  /**
+   * Merr user fills me time range (max 500 per request, paginate with startTime)
+   */
+  async getUserFillsByTime(
+    address: string,
+    startTime: number,
+    endTime?: number
+  ): Promise<UserFill[]> {
+    try {
+      const response = await this.post<UserFill[]>('/info', {
+        type: 'userFillsByTime',
+        user: address,
+        startTime,
+        ...(endTime && { endTime }),
+      });
+      return response || [];
+    } catch (error) {
+      console.error(`Error fetching user fills by time for ${address}:`, error);
+      return [];
+    }
+  }
+
+  /**
+   * Merr funding payments për user (max 500 per request)
+   */
+  async getUserFunding(
+    address: string,
+    startTime: number,
+    endTime?: number
+  ): Promise<FundingPayment[]> {
+    try {
+      const response = await this.post<FundingPayment[]>('/info', {
+        type: 'userFunding',
+        user: address,
+        startTime,
+        ...(endTime && { endTime }),
+      });
+      return response || [];
+    } catch (error) {
+      console.error(`Error fetching user funding for ${address}:`, error);
+      return [];
+    }
+  }
+
+  /**
+   * Merr non-funding ledger updates (deposits, withdrawals, transfers)
+   */
+  async getUserNonFundingLedgerUpdates(
+    address: string,
+    startTime: number,
+    endTime?: number
+  ): Promise<LedgerUpdate[]> {
+    try {
+      const response = await this.post<LedgerUpdate[]>('/info', {
+        type: 'userNonFundingLedgerUpdates',
+        user: address,
+        startTime,
+        ...(endTime && { endTime }),
+      });
+      return response || [];
+    } catch (error) {
+      console.error(`Error fetching ledger updates for ${address}:`, error);
+      return [];
     }
   }
 
