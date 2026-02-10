@@ -3,6 +3,7 @@ import { useWalletClient } from 'wagmi';
 import { getExchangeClient } from '@/lib/hyperliquid/exchange-client';
 import { signPlaceOrder, generateNonce } from '@/lib/hyperliquid/signing';
 import { useNetworkStore } from '@/store/network-store';
+import { useTradingContext } from '@/hooks/use-trading-context';
 import toast from 'react-hot-toast';
 
 interface SetTPSLParams {
@@ -17,6 +18,7 @@ export function useSetTPSL() {
   const { data: walletClient } = useWalletClient();
   const network = useNetworkStore((state) => state.network);
   const queryClient = useQueryClient();
+  const { vaultAddress } = useTradingContext();
 
   return useMutation({
     mutationFn: async ({
@@ -75,6 +77,7 @@ export function useSetTPSL() {
           reduce_only: true,
           signature: signatureTp,
           nonce: nonceTp,
+          vaultAddress,
         });
 
         if (!tpResult.success) {
@@ -117,6 +120,7 @@ export function useSetTPSL() {
           reduce_only: true,
           signature: signatureSl,
           nonce: nonceSl,
+          vaultAddress,
         });
 
         if (!slResult.success) {

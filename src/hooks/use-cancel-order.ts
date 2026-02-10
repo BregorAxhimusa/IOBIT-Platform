@@ -6,6 +6,7 @@ import { useNetworkStore } from '@/store/network-store';
 import { useOrdersStore } from '@/store/orders-store';
 import { getExchangeClient } from '@/lib/hyperliquid/exchange-client';
 import { signCancelOrder, generateNonce } from '@/lib/hyperliquid/signing';
+import { useTradingContext } from '@/hooks/use-trading-context';
 import toast from 'react-hot-toast';
 
 /**
@@ -16,6 +17,7 @@ export function useCancelOrder() {
   const { data: walletClient } = useWalletClient();
   const network = useNetworkStore((state) => state.network);
   const removeOrder = useOrdersStore((state) => state.removeOrder);
+  const { vaultAddress } = useTradingContext();
   const [isCanceling, setIsCanceling] = useState(false);
   const [cancelingOrderId, setCancelingOrderId] = useState<string | null>(null);
 
@@ -55,6 +57,7 @@ export function useCancelOrder() {
         oid,
         signature,
         nonce,
+        vaultAddress,
       });
 
       if (result.success) {

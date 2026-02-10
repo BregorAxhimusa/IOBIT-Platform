@@ -7,6 +7,7 @@ import { getExchangeClient } from '@/lib/hyperliquid/exchange-client';
 import { signPlaceOrder, generateNonce } from '@/lib/hyperliquid/signing';
 import { useSpotStore } from '@/store/spot-store';
 import { getSpotCoinName } from '@/lib/utils/spot-helpers';
+import { useTradingContext } from '@/hooks/use-trading-context';
 import toast from 'react-hot-toast';
 
 export interface PlaceSpotOrderParams {
@@ -28,6 +29,7 @@ export function usePlaceSpotOrder() {
   const { data: walletClient } = useWalletClient();
   const network = useNetworkStore((state) => state.network);
   const spotMeta = useSpotStore((state) => state.spotMeta);
+  const { vaultAddress } = useTradingContext();
   const [isPlacing, setIsPlacing] = useState(false);
 
   const placeSpotOrder = async (params: PlaceSpotOrderParams) => {
@@ -110,6 +112,7 @@ export function usePlaceSpotOrder() {
         reduce_only: false,
         signature,
         nonce,
+        vaultAddress,
       });
 
       if (result.success) {

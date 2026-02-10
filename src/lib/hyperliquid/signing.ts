@@ -448,6 +448,144 @@ export async function signVaultTransfer(
 }
 
 /**
+ * Create EIP-712 signature for creating a sub-account
+ */
+export async function signCreateSubAccount(
+  walletClient: WalletClient,
+  params: {
+    name: string;
+    nonce: number;
+    network?: Network;
+  }
+) {
+  const account = walletClient.account;
+  if (!account) {
+    throw new Error('No account connected');
+  }
+
+  const message = {
+    hyperliquidChain: params.network === 'mainnet' ? 'Mainnet' : 'Testnet',
+    name: params.name,
+    nonce: BigInt(params.nonce),
+  };
+
+  const signature = await walletClient.signTypedData({
+    account,
+    domain: getHyperliquidDomain(params.network),
+    types: {
+      CreateSubAccount: [
+        { name: 'hyperliquidChain', type: 'string' },
+        { name: 'name', type: 'string' },
+        { name: 'nonce', type: 'uint256' },
+      ],
+    },
+    primaryType: 'CreateSubAccount',
+    message,
+  });
+
+  const r = signature.slice(0, 66);
+  const s = '0x' + signature.slice(66, 130);
+  const v = parseInt(signature.slice(130, 132), 16);
+
+  return { r, s, v };
+}
+
+/**
+ * Create EIP-712 signature for sub-account transfer
+ */
+export async function signSubAccountTransfer(
+  walletClient: WalletClient,
+  params: {
+    subAccountUser: string;
+    isDeposit: boolean;
+    usd: number;
+    nonce: number;
+    network?: Network;
+  }
+) {
+  const account = walletClient.account;
+  if (!account) {
+    throw new Error('No account connected');
+  }
+
+  const message = {
+    hyperliquidChain: params.network === 'mainnet' ? 'Mainnet' : 'Testnet',
+    subAccountUser: params.subAccountUser as `0x${string}`,
+    isDeposit: params.isDeposit,
+    usd: BigInt(Math.floor(params.usd * 1e6)),
+    nonce: BigInt(params.nonce),
+  };
+
+  const signature = await walletClient.signTypedData({
+    account,
+    domain: getHyperliquidDomain(params.network),
+    types: {
+      SubAccountTransfer: [
+        { name: 'hyperliquidChain', type: 'string' },
+        { name: 'subAccountUser', type: 'address' },
+        { name: 'isDeposit', type: 'bool' },
+        { name: 'usd', type: 'uint256' },
+        { name: 'nonce', type: 'uint256' },
+      ],
+    },
+    primaryType: 'SubAccountTransfer',
+    message,
+  });
+
+  const r = signature.slice(0, 66);
+  const s = '0x' + signature.slice(66, 130);
+  const v = parseInt(signature.slice(130, 132), 16);
+
+  return { r, s, v };
+}
+
+/**
+ * Create EIP-712 signature for approving an API agent
+ */
+export async function signApproveAgent(
+  walletClient: WalletClient,
+  params: {
+    agentAddress: string;
+    agentName: string | null;
+    nonce: number;
+    network?: Network;
+  }
+) {
+  const account = walletClient.account;
+  if (!account) {
+    throw new Error('No account connected');
+  }
+
+  const message = {
+    hyperliquidChain: params.network === 'mainnet' ? 'Mainnet' : 'Testnet',
+    agentAddress: params.agentAddress as `0x${string}`,
+    agentName: params.agentName || '',
+    nonce: BigInt(params.nonce),
+  };
+
+  const signature = await walletClient.signTypedData({
+    account,
+    domain: getHyperliquidDomain(params.network),
+    types: {
+      ApproveAgent: [
+        { name: 'hyperliquidChain', type: 'string' },
+        { name: 'agentAddress', type: 'address' },
+        { name: 'agentName', type: 'string' },
+        { name: 'nonce', type: 'uint256' },
+      ],
+    },
+    primaryType: 'ApproveAgent',
+    message,
+  });
+
+  const r = signature.slice(0, 66);
+  const s = '0x' + signature.slice(66, 130);
+  const v = parseInt(signature.slice(130, 132), 16);
+
+  return { r, s, v };
+}
+
+/**
  * Generate a nonce for transactions
  */
 export function generateNonce(): number {

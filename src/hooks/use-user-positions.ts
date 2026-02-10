@@ -6,6 +6,7 @@ import { useAccount } from 'wagmi';
 import { getInfoClient } from '@/lib/hyperliquid/info-client';
 import { useNetworkStore } from '@/store/network-store';
 import { usePositionsStore } from '@/store/positions-store';
+import { useTradingContext } from '@/hooks/use-trading-context';
 
 /**
  * Hook to fetch user positions from Hyperliquid
@@ -14,17 +15,20 @@ export function useUserPositions() {
   const { address, isConnected } = useAccount();
   const network = useNetworkStore((state) => state.network);
   const { setPositions } = usePositionsStore();
+  const { fetchAddress } = useTradingContext();
+
+  const activeAddress = fetchAddress || address;
 
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ['user-positions', address, network],
+    queryKey: ['user-positions', activeAddress, network],
     queryFn: async () => {
-      if (!address) return null;
+      if (!activeAddress) return null;
 
       const client = getInfoClient(network);
-      const userState = await client.getUserState(address);
+      const userState = await client.getUserState(activeAddress);
       return userState;
     },
-    enabled: isConnected && !!address,
+    enabled: isConnected && !!activeAddress,
     refetchInterval: 5000, // Refetch every 5 seconds
     staleTime: 2000,
   });

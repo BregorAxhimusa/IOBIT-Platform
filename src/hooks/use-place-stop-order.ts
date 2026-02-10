@@ -3,6 +3,7 @@ import { useWalletClient } from 'wagmi';
 import { getExchangeClient } from '@/lib/hyperliquid/exchange-client';
 import { signPlaceOrder, generateNonce } from '@/lib/hyperliquid/signing';
 import { useNetworkStore } from '@/store/network-store';
+import { useTradingContext } from '@/hooks/use-trading-context';
 import toast from 'react-hot-toast';
 
 interface PlaceStopOrderParams {
@@ -20,6 +21,7 @@ export function usePlaceStopOrder() {
   const { data: walletClient } = useWalletClient();
   const network = useNetworkStore((state) => state.network);
   const queryClient = useQueryClient();
+  const { vaultAddress } = useTradingContext();
 
   return useMutation({
     mutationFn: async ({
@@ -89,6 +91,7 @@ export function usePlaceStopOrder() {
         reduce_only: reduceOnly,
         signature,
         nonce,
+        vaultAddress,
       });
 
       if (!result.success) {

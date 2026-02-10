@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useAccount } from 'wagmi';
 import { getInfoClient } from '@/lib/hyperliquid/info-client';
 import { useNetworkStore } from '@/store/network-store';
+import { useTradingContext } from '@/hooks/use-trading-context';
 
 export interface AccountBalance {
   // Account Value
@@ -50,14 +51,17 @@ export interface AccountBalance {
 export function useAccountBalance() {
   const { address, isConnected } = useAccount();
   const network = useNetworkStore((state) => state.network);
+  const { fetchAddress } = useTradingContext();
+
+  const activeAddress = fetchAddress || address;
 
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ['account-balance', address, network],
+    queryKey: ['account-balance', activeAddress, network],
     queryFn: async () => {
-      if (!address) return null;
+      if (!activeAddress) return null;
 
       const client = getInfoClient(network);
-      const userState = await client.getUserState(address);
+      const userState = await client.getUserState(activeAddress);
 
       if (!userState) return null;
 
@@ -83,7 +87,7 @@ export function useAccountBalance() {
         assetPositions: userState.assetPositions || [],
       } as AccountBalance;
     },
-    enabled: isConnected && !!address,
+    enabled: isConnected && !!activeAddress,
     refetchInterval: 5000, // Refetch every 5 seconds
     staleTime: 1000,
   });

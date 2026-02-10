@@ -1,5 +1,5 @@
 import { HYPERLIQUID_MAINNET_API, HYPERLIQUID_TESTNET_API, type Network } from '../utils/constants';
-import type { AllMids, L2Book, UserState, CandleSnapshot, SpotMeta, SpotClearinghouseState, SpotAssetCtx, UserFill, FundingPayment, LedgerUpdate, VaultDetails, UserVaultEquity, VaultStatsData } from './types';
+import type { AllMids, L2Book, UserState, CandleSnapshot, SpotMeta, SpotClearinghouseState, SpotAssetCtx, UserFill, FundingPayment, LedgerUpdate, VaultDetails, UserVaultEquity, VaultStatsData, SubAccount, ApiWallet } from './types';
 
 /**
  * Hyperliquid Info Client (Read-Only)
@@ -416,6 +416,56 @@ export class HyperliquidInfoClient {
     } catch (error) {
       console.error('Error fetching vaults list from stats-data:', error);
       return [];
+    }
+  }
+
+  // ===== SUB-ACCOUNT & API WALLET ENDPOINTS =====
+
+  /**
+   * Merr sub-accounts për një user (master wallet)
+   */
+  async getSubAccounts(user: string): Promise<SubAccount[]> {
+    try {
+      const response = await this.post<SubAccount[]>('/info', {
+        type: 'subAccounts',
+        user,
+      });
+      return response || [];
+    } catch (error) {
+      console.error(`Error fetching sub-accounts for ${user}:`, error);
+      return [];
+    }
+  }
+
+  /**
+   * Merr extra agents (API wallets) për një user
+   */
+  async getExtraAgents(user: string): Promise<ApiWallet[]> {
+    try {
+      const response = await this.post<{ extraAgents: ApiWallet[] }>('/info', {
+        type: 'extraAgents',
+        user,
+      });
+      return response?.extraAgents || [];
+    } catch (error) {
+      console.error(`Error fetching extra agents for ${user}:`, error);
+      return [];
+    }
+  }
+
+  /**
+   * Merr rolin e një useri (master, subAccount, apiWallet)
+   */
+  async getUserRole(user: string): Promise<{ role: string; master?: string } | null> {
+    try {
+      const response = await this.post<{ role: string; master?: string }>('/info', {
+        type: 'userRole',
+        user,
+      });
+      return response;
+    } catch (error) {
+      console.error(`Error fetching user role for ${user}:`, error);
+      return null;
     }
   }
 

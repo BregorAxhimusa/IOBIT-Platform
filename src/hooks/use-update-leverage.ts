@@ -3,6 +3,7 @@ import { useWalletClient } from 'wagmi';
 import { getExchangeClient } from '@/lib/hyperliquid/exchange-client';
 import { signUpdateLeverage, generateNonce } from '@/lib/hyperliquid/signing';
 import { useNetworkStore } from '@/store/network-store';
+import { useTradingContext } from '@/hooks/use-trading-context';
 import toast from 'react-hot-toast';
 
 interface UpdateLeverageParams {
@@ -14,6 +15,7 @@ interface UpdateLeverageParams {
 export function useUpdateLeverage() {
   const { data: walletClient } = useWalletClient();
   const network = useNetworkStore((state) => state.network);
+  const { vaultAddress } = useTradingContext();
 
   return useMutation({
     mutationFn: async ({ symbol, leverage, isCross }: UpdateLeverageParams) => {
@@ -45,6 +47,7 @@ export function useUpdateLeverage() {
         leverage,
         signature,
         nonce,
+        vaultAddress,
       });
 
       if (!result.success) {

@@ -7,6 +7,7 @@ import { useNetworkStore } from '@/store/network-store';
 import { getExchangeClient } from '@/lib/hyperliquid/exchange-client';
 import { getInfoClient } from '@/lib/hyperliquid/info-client';
 import { signTwapOrder, signTwapCancel, generateNonce } from '@/lib/hyperliquid/signing';
+import { useTradingContext } from '@/hooks/use-trading-context';
 import toast from 'react-hot-toast';
 
 export interface TwapOrderParams {
@@ -44,6 +45,7 @@ export function useTwapOrder() {
   const { address, isConnected } = useAccount();
   const { data: walletClient } = useWalletClient();
   const network = useNetworkStore((state) => state.network);
+  const { vaultAddress } = useTradingContext();
   const [isPlacing, setIsPlacing] = useState(false);
   const [isCancelling, setIsCancelling] = useState(false);
   const [activeTwap, setActiveTwap] = useState<ActiveTwap | null>(null);
@@ -143,6 +145,7 @@ export function useTwapOrder() {
         reduce_only: params.reduceOnly || false,
         signature,
         nonce,
+        vaultAddress,
       });
 
       if (result.success) {
@@ -213,6 +216,7 @@ export function useTwapOrder() {
         twapId: activeTwap.twapId,
         signature,
         nonce,
+        vaultAddress,
       });
 
       if (result.success) {
@@ -227,7 +231,7 @@ export function useTwapOrder() {
     } finally {
       setIsCancelling(false);
     }
-  }, [walletClient, address, activeTwap, network]);
+  }, [walletClient, address, activeTwap, network, vaultAddress]);
 
   return {
     placeTwapOrder,

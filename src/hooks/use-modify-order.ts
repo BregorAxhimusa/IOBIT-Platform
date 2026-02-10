@@ -4,6 +4,7 @@ import { getExchangeClient } from '@/lib/hyperliquid/exchange-client';
 import { signPlaceOrder, generateNonce } from '@/lib/hyperliquid/signing';
 import { useNetworkStore } from '@/store/network-store';
 import { useOrdersStore } from '@/store/orders-store';
+import { useTradingContext } from '@/hooks/use-trading-context';
 import toast from 'react-hot-toast';
 
 interface ModifyOrderParams {
@@ -21,6 +22,7 @@ export function useModifyOrder() {
   const network = useNetworkStore((state) => state.network);
   const queryClient = useQueryClient();
   const updateOrder = useOrdersStore((state) => state.updateOrder);
+  const { vaultAddress } = useTradingContext();
 
   return useMutation({
     mutationFn: async ({
@@ -79,6 +81,7 @@ export function useModifyOrder() {
         reduce_only: reduceOnly,
         signature,
         nonce,
+        vaultAddress,
       });
 
       if (!result.success) {

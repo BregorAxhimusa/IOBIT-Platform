@@ -78,6 +78,7 @@ export class HyperliquidExchangeClient {
       v: number;
     };
     nonce: number;
+    vaultAddress?: string;
   }) {
     try {
       // Format order data with shortened field names as required by Hyperliquid API
@@ -90,7 +91,7 @@ export class HyperliquidExchangeClient {
         t: params.order_type,                // order_type
       };
 
-      const payload = {
+      const payload: Record<string, unknown> = {
         action: {
           type: 'order',
           orders: [orderData],
@@ -99,6 +100,10 @@ export class HyperliquidExchangeClient {
         nonce: params.nonce,
         signature: params.signature,
       };
+
+      if (params.vaultAddress) {
+        payload.vaultAddress = params.vaultAddress;
+      }
 
       const response = await this.post('/exchange', payload);
       return { success: true, data: response };
@@ -123,9 +128,10 @@ export class HyperliquidExchangeClient {
       v: number;
     };
     nonce: number;
+    vaultAddress?: string;
   }) {
     try {
-      const response = await this.post('/exchange', {
+      const payload: Record<string, unknown> = {
         action: {
           type: 'cancel',
           cancels: [
@@ -137,7 +143,13 @@ export class HyperliquidExchangeClient {
         },
         nonce: params.nonce,
         signature: params.signature,
-      });
+      };
+
+      if (params.vaultAddress) {
+        payload.vaultAddress = params.vaultAddress;
+      }
+
+      const response = await this.post('/exchange', payload);
       return { success: true, data: response };
     } catch (error) {
       console.error('Error canceling order:', error);
@@ -201,9 +213,10 @@ export class HyperliquidExchangeClient {
       v: number;
     };
     nonce: number;
+    vaultAddress?: string;
   }) {
     try {
-      const response = await this.post('/exchange', {
+      const payload: Record<string, unknown> = {
         action: {
           type: 'modify',
           oid: params.oid,
@@ -218,7 +231,13 @@ export class HyperliquidExchangeClient {
         },
         nonce: params.nonce,
         signature: params.signature,
-      });
+      };
+
+      if (params.vaultAddress) {
+        payload.vaultAddress = params.vaultAddress;
+      }
+
+      const response = await this.post('/exchange', payload);
       return { success: true, data: response };
     } catch (error) {
       console.error('Error modifying order:', error);
@@ -317,11 +336,12 @@ export class HyperliquidExchangeClient {
       v: number;
     };
     nonce: number;
+    vaultAddress?: string;
   }) {
     try {
       const assetId = this.getAssetIndex(params.coin);
 
-      const response = await this.post('/exchange', {
+      const payload: Record<string, unknown> = {
         action: {
           type: 'twapOrder',
           twap: {
@@ -335,7 +355,13 @@ export class HyperliquidExchangeClient {
         },
         nonce: params.nonce,
         signature: params.signature,
-      });
+      };
+
+      if (params.vaultAddress) {
+        payload.vaultAddress = params.vaultAddress;
+      }
+
+      const response = await this.post('/exchange', payload);
       return { success: true, data: response };
     } catch (error) {
       console.error('Error placing TWAP order:', error);
@@ -358,9 +384,10 @@ export class HyperliquidExchangeClient {
       v: number;
     };
     nonce: number;
+    vaultAddress?: string;
   }) {
     try {
-      const response = await this.post('/exchange', {
+      const payload: Record<string, unknown> = {
         action: {
           type: 'twapCancel',
           a: this.getAssetIndex(params.coin),
@@ -368,7 +395,13 @@ export class HyperliquidExchangeClient {
         },
         nonce: params.nonce,
         signature: params.signature,
-      });
+      };
+
+      if (params.vaultAddress) {
+        payload.vaultAddress = params.vaultAddress;
+      }
+
+      const response = await this.post('/exchange', payload);
       return { success: true, data: response };
     } catch (error) {
       console.error('Error canceling TWAP order:', error);
@@ -424,7 +457,7 @@ export class HyperliquidExchangeClient {
     limit_px: number;
     order_type: { limit?: { tif: string } };
     reduce_only: boolean;
-  }>, signature: { r: string; s: string; v: number }, nonce: number) {
+  }>, signature: { r: string; s: string; v: number }, nonce: number, vaultAddress?: string) {
     try {
       // Format each order with shortened field names as required by Hyperliquid API
       const formattedOrders = orders.map(order => ({
@@ -436,7 +469,7 @@ export class HyperliquidExchangeClient {
         t: order.order_type,                 // order_type
       }));
 
-      const payload = {
+      const payload: Record<string, unknown> = {
         action: {
           type: 'order',
           orders: formattedOrders,
@@ -445,6 +478,10 @@ export class HyperliquidExchangeClient {
         nonce: nonce,
         signature: signature,
       };
+
+      if (vaultAddress) {
+        payload.vaultAddress = vaultAddress;
+      }
 
       const response = await this.post('/exchange', payload);
       return { success: true, data: response };
@@ -470,9 +507,10 @@ export class HyperliquidExchangeClient {
       v: number;
     };
     nonce: number;
+    vaultAddress?: string;
   }) {
     try {
-      const response = await this.post('/exchange', {
+      const payload: Record<string, unknown> = {
         action: {
           type: 'updateLeverage',
           asset: this.getAssetIndex(params.coin),
@@ -481,7 +519,13 @@ export class HyperliquidExchangeClient {
         },
         nonce: params.nonce,
         signature: params.signature,
-      });
+      };
+
+      if (params.vaultAddress) {
+        payload.vaultAddress = params.vaultAddress;
+      }
+
+      const response = await this.post('/exchange', payload);
       return { success: true, data: response };
     } catch (error) {
       console.error('Error updating leverage:', error);
@@ -505,9 +549,10 @@ export class HyperliquidExchangeClient {
       v: number;
     };
     nonce: number;
+    vaultAddress?: string;
   }) {
     try {
-      const response = await this.post('/exchange', {
+      const payload: Record<string, unknown> = {
         action: {
           type: 'updateIsolatedMargin',
           asset: this.getAssetIndex(params.coin),
@@ -516,10 +561,119 @@ export class HyperliquidExchangeClient {
         },
         nonce: params.nonce,
         signature: params.signature,
-      });
+      };
+
+      if (params.vaultAddress) {
+        payload.vaultAddress = params.vaultAddress;
+      }
+
+      const response = await this.post('/exchange', payload);
       return { success: true, data: response };
     } catch (error) {
       console.error('Error updating isolated margin:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      };
+    }
+  }
+  // ===== SUB-ACCOUNT & API WALLET METHODS =====
+
+  /**
+   * Create a sub-account (requires EIP-712 signature)
+   */
+  async createSubAccount(params: {
+    name: string;
+    signature: {
+      r: string;
+      s: string;
+      v: number;
+    };
+    nonce: number;
+  }) {
+    try {
+      const response = await this.post('/exchange', {
+        action: {
+          type: 'createSubAccount',
+          name: params.name,
+        },
+        nonce: params.nonce,
+        signature: params.signature,
+      });
+      return { success: true, data: response };
+    } catch (error) {
+      console.error('Error creating sub-account:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      };
+    }
+  }
+
+  /**
+   * Transfer USDC between master and sub-account (requires EIP-712 signature)
+   */
+  async subAccountTransfer(params: {
+    subAccountUser: string;
+    isDeposit: boolean;
+    usd: number;
+    signature: {
+      r: string;
+      s: string;
+      v: number;
+    };
+    nonce: number;
+  }) {
+    try {
+      const response = await this.post('/exchange', {
+        action: {
+          type: 'subAccountTransfer',
+          subAccountUser: params.subAccountUser,
+          isDeposit: params.isDeposit,
+          usd: params.usd,
+        },
+        nonce: params.nonce,
+        signature: params.signature,
+      });
+      return { success: true, data: response };
+    } catch (error) {
+      console.error('Error sub-account transfer:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      };
+    }
+  }
+
+  /**
+   * Approve an API agent (wallet) for trading (requires EIP-712 signature)
+   */
+  async approveAgent(params: {
+    agentAddress: string;
+    agentName: string | null;
+    nonce: number;
+    signature: {
+      r: string;
+      s: string;
+      v: number;
+    };
+  }) {
+    try {
+      const response = await this.post('/exchange', {
+        action: {
+          type: 'approveAgent',
+          hyperliquidChain: this.network === 'mainnet' ? 'Mainnet' : 'Testnet',
+          signatureChainId: this.network === 'mainnet' ? '0xa4b1' : '0x66eee',
+          agentAddress: params.agentAddress,
+          agentName: params.agentName,
+          nonce: params.nonce,
+        },
+        nonce: params.nonce,
+        signature: params.signature,
+      });
+      return { success: true, data: response };
+    } catch (error) {
+      console.error('Error approving agent:', error);
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error',

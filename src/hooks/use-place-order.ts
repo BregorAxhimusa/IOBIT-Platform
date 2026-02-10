@@ -5,6 +5,7 @@ import { useAccount, useWalletClient } from 'wagmi';
 import { useNetworkStore } from '@/store/network-store';
 import { getExchangeClient } from '@/lib/hyperliquid/exchange-client';
 import { signPlaceOrder, generateNonce } from '@/lib/hyperliquid/signing';
+import { useTradingContext } from '@/hooks/use-trading-context';
 import toast from 'react-hot-toast';
 
 export interface PlaceOrderParams {
@@ -26,6 +27,7 @@ export function usePlaceOrder() {
   const { address, isConnected } = useAccount();
   const { data: walletClient } = useWalletClient();
   const network = useNetworkStore((state) => state.network);
+  const { vaultAddress } = useTradingContext();
   const [isPlacing, setIsPlacing] = useState(false);
 
   const placeOrder = async (params: PlaceOrderParams) => {
@@ -102,6 +104,7 @@ export function usePlaceOrder() {
         reduce_only: params.reduceOnly || false,
         signature,
         nonce,
+        vaultAddress,
       });
 
       if (result.success) {

@@ -5,6 +5,7 @@ import { useAccount, useWalletClient } from 'wagmi';
 import { useNetworkStore } from '@/store/network-store';
 import { getExchangeClient } from '@/lib/hyperliquid/exchange-client';
 import { signPlaceOrder, generateNonce } from '@/lib/hyperliquid/signing';
+import { useTradingContext } from '@/hooks/use-trading-context';
 import toast from 'react-hot-toast';
 
 /**
@@ -15,6 +16,7 @@ export function useClosePosition() {
   const { address, isConnected } = useAccount();
   const { data: walletClient } = useWalletClient();
   const network = useNetworkStore((state) => state.network);
+  const { vaultAddress } = useTradingContext();
   const [isClosing, setIsClosing] = useState(false);
   const [closingSymbol, setClosingSymbol] = useState<string | null>(null);
 
@@ -81,6 +83,7 @@ export function useClosePosition() {
         reduce_only: true,
         signature,
         nonce,
+        vaultAddress,
       });
 
       if (result.success) {

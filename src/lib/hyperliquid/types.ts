@@ -300,6 +300,31 @@ export interface VaultStatsData {
   isClosed: boolean;
 }
 
+// ===== SUB-ACCOUNT & API WALLET TYPES =====
+
+export interface SubAccount {
+  subAccountUser: string;
+  name: string;
+  master: string;
+  clearinghouseState: UserState | null;
+}
+
+export interface ApiWallet {
+  address: string;
+  name: string | null;
+  authorizedUntil: number;
+  allowedActions: string[];
+}
+
+export type UserRole = 'master' | 'subAccount' | 'apiWallet';
+
+export interface TradingContext {
+  type: 'master' | 'subaccount';
+  address: string;
+  label: string;
+  vaultAddress?: string;
+}
+
 // Market types
 export type MarketType = 'perp' | 'spot';
 

@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useAccount } from 'wagmi';
 import { getInfoClient } from '@/lib/hyperliquid/info-client';
 import { useNetworkStore } from '@/store/network-store';
+import { useTradingContext } from '@/hooks/use-trading-context';
 
 interface HyperliquidFill {
   coin: string;
@@ -38,14 +39,17 @@ interface TradeHistoryItem {
 export function useUserTradeHistory(limit: number = 50) {
   const { address, isConnected } = useAccount();
   const network = useNetworkStore((state) => state.network);
+  const { fetchAddress } = useTradingContext();
+
+  const activeAddress = fetchAddress || address;
 
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ['user-trade-history', address, network, limit],
+    queryKey: ['user-trade-history', activeAddress, network, limit],
     queryFn: async () => {
-      if (!address) return [];
+      if (!activeAddress) return [];
 
       const client = getInfoClient(network);
-      const fills = await client.getUserFills(address);
+      const fills = await client.getUserFills(activeAddress);
 
       // Transform Hyperliquid fills to TradeHistoryItem format
       if (Array.isArray(fills) && fills.length > 0) {
@@ -67,7 +71,7 @@ export function useUserTradeHistory(limit: number = 50) {
 
       return [] as TradeHistoryItem[];
     },
-    enabled: isConnected && !!address,
+    enabled: isConnected && !!activeAddress,
     refetchInterval: 10000, // Refetch every 10 seconds
     staleTime: 5000,
   });

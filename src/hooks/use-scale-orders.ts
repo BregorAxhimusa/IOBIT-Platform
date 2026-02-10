@@ -5,6 +5,7 @@ import { useAccount, useWalletClient } from 'wagmi';
 import { useNetworkStore } from '@/store/network-store';
 import { getExchangeClient } from '@/lib/hyperliquid/exchange-client';
 import { signPlaceOrder, generateNonce } from '@/lib/hyperliquid/signing';
+import { useTradingContext } from '@/hooks/use-trading-context';
 import toast from 'react-hot-toast';
 
 export interface ScaleOrderParams {
@@ -25,6 +26,7 @@ export function useScaleOrders() {
   const { address, isConnected } = useAccount();
   const { data: walletClient } = useWalletClient();
   const network = useNetworkStore((state) => state.network);
+  const { vaultAddress } = useTradingContext();
   const [isPlacing, setIsPlacing] = useState(false);
 
   const placeScaleOrders = async (params: ScaleOrderParams) => {
@@ -116,7 +118,7 @@ export function useScaleOrders() {
       }
 
       // Place all orders
-      const result = await exchangeClient.placeMultipleOrders(orders, signature, nonce);
+      const result = await exchangeClient.placeMultipleOrders(orders, signature, nonce, vaultAddress);
 
       if (result.success) {
         toast.success(`Placed ${orderCount} ${params.side.toUpperCase()} scale orders`);

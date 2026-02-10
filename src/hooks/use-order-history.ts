@@ -6,6 +6,7 @@ import { useAccount } from 'wagmi';
 import { getInfoClient } from '@/lib/hyperliquid/info-client';
 import { useNetworkStore } from '@/store/network-store';
 import { useOrdersStore } from '@/store/orders-store';
+import { useTradingContext } from '@/hooks/use-trading-context';
 
 interface HyperliquidHistoricalOrder {
   order: {
@@ -33,18 +34,21 @@ export function useOrderHistory(limit: number = 100) {
   const { address, isConnected } = useAccount();
   const network = useNetworkStore((state) => state.network);
   const { setOrderHistory } = useOrdersStore();
+  const { fetchAddress } = useTradingContext();
+
+  const activeAddress = fetchAddress || address;
 
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ['order-history', address, network, limit],
+    queryKey: ['order-history', activeAddress, network, limit],
     queryFn: async () => {
-      if (!address) return [];
+      if (!activeAddress) return [];
 
       const client = getInfoClient(network);
-      const historicalOrders = await client.getHistoricalOrders(address);
+      const historicalOrders = await client.getHistoricalOrders(activeAddress);
 
       return historicalOrders as HyperliquidHistoricalOrder[];
     },
-    enabled: isConnected && !!address,
+    enabled: isConnected && !!activeAddress,
     refetchInterval: 10000, // Refetch every 10 seconds
     staleTime: 5000,
   });
