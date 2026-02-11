@@ -7,6 +7,7 @@ import { useStakingState } from '@/hooks/use-staking-state';
 import { useStakingDelegate } from '@/hooks/use-staking-delegate';
 import { useStakingTransfer } from '@/hooks/use-staking-transfer';
 import { useStakingRewards } from '@/hooks/use-staking-rewards';
+import { useSpotBalance } from '@/hooks/use-spot-balance';
 import { StakingStats } from '@/components/staking/staking-stats';
 import { StakingBalance } from '@/components/staking/staking-balance';
 import { MyDelegations } from '@/components/staking/my-delegations';
@@ -25,12 +26,13 @@ export default function StakingPage() {
 
   const [selectedValidator, setSelectedValidator] = useState<ValidatorSummary | null>(null);
 
-  // TODO: Get actual HYPE spot balance from spotClearinghouseState
-  const spotHypeBalance = '0';
+  const { getBalance } = useSpotBalance();
+  const hypeBalance = getBalance('HYPE');
+  const spotHypeBalance = hypeBalance?.total ?? '0';
 
   if (!isConnected) {
     return (
-      <div className="min-h-screen bg-[#0b0e11] text-white">
+      <div className="min-h-screen bg-[#0a0a0f] text-white">
         <div className="max-w-6xl mx-auto px-4 py-6">
           <div className="flex flex-col items-center justify-center py-16 text-gray-500">
             <svg className="h-12 w-12 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -44,7 +46,7 @@ export default function StakingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0b0e11] text-white page-enter">
+    <div className="min-h-screen bg-[#0a0a0f] text-white page-enter">
       <div className="max-w-6xl mx-auto px-4 py-6">
         {/* Header */}
         <div className="mb-6">

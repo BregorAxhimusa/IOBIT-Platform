@@ -32,7 +32,7 @@ export default function AccountsPage() {
 
   if (!isConnected) {
     return (
-      <div className="min-h-screen bg-[#0b0e11] text-white">
+      <div className="min-h-screen bg-[#0a0a0f] text-white">
         <div className="max-w-5xl mx-auto px-4 py-6">
           <div className="flex items-center justify-center py-16 text-gray-500">
             Please connect your wallet to manage accounts
@@ -43,7 +43,7 @@ export default function AccountsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0b0e11] text-white">
+    <div className="min-h-screen bg-[#0a0a0f] text-white">
       <div className="max-w-5xl mx-auto px-4 py-6">
         {/* Breadcrumb */}
         <Link href="/portfolio" className="text-[#14b8a6] text-sm hover:underline mb-4 inline-block">

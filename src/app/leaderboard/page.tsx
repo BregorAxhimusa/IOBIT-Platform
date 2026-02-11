@@ -34,11 +34,11 @@ export default function LeaderboardPage() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-black text-white p-8 page-enter">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-[#0a0a0f] text-white page-enter">
+      <div className="max-w-6xl mx-auto px-4 py-6">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+        <div className="mb-6">
+          <h1 className="text-xl font-bold text-white">
             Leaderboard
           </h1>
           <p className="text-gray-400">
@@ -48,7 +48,7 @@ export default function LeaderboardPage() {
 
         {/* Top 3 Podium */}
         {!isLoading && !error && leaderboard && leaderboard.length >= 3 && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             {leaderboard.slice(0, 3).map((entry, idx) => {
               const rank = entry.rank || idx + 1;
               const accountValue = parseFloat(entry.accountValue || '0');
@@ -112,11 +112,11 @@ export default function LeaderboardPage() {
         )}
 
         {/* Leaderboard Table */}
-        <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl overflow-hidden">
+        <div className="bg-[#0f1419] border border-gray-800 rounded-lg overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-gray-800 bg-gray-900/80">
+                <tr className="border-b border-gray-800">
                   <th className="px-6 py-4 text-left text-sm font-semibold text-gray-300">
                     Rank
                   </th>
@@ -136,7 +136,7 @@ export default function LeaderboardPage() {
                   <tr>
                     <td colSpan={4} className="px-6 py-12 text-center text-gray-500">
                       <div className="flex items-center justify-center gap-2">
-                        <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                        <div className="w-5 h-5 border-2 border-teal-500 border-t-transparent rounded-full animate-spin" />
                         Loading leaderboard...
                       </div>
                     </td>
@@ -231,8 +231,8 @@ export default function LeaderboardPage() {
         </div>
 
         {/* Info Box */}
-        <div className="mt-6 p-4 bg-blue-900/20 border border-blue-800/30 rounded-lg">
-          <p className="text-sm text-blue-300">
+        <div className="mt-6 p-4 bg-teal-500/10 border border-teal-500/20 rounded-lg">
+          <p className="text-sm text-teal-300">
             <strong>Note:</strong> Leaderboard shows top traders ranked by account value and
             trading volume. Data is updated in real-time from Hyperliquid{' '}
             {network === 'mainnet' ? 'mainnet' : 'testnet'}.

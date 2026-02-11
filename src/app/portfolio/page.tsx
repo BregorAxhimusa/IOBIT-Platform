@@ -41,7 +41,7 @@ export default function PortfolioPage() {
 
   if (!isConnected) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-white mb-4">Portfolio</h1>
           <p className="text-gray-400 mb-6">Connect your wallet to view your portfolio</p>
@@ -58,7 +58,7 @@ export default function PortfolioPage() {
 
   if (isStatsLoading) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#14b8a6] mx-auto mb-4" />
           <p className="text-gray-400">Loading portfolio data...</p>
@@ -78,7 +78,7 @@ export default function PortfolioPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-black page-enter">
+    <div className="min-h-screen bg-[#0a0a0f] page-enter">
       <div className="container mx-auto px-4 py-6">
         {/* Header */}
         <h1 className="text-2xl font-bold text-white mb-6">Portfolio</h1>

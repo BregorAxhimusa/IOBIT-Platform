@@ -25,12 +25,18 @@ function WalletButton() {
 
   return (
     <button
-      onClick={() => open()}
+      onClick={() => {
+        if (isConnected) {
+          open({ view: 'Account' });
+        } else {
+          open();
+        }
+      }}
       className={cn(
         'px-4 py-2 rounded-lg font-medium transition-colors',
         isConnected
           ? 'bg-gray-800 text-white hover:bg-gray-700'
-          : 'bg-blue-600 text-white hover:bg-blue-700'
+          : 'bg-teal-500 text-white hover:bg-teal-600'
       )}
     >
       {isConnected && address ? formatAddress(address) : 'Connect Wallet'}
@@ -48,7 +54,7 @@ export function Navbar() {
       <div className="mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
-          <div className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
+          <div className="text-2xl font-bold bg-gradient-to-r from-teal-400 to-cyan-500 bg-clip-text text-transparent">
             IOBIT
           </div>
         </Link>

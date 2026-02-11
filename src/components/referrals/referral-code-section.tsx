@@ -14,15 +14,14 @@ interface ReferralCodeSectionProps {
 type Scenario = 'hasCode' | 'canCreate' | 'needsVolume';
 
 function getScenario(referralInfo: ReferralInfo | null): Scenario {
-  if (referralInfo?.referrerState?.data?.code) {
-    return 'hasCode';
-  }
-  if (referralInfo?.referrerState?.stage === 'needsVolume') {
-    return 'needsVolume';
-  }
-  if (referralInfo?.referrerState === null && parseFloat(referralInfo?.cumVlm ?? '0') >= 10000) {
-    return 'canCreate';
-  }
+  if (!referralInfo) return 'needsVolume';
+
+  const code = referralInfo.referrerState?.data?.code;
+  if (code) return 'hasCode';
+
+  const volume = parseFloat(referralInfo.cumVlm || '0');
+  if (volume >= 10000) return 'canCreate';
+
   return 'needsVolume';
 }
 
