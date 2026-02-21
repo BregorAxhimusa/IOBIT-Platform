@@ -506,7 +506,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
       </div>
 
       <div className="flex-1 overflow-y-auto flex flex-col">
-        <div className="p-4 space-y-4 flex-1">
+        <div className="p-2.5 sm:p-4 space-y-3 sm:space-y-4 flex-1">
           {/* Buy/Sell Toggle */}
           <div className="grid grid-cols-2 gap-2">
             <button
@@ -949,7 +949,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
         {/* Bottom Section - Stays at bottom */}
         <div className="mt-auto">
           {/* Main Action Button */}
-          <div className="px-4 pb-4">
+          <div className="px-2.5 sm:px-4 pb-3 sm:pb-4">
           <button
             onClick={handlePlaceOrder}
             disabled={isPlacing || isPlacingSpot || isTwapPlacing || isScalePlacing || isFormInvalid()}
@@ -995,7 +995,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
         </div>
 
         {/* Order Details */}
-        <div className="px-4 pb-4 space-y-2 text-xs">
+        <div className="px-2.5 sm:px-4 pb-3 sm:pb-4 space-y-1.5 sm:space-y-2 text-[10px] sm:text-xs">
           <div className="flex items-center justify-between pt-3 border-t border-gray-800">
             <span className="text-gray-400">Order Value</span>
             <span className="text-white">{orderValue}</span>
@@ -1012,7 +1012,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
 
         {/* Leverage Selector - Perps only */}
         {!isSpot && (
-        <div className="px-4 pb-4 border-b border-gray-800">
+        <div className="px-2.5 sm:px-4 pb-3 sm:pb-4 border-b border-gray-800">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs text-gray-400">Leverage</span>
             <div className="flex items-center gap-2">
@@ -1112,7 +1112,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
         )}
 
         {/* Deposit Button */}
-        <div className="px-4 pb-4">
+        <div className="px-2.5 sm:px-4 pb-3 sm:pb-4">
           <button
             onClick={() => setShowDepositModal(true)}
             className="w-full py-1.5 bg-[#0f5549] hover:bg-[#0a3d34] text-white rounded font-medium transition-colors text-xs"
@@ -1122,7 +1122,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
         </div>
 
         {/* Perps/Spot Transfer & Withdraw */}
-        <div className="px-4 pb-4 grid grid-cols-2 gap-2">
+        <div className="px-2.5 sm:px-4 pb-3 sm:pb-4 grid grid-cols-2 gap-1.5 sm:gap-2">
           <button
             onClick={() => setShowTransferModal(true)}
             className="px-2.5 py-1.5 bg-transparent border border-gray-700 hover:border-gray-600 text-white rounded text-xs font-medium transition-colors flex items-center justify-center gap-1"
@@ -1138,7 +1138,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
         </div>
 
         {/* Account Equity */}
-        <div className="px-4 pb-3 pt-3 border-t border-gray-800">
+        <div className="px-2.5 sm:px-4 pb-2.5 sm:pb-3 pt-2.5 sm:pt-3 border-t border-gray-800">
           <h3 className="text-xs font-semibold mb-2">Account Equity</h3>
           <div className="space-y-1.5 text-xs">
             <div className="flex items-center justify-between">
@@ -1154,7 +1154,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
 
         {/* Perps Overview - only for perps */}
         {!isSpot && (
-        <div className="px-4 pb-4">
+        <div className="px-2.5 sm:px-4 pb-3 sm:pb-4">
           <h3 className="text-xs font-semibold mb-2">Perps Overview</h3>
           <div className="space-y-1.5 text-xs">
             <div className="flex items-center justify-between">
@@ -1188,7 +1188,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
 
         {/* Spot Overview - only for spot */}
         {isSpot && (
-        <div className="px-4 pb-4">
+        <div className="px-2.5 sm:px-4 pb-3 sm:pb-4">
           <h3 className="text-xs font-semibold mb-2">Spot Overview</h3>
           <div className="space-y-1.5 text-xs">
             <div className="flex items-center justify-between">

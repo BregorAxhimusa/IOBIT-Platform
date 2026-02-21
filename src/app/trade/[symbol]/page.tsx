@@ -91,11 +91,11 @@ export default function TradingPage({ params }: TradingPageProps) {
       {/* Main Trading Layout */}
       <div className="flex flex-col lg:flex-row h-auto lg:h-[calc(100vh-128px)] relative">
         {/* Left Section - Chart & OrderBook & Bottom Tables */}
-        <div className="flex-1 flex flex-col p-2 lg:p-1 min-w-0 space-y-2 lg:space-y-0">
+        <div className="flex-1 flex flex-col p-1 sm:p-2 lg:p-1 min-w-0 space-y-1.5 sm:space-y-2 lg:space-y-1">
           {/* Top Row - Chart and Order Book/Trades */}
-          <div className="flex flex-col lg:flex-row flex-1 lg:mb-3 gap-2 lg:gap-3 lg:min-h-0">
+          <div className="flex flex-col lg:flex-row lg:flex-1 lg:mb-0 gap-1.5 sm:gap-2 lg:gap-3 lg:min-h-0 lg:max-h-[calc(100%-290px)]">
             {/* Chart */}
-            <div className="w-full lg:flex-1 h-[300px] sm:h-[400px] lg:h-auto lg:min-h-[350px] lg:max-h-[480px]">
+            <div className="w-full lg:flex-1 h-[240px] sm:h-[350px] md:h-[420px] lg:h-full">
               <ChartErrorBoundary>
                 <PriceChart key={symbolUpper} symbol={symbolUpper} />
               </ChartErrorBoundary>
@@ -143,7 +143,7 @@ export default function TradingPage({ params }: TradingPageProps) {
           </div>
 
           {/* Order Book & Recent Trades - Mobile Only */}
-          <div className="lg:hidden bg-[#0f1419] border border-gray-800 rounded-lg flex flex-col h-[350px]">
+          <div className="lg:hidden bg-[#0f1419] border border-gray-800 rounded-lg flex flex-col h-[280px] sm:h-[350px]">
             {/* Tab Headers */}
             <div className="flex border-b border-gray-800">
               <button
@@ -183,13 +183,13 @@ export default function TradingPage({ params }: TradingPageProps) {
           </div>
 
           {/* Bottom Panel - Positions, Orders, History */}
-          <div className="bg-[#0f1419] border border-gray-800 rounded-lg overflow-hidden lg:h-72">
+          <div className="bg-[#0f1419] border border-gray-800 rounded-lg overflow-hidden lg:h-[280px] lg:flex-shrink-0">
             {/* Tab Headers - Horizontal Scroll on Mobile */}
             <div className="flex overflow-x-auto lg:overflow-visible border-b border-gray-800 scrollbar-hide lg:space-x-1 lg:px-3 lg:pt-2">
               <button
                 onClick={() => setActiveTab('positions')}
                 className={cn(
-                  'px-3 py-2 lg:py-1.5 text-xs sm:text-sm font-medium whitespace-nowrap lg:rounded-t transition-colors',
+                  'px-2 sm:px-3 py-1.5 sm:py-2 lg:py-1.5 text-[10px] sm:text-xs lg:text-sm font-medium whitespace-nowrap lg:rounded-t transition-colors',
                   activeTab === 'positions'
                     ? 'bg-[#1a2028] text-white border-b-2 border-[#14b8a6] lg:border-b-0'
                     : 'text-gray-400 hover:text-white hover:bg-[#1a2028]/50'
@@ -200,7 +200,7 @@ export default function TradingPage({ params }: TradingPageProps) {
               <button
                 onClick={() => setActiveTab('orders')}
                 className={cn(
-                  'px-3 py-2 lg:py-1.5 text-xs sm:text-sm font-medium whitespace-nowrap lg:rounded-t transition-colors',
+                  'px-2 sm:px-3 py-1.5 sm:py-2 lg:py-1.5 text-[10px] sm:text-xs lg:text-sm font-medium whitespace-nowrap lg:rounded-t transition-colors',
                   activeTab === 'orders'
                     ? 'bg-[#1a2028] text-white border-b-2 border-[#14b8a6] lg:border-b-0'
                     : 'text-gray-400 hover:text-white hover:bg-[#1a2028]/50'
@@ -211,7 +211,7 @@ export default function TradingPage({ params }: TradingPageProps) {
               <button
                 onClick={() => setActiveTab('history')}
                 className={cn(
-                  'px-3 py-2 lg:py-1.5 text-xs sm:text-sm font-medium whitespace-nowrap lg:rounded-t transition-colors',
+                  'px-2 sm:px-3 py-1.5 sm:py-2 lg:py-1.5 text-[10px] sm:text-xs lg:text-sm font-medium whitespace-nowrap lg:rounded-t transition-colors',
                   activeTab === 'history'
                     ? 'bg-[#1a2028] text-white border-b-2 border-[#14b8a6] lg:border-b-0'
                     : 'text-gray-400 hover:text-white hover:bg-[#1a2028]/50'
@@ -222,7 +222,7 @@ export default function TradingPage({ params }: TradingPageProps) {
               <button
                 onClick={() => setActiveTab('trades')}
                 className={cn(
-                  'px-3 py-2 lg:py-1.5 text-xs sm:text-sm font-medium whitespace-nowrap lg:rounded-t transition-colors',
+                  'px-2 sm:px-3 py-1.5 sm:py-2 lg:py-1.5 text-[10px] sm:text-xs lg:text-sm font-medium whitespace-nowrap lg:rounded-t transition-colors',
                   activeTab === 'trades'
                     ? 'bg-[#1a2028] text-white border-b-2 border-[#14b8a6] lg:border-b-0'
                     : 'text-gray-400 hover:text-white hover:bg-[#1a2028]/50'
@@ -234,7 +234,7 @@ export default function TradingPage({ params }: TradingPageProps) {
                 <button
                   onClick={() => setActiveTab('balances')}
                   className={cn(
-                    'px-3 py-2 lg:py-1.5 text-xs sm:text-sm font-medium whitespace-nowrap lg:rounded-t transition-colors',
+                    'px-2 sm:px-3 py-1.5 sm:py-2 lg:py-1.5 text-[10px] sm:text-xs lg:text-sm font-medium whitespace-nowrap lg:rounded-t transition-colors',
                     activeTab === 'balances'
                       ? 'bg-[#1a2028] text-white border-b-2 border-[#14b8a6] lg:border-b-0'
                       : 'text-gray-400 hover:text-white hover:bg-[#1a2028]/50'
@@ -246,7 +246,7 @@ export default function TradingPage({ params }: TradingPageProps) {
             </div>
 
             {/* Tab Content - Horizontal Scroll */}
-            <div className="p-2 h-[250px] sm:h-[300px] lg:h-[calc(100%-44px)] overflow-auto">
+            <div className="p-1.5 sm:p-2 h-[200px] sm:h-[260px] lg:h-[calc(100%-44px)] overflow-auto">
               <DataErrorBoundary>
                 {activeTab === 'positions' && <PositionsTable />}
                 {activeTab === 'orders' && <OpenOrdersTable />}
@@ -259,7 +259,7 @@ export default function TradingPage({ params }: TradingPageProps) {
         </div>
 
         {/* Right Sidebar - Trading Panel */}
-        <div className="w-full lg:w-96 border-t lg:border-t-0 lg:border-l border-gray-800 p-2 lg:p-1 flex-shrink-0">
+        <div className="w-full lg:w-96 border-t lg:border-t-0 lg:border-l border-gray-800 p-1 sm:p-2 lg:p-1 flex-shrink-0">
           <TradingErrorBoundary>
             <TradingPanel key={symbolUpper} symbol={isSpot ? displaySymbol : symbolUpper} currentPrice={currentPrice} />
           </TradingErrorBoundary>

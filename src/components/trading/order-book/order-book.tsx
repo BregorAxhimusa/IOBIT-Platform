@@ -36,8 +36,8 @@ export function OrderBook({ symbol, onPriceClick }: OrderBookProps) {
   return (
     <div className="flex flex-col h-full">
       {/* Column Headers */}
-      <div className="grid grid-cols-3 gap-2 px-4 py-2 text-xs text-gray-500 border-b border-gray-800">
-        <div className="text-left">Price (USD)</div>
+      <div className="grid grid-cols-3 gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-xs text-gray-500 border-b border-gray-800">
+        <div className="text-left">Price</div>
         <div className="text-right">Size</div>
         <div className="text-right">Total</div>
       </div>
@@ -56,7 +56,7 @@ export function OrderBook({ symbol, onPriceClick }: OrderBookProps) {
               <button
                 key={idx}
                 onClick={() => onPriceClick?.(ask.price)}
-                className="relative grid grid-cols-3 gap-2 px-4 py-1 text-xs hover:bg-gray-800/50 transition-colors cursor-pointer"
+                className="relative grid grid-cols-3 gap-1 sm:gap-2 px-2 sm:px-4 py-0.5 sm:py-1 text-[10px] sm:text-xs hover:bg-gray-800/50 transition-colors cursor-pointer"
               >
                 {/* Depth bar */}
                 <div
@@ -82,8 +82,8 @@ export function OrderBook({ symbol, onPriceClick }: OrderBookProps) {
         </div>
 
         {/* Spread */}
-        <div className="px-4 py-2 bg-gray-900 border-y border-gray-800">
-          <div className="flex items-center justify-between text-xs">
+        <div className="px-2 sm:px-4 py-1.5 sm:py-2 bg-gray-900 border-y border-gray-800">
+          <div className="flex items-center justify-between text-[10px] sm:text-xs">
             <span className="text-gray-400">Spread</span>
             <span className="text-gray-300">
               {spread ? (
@@ -110,7 +110,7 @@ export function OrderBook({ symbol, onPriceClick }: OrderBookProps) {
               <button
                 key={idx}
                 onClick={() => onPriceClick?.(bid.price)}
-                className="relative grid grid-cols-3 gap-2 px-4 py-1 text-xs hover:bg-gray-800/50 transition-colors cursor-pointer"
+                className="relative grid grid-cols-3 gap-1 sm:gap-2 px-2 sm:px-4 py-0.5 sm:py-1 text-[10px] sm:text-xs hover:bg-gray-800/50 transition-colors cursor-pointer"
               >
                 {/* Depth bar */}
                 <div

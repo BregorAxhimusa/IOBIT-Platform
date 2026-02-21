@@ -26,6 +26,9 @@ function PriceChartComponent({ symbol }: PriceChartProps) {
     // Capture the container element for cleanup
     const containerElement = container.current;
 
+    // Detect mobile for responsive config
+    const isMobile = window.innerWidth < 768;
+
     // Extract base symbol (e.g., BTC from BTC-USD or BTCUSD)
     const baseSymbol = symbol.replace('-USD', '').replace('/USD', '');
     const tradingViewSymbol = `BINANCE:${baseSymbol}USDT`;
@@ -50,7 +53,7 @@ function PriceChartComponent({ symbol }: PriceChartProps) {
         widgetRef.current = new window.TradingView.widget({
           autosize: true,
           symbol: tradingViewSymbol,
-          interval: '15',
+          interval: isMobile ? '60' : '15',
           timezone: 'Etc/UTC',
           theme: 'dark',
           style: '1',
@@ -66,30 +69,31 @@ function PriceChartComponent({ symbol }: PriceChartProps) {
           // Toolbar background - make it visible
           toolbar_bg: '#1a2028',
 
-          // Show all toolbars
+          // Responsive toolbar visibility
           hide_top_toolbar: false,
-          hide_legend: false,
-          hide_side_toolbar: false,
+          hide_legend: isMobile,
+          hide_side_toolbar: isMobile,
           hide_volume: false,
 
-          // Enable ALL features - this is the full professional chart
+          // Enable features based on screen size
           enabled_features: [
-            'left_toolbar',
+            ...(isMobile ? [] : ['left_toolbar']),
             'control_bar',
             'timeframes_toolbar',
             'header_widget',
             'header_resolutions',
             'header_chart_type',
             'header_settings',
-            'header_compare',
-            'header_undo_redo',
+            ...(isMobile ? [] : ['header_compare', 'header_undo_redo']),
             'header_screenshot',
             'header_fullscreen_button',
             'header_symbol_search',
             'use_localstorage_for_settings',
           ],
 
-          disabled_features: [],
+          disabled_features: [
+            ...(isMobile ? ['left_toolbar', 'header_compare', 'header_undo_redo'] : []),
+          ],
 
           // Studies/Indicators to load by default
           studies: [],
@@ -140,7 +144,7 @@ function PriceChartComponent({ symbol }: PriceChartProps) {
 
             'scalesProperties.textColor': '#9CA3AF',
             'scalesProperties.lineColor': '#1F2937',
-            'scalesProperties.fontSize': 12,
+            'scalesProperties.fontSize': isMobile ? 10 : 12,
           },
 
           // Studies overrides (indicators styling)
@@ -182,14 +186,11 @@ function PriceChartComponent({ symbol }: PriceChartProps) {
   }, [symbol]);
 
   return (
-    <div className="relative w-full h-full bg-black rounded-lg">
+    <div className="relative w-full h-full bg-black rounded-lg overflow-hidden">
       <div
         ref={container}
         id="tradingview_advanced"
-        className="w-full h-full"
-        style={{
-          minHeight: '400px',
-        }}
+        className="absolute inset-0"
       />
     </div>
   );

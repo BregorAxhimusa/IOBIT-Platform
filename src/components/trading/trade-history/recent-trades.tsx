@@ -16,8 +16,8 @@ export function RecentTrades({ symbol }: RecentTradesProps) {
   return (
     <div className="flex flex-col h-full">
       {/* Column Headers */}
-      <div className="grid grid-cols-3 gap-2 px-4 py-2 text-xs text-gray-500 border-b border-gray-800">
-        <div className="text-left">Price (USD)</div>
+      <div className="grid grid-cols-3 gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-xs text-gray-500 border-b border-gray-800">
+        <div className="text-left">Price</div>
         <div className="text-right">Size</div>
         <div className="text-right">Time</div>
       </div>
@@ -41,7 +41,7 @@ export function RecentTrades({ symbol }: RecentTradesProps) {
             return (
               <div
                 key={`${trade.time}-${idx}`}
-                className="grid grid-cols-3 gap-2 px-4 py-1.5 text-xs hover:bg-gray-800/30 transition-colors"
+                className="grid grid-cols-3 gap-1 sm:gap-2 px-2 sm:px-4 py-0.5 sm:py-1.5 text-[10px] sm:text-xs hover:bg-gray-800/30 transition-colors"
               >
                 <div
                   className={cn(
