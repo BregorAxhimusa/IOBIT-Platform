@@ -7,6 +7,7 @@ import { useVaultStore } from '@/store/vault-store';
 import { VaultCard } from '@/components/vaults/vault-card';
 import { cn } from '@/lib/utils/cn';
 import { formatAddress } from '@/lib/utils/format';
+import { Pagination } from '@/components/ui/pagination';
 import Link from 'next/link';
 
 type Tab = 'all' | 'my';
@@ -30,8 +31,11 @@ const SORT_OPTIONS: { value: SortField; label: string }[] = [
   { value: 'name', label: 'Name' },
 ];
 
+const VAULTS_PER_PAGE = 24;
+
 export default function VaultsPage() {
   const [tab, setTab] = useState<Tab>('all');
+  const [currentPage, setCurrentPage] = useState(1);
   const { isLoading } = useVaults();
   const { equities, isLoading: isLoadingUser } = useUserVaults();
 
@@ -95,7 +99,7 @@ export default function VaultsPage() {
                 <input
                   type="text"
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
                   placeholder="Search vaults..."
                   className="w-full bg-[#1a2028] border border-gray-700 rounded-lg px-4 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-gray-500"
                 />
@@ -169,20 +173,29 @@ export default function VaultsPage() {
               <div className="flex items-center justify-center py-16 text-gray-500 text-sm">
                 {searchQuery ? 'No vaults match your search' : 'No vaults available'}
               </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {filteredVaults.map((vault) => (
-                  <VaultCard key={vault.vaultAddress} vault={vault} />
-                ))}
-              </div>
-            )}
+            ) : (() => {
+              const totalPages = Math.ceil(filteredVaults.length / VAULTS_PER_PAGE);
+              const startIdx = (currentPage - 1) * VAULTS_PER_PAGE;
+              const pageVaults = filteredVaults.slice(startIdx, startIdx + VAULTS_PER_PAGE);
 
-            {/* Count */}
-            {!isLoading && filteredVaults.length > 0 && (
-              <div className="mt-4 text-center text-gray-500 text-xs">
-                Showing {filteredVaults.length} vault{filteredVaults.length !== 1 ? 's' : ''}
-              </div>
-            )}
+              return (
+                <>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {pageVaults.map((vault, i) => (
+                      <VaultCard key={vault.vaultAddress ?? `${startIdx}-${i}`} vault={vault} />
+                    ))}
+                  </div>
+
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
+                    totalItems={filteredVaults.length}
+                    itemLabel="vaults"
+                  />
+                </>
+              );
+            })()}
           </>
         ) : (
           /* My Vaults Tab */

@@ -20,7 +20,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className="overflow-auto lg:overflow-hidden lg:scrollbar-hide">
+      <body className="overflow-auto">
         <a href="#main-content" className="sr-skip-link">Skip to content</a>
         <ContextProvider cookies={cookies}>
           <Navbar />

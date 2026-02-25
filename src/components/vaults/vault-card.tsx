@@ -9,19 +9,20 @@ interface VaultCardProps {
   vault: VaultStatsData;
 }
 
-function formatCurrency(value: number): string {
-  if (Math.abs(value) >= 1_000_000) {
-    return `$${(value / 1_000_000).toFixed(2)}M`;
+function formatCurrency(value: number | undefined | null): string {
+  const v = Number(value) || 0;
+  if (Math.abs(v) >= 1_000_000) {
+    return `$${(v / 1_000_000).toFixed(2)}M`;
   }
-  if (Math.abs(value) >= 1_000) {
-    return `$${(value / 1_000).toFixed(2)}K`;
+  if (Math.abs(v) >= 1_000) {
+    return `$${(v / 1_000).toFixed(2)}K`;
   }
-  return `$${value.toFixed(2)}`;
+  return `$${v.toFixed(2)}`;
 }
 
 export function VaultCard({ vault }: VaultCardProps) {
-  const isPositivePnl = vault.allTimePnl >= 0;
-  const isPositiveApr = vault.apr30d >= 0;
+  const isPositivePnl = (vault.allTimePnl ?? 0) >= 0;
+  const isPositiveApr = (vault.apr30d ?? 0) >= 0;
 
   return (
     <Link href={`/vaults/${vault.vaultAddress}`}>
@@ -60,7 +61,7 @@ export function VaultCard({ vault }: VaultCardProps) {
                 isPositiveApr ? 'text-green-400' : 'text-red-400'
               )}
             >
-              {isPositiveApr ? '+' : ''}{vault.apr30d.toFixed(1)}%
+              {isPositiveApr ? '+' : ''}{(vault.apr30d ?? 0).toFixed(1)}%
             </p>
           </div>
 
@@ -80,7 +81,7 @@ export function VaultCard({ vault }: VaultCardProps) {
           {/* Followers */}
           <div>
             <p className="text-gray-500 text-xs">Followers</p>
-            <p className="text-white text-sm font-medium">{vault.followerCount.toLocaleString()}</p>
+            <p className="text-white text-sm font-medium">{(vault.followerCount ?? 0).toLocaleString()}</p>
           </div>
         </div>
 
@@ -88,7 +89,7 @@ export function VaultCard({ vault }: VaultCardProps) {
         <div className="mt-3 pt-3 border-t border-gray-800">
           <div className="flex items-center justify-between text-xs">
             <span className="text-gray-500">Leader Commission</span>
-            <span className="text-gray-300">{(vault.leaderCommission * 100).toFixed(0)}%</span>
+            <span className="text-gray-300">{((vault.leaderCommission ?? 0) * 100).toFixed(0)}%</span>
           </div>
         </div>
       </div>

@@ -52,7 +52,7 @@ export function ReferralStats({ referralInfo, isLoading }: ReferralStatsProps) {
   const totalVolume = referralInfo?.cumVlm ?? '0';
   const unclaimedRewards = referralInfo?.unclaimedRewards ?? '0';
   const claimedRewards = referralInfo?.claimedRewards ?? '0';
-  const totalReferrals = referralInfo?.referrerState?.data?.referralStates.length ?? 0;
+  const totalReferrals = referralInfo?.referrerState?.data?.referralStates?.length ?? 0;
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

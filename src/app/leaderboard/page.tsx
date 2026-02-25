@@ -1,9 +1,13 @@
 'use client';
 
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getInfoClient } from '@/lib/hyperliquid/info-client';
 import { useNetworkStore } from '@/store/network-store';
 import { cn } from '@/lib/utils/cn';
+import { Pagination } from '@/components/ui/pagination';
+
+const ROWS_PER_PAGE = 20;
 
 interface LeaderboardEntry {
   accountValue: string;
@@ -14,6 +18,7 @@ interface LeaderboardEntry {
 }
 
 export default function LeaderboardPage() {
+  const [currentPage, setCurrentPage] = useState(1);
   const network = useNetworkStore((state) => state.network);
 
   const { data: leaderboard, isLoading, error } = useQuery({
@@ -155,12 +160,14 @@ export default function LeaderboardPage() {
                         : 'No leaderboard data available'}
                     </td>
                   </tr>
-                ) : (
-                  leaderboard.map((entry, index) => {
+                ) : (() => {
+                  const startIdx = (currentPage - 1) * ROWS_PER_PAGE;
+                  const pageEntries = leaderboard.slice(startIdx, startIdx + ROWS_PER_PAGE);
+                  return pageEntries.map((entry, index) => {
                     const accountValue = parseFloat(entry.accountValue || '0');
                     const volume = parseFloat(entry.vlm || '0');
                     const prize = parseFloat(entry.prize || '0');
-                    const rank = entry.rank || index + 1;
+                    const rank = entry.rank || startIdx + index + 1;
 
                     // Medal emoji for top 3
                     const getMedal = (rank: number) => {
@@ -223,12 +230,22 @@ export default function LeaderboardPage() {
                         </td>
                       </tr>
                     );
-                  })
-                )}
+                  });
+                })()}
               </tbody>
             </table>
           </div>
         </div>
+
+        {!isLoading && !error && leaderboard && leaderboard.length > 0 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={Math.ceil(leaderboard.length / ROWS_PER_PAGE)}
+            onPageChange={setCurrentPage}
+            totalItems={leaderboard.length}
+            itemLabel="traders"
+          />
+        )}
 
         {/* Info Box */}
         <div className="mt-6 p-4 bg-teal-500/10 border border-teal-500/20 rounded-lg">

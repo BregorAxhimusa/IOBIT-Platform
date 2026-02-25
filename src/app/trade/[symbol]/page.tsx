@@ -84,7 +84,7 @@ export default function TradingPage({ params }: TradingPageProps) {
   };
 
   return (
-    <div className="bg-[#0a0a0f] min-h-screen">
+    <div className="bg-[#0a0a0f] h-screen overflow-hidden">
       {/* Market Info Bar */}
       <MarketInfoBar key={symbolUpper} symbol={isSpot ? displaySymbol : symbolUpper} />
 
@@ -93,7 +93,7 @@ export default function TradingPage({ params }: TradingPageProps) {
         {/* Left Section - Chart & OrderBook & Bottom Tables */}
         <div className="flex-1 flex flex-col p-1 sm:p-2 lg:p-1 min-w-0 space-y-1.5 sm:space-y-2 lg:space-y-1">
           {/* Top Row - Chart and Order Book/Trades */}
-          <div className="flex flex-col lg:flex-row lg:flex-1 lg:mb-0 gap-1.5 sm:gap-2 lg:gap-3 lg:min-h-0 lg:max-h-[calc(100%-290px)]">
+          <div className="flex flex-col lg:flex-row lg:flex-1 lg:mb-0 gap-1.5 sm:gap-2 lg:gap-1 lg:min-h-0 lg:h-[65%]">
             {/* Chart */}
             <div className="w-full lg:flex-1 h-[240px] sm:h-[350px] md:h-[420px] lg:h-full">
               <ChartErrorBoundary>
@@ -102,7 +102,7 @@ export default function TradingPage({ params }: TradingPageProps) {
             </div>
 
             {/* Order Book & Recent Trades Tabs - Desktop Only */}
-            <div className="hidden lg:flex lg:w-80 bg-[#0f1419] border border-gray-800 rounded-lg flex-col">
+            <div className="hidden lg:flex lg:w-80 lg:h-full bg-[#0f1419] border border-gray-800 rounded-lg flex-col">
               {/* Tab Headers */}
               <div className="flex border-b border-gray-800">
                 <button
@@ -183,7 +183,7 @@ export default function TradingPage({ params }: TradingPageProps) {
           </div>
 
           {/* Bottom Panel - Positions, Orders, History */}
-          <div className="bg-[#0f1419] border border-gray-800 rounded-lg overflow-hidden lg:h-[280px] lg:flex-shrink-0">
+          <div className="bg-[#0f1419] border border-gray-800 rounded-lg overflow-hidden lg:flex-1 lg:min-h-[200px] lg:flex lg:flex-col">
             {/* Tab Headers - Horizontal Scroll on Mobile */}
             <div className="flex overflow-x-auto lg:overflow-visible border-b border-gray-800 scrollbar-hide lg:space-x-1 lg:px-3 lg:pt-2">
               <button
@@ -246,7 +246,7 @@ export default function TradingPage({ params }: TradingPageProps) {
             </div>
 
             {/* Tab Content - Horizontal Scroll */}
-            <div className="p-1.5 sm:p-2 h-[200px] sm:h-[260px] lg:h-[calc(100%-44px)] overflow-auto">
+            <div className="p-1.5 sm:p-2 h-[200px] sm:h-[260px] lg:h-auto lg:flex-1 lg:min-h-0 overflow-auto">
               <DataErrorBoundary>
                 {activeTab === 'positions' && <PositionsTable />}
                 {activeTab === 'orders' && <OpenOrdersTable />}

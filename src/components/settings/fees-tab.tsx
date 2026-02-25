@@ -23,9 +23,13 @@ export function FeesTab({ userFees, isLoading }: FeesTabProps) {
     return <p className="text-gray-500 text-sm py-8 text-center">Connect wallet to view fee information</p>;
   }
 
-  const volume14d = userFees.dailyUserVlm
+  const volume14d = (userFees.dailyUserVlm ?? [])
     .slice(-14)
-    .reduce((sum, [, vlm]) => sum + parseFloat(vlm || '0'), 0);
+    .reduce((sum, entry) => {
+      // Handle both tuple [date, vlm] and object { date, vlm } formats
+      const vlm = Array.isArray(entry) ? entry[1] : (entry as Record<string, string>)?.vlm ?? '0';
+      return sum + parseFloat(vlm || '0');
+    }, 0);
 
   const makerRate = parseFloat(userFees.userAddRate || '0') * 100;
   const takerRate = parseFloat(userFees.userCrossRate || '0') * 100;

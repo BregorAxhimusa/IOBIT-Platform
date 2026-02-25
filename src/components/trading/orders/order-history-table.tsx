@@ -1,13 +1,22 @@
 'use client';
 
+import { useState } from 'react';
 import { useOrdersStore } from '@/store/orders-store';
 import { useOrderHistory } from '@/hooks/use-order-history';
 import { cn } from '@/lib/utils/cn';
 import { TableSkeleton } from '@/components/ui/skeleton';
+import { Pagination } from '@/components/ui/pagination';
+
+const ROWS_PER_PAGE = 20;
 
 export function OrderHistoryTable() {
   const orderHistory = useOrdersStore((state) => state.orderHistory);
   const { isLoading } = useOrderHistory();
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(orderHistory.length / ROWS_PER_PAGE);
+  const startIdx = (currentPage - 1) * ROWS_PER_PAGE;
+  const pageOrders = orderHistory.slice(startIdx, startIdx + ROWS_PER_PAGE);
 
   if (isLoading) {
     return <TableSkeleton rows={5} columns={8} />;
@@ -42,7 +51,7 @@ export function OrderHistoryTable() {
           </tr>
         </thead>
         <tbody>
-          {orderHistory.map((order) => {
+          {pageOrders.map((order) => {
             const filledPercent = (parseFloat(order.filledSize) / parseFloat(order.size)) * 100;
             const date = new Date(order.timestamp);
             const dateStr = date.toLocaleDateString('en-US', {
@@ -107,6 +116,14 @@ export function OrderHistoryTable() {
           })}
         </tbody>
       </table>
+
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+        totalItems={orderHistory.length}
+        itemLabel="orders"
+      />
     </div>
   );
 }

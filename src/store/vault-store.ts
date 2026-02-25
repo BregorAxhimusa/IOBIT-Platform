@@ -80,9 +80,9 @@ export const useVaultStore = create<VaultState>((set, get) => ({
       const q = searchQuery.toLowerCase();
       filtered = filtered.filter(
         (v) =>
-          v.name.toLowerCase().includes(q) ||
-          v.leader.toLowerCase().includes(q) ||
-          v.vaultAddress.toLowerCase().includes(q)
+          (v.name ?? '').toLowerCase().includes(q) ||
+          (v.leader ?? '').toLowerCase().includes(q) ||
+          (v.vaultAddress ?? '').toLowerCase().includes(q)
       );
     }
 
@@ -91,19 +91,19 @@ export const useVaultStore = create<VaultState>((set, get) => ({
       let cmp = 0;
       switch (sortField) {
         case 'tvl':
-          cmp = a.tvl - b.tvl;
+          cmp = (a.tvl ?? 0) - (b.tvl ?? 0);
           break;
         case 'apr':
-          cmp = a.apr30d - b.apr30d;
+          cmp = (a.apr30d ?? 0) - (b.apr30d ?? 0);
           break;
         case 'pnl':
-          cmp = a.allTimePnl - b.allTimePnl;
+          cmp = (a.allTimePnl ?? 0) - (b.allTimePnl ?? 0);
           break;
         case 'followers':
-          cmp = a.followerCount - b.followerCount;
+          cmp = (a.followerCount ?? 0) - (b.followerCount ?? 0);
           break;
         case 'name':
-          cmp = a.name.localeCompare(b.name);
+          cmp = (a.name ?? '').localeCompare(b.name ?? '');
           break;
       }
       return sortDirection === 'desc' ? -cmp : cmp;

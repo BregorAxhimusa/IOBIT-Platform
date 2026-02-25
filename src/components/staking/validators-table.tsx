@@ -2,7 +2,10 @@
 
 import { useState, useMemo } from 'react';
 import { formatCompactNumber, formatAddress } from '@/lib/utils/format';
+import { Pagination } from '@/components/ui/pagination';
 import type { ValidatorSummary } from '@/lib/hyperliquid/types';
+
+const ROWS_PER_PAGE = 15;
 
 interface ValidatorsTableProps {
   validators: ValidatorSummary[];
@@ -16,6 +19,7 @@ export function ValidatorsTable({ validators, isLoading, onStake }: ValidatorsTa
   const [search, setSearch] = useState('');
   const [sortField, setSortField] = useState<SortField>('stake');
   const [sortDesc, setSortDesc] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const filtered = useMemo(() => {
     const result = validators.filter((v) => {
@@ -33,6 +37,10 @@ export function ValidatorsTable({ validators, isLoading, onStake }: ValidatorsTa
 
     return result;
   }, [validators, search, sortField, sortDesc]);
+
+  const totalPages = Math.ceil(filtered.length / ROWS_PER_PAGE);
+  const startIdx = (currentPage - 1) * ROWS_PER_PAGE;
+  const pageValidators = filtered.slice(startIdx, startIdx + ROWS_PER_PAGE);
 
   const handleSort = (field: SortField) => {
     if (sortField === field) setSortDesc(!sortDesc);
@@ -59,7 +67,7 @@ export function ValidatorsTable({ validators, isLoading, onStake }: ValidatorsTa
         <input
           type="text"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => { setSearch(e.target.value); setCurrentPage(1); }}
           placeholder="Search validators..."
           className="bg-[#1a2028] border border-gray-700 rounded-lg px-3 py-1.5 text-white text-xs w-48 focus:outline-none focus:border-gray-500"
         />
@@ -83,9 +91,9 @@ export function ValidatorsTable({ validators, isLoading, onStake }: ValidatorsTa
             </tr>
           </thead>
           <tbody>
-            {filtered.map((v, i) => (
+            {pageValidators.map((v, i) => (
               <tr key={v.validator} className="border-b border-gray-800/50 hover:bg-gray-800/30">
-                <td className="py-3 text-gray-400">{i + 1}</td>
+                <td className="py-3 text-gray-400">{startIdx + i + 1}</td>
                 <td className="py-3">
                   <div>
                     <p className="text-white text-sm">{v.name || 'Unknown'}</p>
@@ -115,6 +123,13 @@ export function ValidatorsTable({ validators, isLoading, onStake }: ValidatorsTa
           </tbody>
         </table>
       </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+        totalItems={filtered.length}
+        itemLabel="validators"
+      />
     </div>
   );
 }

@@ -1,8 +1,12 @@
 'use client';
 
+import { useState } from 'react';
 import { cn } from '@/lib/utils/cn';
 import { formatAddress } from '@/lib/utils/format';
+import { Pagination } from '@/components/ui/pagination';
 import type { VaultFollower } from '@/lib/hyperliquid/types';
+
+const ROWS_PER_PAGE = 15;
 
 interface VaultFollowersProps {
   followers: VaultFollower[];
@@ -19,6 +23,8 @@ function formatCurrency(value: number): string {
 }
 
 export function VaultFollowers({ followers }: VaultFollowersProps) {
+  const [currentPage, setCurrentPage] = useState(1);
+
   if (followers.length === 0) {
     return (
       <div className="flex items-center justify-center h-32 text-gray-500 text-sm">
@@ -31,6 +37,10 @@ export function VaultFollowers({ followers }: VaultFollowersProps) {
   const sorted = [...followers].sort(
     (a, b) => parseFloat(b.equity) - parseFloat(a.equity)
   );
+
+  const totalPages = Math.ceil(sorted.length / ROWS_PER_PAGE);
+  const startIdx = (currentPage - 1) * ROWS_PER_PAGE;
+  const pageFollowers = sorted.slice(startIdx, startIdx + ROWS_PER_PAGE);
 
   return (
     <div className="overflow-x-auto">
@@ -45,7 +55,7 @@ export function VaultFollowers({ followers }: VaultFollowersProps) {
           </tr>
         </thead>
         <tbody>
-          {sorted.map((follower, index) => {
+          {pageFollowers.map((follower, index) => {
             const equity = parseFloat(follower.equity);
             const pnl = parseFloat(follower.pnl);
             const lockDate = follower.lockedUntil
@@ -61,7 +71,7 @@ export function VaultFollowers({ followers }: VaultFollowersProps) {
                 key={follower.user}
                 className="border-b border-gray-800/50 hover:bg-[#1a2028]/50 transition-colors"
               >
-                <td className="py-2 px-3 text-gray-500">{index + 1}</td>
+                <td className="py-2 px-3 text-gray-500">{startIdx + index + 1}</td>
                 <td className="py-2 px-3 text-white font-mono">
                   {formatAddress(follower.user)}
                 </td>
@@ -85,6 +95,14 @@ export function VaultFollowers({ followers }: VaultFollowersProps) {
           })}
         </tbody>
       </table>
+
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+        totalItems={sorted.length}
+        itemLabel="followers"
+      />
     </div>
   );
 }

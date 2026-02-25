@@ -1,19 +1,28 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { formatAddress, formatCompactNumber, formatUSD, formatDate } from '@/lib/utils/format';
+import { Pagination } from '@/components/ui/pagination';
 import type { ReferralState } from '@/lib/hyperliquid/types';
+
+const ROWS_PER_PAGE = 15;
 
 interface ReferredUsersTableProps {
   referralStates: ReferralState[];
 }
 
 export function ReferredUsersTable({ referralStates }: ReferredUsersTableProps) {
+  const [currentPage, setCurrentPage] = useState(1);
+
   const sortedStates = useMemo(() => {
     return [...referralStates].sort(
       (a, b) => parseFloat(b.cumVlm) - parseFloat(a.cumVlm)
     );
   }, [referralStates]);
+
+  const totalPages = Math.ceil(sortedStates.length / ROWS_PER_PAGE);
+  const startIdx = (currentPage - 1) * ROWS_PER_PAGE;
+  const pageStates = sortedStates.slice(startIdx, startIdx + ROWS_PER_PAGE);
 
   if (sortedStates.length === 0) {
     return (
@@ -61,12 +70,12 @@ export function ReferredUsersTable({ referralStates }: ReferredUsersTableProps) 
             </tr>
           </thead>
           <tbody>
-            {sortedStates.map((state, index) => (
+            {pageStates.map((state, index) => (
               <tr
                 key={state.user}
                 className="border-b border-gray-800/50 hover:bg-[#1a2028]/50 transition-colors"
               >
-                <td className="text-gray-500 text-xs py-2.5 px-2">{index + 1}</td>
+                <td className="text-gray-500 text-xs py-2.5 px-2">{startIdx + index + 1}</td>
                 <td className="text-white text-sm py-2.5 px-2 font-mono">
                   {formatAddress(state.user, 6)}
                 </td>
@@ -84,6 +93,13 @@ export function ReferredUsersTable({ referralStates }: ReferredUsersTableProps) 
           </tbody>
         </table>
       </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+        totalItems={sortedStates.length}
+        itemLabel="users"
+      />
     </div>
   );
 }

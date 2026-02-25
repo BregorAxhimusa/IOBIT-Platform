@@ -1,11 +1,20 @@
 'use client';
 
+import { useState } from 'react';
 import { useUserTradeHistory } from '@/hooks/use-user-trade-history';
 import { cn } from '@/lib/utils/cn';
 import { TableSkeleton } from '@/components/ui/skeleton';
+import { Pagination } from '@/components/ui/pagination';
+
+const ROWS_PER_PAGE = 20;
 
 export function TradeHistoryTable() {
   const { trades, isLoading } = useUserTradeHistory();
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(trades.length / ROWS_PER_PAGE);
+  const startIdx = (currentPage - 1) * ROWS_PER_PAGE;
+  const pageTrades = trades.slice(startIdx, startIdx + ROWS_PER_PAGE);
 
   if (isLoading) {
     return <TableSkeleton rows={5} columns={7} />;
@@ -38,7 +47,7 @@ export function TradeHistoryTable() {
           </tr>
         </thead>
         <tbody>
-          {trades.map((trade) => {
+          {pageTrades.map((trade) => {
             const date = new Date(trade.timestamp);
             const dateStr = date.toLocaleDateString('en-US', {
               month: 'short',
@@ -94,6 +103,14 @@ export function TradeHistoryTable() {
           })}
         </tbody>
       </table>
+
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+        totalItems={trades.length}
+        itemLabel="trades"
+      />
     </div>
   );
 }
