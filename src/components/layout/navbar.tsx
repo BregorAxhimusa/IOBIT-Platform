@@ -156,14 +156,14 @@ export function Navbar() {
 
       {/* Mobile Menu Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-white/20 bg-[#0f0f0f]">
-          <div className="px-4 py-3 space-y-1">
+        <div className="md:hidden border-t border-white/20 bg-[#0f0f0f] max-h-[calc(100vh-56px)] overflow-y-auto">
+          <div className="px-3 py-2 space-y-1">
             {/* Network Toggle in Mobile */}
-            <div className="px-3 py-2.5 flex items-center justify-between">
-              <span className="text-sm text-gray-400">Network</span>
+            <div className="px-2 py-2 flex items-center justify-between">
+              <span className="text-xs text-gray-400">Network</span>
               <NetworkToggle />
             </div>
-            <div className="border-b border-white/10 my-2" />
+            <div className="border-b border-white/10 my-1.5" />
             {navLinks.map((link) => {
               const isActive = pathname?.startsWith(link.href);
               return (
@@ -172,7 +172,7 @@ export function Navbar() {
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={cn(
-                    'block px-3 py-2.5 text-sm font-medium rounded-lg transition-all',
+                    'block px-2.5 py-2 text-xs font-medium rounded-lg transition-all',
                     isActive
                       ? 'bg-teal-500/10 text-teal-400 border border-teal-500/30'
                       : 'text-white hover:bg-white/5 border border-transparent'
@@ -187,7 +187,7 @@ export function Navbar() {
                 href="/settings"
                 onClick={() => setMobileMenuOpen(false)}
                 className={cn(
-                  'block px-3 py-2.5 text-sm font-medium rounded-lg transition-all',
+                  'block px-2.5 py-2 text-xs font-medium rounded-lg transition-all',
                   pathname?.startsWith('/settings')
                     ? 'bg-teal-500/10 text-teal-400 border border-teal-500/30'
                     : 'text-white/70 hover:text-white hover:bg-white/5 border border-transparent'
@@ -196,8 +196,14 @@ export function Navbar() {
                 Settings
               </Link>
             )}
+            {/* Account Switcher in Mobile */}
+            {isConnected && (
+              <div className="px-2.5 py-2">
+                <AccountSwitcher />
+              </div>
+            )}
             {/* Wallet Button in Mobile */}
-            <div className="pt-2 border-t border-white/10 mt-2">
+            <div className="pt-1.5 border-t border-white/10 mt-1.5 px-2.5">
               <WalletButton />
             </div>
           </div>

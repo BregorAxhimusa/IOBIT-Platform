@@ -1411,31 +1411,31 @@ function DepositModal({ onClose }: { onClose: () => void }) {
   const canDeposit = parsedAmount >= minDeposit && parsedAmount <= maxBalance && !isDepositing;
 
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={onClose}>
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4" onClick={onClose}>
       <div className="bg-[#0f1419] border border-gray-800 w-full max-w-md relative animate-in fade-in zoom-in-95 duration-200" onClick={(e) => e.stopPropagation()}>
         {/* Close Button */}
         <button
           onClick={onClose}
           disabled={isDepositing}
-          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-gray-500 hover:text-white hover:bg-white/10 transition-colors disabled:opacity-50"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-gray-500 hover:text-white hover:bg-white/10 transition-colors disabled:opacity-50"
         >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
 
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {/* Header */}
-          <div className="flex flex-col items-center mb-6">
-            <div className="w-14 h-14 bg-gradient-to-br from-teal-500 to-cyan-500 flex items-center justify-center mb-4 shadow-lg shadow-teal-500/20">
-              <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="flex flex-col items-center mb-4 sm:mb-6">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-teal-500 to-cyan-500 flex items-center justify-center mb-3 sm:mb-4 shadow-lg shadow-teal-500/20">
+              <svg className="w-6 h-6 sm:w-7 sm:h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
               </svg>
             </div>
-            <h2 className="text-xl font-bold text-white">
+            <h2 className="text-lg sm:text-xl font-bold text-white">
               {isTestnet ? 'Get Testnet USDC' : 'Deposit USDC'}
             </h2>
-            <p className="text-gray-500 text-sm mt-1">
+            <p className="text-gray-500 text-xs sm:text-sm mt-1">
               {isTestnet ? 'Practice trading with test funds' : 'From Arbitrum network'}
             </p>
             {isTestnet && (
@@ -1447,19 +1447,19 @@ function DepositModal({ onClose }: { onClose: () => void }) {
 
           {/* Testnet Faucet Section */}
           {isTestnet && (
-            <div className="mb-6 p-4 bg-amber-500/5 border border-amber-500/20">
-              <h3 className="text-sm font-semibold text-amber-400 mb-2">Get Free Test USDC</h3>
-              <p className="text-xs text-gray-400 mb-4">
+            <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-amber-500/5 border border-amber-500/20">
+              <h3 className="text-xs sm:text-sm font-semibold text-amber-400 mb-2">Get Free Test USDC</h3>
+              <p className="text-[10px] sm:text-xs text-gray-400 mb-3 sm:mb-4">
                 Request free testnet USDC to practice trading without real funds.
               </p>
               <button
                 onClick={handleRequestTestnetFunds}
                 disabled={isRequestingFaucet || !address}
-                className="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-black font-semibold text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-2 sm:py-2.5 bg-amber-500 hover:bg-amber-400 text-black font-semibold text-xs sm:text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isRequestingFaucet ? 'Requesting...' : 'Request 10,000 Test USDC'}
               </button>
-              <p className="text-xs text-gray-500 mt-3 text-center">
+              <p className="text-[10px] sm:text-xs text-gray-500 mt-2 sm:mt-3 text-center">
                 Or visit{' '}
                 <a
                   href="https://app.hyperliquid-testnet.xyz"
@@ -1475,20 +1475,20 @@ function DepositModal({ onClose }: { onClose: () => void }) {
 
           {/* Form - Only show for mainnet */}
           {!isTestnet && (
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {/* Asset & Chain */}
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-2 sm:gap-3">
                 <div>
-                  <label className="block text-xs text-gray-500 font-medium mb-2">Asset</label>
-                  <div className="px-4 py-3 bg-[#1a2028] border border-gray-800 text-white text-sm flex items-center gap-2">
-                    <span className="w-5 h-5 bg-blue-500 text-[10px] font-bold flex items-center justify-center text-white">$</span>
+                  <label className="block text-[10px] sm:text-xs text-gray-500 font-medium mb-1.5 sm:mb-2">Asset</label>
+                  <div className="px-3 py-2 sm:px-4 sm:py-3 bg-[#1a2028] border border-gray-800 text-white text-xs sm:text-sm flex items-center gap-2">
+                    <span className="w-4 h-4 sm:w-5 sm:h-5 bg-blue-500 text-[8px] sm:text-[10px] font-bold flex items-center justify-center text-white">$</span>
                     USDC
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs text-gray-500 font-medium mb-2">Chain</label>
-                  <div className="px-4 py-3 bg-[#1a2028] border border-gray-800 text-white text-sm flex items-center gap-2">
-                    <span className="w-5 h-5 bg-blue-600 text-[10px] flex items-center justify-center">A</span>
+                  <label className="block text-[10px] sm:text-xs text-gray-500 font-medium mb-1.5 sm:mb-2">Chain</label>
+                  <div className="px-3 py-2 sm:px-4 sm:py-3 bg-[#1a2028] border border-gray-800 text-white text-xs sm:text-sm flex items-center gap-2">
+                    <span className="w-4 h-4 sm:w-5 sm:h-5 bg-blue-600 text-[8px] sm:text-[10px] flex items-center justify-center">A</span>
                     Arbitrum
                   </div>
                 </div>
@@ -1496,11 +1496,11 @@ function DepositModal({ onClose }: { onClose: () => void }) {
 
               {/* Amount */}
               <div>
-                <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs text-gray-500 font-medium">Amount</label>
+                <div className="flex items-center justify-between mb-1.5 sm:mb-2">
+                  <label className="text-[10px] sm:text-xs text-gray-500 font-medium">Amount</label>
                   <button
                     onClick={() => setAmount(maxAmount)}
-                    className="text-xs text-teal-400 hover:text-teal-300 font-medium transition-colors"
+                    className="text-[10px] sm:text-xs text-teal-400 hover:text-teal-300 font-medium transition-colors"
                   >
                     MAX: {maxAmount}
                   </button>
@@ -1511,17 +1511,17 @@ function DepositModal({ onClose }: { onClose: () => void }) {
                   onChange={(e) => setAmount(e.target.value)}
                   placeholder="0.00"
                   disabled={isDepositing}
-                  className="w-full px-4 py-3 bg-[#1a2028] border border-gray-800 text-white text-sm font-medium focus:outline-none focus:border-teal-500/50 disabled:opacity-50 placeholder-gray-600"
+                  className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-[#1a2028] border border-gray-800 text-white text-xs sm:text-sm font-medium focus:outline-none focus:border-teal-500/50 disabled:opacity-50 placeholder-gray-600"
                 />
 
                 {/* Quick Percentage Buttons */}
-                <div className="grid grid-cols-4 gap-2 mt-3">
+                <div className="grid grid-cols-4 gap-1.5 sm:gap-2 mt-2 sm:mt-3">
                   {[25, 50, 75, 100].map((pct) => (
                     <button
                       key={pct}
                       onClick={() => handlePercentageClick(pct)}
                       disabled={isDepositing}
-                      className="py-2 text-xs font-medium bg-[#1a2028] border border-gray-800 text-gray-400 hover:text-white hover:border-gray-600 transition-colors disabled:opacity-50"
+                      className="py-1.5 sm:py-2 text-[10px] sm:text-xs font-medium bg-[#1a2028] border border-gray-800 text-gray-400 hover:text-white hover:border-gray-600 transition-colors disabled:opacity-50"
                     >
                       {pct}%
                     </button>
@@ -1531,13 +1531,13 @@ function DepositModal({ onClose }: { onClose: () => void }) {
 
               {/* Warning Messages */}
               {hasInsufficientBalance && (
-                <div className="p-3 bg-red-500/10 border border-red-500/30 text-sm text-red-400">
+                <div className="p-2 sm:p-3 bg-red-500/10 border border-red-500/30 text-[10px] sm:text-sm text-red-400">
                   Insufficient balance. Minimum deposit is {minDeposit} USDC but you only have {maxBalance.toFixed(2)} USDC.
                 </div>
               )}
 
               {isBelowMinimum && !hasInsufficientBalance && (
-                <div className="p-3 bg-amber-500/10 border border-amber-500/30 text-sm text-amber-400">
+                <div className="p-2 sm:p-3 bg-amber-500/10 border border-amber-500/30 text-[10px] sm:text-sm text-amber-400">
                   Minimum deposit is {minDeposit} USDC. Amounts below this will be LOST!
                 </div>
               )}
@@ -1546,7 +1546,7 @@ function DepositModal({ onClose }: { onClose: () => void }) {
               <button
                 onClick={handleDeposit}
                 disabled={!canDeposit}
-                className="w-full py-3 bg-teal-500 hover:bg-teal-400 text-white font-semibold text-sm transition-colors disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed"
+                className="w-full py-2.5 sm:py-3 bg-teal-500 hover:bg-teal-400 text-white font-semibold text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed"
               >
                 {isDepositing ? (
                   <span className="flex items-center justify-center gap-2">
@@ -1560,7 +1560,7 @@ function DepositModal({ onClose }: { onClose: () => void }) {
               </button>
 
               {/* Info */}
-              <p className="text-xs text-gray-600 text-center">
+              <p className="text-[10px] sm:text-xs text-gray-600 text-center">
                 Min: {minDeposit} USDC • Deposits are instant • Hyperliquid pays gas
               </p>
             </div>
@@ -1568,7 +1568,7 @@ function DepositModal({ onClose }: { onClose: () => void }) {
 
           {/* Testnet Info */}
           {isTestnet && (
-            <p className="text-xs text-gray-600 text-center">
+            <p className="text-[10px] sm:text-xs text-gray-600 text-center">
               Testnet funds are for testing only and have no real value
             </p>
           )}
@@ -1596,47 +1596,47 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={onClose}>
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4" onClick={onClose}>
       <div className="bg-[#0f1419] border border-gray-800 w-full max-w-md relative animate-in fade-in zoom-in-95 duration-200" onClick={(e) => e.stopPropagation()}>
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-gray-500 hover:text-white hover:bg-white/10 transition-colors"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-gray-500 hover:text-white hover:bg-white/10 transition-colors"
         >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
 
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {/* Header */}
-          <div className="flex flex-col items-center mb-6">
-            <div className="w-14 h-14 bg-gradient-to-br from-rose-500 to-orange-500 flex items-center justify-center mb-4 shadow-lg shadow-rose-500/20">
-              <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="flex flex-col items-center mb-4 sm:mb-6">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-rose-500 to-orange-500 flex items-center justify-center mb-3 sm:mb-4 shadow-lg shadow-rose-500/20">
+              <svg className="w-6 h-6 sm:w-7 sm:h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19V5m0 14l-4-4m4 4l4-4" />
               </svg>
             </div>
-            <h2 className="text-xl font-bold text-white">Withdraw USDC</h2>
-            <p className="text-gray-500 text-sm mt-1 text-center">
+            <h2 className="text-lg sm:text-xl font-bold text-white">Withdraw USDC</h2>
+            <p className="text-gray-500 text-xs sm:text-sm mt-1 text-center">
               To Arbitrum network • 1 USDC fee
             </p>
           </div>
 
           {/* Form */}
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             {/* Asset & Chain */}
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-2 sm:gap-3">
               <div>
-                <label className="block text-xs text-gray-500 font-medium mb-2">Asset</label>
-                <div className="px-4 py-3 bg-[#1a2028] border border-gray-800 text-white text-sm flex items-center gap-2">
-                  <span className="w-5 h-5 bg-blue-500 text-[10px] font-bold flex items-center justify-center text-white">$</span>
+                <label className="block text-[10px] sm:text-xs text-gray-500 font-medium mb-1.5 sm:mb-2">Asset</label>
+                <div className="px-3 py-2 sm:px-4 sm:py-3 bg-[#1a2028] border border-gray-800 text-white text-xs sm:text-sm flex items-center gap-2">
+                  <span className="w-4 h-4 sm:w-5 sm:h-5 bg-blue-500 text-[8px] sm:text-[10px] font-bold flex items-center justify-center text-white">$</span>
                   USDC
                 </div>
               </div>
               <div>
-                <label className="block text-xs text-gray-500 font-medium mb-2">Chain</label>
-                <div className="px-4 py-3 bg-[#1a2028] border border-gray-800 text-white text-sm flex items-center gap-2">
-                  <span className="w-5 h-5 bg-blue-600 text-[10px] flex items-center justify-center">A</span>
+                <label className="block text-[10px] sm:text-xs text-gray-500 font-medium mb-1.5 sm:mb-2">Chain</label>
+                <div className="px-3 py-2 sm:px-4 sm:py-3 bg-[#1a2028] border border-gray-800 text-white text-xs sm:text-sm flex items-center gap-2">
+                  <span className="w-4 h-4 sm:w-5 sm:h-5 bg-blue-600 text-[8px] sm:text-[10px] flex items-center justify-center">A</span>
                   Arbitrum
                 </div>
               </div>
@@ -1644,11 +1644,11 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
 
             {/* Amount */}
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <label className="text-xs text-gray-500 font-medium">Amount</label>
+              <div className="flex items-center justify-between mb-1.5 sm:mb-2">
+                <label className="text-[10px] sm:text-xs text-gray-500 font-medium">Amount</label>
                 <button
                   onClick={() => setAmount(maxAmount)}
-                  className="text-xs text-teal-400 hover:text-teal-300 font-medium transition-colors"
+                  className="text-[10px] sm:text-xs text-teal-400 hover:text-teal-300 font-medium transition-colors"
                 >
                   MAX: {maxAmount}
                 </button>
@@ -1658,7 +1658,7 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="0.00"
-                className="w-full px-4 py-3 bg-[#1a2028] border border-gray-800 text-white text-sm font-medium focus:outline-none focus:border-teal-500/50 placeholder-gray-600"
+                className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-[#1a2028] border border-gray-800 text-white text-xs sm:text-sm font-medium focus:outline-none focus:border-teal-500/50 placeholder-gray-600"
               />
             </div>
 
@@ -1666,7 +1666,7 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
             <button
               onClick={handleWithdraw}
               disabled={isWithdrawing || !amount || parseFloat(amount) <= 0}
-              className="w-full py-3 bg-teal-500 hover:bg-teal-400 text-white font-semibold text-sm transition-colors disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed"
+              className="w-full py-2.5 sm:py-3 bg-teal-500 hover:bg-teal-400 text-white font-semibold text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed"
             >
               {isWithdrawing ? (
                 <span className="flex items-center justify-center gap-2">
@@ -1680,7 +1680,7 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
             </button>
 
             {/* Info Text */}
-            <p className="text-xs text-gray-600 text-center leading-relaxed">
+            <p className="text-[10px] sm:text-xs text-gray-600 text-center leading-relaxed">
               If you have USDC in Spot Balances, transfer to Perps first.
               <br />Withdrawals arrive within 5 minutes.
             </p>
@@ -1718,43 +1718,43 @@ function TransferModal({ onClose }: { onClose: () => void }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={onClose}>
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4" onClick={onClose}>
       <div className="bg-[#0f1419] border border-gray-800 w-full max-w-md relative animate-in fade-in zoom-in-95 duration-200" onClick={(e) => e.stopPropagation()}>
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-gray-500 hover:text-white hover:bg-white/10 transition-colors"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-gray-500 hover:text-white hover:bg-white/10 transition-colors"
         >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
 
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {/* Header */}
-          <div className="flex flex-col items-center mb-6">
-            <h2 className="text-xl font-bold text-white">Transfer USDC</h2>
-            <p className="text-gray-500 text-sm mt-1">
+          <div className="flex flex-col items-center mb-4 sm:mb-6">
+            <h2 className="text-lg sm:text-xl font-bold text-white">Transfer USDC</h2>
+            <p className="text-gray-500 text-xs sm:text-sm mt-1">
               Between Perps and Spot balances
             </p>
           </div>
 
           {/* Direction Selector */}
-          <div className="bg-[#1a2028] border border-gray-800 p-4 mb-6">
+          <div className="bg-[#1a2028] border border-gray-800 p-3 sm:p-4 mb-4 sm:mb-6">
             <div className="flex items-center justify-between">
               {/* From */}
               <div className="flex-1">
-                <p className="text-xs text-gray-500 mb-1">From</p>
-                <div className="flex items-center gap-2">
+                <p className="text-[10px] sm:text-xs text-gray-500 mb-1">From</p>
+                <div className="flex items-center gap-1.5 sm:gap-2">
                   <span className={cn(
-                    "w-2 h-2 rounded-full",
+                    "w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full",
                     direction === 'perps-to-spot' ? 'bg-purple-400' : 'bg-teal-400'
                   )} />
-                  <span className="text-white font-medium">
+                  <span className="text-white text-sm sm:text-base font-medium">
                     {direction === 'perps-to-spot' ? 'Perps' : 'Spot'}
                   </span>
                 </div>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-[10px] sm:text-xs text-gray-500 mt-1">
                   ${direction === 'perps-to-spot' ? balance?.perps || '0.00' : balance?.spot || '0.00'}
                 </p>
               </div>
@@ -1762,26 +1762,26 @@ function TransferModal({ onClose }: { onClose: () => void }) {
               {/* Toggle Button */}
               <button
                 onClick={toggleDirection}
-                className="mx-4 w-10 h-10 flex items-center justify-center bg-teal-500/10 hover:bg-teal-500/20 border border-teal-500/30 transition-colors"
+                className="mx-2 sm:mx-4 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center bg-teal-500/10 hover:bg-teal-500/20 border border-teal-500/30 transition-colors"
               >
-                <svg className="w-5 h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                 </svg>
               </button>
 
               {/* To */}
               <div className="flex-1 text-right">
-                <p className="text-xs text-gray-500 mb-1">To</p>
-                <div className="flex items-center justify-end gap-2">
-                  <span className="text-white font-medium">
+                <p className="text-[10px] sm:text-xs text-gray-500 mb-1">To</p>
+                <div className="flex items-center justify-end gap-1.5 sm:gap-2">
+                  <span className="text-white text-sm sm:text-base font-medium">
                     {direction === 'perps-to-spot' ? 'Spot' : 'Perps'}
                   </span>
                   <span className={cn(
-                    "w-2 h-2 rounded-full",
+                    "w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full",
                     direction === 'perps-to-spot' ? 'bg-teal-400' : 'bg-purple-400'
                   )} />
                 </div>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-[10px] sm:text-xs text-gray-500 mt-1">
                   ${direction === 'perps-to-spot' ? balance?.spot || '0.00' : balance?.perps || '0.00'}
                 </p>
               </div>
@@ -1789,14 +1789,14 @@ function TransferModal({ onClose }: { onClose: () => void }) {
           </div>
 
           {/* Form */}
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             {/* Amount */}
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <label className="text-xs text-gray-500 font-medium">Amount</label>
+              <div className="flex items-center justify-between mb-1.5 sm:mb-2">
+                <label className="text-[10px] sm:text-xs text-gray-500 font-medium">Amount</label>
                 <button
                   onClick={() => setAmount(maxAmount)}
-                  className="text-xs text-teal-400 hover:text-teal-300 font-medium transition-colors"
+                  className="text-[10px] sm:text-xs text-teal-400 hover:text-teal-300 font-medium transition-colors"
                 >
                   MAX: {maxAmount}
                 </button>
@@ -1806,7 +1806,7 @@ function TransferModal({ onClose }: { onClose: () => void }) {
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="0.00"
-                className="w-full px-4 py-3 bg-[#1a2028] border border-gray-800 text-white text-sm font-medium focus:outline-none focus:border-teal-500/50 placeholder-gray-600"
+                className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-[#1a2028] border border-gray-800 text-white text-xs sm:text-sm font-medium focus:outline-none focus:border-teal-500/50 placeholder-gray-600"
               />
             </div>
 
@@ -1814,7 +1814,7 @@ function TransferModal({ onClose }: { onClose: () => void }) {
             <button
               onClick={handleTransfer}
               disabled={isTransferring || !amount || parseFloat(amount) <= 0}
-              className="w-full py-3 bg-teal-500 hover:bg-teal-400 text-white font-semibold text-sm transition-colors disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed"
+              className="w-full py-2.5 sm:py-3 bg-teal-500 hover:bg-teal-400 text-white font-semibold text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed"
             >
               {isTransferring ? (
                 <span className="flex items-center justify-center gap-2">

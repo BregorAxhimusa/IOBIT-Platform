@@ -77,7 +77,7 @@ export function VaultDepositModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4">
       {/* Backdrop */}
       <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose} />
 
@@ -86,44 +86,44 @@ export function VaultDepositModal({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-gray-500 hover:text-white hover:bg-white/10 transition-colors z-10"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-gray-500 hover:text-white hover:bg-white/10 transition-colors z-10"
         >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
 
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {/* Header */}
-          <div className="flex flex-col items-center mb-6">
+          <div className="flex flex-col items-center mb-4 sm:mb-6">
             <div className={cn(
-              "w-14 h-14 flex items-center justify-center mb-4 shadow-lg",
+              "w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center mb-3 sm:mb-4 shadow-lg",
               mode === 'deposit'
                 ? 'bg-gradient-to-br from-teal-500 to-cyan-500 shadow-teal-500/20'
                 : 'bg-gradient-to-br from-rose-500 to-red-500 shadow-rose-500/20'
             )}>
               {mode === 'deposit' ? (
-                <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-6 h-6 sm:w-7 sm:h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                 </svg>
               ) : (
-                <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-6 h-6 sm:w-7 sm:h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19V5m0 14l-4-4m4 4l4-4" />
                 </svg>
               )}
             </div>
-            <h2 className="text-xl font-bold text-white">
+            <h2 className="text-lg sm:text-xl font-bold text-white">
               {mode === 'deposit' ? 'Deposit to Vault' : 'Withdraw from Vault'}
             </h2>
-            <p className="text-gray-500 text-sm mt-1 truncate max-w-full">{vaultName}</p>
+            <p className="text-gray-500 text-xs sm:text-sm mt-1 truncate max-w-full">{vaultName}</p>
           </div>
 
           {/* Tabs */}
-          <div className="flex bg-[#1a2028] border border-gray-800 p-1 mb-6">
+          <div className="flex bg-[#1a2028] border border-gray-800 p-1 mb-4 sm:mb-6">
             <button
               onClick={() => { setMode('deposit'); clearError(); setAmount(''); }}
               className={cn(
-                'flex-1 py-2.5 text-sm font-medium transition-colors',
+                'flex-1 py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-colors',
                 mode === 'deposit'
                   ? 'bg-teal-500 text-white'
                   : 'text-white/70 hover:text-white'
@@ -134,7 +134,7 @@ export function VaultDepositModal({
             <button
               onClick={() => { setMode('withdraw'); clearError(); setAmount(''); }}
               className={cn(
-                'flex-1 py-2.5 text-sm font-medium transition-colors',
+                'flex-1 py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-colors',
                 mode === 'withdraw'
                   ? 'bg-rose-500 text-white'
                   : 'text-white/70 hover:text-white'
@@ -145,33 +145,33 @@ export function VaultDepositModal({
           </div>
 
           {/* Balance Info */}
-          <div className="bg-[#1a2028] border border-gray-800 p-4 mb-4">
+          <div className="bg-[#1a2028] border border-gray-800 p-3 sm:p-4 mb-3 sm:mb-4">
             {mode === 'deposit' ? (
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-teal-400 rounded-full" />
-                  <span className="text-gray-400 text-sm">Available Balance</span>
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-teal-400 rounded-full" />
+                  <span className="text-gray-400 text-xs sm:text-sm">Available Balance</span>
                 </div>
-                <span className="text-white font-medium">${availableBalance.toFixed(2)}</span>
+                <span className="text-white text-sm sm:text-base font-medium">${availableBalance.toFixed(2)}</span>
               </div>
             ) : (
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full" />
-                    <span className="text-gray-400 text-sm">Your Equity</span>
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-purple-400 rounded-full" />
+                    <span className="text-gray-400 text-xs sm:text-sm">Your Equity</span>
                   </div>
-                  <span className="text-white font-medium">${currentEquity.toFixed(2)}</span>
+                  <span className="text-white text-sm sm:text-base font-medium">${currentEquity.toFixed(2)}</span>
                 </div>
                 {isLocked && lockDateStr && (
                   <div className="flex items-center justify-between pt-2 border-t border-gray-800">
-                    <span className="text-amber-400 text-xs flex items-center gap-1">
-                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <span className="text-amber-400 text-[10px] sm:text-xs flex items-center gap-1">
+                      <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                       </svg>
                       Locked until
                     </span>
-                    <span className="text-amber-400 text-xs">{lockDateStr}</span>
+                    <span className="text-amber-400 text-[10px] sm:text-xs">{lockDateStr}</span>
                   </div>
                 )}
               </div>
@@ -179,12 +179,12 @@ export function VaultDepositModal({
           </div>
 
           {/* Amount Input */}
-          <div className="mb-4">
-            <div className="flex items-center justify-between mb-2">
-              <label className="text-xs text-gray-500 font-medium">Amount (USDC)</label>
+          <div className="mb-3 sm:mb-4">
+            <div className="flex items-center justify-between mb-1.5 sm:mb-2">
+              <label className="text-[10px] sm:text-xs text-gray-500 font-medium">Amount (USDC)</label>
               <button
                 onClick={handleMaxClick}
-                className="text-xs text-teal-400 hover:text-teal-300 font-medium transition-colors"
+                className="text-[10px] sm:text-xs text-teal-400 hover:text-teal-300 font-medium transition-colors"
               >
                 MAX
               </button>
@@ -194,18 +194,18 @@ export function VaultDepositModal({
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="0.00"
-              className="w-full bg-[#1a2028] border border-gray-800 px-4 py-3 text-white text-sm font-medium focus:outline-none focus:border-teal-500/50 placeholder-gray-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              className="w-full bg-[#1a2028] border border-gray-800 px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm font-medium focus:outline-none focus:border-teal-500/50 placeholder-gray-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
           </div>
 
           {/* 4-day lockup warning for deposits */}
           {mode === 'deposit' && (
-            <div className="bg-amber-500/10 border border-amber-500/30 p-3 mb-4">
+            <div className="bg-amber-500/10 border border-amber-500/30 p-2 sm:p-3 mb-3 sm:mb-4">
               <div className="flex items-start gap-2">
-                <svg className="w-4 h-4 text-amber-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
-                <p className="text-amber-400 text-xs">
+                <p className="text-amber-400 text-[10px] sm:text-xs">
                   Deposits are locked for 4 days. You will not be able to withdraw during this period.
                 </p>
               </div>
@@ -214,8 +214,8 @@ export function VaultDepositModal({
 
           {/* Error */}
           {error && (
-            <div className="bg-red-500/10 border border-red-500/30 p-3 mb-4">
-              <p className="text-red-400 text-xs">{error}</p>
+            <div className="bg-red-500/10 border border-red-500/30 p-2 sm:p-3 mb-3 sm:mb-4">
+              <p className="text-red-400 text-[10px] sm:text-xs">{error}</p>
             </div>
           )}
 
@@ -227,7 +227,7 @@ export function VaultDepositModal({
               (mode === 'deposit' ? !canDeposit : !canWithdraw)
             }
             className={cn(
-              'w-full py-3 font-semibold text-sm transition-colors',
+              'w-full py-2.5 sm:py-3 font-semibold text-xs sm:text-sm transition-colors',
               mode === 'deposit'
                 ? 'bg-teal-500 hover:bg-teal-400 text-white disabled:bg-gray-700 disabled:text-gray-500'
                 : 'bg-rose-500 hover:bg-rose-400 text-white disabled:bg-gray-700 disabled:text-gray-500',
