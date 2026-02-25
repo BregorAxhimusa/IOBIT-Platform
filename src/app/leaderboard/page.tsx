@@ -104,7 +104,7 @@ export default function LeaderboardPage() {
                     {prize > 0 && (
                       <div className="flex justify-between">
                         <span className="text-gray-400">Prize</span>
-                        <span className="text-green-400 font-semibold">
+                        <span className="text-green-400 font-normal">
                           ${prize.toLocaleString()}
                         </span>
                       </div>
@@ -122,16 +122,16 @@ export default function LeaderboardPage() {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-gray-800">
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-300">
+                  <th className="px-6 py-4 text-left text-sm font-normal text-gray-300">
                     Rank
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-300">
+                  <th className="px-6 py-4 text-left text-sm font-normal text-gray-300">
                     Account Value
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-300">
+                  <th className="px-6 py-4 text-left text-sm font-normal text-gray-300">
                     Volume
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-300">
+                  <th className="px-6 py-4 text-left text-sm font-normal text-gray-300">
                     Prize
                   </th>
                 </tr>
@@ -192,7 +192,7 @@ export default function LeaderboardPage() {
                             )}
                             <span
                               className={cn(
-                                'font-semibold',
+                                'font-normal',
                                 rank <= 3 ? 'text-yellow-400' : 'text-gray-300'
                               )}
                             >

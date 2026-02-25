@@ -116,7 +116,7 @@ export default function VaultDetailPage() {
             <button
               onClick={() => setShowDepositModal(true)}
               disabled={!isConnected}
-              className="px-6 py-2.5 bg-[#14b8a6] hover:bg-[#14b8a6]/80 text-white font-semibold text-sm rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-2.5 bg-[#14b8a6] hover:bg-[#14b8a6]/80 text-white font-normal text-sm rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {currentUserEquity > 0 ? 'Manage' : 'Deposit'}
             </button>
@@ -127,13 +127,13 @@ export default function VaultDetailPage() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
           <div className="bg-[#0f1419] border border-gray-800 rounded-lg p-3">
             <p className="text-gray-400 text-xs mb-1">TVL</p>
-            <p className="text-white text-sm font-semibold">{formatCurrency(tvl)}</p>
+            <p className="text-white text-sm font-normal">{formatCurrency(tvl)}</p>
           </div>
           <div className="bg-[#0f1419] border border-gray-800 rounded-lg p-3">
             <p className="text-gray-400 text-xs mb-1">All-time PnL</p>
             <p
               className={cn(
-                'text-sm font-semibold',
+                'text-sm font-normal',
                 isPnlPositive ? 'text-green-400' : 'text-red-400'
               )}
             >
@@ -145,7 +145,7 @@ export default function VaultDetailPage() {
             <p className="text-gray-400 text-xs mb-1">APR</p>
             <p
               className={cn(
-                'text-sm font-semibold',
+                'text-sm font-normal',
                 summary.apr >= 0 ? 'text-green-400' : 'text-red-400'
               )}
             >
@@ -155,7 +155,7 @@ export default function VaultDetailPage() {
           </div>
           <div className="bg-[#0f1419] border border-gray-800 rounded-lg p-3">
             <p className="text-gray-400 text-xs mb-1">Followers</p>
-            <p className="text-white text-sm font-semibold">
+            <p className="text-white text-sm font-normal">
               {summary.followerCount?.toLocaleString() || 0}
             </p>
           </div>
@@ -167,7 +167,7 @@ export default function VaultDetailPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-[#14b8a6] text-xs font-normal">Your Position</p>
-                <p className="text-white text-lg font-semibold">
+                <p className="text-white text-lg font-normal">
                   {formatCurrency(currentUserEquity)}
                 </p>
               </div>
@@ -175,7 +175,7 @@ export default function VaultDetailPage() {
                 <p className="text-gray-400 text-xs">Your PnL</p>
                 <p
                   className={cn(
-                    'text-sm font-semibold',
+                    'text-sm font-normal',
                     parseFloat(userEquity.pnl) >= 0 ? 'text-green-400' : 'text-red-400'
                   )}
                 >
@@ -190,7 +190,7 @@ export default function VaultDetailPage() {
         {/* Chart */}
         {summary.portfolioPeriods && summary.portfolioPeriods.length > 0 && (
           <div className="bg-[#0f1419] border border-gray-800 rounded-lg p-4 mb-6">
-            <h3 className="text-white font-semibold text-sm mb-3">Performance</h3>
+            <h3 className="text-white font-normal text-sm mb-3">Performance</h3>
             <VaultChart periods={summary.portfolioPeriods} />
           </div>
         )}
@@ -244,7 +244,7 @@ export default function VaultDetailPage() {
                               <span className="text-white font-normal">{pos.coin}</span>
                               <span
                                 className={cn(
-                                  'px-1.5 py-0.5 rounded text-[10px] font-semibold',
+                                  'px-1.5 py-0.5 rounded text-[10px] font-normal',
                                   isBuy
                                     ? 'bg-[#14b8a6]/10 text-[#14b8a6]'
                                     : 'bg-[#ef4444]/10 text-[#ef4444]'

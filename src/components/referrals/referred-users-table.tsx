@@ -27,7 +27,7 @@ export function ReferredUsersTable({ referralStates }: ReferredUsersTableProps) 
   if (sortedStates.length === 0) {
     return (
       <div className="bg-[#0f1419] border border-gray-800 p-4">
-        <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+        <h3 className="text-white font-normal mb-4 flex items-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-teal-500" viewBox="0 0 20 20" fill="currentColor">
             <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
           </svg>
@@ -50,7 +50,7 @@ export function ReferredUsersTable({ referralStates }: ReferredUsersTableProps) 
 
   return (
     <div className="bg-[#0f1419] border border-gray-800 p-4">
-      <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+      <h3 className="text-white font-normal mb-4 flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-teal-500" viewBox="0 0 20 20" fill="currentColor">
           <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
         </svg>

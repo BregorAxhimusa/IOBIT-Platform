@@ -108,7 +108,7 @@ export default function TradingPage({ params }: TradingPageProps) {
                 <button
                   onClick={() => setRightTab('orderbook')}
                   className={cn(
-                    'flex-1 px-3 py-3 text-sm font-semibold transition-all relative',
+                    'flex-1 px-3 py-3 text-sm font-normal transition-all relative',
                     rightTab === 'orderbook'
                       ? 'text-teal-400'
                       : 'text-white/70 hover:text-white'
@@ -122,7 +122,7 @@ export default function TradingPage({ params }: TradingPageProps) {
                 <button
                   onClick={() => setRightTab('trades')}
                   className={cn(
-                    'flex-1 px-3 py-3 text-sm font-semibold transition-all relative',
+                    'flex-1 px-3 py-3 text-sm font-normal transition-all relative',
                     rightTab === 'trades'
                       ? 'text-teal-400'
                       : 'text-white/70 hover:text-white'
@@ -155,7 +155,7 @@ export default function TradingPage({ params }: TradingPageProps) {
               <button
                 onClick={() => setRightTab('orderbook')}
                 className={cn(
-                  'flex-1 px-3 py-3 text-xs sm:text-sm font-semibold transition-all relative',
+                  'flex-1 px-3 py-3 text-xs sm:text-sm font-normal transition-all relative',
                   rightTab === 'orderbook'
                     ? 'text-teal-400'
                     : 'text-white/70 hover:text-white'
@@ -169,7 +169,7 @@ export default function TradingPage({ params }: TradingPageProps) {
               <button
                 onClick={() => setRightTab('trades')}
                 className={cn(
-                  'flex-1 px-3 py-3 text-xs sm:text-sm font-semibold transition-all relative',
+                  'flex-1 px-3 py-3 text-xs sm:text-sm font-normal transition-all relative',
                   rightTab === 'trades'
                     ? 'text-teal-400'
                     : 'text-white/70 hover:text-white'
@@ -201,7 +201,7 @@ export default function TradingPage({ params }: TradingPageProps) {
               <button
                 onClick={() => setActiveTab('positions')}
                 className={cn(
-                  'px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs lg:text-sm font-semibold whitespace-nowrap transition-all relative',
+                  'px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs lg:text-sm font-normal whitespace-nowrap transition-all relative',
                   activeTab === 'positions'
                     ? 'text-teal-400'
                     : 'text-white/70 hover:text-white'
@@ -215,7 +215,7 @@ export default function TradingPage({ params }: TradingPageProps) {
               <button
                 onClick={() => setActiveTab('orders')}
                 className={cn(
-                  'px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs lg:text-sm font-semibold whitespace-nowrap transition-all relative',
+                  'px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs lg:text-sm font-normal whitespace-nowrap transition-all relative',
                   activeTab === 'orders'
                     ? 'text-teal-400'
                     : 'text-white/70 hover:text-white'
@@ -229,7 +229,7 @@ export default function TradingPage({ params }: TradingPageProps) {
               <button
                 onClick={() => setActiveTab('history')}
                 className={cn(
-                  'px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs lg:text-sm font-semibold whitespace-nowrap transition-all relative',
+                  'px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs lg:text-sm font-normal whitespace-nowrap transition-all relative',
                   activeTab === 'history'
                     ? 'text-teal-400'
                     : 'text-white/70 hover:text-white'
@@ -243,7 +243,7 @@ export default function TradingPage({ params }: TradingPageProps) {
               <button
                 onClick={() => setActiveTab('trades')}
                 className={cn(
-                  'px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs lg:text-sm font-semibold whitespace-nowrap transition-all relative',
+                  'px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs lg:text-sm font-normal whitespace-nowrap transition-all relative',
                   activeTab === 'trades'
                     ? 'text-teal-400'
                     : 'text-white/70 hover:text-white'
@@ -258,7 +258,7 @@ export default function TradingPage({ params }: TradingPageProps) {
                 <button
                   onClick={() => setActiveTab('balances')}
                   className={cn(
-                    'px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs lg:text-sm font-semibold whitespace-nowrap transition-all relative',
+                    'px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs lg:text-sm font-normal whitespace-nowrap transition-all relative',
                     activeTab === 'balances'
                       ? 'text-teal-400'
                       : 'text-white/70 hover:text-white'

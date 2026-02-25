@@ -19,7 +19,7 @@ export function MyDelegations({ delegations, validators, onUndelegate, isDelegat
   if (delegations.length === 0) {
     return (
       <div className="bg-[#0f1419] border border-gray-800 p-5">
-        <h3 className="text-white font-semibold text-sm mb-4">My Delegations</h3>
+        <h3 className="text-white font-normal text-sm mb-4">My Delegations</h3>
         <div className="flex flex-col items-center justify-center py-8 text-gray-500">
           <p className="text-sm">No active delegations</p>
           <p className="text-xs mt-1">Choose a validator below to start staking</p>
@@ -30,7 +30,7 @@ export function MyDelegations({ delegations, validators, onUndelegate, isDelegat
 
   return (
     <div className="bg-[#0f1419] border border-gray-800 p-5">
-      <h3 className="text-white font-semibold text-sm mb-4">My Delegations</h3>
+      <h3 className="text-white font-normal text-sm mb-4">My Delegations</h3>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>

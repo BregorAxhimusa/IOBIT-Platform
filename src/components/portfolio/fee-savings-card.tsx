@@ -53,7 +53,7 @@ export function FeeSavingsCard() {
   return (
     <div className="bg-[#0f1419] border border-gray-800 p-4">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-semibold text-white">Fee Status</h3>
+        <h3 className="text-sm font-normal text-white">Fee Status</h3>
         {currentMilestone && (
           <span className={cn('text-xs font-normal', currentMilestone.color)}>
             {currentMilestone.label}

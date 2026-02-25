@@ -61,7 +61,7 @@ export function OpenOrdersTable() {
   return (
     <div className="overflow-x-auto">
       <div className="flex justify-between items-center mb-4 px-4">
-        <h3 className="text-sm font-semibold text-white">Open Orders ({openOrders.length})</h3>
+        <h3 className="text-sm font-normal text-white">Open Orders ({openOrders.length})</h3>
         <button
           onClick={handleCancelAll}
           disabled={isCanceling || openOrders.length === 0}
@@ -114,7 +114,7 @@ export function OpenOrdersTable() {
                 <td className="py-3 px-4">
                   <span
                     className={cn(
-                      'px-2 py-1 rounded text-xs font-semibold',
+                      'px-2 py-1 rounded text-xs font-normal',
                       order.side === 'buy'
                         ? 'bg-[#14b8a6]/10 text-[#14b8a6]'
                         : 'bg-[#ef4444]/10 text-[#ef4444]'
@@ -238,7 +238,7 @@ function ModifyOrderModal({
         <div className="p-6">
           {/* Header */}
           <div className="mb-6">
-            <h2 className="text-lg font-semibold text-white mb-1">Modify Order</h2>
+            <h2 className="text-lg font-normal text-white mb-1">Modify Order</h2>
             <p className="text-sm text-gray-400">
               {order.symbol} · {order.side.toUpperCase()} · {order.type.toUpperCase()}
             </p>
@@ -292,7 +292,7 @@ function ModifyOrderModal({
             <button
               onClick={handleSubmit}
               disabled={isPending || !newPrice || !newSize}
-              className="w-full py-2.5 bg-[#0f5549] hover:bg-[#0a3d34] disabled:bg-gray-700 disabled:cursor-not-allowed text-white font-semibold transition-colors"
+              className="w-full py-2.5 bg-[#0f5549] hover:bg-[#0a3d34] disabled:bg-gray-700 disabled:cursor-not-allowed text-white font-normal transition-colors"
             >
               {isPending ? 'Modifying...' : 'Modify Order'}
             </button>

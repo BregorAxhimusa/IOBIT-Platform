@@ -103,7 +103,7 @@ export default function StakingPage() {
 
         {/* How Staking Works */}
         <div className="bg-[#0f1419] border border-gray-800 p-5">
-          <h3 className="text-white font-semibold text-sm mb-4">How Staking Works</h3>
+          <h3 className="text-white font-normal text-sm mb-4">How Staking Works</h3>
           <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
             {[
               { step: '1', text: 'Transfer HYPE from Spot to Staking (instant)' },

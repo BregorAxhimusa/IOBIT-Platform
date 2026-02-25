@@ -119,7 +119,7 @@ export function AddApiWalletModal({ isOpen, onClose, onSuccess }: AddApiWalletMo
           <button
             onClick={handleSubmit}
             disabled={isApproving || !isValidAddress}
-            className="w-full py-2.5 sm:py-3 font-semibold text-xs sm:text-sm bg-teal-500 hover:bg-teal-400 text-white disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors"
+            className="w-full py-2.5 sm:py-3 font-normal text-xs sm:text-sm bg-teal-500 hover:bg-teal-400 text-white disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors"
           >
             {isApproving ? (
               <span className="flex items-center justify-center gap-2">

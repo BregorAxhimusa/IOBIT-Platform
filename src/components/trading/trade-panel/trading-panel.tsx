@@ -433,7 +433,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
             setSelectedProOption('scale'); // Reset to default when leaving Pro
           }}
           className={cn(
-            'flex-1 px-3 py-3.5 text-sm font-semibold transition-all relative',
+            'flex-1 px-3 py-3.5 text-sm font-normal transition-all relative',
             activeTab === 'market'
               ? 'text-teal-400'
               : 'text-white/70 hover:text-white'
@@ -450,7 +450,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
             setSelectedProOption('scale'); // Reset to default when leaving Pro
           }}
           className={cn(
-            'flex-1 px-3 py-3.5 text-sm font-semibold transition-all relative',
+            'flex-1 px-3 py-3.5 text-sm font-normal transition-all relative',
             activeTab === 'limit'
               ? 'text-teal-400'
               : 'text-white/70 hover:text-white'
@@ -470,7 +470,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                 setSelectedProOption('scale');
               }}
               className={cn(
-                'flex-1 px-3 py-3.5 text-sm font-semibold transition-all relative',
+                'flex-1 px-3 py-3.5 text-sm font-normal transition-all relative',
                 activeTab === 'stop'
                   ? 'text-teal-400'
                   : 'text-white/70 hover:text-white'
@@ -488,7 +488,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                   setShowProDropdown(!showProDropdown);
                 }}
                 className={cn(
-                  'w-full px-4 py-3.5 text-sm font-semibold transition-all flex items-center justify-center gap-1 relative',
+                  'w-full px-4 py-3.5 text-sm font-normal transition-all flex items-center justify-center gap-1 relative',
                   activeTab === 'pro'
                     ? 'text-teal-400'
                     : 'text-white/70 hover:text-white'
@@ -589,7 +589,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                   <button
                     onClick={() => setStopOrderType('stop-market')}
                     className={cn(
-                      'px-3 py-2 text-xs font-semibold rounded-md transition-all',
+                      'px-3 py-2 text-xs font-normal rounded-md transition-all',
                       stopOrderType === 'stop-market'
                         ? 'bg-teal-500/20 text-teal-400 border border-teal-500/50'
                         : 'text-white/70 hover:text-white'
@@ -600,7 +600,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                   <button
                     onClick={() => setStopOrderType('stop-limit')}
                     className={cn(
-                      'px-3 py-2 text-xs font-semibold rounded-md transition-all',
+                      'px-3 py-2 text-xs font-normal rounded-md transition-all',
                       stopOrderType === 'stop-limit'
                         ? 'bg-teal-500/20 text-teal-400 border border-teal-500/50'
                         : 'text-white/70 hover:text-white'
@@ -897,7 +897,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                   key={pct}
                   onClick={() => handlePercentageChange(pct)}
                   className={cn(
-                    "px-2 py-2 text-xs font-semibold rounded-md transition-all",
+                    "px-2 py-2 text-xs font-normal rounded-md transition-all",
                     sizePercentage === pct
                       ? "bg-teal-500/20 text-teal-400 border border-teal-500/50"
                       : "bg-[#111111] text-gray-500 border border-white/20 hover:text-white hover:border-gray-600"
@@ -1201,7 +1201,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                   });
                 }}
                 className={cn(
-                  'py-2 text-xs font-semibold rounded-md transition-all',
+                  'py-2 text-xs font-normal rounded-md transition-all',
                   leverage === lev
                     ? 'bg-teal-500/20 text-teal-400 border border-teal-500/50'
                     : 'bg-[#111111] text-gray-500 border border-white/20 hover:text-white hover:border-gray-600'
@@ -1219,7 +1219,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
         <div className="px-4 py-4 space-y-2">
           <button
             onClick={() => setShowDepositModal(true)}
-            className="w-full py-2.5 bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-500 hover:to-cyan-500 text-white rounded-lg font-semibold transition-all text-xs flex items-center justify-center gap-2 shadow-lg shadow-teal-500/10"
+            className="w-full py-2.5 bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-500 hover:to-cyan-500 text-white rounded-lg font-normal transition-all text-xs flex items-center justify-center gap-2 shadow-lg shadow-teal-500/10"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -1252,7 +1252,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
         {/* Account Overview */}
         <div className="px-4 py-4 border-t border-white/20 bg-[#111111]/30">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Account</h3>
+            <h3 className="text-xs font-normal text-gray-400 uppercase tracking-wider">Account</h3>
             <div className="flex items-center gap-3 text-xs">
               <div className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-teal-400"></span>
@@ -1272,12 +1272,12 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
             <div className="space-y-2 text-xs">
               <div className="flex items-center justify-between py-2 px-3 bg-[#0a0e13] rounded-lg">
                 <span className="text-gray-500">Account Value</span>
-                <span className="text-white font-semibold">${fullBalance?.accountValue.toFixed(2) || '0.00'}</span>
+                <span className="text-white font-normal">${fullBalance?.accountValue.toFixed(2) || '0.00'}</span>
               </div>
               <div className="flex items-center justify-between py-2 px-3 bg-[#0a0e13] rounded-lg">
                 <span className="text-gray-500">Unrealized PNL</span>
                 <span className={cn(
-                  "font-semibold",
+                  "font-normal",
                   fullBalance && fullBalance.totalNtlPos > 0 ? 'text-emerald-400' : fullBalance && fullBalance.totalNtlPos < 0 ? 'text-rose-400' : 'text-white'
                 )}>
                   {fullBalance && fullBalance.totalNtlPos > 0 ? '+' : ''}${fullBalance?.totalNtlPos.toFixed(2) || '0.00'}
@@ -1286,7 +1286,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
               <div className="grid grid-cols-2 gap-2">
                 <div className="py-2 px-3 bg-[#0a0e13] rounded-lg">
                   <div className="text-gray-500 text-[10px] mb-0.5">Margin Ratio</div>
-                  <div className="text-white font-semibold">
+                  <div className="text-white font-normal">
                     {fullBalance && fullBalance.accountValue > 0
                       ? ((fullBalance.totalMarginUsed / fullBalance.accountValue) * 100).toFixed(2)
                       : '0.00'}%
@@ -1294,7 +1294,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                 </div>
                 <div className="py-2 px-3 bg-[#0a0e13] rounded-lg">
                   <div className="text-gray-500 text-[10px] mb-0.5">Maint. Margin</div>
-                  <div className="text-white font-semibold">${fullBalance?.totalMarginUsed.toFixed(2) || '0.00'}</div>
+                  <div className="text-white font-normal">${fullBalance?.totalMarginUsed.toFixed(2) || '0.00'}</div>
                 </div>
               </div>
             </div>
@@ -1305,7 +1305,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
             <div className="py-2 px-3 bg-[#0a0e13] rounded-lg">
               <div className="flex items-center justify-between text-xs">
                 <span className="text-gray-500">Available USDC</span>
-                <span className="text-white font-semibold">${spotAvailableUsdc.toFixed(2)}</span>
+                <span className="text-white font-normal">${spotAvailableUsdc.toFixed(2)}</span>
               </div>
             </div>
           )}
@@ -1448,14 +1448,14 @@ function DepositModal({ onClose }: { onClose: () => void }) {
           {/* Testnet Faucet Section */}
           {isTestnet && (
             <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-amber-500/5 border border-amber-500/20">
-              <h3 className="text-xs sm:text-sm font-semibold text-amber-400 mb-2">Get Free Test USDC</h3>
+              <h3 className="text-xs sm:text-sm font-normal text-amber-400 mb-2">Get Free Test USDC</h3>
               <p className="text-[10px] sm:text-xs text-gray-400 mb-3 sm:mb-4">
                 Request free testnet USDC to practice trading without real funds.
               </p>
               <button
                 onClick={handleRequestTestnetFunds}
                 disabled={isRequestingFaucet || !address}
-                className="w-full py-2 sm:py-2.5 bg-amber-500 hover:bg-amber-400 text-black font-semibold text-xs sm:text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-2 sm:py-2.5 bg-amber-500 hover:bg-amber-400 text-black font-normal text-xs sm:text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isRequestingFaucet ? 'Requesting...' : 'Request 10,000 Test USDC'}
               </button>
@@ -1546,7 +1546,7 @@ function DepositModal({ onClose }: { onClose: () => void }) {
               <button
                 onClick={handleDeposit}
                 disabled={!canDeposit}
-                className="w-full py-2.5 sm:py-3 bg-teal-500 hover:bg-teal-400 text-white font-semibold text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed"
+                className="w-full py-2.5 sm:py-3 bg-teal-500 hover:bg-teal-400 text-white font-normal text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed"
               >
                 {isDepositing ? (
                   <span className="flex items-center justify-center gap-2">
@@ -1666,7 +1666,7 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
             <button
               onClick={handleWithdraw}
               disabled={isWithdrawing || !amount || parseFloat(amount) <= 0}
-              className="w-full py-2.5 sm:py-3 bg-teal-500 hover:bg-teal-400 text-white font-semibold text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed"
+              className="w-full py-2.5 sm:py-3 bg-teal-500 hover:bg-teal-400 text-white font-normal text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed"
             >
               {isWithdrawing ? (
                 <span className="flex items-center justify-center gap-2">
@@ -1814,7 +1814,7 @@ function TransferModal({ onClose }: { onClose: () => void }) {
             <button
               onClick={handleTransfer}
               disabled={isTransferring || !amount || parseFloat(amount) <= 0}
-              className="w-full py-2.5 sm:py-3 bg-teal-500 hover:bg-teal-400 text-white font-semibold text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed"
+              className="w-full py-2.5 sm:py-3 bg-teal-500 hover:bg-teal-400 text-white font-normal text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed"
             >
               {isTransferring ? (
                 <span className="flex items-center justify-center gap-2">

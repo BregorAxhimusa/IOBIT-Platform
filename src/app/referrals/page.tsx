@@ -79,7 +79,7 @@ export default function ReferralsPage() {
 
         {/* How It Works */}
         <div className="mt-4 bg-[#0f1419] border border-gray-800 p-5">
-          <h3 className="text-white font-semibold mb-4">How It Works</h3>
+          <h3 className="text-white font-normal mb-4">How It Works</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
             {[
               { step: '1', title: 'Create Code', desc: 'Need $10K+ volume' },

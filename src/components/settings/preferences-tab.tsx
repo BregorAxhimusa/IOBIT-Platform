@@ -84,7 +84,7 @@ export function PreferencesTab({ address }: PreferencesTabProps) {
       <button
         onClick={handleSave}
         disabled={isSaving}
-        className="w-full py-2.5 font-semibold text-sm bg-teal-500 hover:bg-teal-500/80 text-white disabled:bg-teal-500/30 disabled:text-white/50 transition-colors mt-2"
+        className="w-full py-2.5 font-normal text-sm bg-teal-500 hover:bg-teal-500/80 text-white disabled:bg-teal-500/30 disabled:text-white/50 transition-colors mt-2"
       >
         {isSaving ? 'Saving...' : 'Save Preferences'}
       </button>

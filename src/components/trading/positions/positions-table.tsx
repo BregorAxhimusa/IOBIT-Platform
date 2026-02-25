@@ -82,7 +82,7 @@ export function PositionsTable() {
                 <td className="py-2 sm:py-3 px-2 sm:px-4">
                   <span
                     className={cn(
-                      'px-1.5 sm:px-2 py-0.5 sm:py-1 rounded text-[10px] sm:text-xs font-semibold',
+                      'px-1.5 sm:px-2 py-0.5 sm:py-1 rounded text-[10px] sm:text-xs font-normal',
                       position.side === 'long'
                         ? 'bg-[#14b8a6]/10 text-[#14b8a6]'
                         : 'bg-[#ef4444]/10 text-[#ef4444]'
@@ -144,7 +144,7 @@ export function PositionsTable() {
             </td>
             <td className="py-2 sm:py-3 px-2 sm:px-4 text-right hidden sm:table-cell" colSpan={2}></td>
             <td className="py-2 sm:py-3 px-2 sm:px-4 text-right">
-              <span className={cn('font-semibold', totalPnl >= 0 ? 'text-[#14b8a6]' : 'text-[#ef4444]')}>
+              <span className={cn('font-normal', totalPnl >= 0 ? 'text-[#14b8a6]' : 'text-[#ef4444]')}>
                 {totalPnl >= 0 ? '+' : ''}${totalPnl.toFixed(2)}
               </span>
             </td>
@@ -223,7 +223,7 @@ function TPSLModal({
         <div className="p-6">
           {/* Header */}
           <div className="mb-6">
-            <h2 className="text-lg font-semibold text-white mb-1">Set TP/SL</h2>
+            <h2 className="text-lg font-normal text-white mb-1">Set TP/SL</h2>
             <p className="text-sm text-gray-400">
               {position.symbol} · {position.side.toUpperCase()} · {position.size}
             </p>
@@ -307,7 +307,7 @@ function TPSLModal({
             <button
               onClick={handleSubmit}
               disabled={isPending || (!enableTP && !enableSL)}
-              className="w-full py-2.5 bg-[#0f5549] hover:bg-[#0a3d34] disabled:bg-gray-700 disabled:cursor-not-allowed text-white font-semibold transition-colors"
+              className="w-full py-2.5 bg-[#0f5549] hover:bg-[#0a3d34] disabled:bg-gray-700 disabled:cursor-not-allowed text-white font-normal transition-colors"
             >
               {isPending ? 'Setting...' : 'Set TP/SL'}
             </button>

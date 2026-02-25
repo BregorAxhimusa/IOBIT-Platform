@@ -52,26 +52,26 @@ export function FeesTab({ userFees, isLoading }: FeesTabProps) {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div className="bg-[#1a2028] rounded-lg p-3">
           <p className="text-gray-400 text-[10px] mb-1">Current Tier</p>
-          <p className="text-white font-semibold">VIP {currentTier}</p>
+          <p className="text-white font-normal">VIP {currentTier}</p>
         </div>
         <div className="bg-[#1a2028] rounded-lg p-3">
           <p className="text-gray-400 text-[10px] mb-1">14-Day Volume</p>
-          <p className="text-white font-semibold">{formatUSD(volume14d)}</p>
+          <p className="text-white font-normal">{formatUSD(volume14d)}</p>
         </div>
         <div className="bg-[#1a2028] rounded-lg p-3">
           <p className="text-gray-400 text-[10px] mb-1">Maker / Taker</p>
-          <p className="text-white font-semibold">{makerRate.toFixed(3)}% / {takerRate.toFixed(3)}%</p>
+          <p className="text-white font-normal">{makerRate.toFixed(3)}% / {takerRate.toFixed(3)}%</p>
         </div>
         <div className="bg-[#1a2028] rounded-lg p-3">
           <p className="text-gray-400 text-[10px] mb-1">Referral Discount</p>
-          <p className="text-teal-400 font-semibold">{referralDiscount > 0 ? `${referralDiscount}%` : 'None'}</p>
+          <p className="text-teal-400 font-normal">{referralDiscount > 0 ? `${referralDiscount}%` : 'None'}</p>
         </div>
       </div>
 
       {/* VIP Tiers Table */}
       {tiers.length > 0 && (
         <div>
-          <h4 className="text-white font-semibold text-sm mb-3">VIP Fee Tiers</h4>
+          <h4 className="text-white font-normal text-sm mb-3">VIP Fee Tiers</h4>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>

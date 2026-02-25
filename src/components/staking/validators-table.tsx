@@ -50,7 +50,7 @@ export function ValidatorsTable({ validators, isLoading, onStake }: ValidatorsTa
   if (isLoading) {
     return (
       <div className="bg-[#0f1419] border border-gray-800 p-5">
-        <h3 className="text-white font-semibold text-sm mb-4">Validators</h3>
+        <h3 className="text-white font-normal text-sm mb-4">Validators</h3>
         <div className="space-y-3">
           {Array.from({ length: 5 }).map((_, i) => (
             <div key={i} className="h-12 bg-gray-800/50 rounded animate-pulse" />
@@ -63,7 +63,7 @@ export function ValidatorsTable({ validators, isLoading, onStake }: ValidatorsTa
   return (
     <div className="bg-[#0f1419] border border-gray-800 p-5">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-white font-semibold text-sm">Validators ({filtered.length})</h3>
+        <h3 className="text-white font-normal text-sm">Validators ({filtered.length})</h3>
         <input
           type="text"
           value={search}

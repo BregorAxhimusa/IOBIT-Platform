@@ -26,7 +26,7 @@ function NetworkToggle() {
     <button
       onClick={switchNetwork}
       className={cn(
-        'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all border flex items-center gap-1.5',
+        'px-3 py-1.5 rounded-lg text-xs font-normal transition-all border flex items-center gap-1.5',
         isTestnet
           ? 'bg-amber-500/10 text-amber-400 border-amber-500/30 hover:bg-amber-500/20 hover:border-amber-500/50'
           : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/20 hover:border-emerald-500/50'
@@ -57,7 +57,7 @@ function WalletButton() {
         }
       }}
       className={cn(
-        'px-4 py-2 rounded-xl font-semibold text-sm transition-all border',
+        'px-4 py-2 rounded-xl font-normal text-sm transition-all border',
         isConnected
           ? 'bg-[#111111] text-white border-white/20 hover:border-white/40 hover:bg-[#1a1a1a]'
           : 'bg-gradient-to-r from-teal-500 to-cyan-500 text-white border-transparent hover:from-teal-400 hover:to-cyan-400 shadow-lg shadow-teal-500/20'

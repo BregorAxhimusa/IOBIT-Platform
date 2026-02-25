@@ -180,7 +180,7 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
           <button
             onClick={handleSubmit}
             disabled={isTransferring || !canTransfer}
-            className="w-full py-2.5 sm:py-3 font-semibold text-xs sm:text-sm bg-teal-500 hover:bg-teal-400 text-white disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors"
+            className="w-full py-2.5 sm:py-3 font-normal text-xs sm:text-sm bg-teal-500 hover:bg-teal-400 text-white disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors"
           >
             {isTransferring ? (
               <span className="flex items-center justify-center gap-2">

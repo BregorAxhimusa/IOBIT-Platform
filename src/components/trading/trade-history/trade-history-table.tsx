@@ -31,7 +31,7 @@ export function TradeHistoryTable() {
   return (
     <div className="overflow-x-auto">
       <div className="px-4 mb-4">
-        <h3 className="text-sm font-semibold text-white">Trade History ({trades.length})</h3>
+        <h3 className="text-sm font-normal text-white">Trade History ({trades.length})</h3>
       </div>
 
       <table className="w-full text-sm">
@@ -68,7 +68,7 @@ export function TradeHistoryTable() {
                 <td className="py-3 px-4">
                   <span
                     className={cn(
-                      'px-2 py-1 rounded text-xs font-semibold',
+                      'px-2 py-1 rounded text-xs font-normal',
                       trade.side === 'buy'
                         ? 'bg-[#14b8a6]/10 text-[#14b8a6]'
                         : 'bg-[#ef4444]/10 text-[#ef4444]'

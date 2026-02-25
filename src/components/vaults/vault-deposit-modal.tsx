@@ -227,7 +227,7 @@ export function VaultDepositModal({
               (mode === 'deposit' ? !canDeposit : !canWithdraw)
             }
             className={cn(
-              'w-full py-2.5 sm:py-3 font-semibold text-xs sm:text-sm transition-colors',
+              'w-full py-2.5 sm:py-3 font-normal text-xs sm:text-sm transition-colors',
               mode === 'deposit'
                 ? 'bg-teal-500 hover:bg-teal-400 text-white disabled:bg-gray-700 disabled:text-gray-500'
                 : 'bg-rose-500 hover:bg-rose-400 text-white disabled:bg-gray-700 disabled:text-gray-500',

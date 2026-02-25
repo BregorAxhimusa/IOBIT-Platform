@@ -140,7 +140,7 @@ export function ReferredBySection({
 
   return (
     <div className="bg-[#0f1419] border border-gray-800 p-4">
-      <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+      <h3 className="text-white font-normal mb-4 flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-teal-500" viewBox="0 0 20 20" fill="currentColor">
           <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
         </svg>

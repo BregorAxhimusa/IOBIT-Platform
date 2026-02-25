@@ -65,7 +65,7 @@ export default function SettingsPage() {
                   ? setShowCreateSub(true)
                   : setShowAddWallet(true)
               }
-              className="px-4 py-2 bg-[#14b8a6] hover:bg-[#14b8a6]/80 text-white font-semibold text-sm rounded-lg transition-colors"
+              className="px-4 py-2 bg-[#14b8a6] hover:bg-[#14b8a6]/80 text-white font-normal text-sm rounded-lg transition-colors"
             >
               {accountsSubTab === 'sub-accounts' ? '+ New Sub-Account' : '+ Add API Wallet'}
             </button>

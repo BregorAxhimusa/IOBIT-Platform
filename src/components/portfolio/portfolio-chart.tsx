@@ -106,7 +106,7 @@ export function PortfolioChart({
     return (
       <div className="bg-[#0f1419] border border-gray-800 p-4">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-white font-semibold">Portfolio Performance</h3>
+          <h3 className="text-white font-normal">Portfolio Performance</h3>
         </div>
         <div className="h-[350px] flex items-center justify-center">
           <p className="text-gray-500">No trading data available for this period</p>
@@ -130,7 +130,7 @@ export function PortfolioChart({
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-3">
         <div>
-          <h3 className="text-white font-semibold">Portfolio Performance</h3>
+          <h3 className="text-white font-normal">Portfolio Performance</h3>
           <div className="flex items-center gap-2 mt-1">
             <span className={cn('text-lg font-normal', isPositive ? 'text-green-400' : 'text-red-400')}>
               {isPositive ? '+' : ''}{formatCurrency(totalPnl)}

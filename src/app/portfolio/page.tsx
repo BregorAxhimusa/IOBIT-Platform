@@ -252,7 +252,7 @@ function OverviewTab({ positions, accountValue }: OverviewTabProps) {
 
   return (
     <div>
-      <h3 className="text-sm font-semibold text-white mb-3">Asset Allocation</h3>
+      <h3 className="text-sm font-normal text-white mb-3">Asset Allocation</h3>
       <div className="space-y-2">
         {sortedPositions.map((position) => {
           const posValue = Math.abs(parseFloat(position.size) * parseFloat(position.markPrice));
@@ -266,7 +266,7 @@ function OverviewTab({ positions, accountValue }: OverviewTabProps) {
                   <span className="text-white font-normal text-sm">{position.symbol}</span>
                   <span
                     className={cn(
-                      'px-1.5 py-0.5 rounded text-[10px] font-semibold',
+                      'px-1.5 py-0.5 rounded text-[10px] font-normal',
                       position.side === 'long'
                         ? 'bg-green-500/10 text-green-400'
                         : 'bg-red-500/10 text-red-400'
@@ -342,7 +342,7 @@ function PositionsTab({ positions, accountValue }: OverviewTabProps) {
                 <td className="py-2.5 px-3">
                   <span
                     className={cn(
-                      'px-1.5 py-0.5 rounded text-[10px] font-semibold',
+                      'px-1.5 py-0.5 rounded text-[10px] font-normal',
                       position.side === 'long'
                         ? 'bg-green-500/10 text-green-400'
                         : 'bg-red-500/10 text-red-400'

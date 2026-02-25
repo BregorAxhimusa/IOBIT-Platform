@@ -30,7 +30,7 @@ export function VaultCard({ vault }: VaultCardProps) {
         {/* Header */}
         <div className="flex items-start justify-between mb-3">
           <div className="flex-1 min-w-0">
-            <h3 className="text-white font-semibold text-sm truncate group-hover:text-blue-400 transition-colors">
+            <h3 className="text-white font-normal text-sm truncate group-hover:text-blue-400 transition-colors">
               {vault.name}
             </h3>
             <p className="text-gray-500 text-xs mt-0.5">

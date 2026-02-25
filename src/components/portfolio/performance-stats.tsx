@@ -32,7 +32,7 @@ function StatCard({ label, value, colorClass = 'text-white' }: StatCardProps) {
   return (
     <div className="bg-[#1a2028] rounded-lg p-3">
       <p className="text-gray-400 text-xs mb-1">{label}</p>
-      <p className={cn('text-sm font-semibold', colorClass)}>{value}</p>
+      <p className={cn('text-sm font-normal', colorClass)}>{value}</p>
     </div>
   );
 }
@@ -41,7 +41,7 @@ export function PerformanceStatsSection({ stats, isLoading }: PerformanceStatsPr
   if (isLoading) {
     return (
       <div className="bg-[#0f1419] border border-gray-800 p-4">
-        <h3 className="text-white font-semibold mb-3">Performance Analytics</h3>
+        <h3 className="text-white font-normal mb-3">Performance Analytics</h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
           {Array.from({ length: 10 }).map((_, i) => (
             <div key={i} className="bg-[#1a2028] rounded-lg p-3 animate-pulse">
@@ -57,7 +57,7 @@ export function PerformanceStatsSection({ stats, isLoading }: PerformanceStatsPr
   if (!stats) {
     return (
       <div className="bg-[#0f1419] border border-gray-800 p-4">
-        <h3 className="text-white font-semibold mb-3">Performance Analytics</h3>
+        <h3 className="text-white font-normal mb-3">Performance Analytics</h3>
         <p className="text-gray-500 text-sm">Connect wallet to view performance stats</p>
       </div>
     );
@@ -65,7 +65,7 @@ export function PerformanceStatsSection({ stats, isLoading }: PerformanceStatsPr
 
   return (
     <div className="bg-[#0f1419] border border-gray-800 p-4">
-      <h3 className="text-white font-semibold mb-3">Performance Analytics</h3>
+      <h3 className="text-white font-normal mb-3">Performance Analytics</h3>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
         {/* PnL Section */}

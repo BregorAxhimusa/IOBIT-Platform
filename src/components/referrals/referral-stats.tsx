@@ -21,7 +21,7 @@ function StatCard({ label, value, icon }: StatCardProps) {
         <div className="text-teal-500">{icon}</div>
         <p className="text-gray-400 text-xs">{label}</p>
       </div>
-      <p className="text-white text-lg font-semibold">{value}</p>
+      <p className="text-white text-lg font-normal">{value}</p>
     </div>
   );
 }

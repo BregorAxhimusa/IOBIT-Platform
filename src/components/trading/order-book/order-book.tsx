@@ -88,7 +88,7 @@ export function OrderBook({ symbol, onPriceClick }: OrderBookProps) {
         <div className="px-3 sm:px-4 py-2 bg-[#111111]/50 border-y border-white/20">
           <div className="flex items-center justify-between text-[10px] sm:text-xs">
             <span className="text-gray-500 font-normal">Spread</span>
-            <span className="text-white font-semibold tabular-nums">
+            <span className="text-white font-normal tabular-nums">
               {spread ? (
                 <span className="flex items-center gap-2">
                   <span>{spread.toFixed(2)}</span>

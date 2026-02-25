@@ -34,7 +34,7 @@ export function StakingBalance({ stakingState, spotHypeBalance, onDeposit, onWit
 
   return (
     <div className="bg-[#0f1419] border border-gray-800 p-5">
-      <h3 className="text-white font-semibold text-sm mb-4">Staking Balance</h3>
+      <h3 className="text-white font-normal text-sm mb-4">Staking Balance</h3>
 
       <div className="space-y-3">
         {/* Spot HYPE */}
@@ -71,7 +71,7 @@ export function StakingBalance({ stakingState, spotHypeBalance, onDeposit, onWit
             <button
               onClick={handleDeposit}
               disabled={isTransferring || !depositAmount || parseFloat(depositAmount) <= 0}
-              className="w-full py-2  text-xs font-semibold bg-teal-500 hover:bg-teal-500/80 text-white disabled:bg-teal-500/30 disabled:text-white/50 transition-colors"
+              className="w-full py-2  text-xs font-normal bg-teal-500 hover:bg-teal-500/80 text-white disabled:bg-teal-500/30 disabled:text-white/50 transition-colors"
             >
               {isTransferring ? 'Transferring...' : 'Transfer to Staking'}
             </button>
@@ -116,7 +116,7 @@ export function StakingBalance({ stakingState, spotHypeBalance, onDeposit, onWit
             <button
               onClick={handleWithdraw}
               disabled={isTransferring || !withdrawAmount || parseFloat(withdrawAmount) <= 0 || pendingCount >= 5}
-              className="w-full py-2  text-xs font-semibold bg-amber-500 hover:bg-amber-500/80 text-white disabled:bg-amber-500/30 disabled:text-white/50 transition-colors"
+              className="w-full py-2  text-xs font-normal bg-amber-500 hover:bg-amber-500/80 text-white disabled:bg-amber-500/30 disabled:text-white/50 transition-colors"
             >
               {isTransferring ? 'Withdrawing...' : 'Withdraw to Spot (7-day queue)'}
             </button>

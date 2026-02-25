@@ -79,7 +79,7 @@ export function NetworkSwitcherModal({ isOpen, onClose }: NetworkSwitcherModalPr
                     selectedNetwork === 'mainnet' ? 'bg-emerald-500' : 'bg-gray-600'
                   )} />
                   <div>
-                    <span className="text-white text-sm sm:text-base font-semibold block">Mainnet</span>
+                    <span className="text-white text-sm sm:text-base font-normal block">Mainnet</span>
                     <span className="text-gray-500 text-[10px] sm:text-xs">Real trading with actual funds</span>
                   </div>
                 </div>
@@ -108,7 +108,7 @@ export function NetworkSwitcherModal({ isOpen, onClose }: NetworkSwitcherModalPr
                     selectedNetwork === 'testnet' ? 'bg-amber-500' : 'bg-gray-600'
                   )} />
                   <div>
-                    <span className="text-white text-sm sm:text-base font-semibold block">Testnet</span>
+                    <span className="text-white text-sm sm:text-base font-normal block">Testnet</span>
                     <span className="text-gray-500 text-[10px] sm:text-xs">Practice trading with test funds</span>
                   </div>
                 </div>
@@ -139,14 +139,14 @@ export function NetworkSwitcherModal({ isOpen, onClose }: NetworkSwitcherModalPr
           <div className="flex gap-2 sm:gap-3">
             <button
               onClick={onClose}
-              className="flex-1 py-2.5 sm:py-3 bg-[#1a2028] border border-gray-800 hover:border-gray-700 text-white font-semibold text-xs sm:text-sm transition-colors"
+              className="flex-1 py-2.5 sm:py-3 bg-[#1a2028] border border-gray-800 hover:border-gray-700 text-white font-normal text-xs sm:text-sm transition-colors"
             >
               Cancel
             </button>
             <button
               onClick={handleSwitchNetwork}
               disabled={selectedNetwork === network}
-              className="flex-1 py-2.5 sm:py-3 bg-teal-500 hover:bg-teal-400 text-white font-semibold text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed"
+              className="flex-1 py-2.5 sm:py-3 bg-teal-500 hover:bg-teal-400 text-white font-normal text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed"
             >
               Switch Network
             </button>
