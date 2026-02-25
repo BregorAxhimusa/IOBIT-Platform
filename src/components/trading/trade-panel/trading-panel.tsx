@@ -18,6 +18,7 @@ import { useScaleOrders } from '@/hooks/use-scale-orders';
 import { useUpdateLeverage } from '@/hooks/use-update-leverage';
 import { usePlaceStopOrder } from '@/hooks/use-place-stop-order';
 import { useDeposit } from '@/hooks/use-deposit';
+import { useNetworkStore } from '@/store/network-store';
 import { TwapProgress } from '../twap-progress';
 import { ScalePreview } from '../scale-preview';
 import { cn } from '@/lib/utils/cn';
@@ -1233,10 +1234,51 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
 // Deposit Modal Component
 function DepositModal({ onClose }: { onClose: () => void }) {
   const [amount, setAmount] = useState('');
+  const [isRequestingFaucet, setIsRequestingFaucet] = useState(false);
   const { balance: walletUsdcBalance, refetch: refetchWalletBalance } = useWalletUsdcBalance();
   const { refetch: refetchAccountBalance } = useAccountBalance();
   const { deposit, isDepositing, minDeposit } = useDeposit();
+  const { isTestnet } = useNetworkStore();
+  const { address } = useAppKitAccount();
   const maxAmount = walletUsdcBalance;
+
+  // Request testnet USDC from Hyperliquid faucet
+  const handleRequestTestnetFunds = async () => {
+    if (!address) {
+      toast.error('Please connect your wallet first');
+      return;
+    }
+
+    setIsRequestingFaucet(true);
+    try {
+      const response = await fetch('https://api.hyperliquid-testnet.xyz/info', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'usdSend',
+          destination: address,
+          amount: '10000', // Request 10,000 test USDC
+        }),
+      });
+
+      // The faucet might have different response handling
+      toast.success('Testnet USDC requested! Balance will update in a few seconds.');
+
+      // Refresh balances after a delay
+      setTimeout(() => {
+        refetchWalletBalance();
+        refetchAccountBalance();
+      }, 3000);
+    } catch (error) {
+      console.error('Faucet error:', error);
+      // Even if the API call fails, the user can use the web faucet
+      toast.error('Use the Hyperliquid testnet app to get test funds: app.hyperliquid-testnet.xyz');
+    } finally {
+      setIsRequestingFaucet(false);
+    }
+  };
 
   const handlePercentageClick = (percentage: number) => {
     const walletBalance = parseFloat(walletUsdcBalance || '0');
@@ -1286,108 +1328,152 @@ function DepositModal({ onClose }: { onClose: () => void }) {
             <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center mb-3">
               <span className="text-2xl">$</span>
             </div>
-            <h2 className="text-lg font-semibold text-white">Deposit USDC from Arbitrum</h2>
+            <h2 className="text-lg font-semibold text-white">
+              {isTestnet ? 'Get Testnet USDC' : 'Deposit USDC from Arbitrum'}
+            </h2>
+            {isTestnet && (
+              <span className="mt-1 px-2 py-0.5 bg-yellow-500/20 text-yellow-400 text-xs rounded border border-yellow-500/50">
+                TESTNET MODE
+              </span>
+            )}
           </div>
 
-          {/* Form */}
-          <div className="space-y-4">
-            {/* Asset */}
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">Asset</label>
-              <select
-                disabled={isDepositing}
-                className="w-full px-3 py-2.5 bg-[#0f1419] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6] disabled:opacity-50"
+          {/* Testnet Faucet Section */}
+          {isTestnet && (
+            <div className="mb-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
+              <h3 className="text-sm font-medium text-yellow-400 mb-2">Get Free Test USDC</h3>
+              <p className="text-xs text-gray-400 mb-3">
+                Request free testnet USDC to practice trading without real funds.
+              </p>
+              <button
+                onClick={handleRequestTestnetFunds}
+                disabled={isRequestingFaucet || !address}
+                className="w-full py-2.5 bg-yellow-500/20 hover:bg-yellow-500/30 border border-yellow-500/50 text-yellow-400 rounded font-medium transition-colors disabled:opacity-50"
               >
-                <option>USDC</option>
-              </select>
+                {isRequestingFaucet ? 'Requesting...' : 'Request 10,000 Test USDC'}
+              </button>
+              <p className="text-xs text-gray-500 mt-2 text-center">
+                Or visit{' '}
+                <a
+                  href="https://app.hyperliquid-testnet.xyz"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-yellow-400 hover:underline"
+                >
+                  app.hyperliquid-testnet.xyz
+                </a>
+              </p>
             </div>
+          )}
 
-            {/* Deposit Chain */}
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">Deposit Chain</label>
-              <select
-                disabled={isDepositing}
-                className="w-full px-3 py-2.5 bg-[#0f1419] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6] disabled:opacity-50"
+          {/* Form - Only show for mainnet */}
+          {!isTestnet && (
+            <div className="space-y-4">
+              {/* Asset */}
+              <div>
+                <label className="block text-sm text-gray-400 mb-2">Asset</label>
+                <select
+                  disabled={isDepositing}
+                  className="w-full px-3 py-2.5 bg-[#0f1419] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6] disabled:opacity-50"
+                >
+                  <option>USDC</option>
+                </select>
+              </div>
+
+              {/* Deposit Chain */}
+              <div>
+                <label className="block text-sm text-gray-400 mb-2">Deposit Chain</label>
+                <select
+                  disabled={isDepositing}
+                  className="w-full px-3 py-2.5 bg-[#0f1419] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6] disabled:opacity-50"
+                >
+                  <option>Arbitrum</option>
+                </select>
+              </div>
+
+              {/* Amount */}
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-sm text-gray-400">Amount</label>
+                  <span className="text-sm text-[#14b8a6]">MAX: {maxAmount}</span>
+                </div>
+                <input
+                  type="number"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  placeholder="0.00"
+                  disabled={isDepositing}
+                  className="w-full px-3 py-2.5 bg-[#0f1419] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6] disabled:opacity-50"
+                />
+
+                {/* Quick Percentage Buttons */}
+                <div className="grid grid-cols-4 gap-2 mt-3">
+                  <button
+                    onClick={() => handlePercentageClick(25)}
+                    disabled={isDepositing}
+                    className="px-2 py-1.5 text-xs rounded bg-[#1a2028] text-gray-400 hover:text-white hover:bg-[#2a3038] transition-colors disabled:opacity-50"
+                  >
+                    25%
+                  </button>
+                  <button
+                    onClick={() => handlePercentageClick(50)}
+                    disabled={isDepositing}
+                    className="px-2 py-1.5 text-xs rounded bg-[#1a2028] text-gray-400 hover:text-white hover:bg-[#2a3038] transition-colors disabled:opacity-50"
+                  >
+                    50%
+                  </button>
+                  <button
+                    onClick={() => handlePercentageClick(75)}
+                    disabled={isDepositing}
+                    className="px-2 py-1.5 text-xs rounded bg-[#1a2028] text-gray-400 hover:text-white hover:bg-[#2a3038] transition-colors disabled:opacity-50"
+                  >
+                    75%
+                  </button>
+                  <button
+                    onClick={() => handlePercentageClick(100)}
+                    disabled={isDepositing}
+                    className="px-2 py-1.5 text-xs rounded bg-[#1a2028] text-gray-400 hover:text-white hover:bg-[#2a3038] transition-colors disabled:opacity-50"
+                  >
+                    100%
+                  </button>
+                </div>
+              </div>
+
+              {/* Warning Messages */}
+              {hasInsufficientBalance && (
+                <div className="p-3 bg-red-500/10 border border-red-500/30 rounded text-sm text-red-400">
+                  Insufficient balance. Minimum deposit is {minDeposit} USDC but you only have {maxBalance.toFixed(2)} USDC.
+                </div>
+              )}
+
+              {isBelowMinimum && !hasInsufficientBalance && (
+                <div className="p-3 bg-yellow-500/10 border border-yellow-500/30 rounded text-sm text-yellow-400">
+                  Minimum deposit is {minDeposit} USDC. Amounts below this will be LOST!
+                </div>
+              )}
+
+              {/* Deposit Button */}
+              <button
+                onClick={handleDeposit}
+                disabled={!canDeposit}
+                className="w-full py-3 bg-[#0f5549] hover:bg-[#0a3d34] text-white rounded font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <option>Arbitrum</option>
-              </select>
+                {isDepositing ? 'Depositing...' : hasInsufficientBalance ? `Need ${minDeposit} USDC min` : 'Deposit'}
+              </button>
+
+              {/* Info */}
+              <p className="text-xs text-gray-500 text-center">
+                Min: {minDeposit} USDC | Deposits are instant (Hyperliquid pays gas)
+              </p>
             </div>
+          )}
 
-            {/* Amount */}
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <label className="text-sm text-gray-400">Amount</label>
-                <span className="text-sm text-[#14b8a6]">MAX: {maxAmount}</span>
-              </div>
-              <input
-                type="number"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                placeholder="0.00"
-                disabled={isDepositing}
-                className="w-full px-3 py-2.5 bg-[#0f1419] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6] disabled:opacity-50"
-              />
-
-              {/* Quick Percentage Buttons */}
-              <div className="grid grid-cols-4 gap-2 mt-3">
-                <button
-                  onClick={() => handlePercentageClick(25)}
-                  disabled={isDepositing}
-                  className="px-2 py-1.5 text-xs rounded bg-[#1a2028] text-gray-400 hover:text-white hover:bg-[#2a3038] transition-colors disabled:opacity-50"
-                >
-                  25%
-                </button>
-                <button
-                  onClick={() => handlePercentageClick(50)}
-                  disabled={isDepositing}
-                  className="px-2 py-1.5 text-xs rounded bg-[#1a2028] text-gray-400 hover:text-white hover:bg-[#2a3038] transition-colors disabled:opacity-50"
-                >
-                  50%
-                </button>
-                <button
-                  onClick={() => handlePercentageClick(75)}
-                  disabled={isDepositing}
-                  className="px-2 py-1.5 text-xs rounded bg-[#1a2028] text-gray-400 hover:text-white hover:bg-[#2a3038] transition-colors disabled:opacity-50"
-                >
-                  75%
-                </button>
-                <button
-                  onClick={() => handlePercentageClick(100)}
-                  disabled={isDepositing}
-                  className="px-2 py-1.5 text-xs rounded bg-[#1a2028] text-gray-400 hover:text-white hover:bg-[#2a3038] transition-colors disabled:opacity-50"
-                >
-                  100%
-                </button>
-              </div>
-            </div>
-
-            {/* Warning Messages */}
-            {hasInsufficientBalance && (
-              <div className="p-3 bg-red-500/10 border border-red-500/30 rounded text-sm text-red-400">
-                Insufficient balance. Minimum deposit is {minDeposit} USDC but you only have {maxBalance.toFixed(2)} USDC.
-              </div>
-            )}
-
-            {isBelowMinimum && !hasInsufficientBalance && (
-              <div className="p-3 bg-yellow-500/10 border border-yellow-500/30 rounded text-sm text-yellow-400">
-                Minimum deposit is {minDeposit} USDC. Amounts below this will be LOST!
-              </div>
-            )}
-
-            {/* Deposit Button */}
-            <button
-              onClick={handleDeposit}
-              disabled={!canDeposit}
-              className="w-full py-3 bg-[#0f5549] hover:bg-[#0a3d34] text-white rounded font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isDepositing ? 'Depositing...' : hasInsufficientBalance ? `Need ${minDeposit} USDC min` : 'Deposit'}
-            </button>
-
-            {/* Info */}
+          {/* Testnet Info */}
+          {isTestnet && (
             <p className="text-xs text-gray-500 text-center">
-              Min: {minDeposit} USDC | Deposits are instant (Hyperliquid pays gas)
+              Testnet funds are for testing only and have no real value
             </p>
-          </div>
+          )}
         </div>
       </div>
     </div>

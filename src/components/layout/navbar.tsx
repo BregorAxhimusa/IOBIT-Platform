@@ -7,6 +7,7 @@ import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
 import { cn } from '@/lib/utils/cn';
 import { formatAddress } from '@/lib/utils/format';
 import { AccountSwitcher } from '@/components/layout/account-switcher';
+import { useNetworkStore } from '@/store/network-store';
 
 const navLinks = [
   { href: '/trade/BTC', label: 'Trade' },
@@ -16,6 +17,26 @@ const navLinks = [
   { href: '/leaderboard', label: 'Leaderboard' },
   { href: '/referrals', label: 'Referrals' },
 ];
+
+// Network Toggle Component
+function NetworkToggle() {
+  const { network, switchNetwork, isTestnet } = useNetworkStore();
+
+  return (
+    <button
+      onClick={switchNetwork}
+      className={cn(
+        'px-3 py-1.5 rounded-lg text-xs font-medium transition-all border',
+        isTestnet
+          ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/50 hover:bg-yellow-500/30'
+          : 'bg-green-500/20 text-green-400 border-green-500/50 hover:bg-green-500/30'
+      )}
+      title={`Switch to ${isTestnet ? 'Mainnet' : 'Testnet'}`}
+    >
+      {isTestnet ? 'TESTNET' : 'MAINNET'}
+    </button>
+  );
+}
 
 // Wallet Button Component
 function WalletButton() {
@@ -96,8 +117,9 @@ export function Navbar() {
           })}
         </div>
 
-        {/* Right Side - Account Switcher + Settings + Wallet */}
+        {/* Right Side - Network Toggle + Account Switcher + Settings + Wallet */}
         <div className="flex items-center space-x-3">
+          <NetworkToggle />
           {isConnected && <AccountSwitcher />}
           {isConnected && (
             <Link
@@ -124,6 +146,12 @@ export function Navbar() {
       {mobileMenuOpen && (
         <div className="md:hidden border-t border-gray-800 bg-black/95 backdrop-blur-sm">
           <div className="px-4 py-3 space-y-1">
+            {/* Network Toggle in Mobile */}
+            <div className="px-3 py-2.5 flex items-center justify-between">
+              <span className="text-sm text-gray-400">Network</span>
+              <NetworkToggle />
+            </div>
+            <div className="border-b border-gray-800 my-2" />
             {navLinks.map((link) => {
               const isActive = pathname?.startsWith(link.href);
               return (
