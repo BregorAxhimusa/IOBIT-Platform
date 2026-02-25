@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-
-import { useAccount } from 'wagmi';
+import { useAppKitAccount } from '@reown/appkit/react';
 import { useSubAccounts } from '@/hooks/use-sub-accounts';
 import { useApiWallets } from '@/hooks/use-api-wallets';
 import { useUserFees } from '@/hooks/use-user-fees';
@@ -19,7 +18,7 @@ import type { SubAccount } from '@/lib/hyperliquid/types';
 type Tab = 'accounts' | 'preferences' | 'fees';
 
 export default function SettingsPage() {
-  const { isConnected, address } = useAccount();
+  const { isConnected, address } = useAppKitAccount();
   const { subAccounts, isLoading: isLoadingSubs, refetch: refetchSubs } = useSubAccounts();
   const { apiWallets, isLoading: isLoadingWallets, refetch: refetchWallets } = useApiWallets();
   const { userFees, isLoading: isLoadingFees } = useUserFees();

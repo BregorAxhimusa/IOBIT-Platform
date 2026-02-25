@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useAccount } from 'wagmi';
+import { useAppKitAccount } from '@reown/appkit/react';
 import { useSubAccounts } from '@/hooks/use-sub-accounts';
 import { useApiWallets } from '@/hooks/use-api-wallets';
 import { SubAccountCard } from '@/components/accounts/sub-account-card';
@@ -16,7 +16,7 @@ import type { SubAccount } from '@/lib/hyperliquid/types';
 type Tab = 'sub-accounts' | 'api-wallets';
 
 export default function AccountsPage() {
-  const { isConnected } = useAccount();
+  const { isConnected } = useAppKitAccount();
   const { subAccounts, isLoading: isLoadingSubs, refetch: refetchSubs } = useSubAccounts();
   const { apiWallets, isLoading: isLoadingWallets, refetch: refetchWallets } = useApiWallets();
 

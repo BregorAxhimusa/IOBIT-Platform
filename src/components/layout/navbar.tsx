@@ -3,8 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useAppKit } from '@reown/appkit/react';
-import { useAccount } from 'wagmi';
+import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
 import { cn } from '@/lib/utils/cn';
 import { formatAddress } from '@/lib/utils/format';
 import { AccountSwitcher } from '@/components/layout/account-switcher';
@@ -21,7 +20,7 @@ const navLinks = [
 // Wallet Button Component
 function WalletButton() {
   const { open } = useAppKit();
-  const { address, isConnected } = useAccount();
+  const { address, isConnected } = useAppKitAccount();
 
   return (
     <button
@@ -46,7 +45,7 @@ function WalletButton() {
 
 export function Navbar() {
   const pathname = usePathname();
-  const { isConnected } = useAccount();
+  const { isConnected } = useAppKitAccount();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (

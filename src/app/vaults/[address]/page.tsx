@@ -10,7 +10,7 @@ import { VaultFollowers } from '@/components/vaults/vault-followers';
 import { VaultDepositModal } from '@/components/vaults/vault-deposit-modal';
 import { cn } from '@/lib/utils/cn';
 import { formatAddress } from '@/lib/utils/format';
-import { useAccount } from 'wagmi';
+import { useAppKitAccount } from '@reown/appkit/react';
 
 type Tab = 'positions' | 'followers' | 'performance';
 
@@ -29,7 +29,7 @@ export default function VaultDetailPage() {
   const vaultAddress = params.address as string;
   const [tab, setTab] = useState<Tab>('positions');
   const [showDepositModal, setShowDepositModal] = useState(false);
-  const { isConnected } = useAccount();
+  const { isConnected } = useAppKitAccount();
 
   const { vault, isLoading, refetch } = useVaultDetails(vaultAddress);
   const getUserVaultEquity = useVaultStore((state) => state.getUserVaultEquity);

@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useAccount } from 'wagmi';
+import { useAppKitAccount } from '@reown/appkit/react';
 import { getInfoClient } from '@/lib/hyperliquid/info-client';
 import { useNetworkStore } from '@/store/network-store';
 import { usePositionsStore } from '@/store/positions-store';
@@ -12,7 +12,7 @@ import { useTradingContext } from '@/hooks/use-trading-context';
  * Hook to fetch user positions from Hyperliquid
  */
 export function useUserPositions() {
-  const { address, isConnected } = useAccount();
+  const { address, isConnected } = useAppKitAccount();
   const network = useNetworkStore((state) => state.network);
   const { setPositions } = usePositionsStore();
   const { fetchAddress } = useTradingContext();

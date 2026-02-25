@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { useAccount } from 'wagmi';
+import { useAppKitAccount } from '@reown/appkit/react';
 import { getInfoClient } from '@/lib/hyperliquid/info-client';
 import { useNetworkStore } from '@/store/network-store';
 import { useTradingContext } from '@/hooks/use-trading-context';
@@ -37,7 +37,7 @@ interface TradeHistoryItem {
  * Hook to fetch user trade history from Hyperliquid
  */
 export function useUserTradeHistory(limit: number = 50) {
-  const { address, isConnected } = useAccount();
+  const { address, isConnected } = useAppKitAccount();
   const network = useNetworkStore((state) => state.network);
   const { fetchAddress } = useTradingContext();
 

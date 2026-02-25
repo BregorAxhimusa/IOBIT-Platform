@@ -1,6 +1,6 @@
 'use client';
 
-import { useAccount } from 'wagmi';
+import { useAppKitAccount } from '@reown/appkit/react';
 import { useReferralInfo } from '@/hooks/use-referral-info';
 import { useCreateReferralCode } from '@/hooks/use-create-referral-code';
 import { useSetReferrer } from '@/hooks/use-set-referrer';
@@ -12,7 +12,7 @@ import { ReferredUsersTable } from '@/components/referrals/referred-users-table'
 import { RewardsSection } from '@/components/referrals/rewards-section';
 
 export default function ReferralsPage() {
-  const { isConnected } = useAccount();
+  const { isConnected } = useAppKitAccount();
   const { referralInfo, isLoading } = useReferralInfo();
   const { createCode, isCreating } = useCreateReferralCode();
   const { setReferrer, isSetting } = useSetReferrer();

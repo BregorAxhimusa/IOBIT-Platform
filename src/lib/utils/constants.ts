@@ -50,3 +50,7 @@ export const SPOT_ASSET_INDEX_OFFSET = 10000;
 export const NAVBAR_HEIGHT = 64;
 export const MARKET_INFO_HEIGHT = 48;
 export const BOTTOM_PANEL_MIN_HEIGHT = 200;
+
+// Hyperliquid Bridge Contract Addresses (Arbitrum)
+export const HYPERLIQUID_BRIDGE_ADDRESS = '0x2Df1c51E09aECF9cacB7bc98cB1742757f163dF7' as const;
+export const USDC_ARBITRUM_ADDRESS = '0xaf88d065e77c8cC2239327C5EDb3A432268e5831' as const;

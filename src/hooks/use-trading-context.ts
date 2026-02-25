@@ -1,6 +1,6 @@
 'use client';
 
-import { useAccount } from 'wagmi';
+import { useAppKitAccount } from '@reown/appkit/react';
 import { useAccountStore } from '@/store/account-store';
 
 /**
@@ -8,7 +8,7 @@ import { useAccountStore } from '@/store/account-store';
  * Returns the address to fetch data for and the optional vaultAddress for exchange calls.
  */
 export function useTradingContext() {
-  const { address: masterAddress } = useAccount();
+  const { address: masterAddress } = useAppKitAccount();
   const tradingContext = useAccountStore((state) => state.tradingContext);
   const getFetchAddress = useAccountStore((state) => state.getFetchAddress);
   const getVaultAddress = useAccountStore((state) => state.getVaultAddress);

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useAccount } from 'wagmi';
+import { useAppKitAccount } from '@reown/appkit/react';
 import { useValidators } from '@/hooks/use-validators';
 import { useStakingState } from '@/hooks/use-staking-state';
 import { useStakingDelegate } from '@/hooks/use-staking-delegate';
@@ -17,7 +17,7 @@ import { StakingHistory } from '@/components/staking/staking-history';
 import type { ValidatorSummary } from '@/lib/hyperliquid/types';
 
 export default function StakingPage() {
-  const { isConnected } = useAccount();
+  const { isConnected } = useAppKitAccount();
   const { validators, isLoading: isLoadingValidators } = useValidators();
   const { stakingState, delegations, isLoading: isLoadingState } = useStakingState();
   const { delegate, undelegate, isDelegating } = useStakingDelegate();

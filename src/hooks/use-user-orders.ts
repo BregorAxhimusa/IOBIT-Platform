@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useAccount } from 'wagmi';
+import { useAppKitAccount } from '@reown/appkit/react';
 import { getInfoClient } from '@/lib/hyperliquid/info-client';
 import { useNetworkStore } from '@/store/network-store';
 import { useOrdersStore } from '@/store/orders-store';
@@ -23,7 +23,7 @@ interface HyperliquidOrder {
  * Hook to fetch user open orders from Hyperliquid
  */
 export function useUserOrders() {
-  const { address, isConnected } = useAccount();
+  const { address, isConnected } = useAppKitAccount();
   const network = useNetworkStore((state) => state.network);
   const { setOpenOrders } = useOrdersStore();
   const { fetchAddress } = useTradingContext();

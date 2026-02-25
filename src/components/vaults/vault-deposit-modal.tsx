@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { cn } from '@/lib/utils/cn';
 import { useVaultDeposit } from '@/hooks/use-vault-deposit';
 import { useAccountBalance } from '@/hooks/use-account-balance';
-import { useAccount } from 'wagmi';
+import { useAppKitAccount } from '@reown/appkit/react';
 
 interface VaultDepositModalProps {
   isOpen: boolean;
@@ -31,7 +31,7 @@ export function VaultDepositModal({
   const [amount, setAmount] = useState('');
   const { deposit, withdraw, isSubmitting, error, clearError } = useVaultDeposit();
   const { fullBalance } = useAccountBalance();
-  const { isConnected } = useAccount();
+  const { isConnected } = useAppKitAccount();
 
   if (!isOpen) return null;
 

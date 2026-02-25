@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { useAccount } from 'wagmi';
+import { useAppKitAccount } from '@reown/appkit/react';
 import { useAccountStore } from '@/store/account-store';
 import { useSubAccounts } from '@/hooks/use-sub-accounts';
 import { cn } from '@/lib/utils/cn';
@@ -10,7 +10,7 @@ import { formatAddress } from '@/lib/utils/format';
 export function AccountSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { address, isConnected } = useAccount();
+  const { address, isConnected } = useAppKitAccount();
   const { subAccounts } = useSubAccounts();
   const tradingContext = useAccountStore((state) => state.tradingContext);
   const switchToMaster = useAccountStore((state) => state.switchToMaster);

@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { useAccount } from 'wagmi';
+import { useAppKitAccount } from '@reown/appkit/react';
 import { getInfoClient } from '@/lib/hyperliquid/info-client';
 import { useNetworkStore } from '@/store/network-store';
 import { useTradingContext } from '@/hooks/use-trading-context';
@@ -47,9 +47,10 @@ export interface AccountBalance {
 
 /**
  * Hook for fetching real account balance and margin data from Hyperliquid
+ * Uses useAppKitAccount for SSR-safe wallet connection state
  */
 export function useAccountBalance() {
-  const { address, isConnected } = useAccount();
+  const { address, isConnected } = useAppKitAccount();
   const network = useNetworkStore((state) => state.network);
   const { fetchAddress } = useTradingContext();
 
@@ -58,12 +59,16 @@ export function useAccountBalance() {
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['account-balance', activeAddress, network],
     queryFn: async () => {
-      if (!activeAddress) return null;
+      if (!activeAddress) {
+        return null;
+      }
 
       const client = getInfoClient(network);
       const userState = await client.getUserState(activeAddress);
 
-      if (!userState) return null;
+      if (!userState) {
+        return null;
+      }
 
       // Extract margin summary
       const marginSummary = userState.marginSummary;
@@ -113,7 +118,7 @@ export function useAccountBalance() {
  */
 export function usePortfolioStats() {
   const { fullBalance } = useAccountBalance();
-  const { address } = useAccount();
+  const { address } = useAppKitAccount();
 
   // For now, we'll calculate PnL based on current unrealized PnL
   // In the future, we can fetch historical data from database

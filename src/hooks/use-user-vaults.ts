@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { useAccount } from 'wagmi';
+import { useAppKitAccount } from '@reown/appkit/react';
 import { getInfoClient } from '@/lib/hyperliquid/info-client';
 import { useNetworkStore } from '@/store/network-store';
 import { useVaultStore } from '@/store/vault-store';
@@ -13,7 +13,7 @@ import type { UserVaultEquity } from '@/lib/hyperliquid/types';
  */
 export function useUserVaults() {
   const network = useNetworkStore((state) => state.network);
-  const { address, isConnected } = useAccount();
+  const { address, isConnected } = useAppKitAccount();
   const setUserVaultEquities = useVaultStore((state) => state.setUserVaultEquities);
 
   const { data, isLoading, error, refetch } = useQuery({

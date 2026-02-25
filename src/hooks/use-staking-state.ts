@@ -1,13 +1,13 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { useAccount } from 'wagmi';
+import { useAppKitAccount } from '@reown/appkit/react';
 import { useNetworkStore } from '@/store/network-store';
 import { getInfoClient } from '@/lib/hyperliquid/info-client';
 import type { StakingState, Delegation } from '@/lib/hyperliquid/types';
 
 export function useStakingState() {
-  const { address } = useAccount();
+  const { address } = useAppKitAccount();
   const network = useNetworkStore((state) => state.network);
 
   const stateQuery = useQuery<StakingState | null>({

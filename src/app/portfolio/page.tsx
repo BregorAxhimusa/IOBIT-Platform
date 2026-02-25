@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useAccount } from 'wagmi';
-import { useAppKit } from '@reown/appkit/react';
+import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
 import { usePositionsStore } from '@/store/positions-store';
 import { usePortfolioStats } from '@/hooks/use-account-balance';
 import { usePortfolioPnL } from '@/hooks/use-portfolio-pnl';
@@ -18,7 +17,7 @@ type TimeRange = '24h' | '7d' | '30d' | '90d' | 'all';
 type PortfolioTab = 'overview' | 'positions' | 'spot' | 'funding' | 'trades';
 
 export default function PortfolioPage() {
-  const { isConnected } = useAccount();
+  const { isConnected } = useAppKitAccount();
   const { open } = useAppKit();
   const positions = usePositionsStore((state) => state.positions);
   const [timeRange, setTimeRange] = useState<TimeRange>('30d');

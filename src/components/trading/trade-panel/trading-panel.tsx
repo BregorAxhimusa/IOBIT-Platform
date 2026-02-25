@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useAccount, useSwitchChain } from 'wagmi';
-import { useAppKit } from '@reown/appkit/react';
+import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
 import { arbitrum } from 'wagmi/chains';
 import { useTradingStore } from '@/store/trading-store';
 import { useMarketStore } from '@/store/market-store';
@@ -17,6 +17,7 @@ import { useTwapOrder } from '@/hooks/use-twap-order';
 import { useScaleOrders } from '@/hooks/use-scale-orders';
 import { useUpdateLeverage } from '@/hooks/use-update-leverage';
 import { usePlaceStopOrder } from '@/hooks/use-place-stop-order';
+import { useDeposit } from '@/hooks/use-deposit';
 import { TwapProgress } from '../twap-progress';
 import { ScalePreview } from '../scale-preview';
 import { cn } from '@/lib/utils/cn';
@@ -33,7 +34,8 @@ type ProOption = 'scale' | 'twap';
 type TimeInForce = 'GTC' | 'IOC' | 'ALO';
 
 export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
-  const { isConnected, chain } = useAccount();
+  const { chain } = useAccount();
+  const { isConnected } = useAppKitAccount();
   const { switchChain } = useSwitchChain();
   const { open } = useAppKit();
   const [mounted, setMounted] = useState(false);
@@ -72,7 +74,6 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
   const { placeOrder, isPlacing } = usePlaceOrder();
   const { placeSpotOrder, isPlacing: isPlacingSpot } = usePlaceSpotOrder();
   const { balance, fullBalance } = useAccountBalance();
-  const { balance: walletUsdcBalance } = useWalletUsdcBalance();
   const { availableUsdc: spotAvailableUsdc } = useSpotBalance();
   const { placeTwapOrder, cancelTwap, isPlacing: isTwapPlacing, isCancelling: isTwapCancelling, activeTwap } = useTwapOrder();
   const { placeScaleOrders, isPlacing: isScalePlacing } = useScaleOrders();
@@ -1232,7 +1233,9 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
 // Deposit Modal Component
 function DepositModal({ onClose }: { onClose: () => void }) {
   const [amount, setAmount] = useState('');
-  const { balance: walletUsdcBalance } = useWalletUsdcBalance();
+  const { balance: walletUsdcBalance, refetch: refetchWalletBalance } = useWalletUsdcBalance();
+  const { refetch: refetchAccountBalance } = useAccountBalance();
+  const { deposit, isDepositing, minDeposit } = useDeposit();
   const maxAmount = walletUsdcBalance;
 
   const handlePercentageClick = (percentage: number) => {
@@ -1241,13 +1244,38 @@ function DepositModal({ onClose }: { onClose: () => void }) {
     setAmount(calculatedAmount.toFixed(6));
   };
 
+  const handleDeposit = async () => {
+    if (!amount || parseFloat(amount) <= 0) {
+      toast.error('Please enter a valid amount');
+      return;
+    }
+
+    const result = await deposit(amount);
+
+    if (result.success) {
+      // Refresh balances after successful deposit
+      setTimeout(() => {
+        refetchWalletBalance();
+        refetchAccountBalance();
+      }, 2000);
+      onClose();
+    }
+  };
+
+  const parsedAmount = parseFloat(amount) || 0;
+  const maxBalance = parseFloat(walletUsdcBalance || '0');
+  const isBelowMinimum = parsedAmount > 0 && parsedAmount < minDeposit;
+  const hasInsufficientBalance = maxBalance < minDeposit;
+  const canDeposit = parsedAmount >= minDeposit && parsedAmount <= maxBalance && !isDepositing;
+
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
       <div className="bg-[#1a2028] border border-gray-700 rounded-lg max-w-md w-full relative">
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-white text-xl z-10"
+          disabled={isDepositing}
+          className="absolute top-4 right-4 text-gray-400 hover:text-white text-xl z-10 disabled:opacity-50"
         >
           ✕
         </button>
@@ -1266,7 +1294,10 @@ function DepositModal({ onClose }: { onClose: () => void }) {
             {/* Asset */}
             <div>
               <label className="block text-sm text-gray-400 mb-2">Asset</label>
-              <select className="w-full px-3 py-2.5 bg-[#0f1419] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6]">
+              <select
+                disabled={isDepositing}
+                className="w-full px-3 py-2.5 bg-[#0f1419] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6] disabled:opacity-50"
+              >
                 <option>USDC</option>
               </select>
             </div>
@@ -1274,7 +1305,10 @@ function DepositModal({ onClose }: { onClose: () => void }) {
             {/* Deposit Chain */}
             <div>
               <label className="block text-sm text-gray-400 mb-2">Deposit Chain</label>
-              <select className="w-full px-3 py-2.5 bg-[#0f1419] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6]">
+              <select
+                disabled={isDepositing}
+                className="w-full px-3 py-2.5 bg-[#0f1419] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6] disabled:opacity-50"
+              >
                 <option>Arbitrum</option>
               </select>
             </div>
@@ -1290,42 +1324,69 @@ function DepositModal({ onClose }: { onClose: () => void }) {
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="0.00"
-                className="w-full px-3 py-2.5 bg-[#0f1419] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6]"
+                disabled={isDepositing}
+                className="w-full px-3 py-2.5 bg-[#0f1419] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6] disabled:opacity-50"
               />
 
               {/* Quick Percentage Buttons */}
               <div className="grid grid-cols-4 gap-2 mt-3">
                 <button
                   onClick={() => handlePercentageClick(25)}
-                  className="px-2 py-1.5 text-xs rounded bg-[#1a2028] text-gray-400 hover:text-white hover:bg-[#2a3038] transition-colors"
+                  disabled={isDepositing}
+                  className="px-2 py-1.5 text-xs rounded bg-[#1a2028] text-gray-400 hover:text-white hover:bg-[#2a3038] transition-colors disabled:opacity-50"
                 >
                   25%
                 </button>
                 <button
                   onClick={() => handlePercentageClick(50)}
-                  className="px-2 py-1.5 text-xs rounded bg-[#1a2028] text-gray-400 hover:text-white hover:bg-[#2a3038] transition-colors"
+                  disabled={isDepositing}
+                  className="px-2 py-1.5 text-xs rounded bg-[#1a2028] text-gray-400 hover:text-white hover:bg-[#2a3038] transition-colors disabled:opacity-50"
                 >
                   50%
                 </button>
                 <button
                   onClick={() => handlePercentageClick(75)}
-                  className="px-2 py-1.5 text-xs rounded bg-[#1a2028] text-gray-400 hover:text-white hover:bg-[#2a3038] transition-colors"
+                  disabled={isDepositing}
+                  className="px-2 py-1.5 text-xs rounded bg-[#1a2028] text-gray-400 hover:text-white hover:bg-[#2a3038] transition-colors disabled:opacity-50"
                 >
                   75%
                 </button>
                 <button
                   onClick={() => handlePercentageClick(100)}
-                  className="px-2 py-1.5 text-xs rounded bg-[#1a2028] text-gray-400 hover:text-white hover:bg-[#2a3038] transition-colors"
+                  disabled={isDepositing}
+                  className="px-2 py-1.5 text-xs rounded bg-[#1a2028] text-gray-400 hover:text-white hover:bg-[#2a3038] transition-colors disabled:opacity-50"
                 >
                   100%
                 </button>
               </div>
             </div>
 
+            {/* Warning Messages */}
+            {hasInsufficientBalance && (
+              <div className="p-3 bg-red-500/10 border border-red-500/30 rounded text-sm text-red-400">
+                Insufficient balance. Minimum deposit is {minDeposit} USDC but you only have {maxBalance.toFixed(2)} USDC.
+              </div>
+            )}
+
+            {isBelowMinimum && !hasInsufficientBalance && (
+              <div className="p-3 bg-yellow-500/10 border border-yellow-500/30 rounded text-sm text-yellow-400">
+                Minimum deposit is {minDeposit} USDC. Amounts below this will be LOST!
+              </div>
+            )}
+
             {/* Deposit Button */}
-            <button className="w-full py-3 bg-[#0f5549] hover:bg-[#0a3d34] text-white rounded font-semibold transition-colors">
-              Deposit
+            <button
+              onClick={handleDeposit}
+              disabled={!canDeposit}
+              className="w-full py-3 bg-[#0f5549] hover:bg-[#0a3d34] text-white rounded font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isDepositing ? 'Depositing...' : hasInsufficientBalance ? `Need ${minDeposit} USDC min` : 'Deposit'}
             </button>
+
+            {/* Info */}
+            <p className="text-xs text-gray-500 text-center">
+              Min: {minDeposit} USDC | Deposits are instant (Hyperliquid pays gas)
+            </p>
           </div>
         </div>
       </div>

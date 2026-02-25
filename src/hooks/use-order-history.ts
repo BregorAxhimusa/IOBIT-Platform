@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useAccount } from 'wagmi';
+import { useAppKitAccount } from '@reown/appkit/react';
 import { getInfoClient } from '@/lib/hyperliquid/info-client';
 import { useNetworkStore } from '@/store/network-store';
 import { useOrdersStore } from '@/store/orders-store';
@@ -31,7 +31,7 @@ interface HyperliquidHistoricalOrder {
  * Hook to fetch user order history from Hyperliquid
  */
 export function useOrderHistory(limit: number = 100) {
-  const { address, isConnected } = useAccount();
+  const { address, isConnected } = useAppKitAccount();
   const network = useNetworkStore((state) => state.network);
   const { setOrderHistory } = useOrdersStore();
   const { fetchAddress } = useTradingContext();

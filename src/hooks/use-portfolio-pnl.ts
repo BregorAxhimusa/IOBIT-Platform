@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { useAccount } from 'wagmi';
+import { useAppKitAccount } from '@reown/appkit/react';
 import { getInfoClient } from '@/lib/hyperliquid/info-client';
 import { useNetworkStore } from '@/store/network-store';
 import type { UserFill, FundingPayment, PnLData, PerformanceStats } from '@/lib/hyperliquid/types';
@@ -192,7 +192,7 @@ function calculatePerformanceStats(
  * Hook for real portfolio PnL data with time range support
  */
 export function usePortfolioPnL(timeRange: TimeRange = '30d') {
-  const { address, isConnected } = useAccount();
+  const { address, isConnected } = useAppKitAccount();
   const network = useNetworkStore((state) => state.network);
 
   const startTime = getStartTime(timeRange);
