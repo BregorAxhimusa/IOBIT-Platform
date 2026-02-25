@@ -847,8 +847,18 @@ export async function signClaimReferralRewards(
 }
 
 /**
- * Generate a nonce for transactions
+ * Monotonic counter to prevent nonce collisions when multiple orders are placed
+ * in the same millisecond
+ */
+let lastNonce = 0;
+
+/**
+ * Generate a unique nonce for transactions
+ * Uses timestamp with monotonic increment to prevent collisions
  */
 export function generateNonce(): number {
-  return Date.now();
+  const now = Date.now();
+  // Ensure nonce is always greater than the last one
+  lastNonce = Math.max(now, lastNonce + 1);
+  return lastNonce;
 }

@@ -1,4 +1,5 @@
 import { HYPERLIQUID_MAINNET_API, HYPERLIQUID_TESTNET_API, type Network } from '../utils/constants';
+import type { OrderResponse } from './types';
 
 /**
  * Map coin names to Hyperliquid asset indices
@@ -105,7 +106,24 @@ export class HyperliquidExchangeClient {
         payload.vaultAddress = params.vaultAddress;
       }
 
-      const response = await this.post('/exchange', payload);
+      const response = await this.post<OrderResponse>('/exchange', payload);
+
+      // Validate API response status
+      if (response.status === 'err') {
+        const errorMsg = JSON.stringify(response.response);
+        console.error('Order API error:', errorMsg);
+        return { success: false, error: `API error: ${errorMsg}` };
+      }
+
+      // Check for errors in order statuses
+      const statuses = response.response?.data?.statuses || [];
+      for (const status of statuses) {
+        if ('error' in status) {
+          console.error('Order status error:', status.error);
+          return { success: false, error: status.error };
+        }
+      }
+
       return { success: true, data: response };
     } catch (error) {
       console.error('Error placing order:', error);

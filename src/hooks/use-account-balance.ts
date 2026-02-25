@@ -74,8 +74,8 @@ export function useAccountBalance() {
       const totalNtlPos = parseFloat(marginSummary.totalNtlPos);
       const totalMarginUsed = parseFloat(marginSummary.totalMarginUsed);
 
-      // Calculate withdrawable (account value - margin used)
-      const withdrawable = Math.max(0, accountValue - totalMarginUsed);
+      // Use API's withdrawable field directly (more accurate than manual calculation)
+      const withdrawable = parseFloat(userState.withdrawable || '0');
 
       return {
         accountValue,
