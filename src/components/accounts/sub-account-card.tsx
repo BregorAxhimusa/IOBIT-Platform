@@ -41,10 +41,10 @@ export function SubAccountCard({ subAccount, onTransfer }: SubAccountCardProps) 
     <div className="bg-[#0f1419] border border-gray-800 p-4 hover:border-gray-600 transition-colors">
       <div className="flex items-center justify-between mb-3">
         <div>
-          <h3 className="text-white font-medium text-sm">
+          <h3 className="text-white font-normal text-sm">
             {subAccount.name || 'Unnamed'}
           </h3>
-          <p className="text-gray-500 font-mono text-xs mt-0.5">
+          <p className="text-gray-500 text-xs mt-0.5">
             {formatAddress(subAccount.subAccountUser)}
           </p>
         </div>
@@ -59,13 +59,13 @@ export function SubAccountCard({ subAccount, onTransfer }: SubAccountCardProps) 
       <div className="grid grid-cols-3 gap-3">
         <div>
           <p className="text-gray-400 text-[10px] mb-0.5">Account Value</p>
-          <p className="text-white text-xs font-medium">{formatCurrency(accountValue)}</p>
+          <p className="text-white text-xs font-normal">{formatCurrency(accountValue)}</p>
         </div>
         <div>
           <p className="text-gray-400 text-[10px] mb-0.5">Unrealized PnL</p>
           <p
             className={cn(
-              'text-xs font-medium',
+              'text-xs font-normal',
               totalPnl >= 0 ? 'text-green-400' : 'text-red-400'
             )}
           >
@@ -75,7 +75,7 @@ export function SubAccountCard({ subAccount, onTransfer }: SubAccountCardProps) 
         </div>
         <div>
           <p className="text-gray-400 text-[10px] mb-0.5">Positions</p>
-          <p className="text-white text-xs font-medium">{positionCount}</p>
+          <p className="text-white text-xs font-normal">{positionCount}</p>
         </div>
       </div>
     </div>

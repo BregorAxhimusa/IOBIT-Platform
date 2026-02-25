@@ -47,7 +47,7 @@ interface MarketState {
 
 /**
  * Market Store
- * Menaxhon market data për të gjitha trading pairs
+ * Manages market data for all trading pairs
  */
 export const useMarketStore = create<MarketState>((set, get) => ({
   currentSymbol: 'BTC',

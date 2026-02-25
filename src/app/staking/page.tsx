@@ -50,7 +50,7 @@ export default function StakingPage() {
       <div className="max-w-6xl mx-auto px-4 py-6">
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-xl font-bold text-white">HYPE Staking</h1>
+          <h1 className="text-xl font-normal text-white">HYPE Staking</h1>
           <p className="text-gray-400 text-sm mt-1">
             Delegate HYPE to validators and earn staking rewards (~2-3% APY, auto-compounded daily)
           </p>
@@ -113,7 +113,7 @@ export default function StakingPage() {
               { step: '5', text: 'Withdraw to Spot (7-day queue, max 5 pending)' },
             ].map((item) => (
               <div key={item.step} className="flex items-start gap-2">
-                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-xs flex items-center justify-center font-bold">
+                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-xs flex items-center justify-center font-normal">
                   {item.step}
                 </span>
                 <p className="text-gray-400 text-xs">{item.text}</p>

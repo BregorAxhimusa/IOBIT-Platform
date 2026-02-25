@@ -8,7 +8,7 @@ import { useMarketStore } from '@/store/market-store';
 import { useWebSocket } from './use-websocket';
 
 /**
- * Hook për të marrë market data dhe subscribe në real-time updates
+ * Hook to fetch market data and subscribe to real-time updates
  * @param symbol - Optional specific symbol to fetch
  */
 export function useMarketData(symbol?: string) {

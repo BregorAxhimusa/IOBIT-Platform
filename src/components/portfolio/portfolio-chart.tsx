@@ -75,7 +75,7 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
              item.dataKey === 'fundingPnl' ? 'Funding' :
              item.dataKey}
           </span>
-          <span className={cn('text-xs font-medium', item.value >= 0 ? 'text-green-400' : 'text-red-400')}>
+          <span className={cn('text-xs font-normal', item.value >= 0 ? 'text-green-400' : 'text-red-400')}>
             {formatCurrency(item.value)}
           </span>
         </div>
@@ -132,7 +132,7 @@ export function PortfolioChart({
         <div>
           <h3 className="text-white font-semibold">Portfolio Performance</h3>
           <div className="flex items-center gap-2 mt-1">
-            <span className={cn('text-lg font-bold', isPositive ? 'text-green-400' : 'text-red-400')}>
+            <span className={cn('text-lg font-normal', isPositive ? 'text-green-400' : 'text-red-400')}>
               {isPositive ? '+' : ''}{formatCurrency(totalPnl)}
             </span>
             <span className="text-gray-500 text-sm">cumulative PnL</span>

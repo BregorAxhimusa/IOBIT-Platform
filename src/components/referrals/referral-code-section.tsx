@@ -52,7 +52,7 @@ function HasCodeView({ code }: { code: string }) {
       <div className="flex items-center gap-3">
         <div className="bg-[#1a2028] border border-teal-500/30  px-5 py-3 flex-1">
           <p className="text-gray-400 text-xs mb-1">Your Referral Code</p>
-          <p className="text-teal-400 text-xl font-bold tracking-wider">{code}</p>
+          <p className="text-teal-400 text-xl font-normal tracking-wider">{code}</p>
         </div>
       </div>
 
@@ -63,7 +63,7 @@ function HasCodeView({ code }: { code: string }) {
         <button
           onClick={handleCopy}
           className={cn(
-            'px-4 py-2  text-sm font-medium transition-all shrink-0',
+            'px-4 py-2  text-sm font-normal transition-all shrink-0',
             copied
               ? 'bg-green-500/20 text-green-400 border border-green-500/30'
               : 'bg-teal-500 hover:bg-teal-600 text-white'
@@ -136,7 +136,7 @@ function CreateCodeView({
           onClick={handleCreate}
           disabled={!isValidCode || isCreating}
           className={cn(
-            'px-4 py-2  text-sm font-medium transition-all shrink-0',
+            'px-4 py-2  text-sm font-normal transition-all shrink-0',
             isValidCode && !isCreating
               ? 'bg-teal-500 hover:bg-teal-600 text-white'
               : 'bg-gray-700 text-gray-500 cursor-not-allowed'
@@ -182,7 +182,7 @@ function NeedsVolumeView({ currentVolume }: { currentVolume: string }) {
         <div className="space-y-2">
           <div className="flex items-center justify-between text-xs">
             <span className="text-gray-400">Current Volume</span>
-            <span className="text-white font-medium">${formatCompactNumber(currentVolume)}</span>
+            <span className="text-white font-normal">${formatCompactNumber(currentVolume)}</span>
           </div>
 
           <div className="w-full bg-[#0b0e11] rounded-full h-2.5 overflow-hidden">

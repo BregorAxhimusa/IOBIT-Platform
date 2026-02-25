@@ -21,10 +21,10 @@ export function ApiWalletCard({ wallet }: ApiWalletCardProps) {
     <div className="bg-[#0f1419] border border-gray-800 p-4 hover:border-gray-600 transition-colors">
       <div className="flex items-center justify-between mb-2">
         <div>
-          <h3 className="text-white font-medium text-sm">
+          <h3 className="text-white font-normal text-sm">
             {wallet.name || 'Unnamed Wallet'}
           </h3>
-          <p className="text-gray-500 font-mono text-xs mt-0.5">
+          <p className="text-gray-500 text-xs mt-0.5">
             {formatAddress(wallet.address)}
           </p>
         </div>

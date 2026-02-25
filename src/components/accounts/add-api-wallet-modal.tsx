@@ -53,7 +53,7 @@ export function AddApiWalletModal({ isOpen, onClose, onSuccess }: AddApiWalletMo
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
               </svg>
             </div>
-            <h2 className="text-lg sm:text-xl font-bold text-white">Add API Wallet</h2>
+            <h2 className="text-lg sm:text-xl font-normal text-white">Add API Wallet</h2>
             <p className="text-gray-500 text-xs sm:text-sm mt-1 text-center">
               Authorize trading access
             </p>
@@ -74,13 +74,13 @@ export function AddApiWalletModal({ isOpen, onClose, onSuccess }: AddApiWalletMo
 
           {/* Wallet Address Input */}
           <div className="mb-3 sm:mb-4">
-            <label className="text-[10px] sm:text-xs text-gray-500 font-medium mb-1.5 sm:mb-2 block">Wallet Address</label>
+            <label className="text-[10px] sm:text-xs text-gray-500 font-normal mb-1.5 sm:mb-2 block">Wallet Address</label>
             <input
               type="text"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               placeholder="0x..."
-              className="w-full bg-[#1a2028] border border-gray-800 px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm font-mono focus:outline-none focus:border-teal-500/50 placeholder-gray-600"
+              className="w-full bg-[#1a2028] border border-gray-800 px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm focus:outline-none focus:border-teal-500/50 placeholder-gray-600"
             />
             {address && !isValidAddress && (
               <div className="flex items-center gap-1.5 mt-1.5 sm:mt-2 text-red-400">
@@ -102,7 +102,7 @@ export function AddApiWalletModal({ isOpen, onClose, onSuccess }: AddApiWalletMo
 
           {/* Name Input */}
           <div className="mb-3 sm:mb-4">
-            <label className="text-[10px] sm:text-xs text-gray-500 font-medium mb-1.5 sm:mb-2 block">
+            <label className="text-[10px] sm:text-xs text-gray-500 font-normal mb-1.5 sm:mb-2 block">
               Name <span className="text-gray-600">(optional)</span>
             </label>
             <input

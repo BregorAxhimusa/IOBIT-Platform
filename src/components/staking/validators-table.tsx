@@ -97,7 +97,7 @@ export function ValidatorsTable({ validators, isLoading, onStake }: ValidatorsTa
                 <td className="py-3">
                   <div>
                     <p className="text-white text-sm">{v.name || 'Unknown'}</p>
-                    <p className="text-gray-500 text-[10px] font-mono">{formatAddress(v.validator)}</p>
+                    <p className="text-gray-500 text-[10px]">{formatAddress(v.validator)}</p>
                   </div>
                 </td>
                 <td className="py-3 text-right text-white">{(parseFloat(v.commission) * 100).toFixed(1)}%</td>
@@ -113,7 +113,7 @@ export function ValidatorsTable({ validators, isLoading, onStake }: ValidatorsTa
                   <button
                     onClick={() => onStake(v)}
                     disabled={v.isJailed}
-                    className="px-3 py-1 text-xs font-medium bg-teal-500/10 text-teal-400 rounded-lg hover:bg-teal-500/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-3 py-1 text-xs font-normal bg-teal-500/10 text-teal-400 rounded-lg hover:bg-teal-500/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Stake
                   </button>

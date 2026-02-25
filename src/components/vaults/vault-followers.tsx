@@ -47,11 +47,11 @@ export function VaultFollowers({ followers }: VaultFollowersProps) {
       <table className="w-full text-xs">
         <thead>
           <tr className="text-gray-400 border-b border-gray-800">
-            <th className="text-left py-2 px-3 font-medium">#</th>
-            <th className="text-left py-2 px-3 font-medium">Address</th>
-            <th className="text-right py-2 px-3 font-medium">Equity</th>
-            <th className="text-right py-2 px-3 font-medium">PnL</th>
-            <th className="text-right py-2 px-3 font-medium">Lock Until</th>
+            <th className="text-left py-2 px-3 font-normal">#</th>
+            <th className="text-left py-2 px-3 font-normal">Address</th>
+            <th className="text-right py-2 px-3 font-normal">Equity</th>
+            <th className="text-right py-2 px-3 font-normal">PnL</th>
+            <th className="text-right py-2 px-3 font-normal">Lock Until</th>
           </tr>
         </thead>
         <tbody>
@@ -72,7 +72,7 @@ export function VaultFollowers({ followers }: VaultFollowersProps) {
                 className="border-b border-gray-800/50 hover:bg-[#1a2028]/50 transition-colors"
               >
                 <td className="py-2 px-3 text-gray-500">{startIdx + index + 1}</td>
-                <td className="py-2 px-3 text-white font-mono">
+                <td className="py-2 px-3 text-white">
                   {formatAddress(follower.user)}
                 </td>
                 <td className="py-2 px-3 text-right text-white">
@@ -81,7 +81,7 @@ export function VaultFollowers({ followers }: VaultFollowersProps) {
                 <td className="py-2 px-3 text-right">
                   <span
                     className={cn(
-                      'font-medium',
+                      'font-normal',
                       pnl >= 0 ? 'text-green-400' : 'text-red-400'
                     )}
                   >

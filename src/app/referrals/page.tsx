@@ -35,7 +35,7 @@ export default function ReferralsPage() {
       <div className="max-w-5xl mx-auto px-4 py-6">
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-xl font-bold text-white">Referral Program</h1>
+          <h1 className="text-xl font-normal text-white">Referral Program</h1>
           <p className="text-gray-400 text-sm mt-1">
             Earn 10% of referred users&apos; fees. Referred users get 4% fee discount.
           </p>
@@ -92,10 +92,10 @@ export default function ReferralsPage() {
                 key={item.step}
                 className="bg-[#1a2028] p-3 text-center"
               >
-                <div className="w-7 h-7 bg-teal-500/20 text-teal-400 rounded-full flex items-center justify-center text-xs font-bold mx-auto mb-2">
+                <div className="w-7 h-7 bg-teal-500/20 text-teal-400 rounded-full flex items-center justify-center text-xs font-normal mx-auto mb-2">
                   {item.step}
                 </div>
-                <p className="text-white text-sm font-medium">{item.title}</p>
+                <p className="text-white text-sm font-normal">{item.title}</p>
                 <p className="text-gray-500 text-xs mt-0.5">{item.desc}</p>
               </div>
             ))}
@@ -103,7 +103,7 @@ export default function ReferralsPage() {
 
           <div className="mt-4 bg-[#1a2028] p-3">
             <p className="text-gray-400 text-xs leading-relaxed">
-              <span className="text-amber-400 font-medium">Note:</span> Referral rewards are valid up to $1B volume per referred user.
+              <span className="text-amber-400 font-normal">Note:</span> Referral rewards are valid up to $1B volume per referred user.
               Fee discounts are valid up to $25M volume per referred user.
               Vaults and sub-accounts do not benefit from referral discounts.
             </p>

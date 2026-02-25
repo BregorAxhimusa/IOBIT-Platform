@@ -3,7 +3,7 @@ import type { AllMids, L2Book, UserState, CandleSnapshot, SpotMeta, SpotClearing
 
 /**
  * Hyperliquid Info Client (Read-Only)
- * Për të marrë market data, order books, user positions, etj.
+ * For fetching market data, order books, user positions, etc.
  */
 export class HyperliquidInfoClient {
   private baseUrl: string;
@@ -34,14 +34,14 @@ export class HyperliquidInfoClient {
   }
 
   /**
-   * Merr rrjetin aktual (mainnet ose testnet)
+   * Get current network (mainnet or testnet)
    */
   getNetwork(): Network {
     return this.network;
   }
 
   /**
-   * Merr të gjitha mid prices për të gjitha markets
+   * Get all mid prices for all markets
    */
   async getAllMids(): Promise<AllMids> {
     try {
@@ -56,7 +56,7 @@ export class HyperliquidInfoClient {
   }
 
   /**
-   * Merr order book për një symbol të caktuar
+   * Get order book for a specific symbol
    */
   async getL2Book(coin: string): Promise<L2Book | null> {
     try {
@@ -72,7 +72,7 @@ export class HyperliquidInfoClient {
   }
 
   /**
-   * Merr metadata për të gjitha assets
+   * Get metadata for all assets
    */
   async getMeta() {
     try {
@@ -87,7 +87,7 @@ export class HyperliquidInfoClient {
   }
 
   /**
-   * Merr metadata dhe asset contexts
+   * Get metadata and asset contexts
    * Returns: [meta, assetCtxs] array
    */
   async getMetaAndAssetCtxs() {
@@ -113,7 +113,7 @@ export class HyperliquidInfoClient {
   }
 
   /**
-   * Merr user state (positions, balances, margin)
+   * Get user state (positions, balances, margin)
    */
   async getUserState(address: string): Promise<UserState | null> {
     try {
@@ -129,7 +129,7 @@ export class HyperliquidInfoClient {
   }
 
   /**
-   * Merr candle data (OHLCV) për charting
+   * Get candle data (OHLCV) for charting
    */
   async getCandleSnapshot(
     coin: string,
@@ -155,7 +155,7 @@ export class HyperliquidInfoClient {
   }
 
   /**
-   * Merr funding rate për një symbol
+   * Get funding rate for a symbol
    */
   async getFundingHistory(coin: string, startTime?: number, endTime?: number) {
     try {
@@ -173,7 +173,7 @@ export class HyperliquidInfoClient {
   }
 
   /**
-   * Merr open orders për një user
+   * Get open orders for a user
    */
   async getOpenOrders(address: string) {
     try {
@@ -189,7 +189,7 @@ export class HyperliquidInfoClient {
   }
 
   /**
-   * Merr user fills (trade history)
+   * Get user fills (trade history)
    */
   async getUserFills(address: string) {
     try {
@@ -205,7 +205,7 @@ export class HyperliquidInfoClient {
   }
 
   /**
-   * Merr historical orders (order history) për një user
+   * Get historical orders (order history) for a user
    */
   async getHistoricalOrders(address: string) {
     try {
@@ -221,7 +221,7 @@ export class HyperliquidInfoClient {
   }
 
   /**
-   * Merr TWAP slice fills per user (to track TWAP progress)
+   * Get TWAP slice fills for user (to track TWAP progress)
    */
   async getUserTwapSliceFills(address: string) {
     try {
@@ -239,7 +239,7 @@ export class HyperliquidInfoClient {
   // ===== SPOT ENDPOINTS =====
 
   /**
-   * Merr metadata për të gjitha spot asset-et
+   * Get metadata for all spot assets
    */
   async getSpotMeta(): Promise<SpotMeta | null> {
     try {
@@ -254,7 +254,7 @@ export class HyperliquidInfoClient {
   }
 
   /**
-   * Merr bilancin spot të userit (token balances)
+   * Get user's spot balance (token balances)
    */
   async getSpotClearinghouseState(address: string): Promise<SpotClearinghouseState | null> {
     try {
@@ -270,7 +270,7 @@ export class HyperliquidInfoClient {
   }
 
   /**
-   * Merr spot meta + kontekstin e çmimeve
+   * Get spot meta + price context
    */
   async getSpotMetaAndAssetCtxs(): Promise<[SpotMeta, SpotAssetCtx[]] | null> {
     try {
@@ -287,7 +287,7 @@ export class HyperliquidInfoClient {
   // ===== PORTFOLIO ENDPOINTS =====
 
   /**
-   * Merr user fills me time range (max 500 per request, paginate with startTime)
+   * Get user fills with time range (max 500 per request, paginate with startTime)
    */
   async getUserFillsByTime(
     address: string,
@@ -309,7 +309,7 @@ export class HyperliquidInfoClient {
   }
 
   /**
-   * Merr funding payments për user (max 500 per request)
+   * Get funding payments for user (max 500 per request)
    */
   async getUserFunding(
     address: string,
@@ -331,7 +331,7 @@ export class HyperliquidInfoClient {
   }
 
   /**
-   * Merr non-funding ledger updates (deposits, withdrawals, transfers)
+   * Get non-funding ledger updates (deposits, withdrawals, transfers)
    */
   async getUserNonFundingLedgerUpdates(
     address: string,
@@ -355,7 +355,7 @@ export class HyperliquidInfoClient {
   // ===== VAULT ENDPOINTS =====
 
   /**
-   * Merr vault summaries (mund të kthejë [] nëse nuk ka të dhëna)
+   * Get vault summaries (may return [] if no data available)
    */
   async getVaultSummaries(): Promise<unknown[]> {
     try {
@@ -370,7 +370,7 @@ export class HyperliquidInfoClient {
   }
 
   /**
-   * Merr detajet e një vault-i specifik
+   * Get details of a specific vault
    */
   async getVaultDetails(vaultAddress: string, user?: string): Promise<VaultDetails | null> {
     try {
@@ -387,7 +387,7 @@ export class HyperliquidInfoClient {
   }
 
   /**
-   * Merr equity-t e userit në vault-e
+   * Get user's equity in vaults
    */
   async getUserVaultEquities(user: string): Promise<UserVaultEquity[]> {
     try {
@@ -403,7 +403,7 @@ export class HyperliquidInfoClient {
   }
 
   /**
-   * Merr listën e vault-eve nga stats-data endpoint (fallback)
+   * Get vaults list from stats-data endpoint (fallback)
    */
   async getVaultsList(): Promise<VaultStatsData[]> {
     try {
@@ -422,7 +422,7 @@ export class HyperliquidInfoClient {
   // ===== SUB-ACCOUNT & API WALLET ENDPOINTS =====
 
   /**
-   * Merr sub-accounts për një user (master wallet)
+   * Get sub-accounts for a user (master wallet)
    */
   async getSubAccounts(user: string): Promise<SubAccount[]> {
     try {
@@ -438,7 +438,7 @@ export class HyperliquidInfoClient {
   }
 
   /**
-   * Merr extra agents (API wallets) për një user
+   * Get extra agents (API wallets) for a user
    */
   async getExtraAgents(user: string): Promise<ApiWallet[]> {
     try {
@@ -454,7 +454,7 @@ export class HyperliquidInfoClient {
   }
 
   /**
-   * Merr rolin e një useri (master, subAccount, apiWallet)
+   * Get user role (master, subAccount, apiWallet)
    */
   async getUserRole(user: string): Promise<{ role: string; master?: string } | null> {
     try {
@@ -566,7 +566,7 @@ export class HyperliquidInfoClient {
   }
 
   /**
-   * Merr leaderboard data nga stats-data endpoint
+   * Get leaderboard data from stats-data endpoint
    */
   async getLeaderboard() {
     try {

@@ -112,7 +112,7 @@ export function VaultDepositModal({
                 </svg>
               )}
             </div>
-            <h2 className="text-lg sm:text-xl font-bold text-white">
+            <h2 className="text-lg sm:text-xl font-normal text-white">
               {mode === 'deposit' ? 'Deposit to Vault' : 'Withdraw from Vault'}
             </h2>
             <p className="text-gray-500 text-xs sm:text-sm mt-1 truncate max-w-full">{vaultName}</p>
@@ -123,7 +123,7 @@ export function VaultDepositModal({
             <button
               onClick={() => { setMode('deposit'); clearError(); setAmount(''); }}
               className={cn(
-                'flex-1 py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-colors',
+                'flex-1 py-2 sm:py-2.5 text-xs sm:text-sm font-normal transition-colors',
                 mode === 'deposit'
                   ? 'bg-teal-500 text-white'
                   : 'text-white/70 hover:text-white'
@@ -134,7 +134,7 @@ export function VaultDepositModal({
             <button
               onClick={() => { setMode('withdraw'); clearError(); setAmount(''); }}
               className={cn(
-                'flex-1 py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-colors',
+                'flex-1 py-2 sm:py-2.5 text-xs sm:text-sm font-normal transition-colors',
                 mode === 'withdraw'
                   ? 'bg-rose-500 text-white'
                   : 'text-white/70 hover:text-white'
@@ -152,7 +152,7 @@ export function VaultDepositModal({
                   <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-teal-400 rounded-full" />
                   <span className="text-gray-400 text-xs sm:text-sm">Available Balance</span>
                 </div>
-                <span className="text-white text-sm sm:text-base font-medium">${availableBalance.toFixed(2)}</span>
+                <span className="text-white text-sm sm:text-base font-normal">${availableBalance.toFixed(2)}</span>
               </div>
             ) : (
               <div className="space-y-2">
@@ -161,7 +161,7 @@ export function VaultDepositModal({
                     <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-purple-400 rounded-full" />
                     <span className="text-gray-400 text-xs sm:text-sm">Your Equity</span>
                   </div>
-                  <span className="text-white text-sm sm:text-base font-medium">${currentEquity.toFixed(2)}</span>
+                  <span className="text-white text-sm sm:text-base font-normal">${currentEquity.toFixed(2)}</span>
                 </div>
                 {isLocked && lockDateStr && (
                   <div className="flex items-center justify-between pt-2 border-t border-gray-800">
@@ -181,10 +181,10 @@ export function VaultDepositModal({
           {/* Amount Input */}
           <div className="mb-3 sm:mb-4">
             <div className="flex items-center justify-between mb-1.5 sm:mb-2">
-              <label className="text-[10px] sm:text-xs text-gray-500 font-medium">Amount (USDC)</label>
+              <label className="text-[10px] sm:text-xs text-gray-500 font-normal">Amount (USDC)</label>
               <button
                 onClick={handleMaxClick}
-                className="text-[10px] sm:text-xs text-teal-400 hover:text-teal-300 font-medium transition-colors"
+                className="text-[10px] sm:text-xs text-teal-400 hover:text-teal-300 font-normal transition-colors"
               >
                 MAX
               </button>
@@ -194,7 +194,7 @@ export function VaultDepositModal({
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="0.00"
-              className="w-full bg-[#1a2028] border border-gray-800 px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm font-medium focus:outline-none focus:border-teal-500/50 placeholder-gray-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              className="w-full bg-[#1a2028] border border-gray-800 px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-teal-500/50 placeholder-gray-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
           </div>
 

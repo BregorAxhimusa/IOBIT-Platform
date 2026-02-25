@@ -80,7 +80,7 @@ export function Navbar() {
         <div className="flex items-center gap-6">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 group">
-            <div className="text-xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent group-hover:from-teal-300 group-hover:to-cyan-300 transition-all">
+            <div className="text-xl font-normal bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent group-hover:from-teal-300 group-hover:to-cyan-300 transition-all">
               IOBIT
             </div>
           </Link>
@@ -95,7 +95,7 @@ export function Navbar() {
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    'px-3 py-1.5 text-sm font-medium rounded-lg transition-all relative',
+                    'px-3 py-1.5 text-sm font-normal rounded-lg transition-all relative',
                     isActive
                       ? 'bg-gradient-to-r from-teal-500/20 to-cyan-500/20 text-teal-400 border border-teal-500/30'
                       : 'text-white hover:bg-white/5 border border-transparent'
@@ -172,7 +172,7 @@ export function Navbar() {
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={cn(
-                    'block px-2.5 py-2 text-xs font-medium rounded-lg transition-all',
+                    'block px-2.5 py-2 text-xs font-normal rounded-lg transition-all',
                     isActive
                       ? 'bg-teal-500/10 text-teal-400 border border-teal-500/30'
                       : 'text-white hover:bg-white/5 border border-transparent'
@@ -187,7 +187,7 @@ export function Navbar() {
                 href="/settings"
                 onClick={() => setMobileMenuOpen(false)}
                 className={cn(
-                  'block px-2.5 py-2 text-xs font-medium rounded-lg transition-all',
+                  'block px-2.5 py-2 text-xs font-normal rounded-lg transition-all',
                   pathname?.startsWith('/settings')
                     ? 'bg-teal-500/10 text-teal-400 border border-teal-500/30'
                     : 'text-white/70 hover:text-white hover:bg-white/5 border border-transparent'

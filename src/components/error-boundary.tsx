@@ -74,7 +74,7 @@ export function TradingErrorBoundary({ children }: { children: ReactNode }) {
         <div className="flex items-center justify-center p-8 bg-gray-900 rounded-lg border border-gray-800">
           <div className="text-center space-y-3">
             <div className="text-red-500 text-3xl">⚠️</div>
-            <h3 className="text-lg font-medium text-white">Trading Error</h3>
+            <h3 className="text-lg font-normal text-white">Trading Error</h3>
             <p className="text-gray-400 text-sm">
               Unable to load trading interface
             </p>

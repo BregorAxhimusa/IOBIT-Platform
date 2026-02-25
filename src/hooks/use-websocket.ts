@@ -5,7 +5,7 @@ import { getWebSocketClient } from '@/lib/hyperliquid/websocket-client';
 import { useNetworkStore } from '@/store/network-store';
 
 /**
- * Hook për WebSocket connection management
+ * Hook for WebSocket connection management
  */
 export function useWebSocket() {
   const network = useNetworkStore((state) => state.network);

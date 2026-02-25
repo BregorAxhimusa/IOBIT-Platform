@@ -243,7 +243,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                   key={filter}
                   onClick={() => setActiveFilter(filter)}
                   className={cn(
-                    'px-3 sm:px-4 py-2 sm:py-2.5 rounded-t-lg transition-all duration-200 font-medium whitespace-nowrap flex-shrink-0',
+                    'px-3 sm:px-4 py-2 sm:py-2.5 rounded-t-lg transition-all duration-200 font-normal whitespace-nowrap flex-shrink-0',
                     activeFilter === filter
                       ? 'text-white bg-gray-800/50 border-b-2 border-teal-500'
                       : 'text-white/70 hover:text-white hover:bg-gray-800/50'
@@ -274,14 +274,14 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                 <div className="flex items-center justify-center py-12 sm:py-16 text-gray-400 text-xs sm:text-sm">
                   <div className="text-center">
                     <div className="animate-spin rounded-full h-8 w-8 sm:h-10 sm:w-10 border-b-3 border-teal-500 mx-auto mb-2 sm:mb-3"></div>
-                    <div className="font-medium">Loading markets...</div>
+                    <div className="font-normal">Loading markets...</div>
                     <div className="text-[10px] sm:text-xs text-gray-600 mt-1 sm:mt-1.5">
                       ({markets.size} markets loaded)
                     </div>
                   </div>
                 </div>
               ) : filteredMarkets.length === 0 ? (
-                <div className="flex items-center justify-center py-12 sm:py-16 text-gray-500 text-xs sm:text-sm font-medium">
+                <div className="flex items-center justify-center py-12 sm:py-16 text-gray-500 text-xs sm:text-sm font-normal">
                   No markets found for &ldquo;{searchTerm}&rdquo;
                 </div>
               ) : (
@@ -338,13 +338,13 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                         <span className="hidden sm:inline text-gray-600 text-[9px]">
                           -USDC
                         </span>
-                        <span className="hidden lg:inline px-1.5 py-0.5 bg-teal-500/20 text-teal-400 text-[9px] font-bold rounded">
+                        <span className="hidden lg:inline px-1.5 py-0.5 bg-teal-500/20 text-teal-400 text-[9px] font-normal rounded">
                           40x
                         </span>
                       </div>
 
                       {/* Last Price */}
-                      <div className="col-span-3 sm:col-span-2 text-right text-gray-300 font-mono font-semibold flex items-center justify-end group-hover:text-white transition-colors">
+                      <div className="col-span-3 sm:col-span-2 text-right text-gray-300 font-semibold flex items-center justify-end group-hover:text-white transition-colors">
                         {marketPrice > 0
                           ? marketPrice.toLocaleString(undefined, {
                               minimumFractionDigits:
@@ -358,7 +358,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                       {/* 24H Change */}
                       <div
                         className={cn(
-                          'col-span-3 sm:col-span-2 text-right font-bold flex items-center justify-end',
+                          'col-span-3 sm:col-span-2 text-right font-normal flex items-center justify-end',
                           marketChange >= 0
                             ? 'text-emerald-400'
                             : 'text-rose-400'
@@ -434,7 +434,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                 className="flex items-center gap-2 hover:opacity-80 transition-all group"
               >
                 <span className="w-2.5 h-2.5 rounded-full bg-teal-400" />
-                <span className="text-lg font-bold text-white whitespace-nowrap">
+                <span className="text-lg font-normal text-white whitespace-nowrap">
                   {isSpot ? symbol : `${symbol}/USDC`}
                 </span>
                 <svg
@@ -453,12 +453,12 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
 
             {/* Main Price with Change Badge */}
             <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 border-l border-white/10 pl-4">
-              <span className="text-lg sm:text-2xl font-bold text-white tabular-nums">
+              <span className="text-lg sm:text-2xl font-normal text-white tabular-nums">
                 ${price > 0 ? formatPrice(price, price > 100 ? 2 : 4) : '--'}
               </span>
               <span
                 className={cn(
-                  'px-2 py-1 rounded-lg text-xs sm:text-sm font-bold tabular-nums',
+                  'px-2 py-1 rounded-lg text-xs sm:text-sm font-normal tabular-nums',
                   isPositive
                     ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
                     : 'bg-rose-500/20 text-rose-400 border border-rose-500/30'

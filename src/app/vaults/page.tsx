@@ -56,7 +56,7 @@ export default function VaultsPage() {
       <div className="max-w-7xl mx-auto px-4 py-6">
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-white mb-1">Vaults</h1>
+          <h1 className="text-2xl font-normal text-white mb-1">Vaults</h1>
           <p className="text-gray-400 text-sm">
             Deposit into vaults managed by top traders. Earn returns based on their performance.
           </p>
@@ -238,7 +238,7 @@ export default function VaultsPage() {
                       <div className="bg-[#0f1419] border border-gray-800  p-4 hover:border-gray-600 transition-colors">
                         <div className="flex items-center justify-between">
                           <div>
-                            <p className="text-white font-mono text-sm">
+                            <p className="text-white text-sm">
                               {formatAddress(eq.vaultAddress)}
                             </p>
                             <div className="flex items-center gap-4 mt-1">
@@ -249,7 +249,7 @@ export default function VaultsPage() {
                                 PnL:{' '}
                                 <span
                                   className={cn(
-                                    'font-medium',
+                                    'font-normal',
                                     pnl >= 0 ? 'text-green-400' : 'text-red-400'
                                   )}
                                 >

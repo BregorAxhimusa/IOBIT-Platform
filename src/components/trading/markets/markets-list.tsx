@@ -101,7 +101,7 @@ export function MarketsList({ currentSymbol }: MarketsListProps) {
             key={filter}
             onClick={() => setActiveFilter(filter)}
             className={cn(
-              'flex-1 px-2 py-1.5 font-medium transition-colors',
+              'flex-1 px-2 py-1.5 font-normal transition-colors',
               activeFilter === filter
                 ? 'text-white bg-[#1a1a1a]'
                 : 'text-white/70 hover:text-white'
@@ -113,7 +113,7 @@ export function MarketsList({ currentSymbol }: MarketsListProps) {
       </div>
 
       {/* Column Headers */}
-      <div className="grid grid-cols-12 gap-1 px-2 py-1 text-[10px] text-gray-600 border-b border-gray-800/50 font-medium bg-[#0a0a0a]">
+      <div className="grid grid-cols-12 gap-1 px-2 py-1 text-[10px] text-gray-600 border-b border-gray-800/50 font-normal bg-[#0a0a0a]">
         <div className="col-span-4">Symbol</div>
         <div className="col-span-3 text-right">Price</div>
         <div className="col-span-2 text-right">24h%</div>
@@ -141,13 +141,13 @@ export function MarketsList({ currentSymbol }: MarketsListProps) {
                 )}
               >
                 {/* Symbol */}
-                <div className="col-span-4 font-medium text-gray-200 truncate flex items-center">
+                <div className="col-span-4 font-normal text-gray-200 truncate flex items-center">
                   {market.displayName}
                   <span className="text-gray-700 text-[9px] ml-0.5">{market.suffix}</span>
                 </div>
 
                 {/* Price */}
-                <div className="col-span-3 text-right text-gray-400 font-mono text-[10px] flex items-center justify-end">
+                <div className="col-span-3 text-right text-gray-400 text-[10px] flex items-center justify-end">
                   {market.price > 0
                     ? market.price.toLocaleString(undefined, {
                         minimumFractionDigits: market.price < 1 ? 4 : market.price < 100 ? 3 : 2,
@@ -159,7 +159,7 @@ export function MarketsList({ currentSymbol }: MarketsListProps) {
                 {/* 24h Change */}
                 <div
                   className={cn(
-                    'col-span-2 text-right font-medium flex items-center justify-end',
+                    'col-span-2 text-right font-normal flex items-center justify-end',
                     market.change24h >= 0 ? 'text-green-500' : 'text-red-500'
                   )}
                 >

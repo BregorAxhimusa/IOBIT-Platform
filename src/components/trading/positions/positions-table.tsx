@@ -56,16 +56,16 @@ export function PositionsTable() {
       <table className="w-full text-xs sm:text-sm">
         <thead>
           <tr className="border-b border-gray-800">
-            <th className="text-left py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-medium text-gray-400">Symbol</th>
-            <th className="text-left py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-medium text-gray-400">Side</th>
-            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-medium text-gray-400">Size</th>
-            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-medium text-gray-400">Entry</th>
-            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-medium text-gray-400">Mark</th>
-            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-medium text-gray-400 hidden sm:table-cell">Liq.</th>
-            <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-medium text-gray-400 hidden sm:table-cell">Lev</th>
-            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-medium text-gray-400">PnL</th>
-            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-medium text-gray-400 hidden md:table-cell">Margin</th>
-            <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-medium text-gray-400">Actions</th>
+            <th className="text-left py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">Symbol</th>
+            <th className="text-left py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">Side</th>
+            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">Size</th>
+            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">Entry</th>
+            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">Mark</th>
+            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400 hidden sm:table-cell">Liq.</th>
+            <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400 hidden sm:table-cell">Lev</th>
+            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">PnL</th>
+            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400 hidden md:table-cell">Margin</th>
+            <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -78,7 +78,7 @@ export function PositionsTable() {
                 key={position.symbol}
                 className="border-b border-gray-800 hover:bg-[#1a2028]/50 transition-colors"
               >
-                <td className="py-2 sm:py-3 px-2 sm:px-4 font-medium text-white whitespace-nowrap">{position.symbol}</td>
+                <td className="py-2 sm:py-3 px-2 sm:px-4 font-normal text-white whitespace-nowrap">{position.symbol}</td>
                 <td className="py-2 sm:py-3 px-2 sm:px-4">
                   <span
                     className={cn(
@@ -105,7 +105,7 @@ export function PositionsTable() {
                 </td>
                 <td className="py-2 sm:py-3 px-2 sm:px-4 text-center text-gray-300 hidden sm:table-cell">{position.leverage}x</td>
                 <td className="py-2 sm:py-3 px-2 sm:px-4 text-right">
-                  <div className={cn('font-medium', pnl >= 0 ? 'text-[#14b8a6]' : 'text-[#ef4444]')}>
+                  <div className={cn('font-normal', pnl >= 0 ? 'text-[#14b8a6]' : 'text-[#ef4444]')}>
                     {pnl >= 0 ? '+' : ''}${pnl.toFixed(2)}
                   </div>
                   <div className={cn('text-[9px] sm:text-xs', pnl >= 0 ? 'text-[#14b8a6]/70' : 'text-[#ef4444]/70')}>
@@ -139,7 +139,7 @@ export function PositionsTable() {
         </tbody>
         <tfoot>
           <tr className="border-t border-gray-700">
-            <td colSpan={5} className="py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-medium text-gray-400">
+            <td colSpan={5} className="py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">
               Total PnL
             </td>
             <td className="py-2 sm:py-3 px-2 sm:px-4 text-right hidden sm:table-cell" colSpan={2}></td>
@@ -243,7 +243,7 @@ function TPSLModal({
                   onChange={(e) => setEnableTP(e.target.checked)}
                   className="w-4 h-4 rounded border-gray-600 bg-[#111111] text-[#14b8a6] focus:ring-[#14b8a6] focus:ring-offset-0 cursor-pointer"
                 />
-                <label className="text-sm text-gray-300 font-medium">Take Profit</label>
+                <label className="text-sm text-gray-300 font-normal">Take Profit</label>
                 {enableTP && (
                   <button
                     onClick={() => setTakeProfitPrice(suggestedTP.toFixed(2))}
@@ -274,7 +274,7 @@ function TPSLModal({
                   onChange={(e) => setEnableSL(e.target.checked)}
                   className="w-4 h-4 rounded border-gray-600 bg-[#111111] text-[#ef4444] focus:ring-[#ef4444] focus:ring-offset-0 cursor-pointer"
                 />
-                <label className="text-sm text-gray-300 font-medium">Stop Loss</label>
+                <label className="text-sm text-gray-300 font-normal">Stop Loss</label>
                 {enableSL && (
                   <button
                     onClick={() => setStopLossPrice(suggestedSL.toFixed(2))}

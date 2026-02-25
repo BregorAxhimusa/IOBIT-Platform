@@ -38,11 +38,11 @@ export function SpotBalancesTable() {
       <table className="w-full text-xs">
         <thead>
           <tr className="text-gray-400 border-b border-gray-800">
-            <th className="text-left py-2 px-3 font-medium">Token</th>
-            <th className="text-right py-2 px-3 font-medium">Total</th>
-            <th className="text-right py-2 px-3 font-medium">Available</th>
-            <th className="text-right py-2 px-3 font-medium">In Orders</th>
-            <th className="text-right py-2 px-3 font-medium">Value (USD)</th>
+            <th className="text-left py-2 px-3 font-normal">Token</th>
+            <th className="text-right py-2 px-3 font-normal">Total</th>
+            <th className="text-right py-2 px-3 font-normal">Available</th>
+            <th className="text-right py-2 px-3 font-normal">In Orders</th>
+            <th className="text-right py-2 px-3 font-normal">Value (USD)</th>
           </tr>
         </thead>
         <tbody>
@@ -61,7 +61,7 @@ export function SpotBalancesTable() {
                 key={balance.coin}
                 className="border-b border-gray-800/50 hover:bg-[#1a2028]/50 transition-colors"
               >
-                <td className="py-2 px-3 font-medium text-white">
+                <td className="py-2 px-3 font-normal text-white">
                   {balance.coin}
                 </td>
                 <td className="py-2 px-3 text-right text-white">

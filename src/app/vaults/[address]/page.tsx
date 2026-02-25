@@ -92,7 +92,7 @@ export default function VaultDetailPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
           <div>
-            <h1 className="text-xl font-bold text-white">{summary.name}</h1>
+            <h1 className="text-xl font-normal text-white">{summary.name}</h1>
             <div className="flex items-center gap-3 mt-1">
               <span className="text-gray-400 text-xs">
                 Leader: {formatAddress(summary.leader)}
@@ -166,7 +166,7 @@ export default function VaultDetailPage() {
           <div className="bg-[#14b8a6]/10 border border-[#14b8a6]/20 rounded-lg p-4 mb-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-[#14b8a6] text-xs font-medium">Your Position</p>
+                <p className="text-[#14b8a6] text-xs font-normal">Your Position</p>
                 <p className="text-white text-lg font-semibold">
                   {formatCurrency(currentUserEquity)}
                 </p>
@@ -221,11 +221,11 @@ export default function VaultDetailPage() {
                 <table className="w-full text-xs">
                   <thead>
                     <tr className="text-gray-400 border-b border-gray-800">
-                      <th className="text-left py-2 px-3 font-medium">Coin</th>
-                      <th className="text-right py-2 px-3 font-medium">Size</th>
-                      <th className="text-right py-2 px-3 font-medium">Entry Price</th>
-                      <th className="text-right py-2 px-3 font-medium">Position Value</th>
-                      <th className="text-right py-2 px-3 font-medium">Unrealized PnL</th>
+                      <th className="text-left py-2 px-3 font-normal">Coin</th>
+                      <th className="text-right py-2 px-3 font-normal">Size</th>
+                      <th className="text-right py-2 px-3 font-normal">Entry Price</th>
+                      <th className="text-right py-2 px-3 font-normal">Position Value</th>
+                      <th className="text-right py-2 px-3 font-normal">Unrealized PnL</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -241,7 +241,7 @@ export default function VaultDetailPage() {
                         >
                           <td className="py-2 px-3">
                             <div className="flex items-center gap-2">
-                              <span className="text-white font-medium">{pos.coin}</span>
+                              <span className="text-white font-normal">{pos.coin}</span>
                               <span
                                 className={cn(
                                   'px-1.5 py-0.5 rounded text-[10px] font-semibold',
@@ -266,7 +266,7 @@ export default function VaultDetailPage() {
                           <td className="py-2 px-3 text-right">
                             <span
                               className={cn(
-                                'font-medium',
+                                'font-normal',
                                 unrealizedPnl >= 0 ? 'text-green-400' : 'text-red-400'
                               )}
                             >
@@ -313,7 +313,7 @@ export default function VaultDetailPage() {
                             PnL:{' '}
                             <span
                               className={cn(
-                                'font-medium',
+                                'font-normal',
                                 pnl >= 0 ? 'text-green-400' : 'text-red-400'
                               )}
                             >

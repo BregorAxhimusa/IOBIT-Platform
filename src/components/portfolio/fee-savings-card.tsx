@@ -55,7 +55,7 @@ export function FeeSavingsCard() {
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-sm font-semibold text-white">Fee Status</h3>
         {currentMilestone && (
-          <span className={cn('text-xs font-bold', currentMilestone.color)}>
+          <span className={cn('text-xs font-normal', currentMilestone.color)}>
             {currentMilestone.label}
           </span>
         )}
@@ -65,13 +65,13 @@ export function FeeSavingsCard() {
       <div className="grid grid-cols-2 gap-3 mb-3">
         <div>
           <div className="text-[10px] text-gray-500 uppercase">Maker</div>
-          <div className="text-sm text-white font-medium">
+          <div className="text-sm text-white font-normal">
             {(makerRate * 100).toFixed(4)}%
           </div>
         </div>
         <div>
           <div className="text-[10px] text-gray-500 uppercase">Taker</div>
-          <div className="text-sm text-white font-medium">
+          <div className="text-sm text-white font-normal">
             {(takerRate * 100).toFixed(4)}%
           </div>
         </div>
@@ -82,7 +82,7 @@ export function FeeSavingsCard() {
         <div className="bg-teal-500/10 border border-teal-500/20 rounded-lg px-3 py-2 mb-3">
           <div className="flex items-center justify-between">
             <span className="text-xs text-teal-400">Referral Discount</span>
-            <span className="text-xs font-bold text-teal-300">
+            <span className="text-xs font-normal text-teal-300">
               {(referralDiscount * 100).toFixed(1)}%
             </span>
           </div>

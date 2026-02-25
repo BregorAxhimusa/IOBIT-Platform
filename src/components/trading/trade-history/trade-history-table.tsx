@@ -37,13 +37,13 @@ export function TradeHistoryTable() {
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-gray-800">
-            <th className="text-left py-3 px-4 text-xs font-medium text-gray-400">Time</th>
-            <th className="text-left py-3 px-4 text-xs font-medium text-gray-400">Symbol</th>
-            <th className="text-left py-3 px-4 text-xs font-medium text-gray-400">Side</th>
-            <th className="text-right py-3 px-4 text-xs font-medium text-gray-400">Price</th>
-            <th className="text-right py-3 px-4 text-xs font-medium text-gray-400">Size</th>
-            <th className="text-right py-3 px-4 text-xs font-medium text-gray-400">Fee</th>
-            <th className="text-right py-3 px-4 text-xs font-medium text-gray-400">Realized PnL</th>
+            <th className="text-left py-3 px-4 text-xs font-normal text-gray-400">Time</th>
+            <th className="text-left py-3 px-4 text-xs font-normal text-gray-400">Symbol</th>
+            <th className="text-left py-3 px-4 text-xs font-normal text-gray-400">Side</th>
+            <th className="text-right py-3 px-4 text-xs font-normal text-gray-400">Price</th>
+            <th className="text-right py-3 px-4 text-xs font-normal text-gray-400">Size</th>
+            <th className="text-right py-3 px-4 text-xs font-normal text-gray-400">Fee</th>
+            <th className="text-right py-3 px-4 text-xs font-normal text-gray-400">Realized PnL</th>
           </tr>
         </thead>
         <tbody>
@@ -64,7 +64,7 @@ export function TradeHistoryTable() {
                 className="border-b border-gray-800 hover:bg-[#1a2028]/50 transition-colors"
               >
                 <td className="py-3 px-4 text-gray-400 text-xs">{dateStr}</td>
-                <td className="py-3 px-4 font-medium text-white">{trade.symbol}</td>
+                <td className="py-3 px-4 font-normal text-white">{trade.symbol}</td>
                 <td className="py-3 px-4">
                   <span
                     className={cn(
@@ -88,7 +88,7 @@ export function TradeHistoryTable() {
                   {realizedPnl !== null ? (
                     <span
                       className={cn(
-                        'font-medium',
+                        'font-normal',
                         realizedPnl >= 0 ? 'text-[#14b8a6]' : 'text-[#ef4444]'
                       )}
                     >

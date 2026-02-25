@@ -68,12 +68,12 @@ export function TwapProgress({ activeTwap, onCancel, isCancelling }: TwapProgres
           {isCancelled && (
             <div className="w-2 h-2 rounded-full bg-red-400" />
           )}
-          <span className="text-sm font-medium text-white">
+          <span className="text-sm font-normal text-white">
             TWAP {activeTwap.side.toUpperCase()} {activeTwap.symbol.replace('-USD', '')}
           </span>
         </div>
         <span className={cn(
-          'text-xs font-medium px-1.5 py-0.5 rounded',
+          'text-xs font-normal px-1.5 py-0.5 rounded',
           isActive && 'text-yellow-400 bg-yellow-400/10',
           isCompleted && 'text-green-400 bg-green-400/10',
           isCancelled && 'text-red-400 bg-red-400/10',
@@ -121,7 +121,7 @@ export function TwapProgress({ activeTwap, onCancel, isCancelling }: TwapProgres
         <button
           onClick={onCancel}
           disabled={isCancelling}
-          className="w-full py-1.5 rounded text-sm font-medium transition-colors
+          className="w-full py-1.5 rounded text-sm font-normal transition-colors
                      bg-red-500/10 text-red-400 hover:bg-red-500/20
                      disabled:opacity-50 disabled:cursor-not-allowed"
         >

@@ -49,7 +49,7 @@ export function VaultCard({ vault }: VaultCardProps) {
           {/* TVL */}
           <div>
             <p className="text-gray-500 text-xs">TVL</p>
-            <p className="text-white text-sm font-medium">{formatCurrency(vault.tvl)}</p>
+            <p className="text-white text-sm font-normal">{formatCurrency(vault.tvl)}</p>
           </div>
 
           {/* APR */}
@@ -57,7 +57,7 @@ export function VaultCard({ vault }: VaultCardProps) {
             <p className="text-gray-500 text-xs">30D APR</p>
             <p
               className={cn(
-                'text-sm font-medium',
+                'text-sm font-normal',
                 isPositiveApr ? 'text-green-400' : 'text-red-400'
               )}
             >
@@ -70,7 +70,7 @@ export function VaultCard({ vault }: VaultCardProps) {
             <p className="text-gray-500 text-xs">All-time PnL</p>
             <p
               className={cn(
-                'text-sm font-medium',
+                'text-sm font-normal',
                 isPositivePnl ? 'text-green-400' : 'text-red-400'
               )}
             >
@@ -81,7 +81,7 @@ export function VaultCard({ vault }: VaultCardProps) {
           {/* Followers */}
           <div>
             <p className="text-gray-500 text-xs">Followers</p>
-            <p className="text-white text-sm font-medium">{(vault.followerCount ?? 0).toLocaleString()}</p>
+            <p className="text-white text-sm font-normal">{(vault.followerCount ?? 0).toLocaleString()}</p>
           </div>
         </div>
 

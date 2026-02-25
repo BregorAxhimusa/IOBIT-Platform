@@ -53,7 +53,7 @@ export default function SettingsPage() {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-xl font-bold text-white">Settings</h1>
+            <h1 className="text-xl font-normal text-white">Settings</h1>
             <p className="text-gray-400 text-sm mt-1">
               Manage accounts, preferences, and view fee information
             </p>

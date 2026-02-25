@@ -62,11 +62,11 @@ export function ReferredUsersTable({ referralStates }: ReferredUsersTableProps) 
         <table className="w-full">
           <thead>
             <tr className="border-b border-gray-800">
-              <th className="text-left text-gray-500 text-xs font-medium py-2 px-2 w-10">#</th>
-              <th className="text-left text-gray-500 text-xs font-medium py-2 px-2">User</th>
-              <th className="text-right text-gray-500 text-xs font-medium py-2 px-2">Volume</th>
-              <th className="text-right text-gray-500 text-xs font-medium py-2 px-2">Fees Earned</th>
-              <th className="text-right text-gray-500 text-xs font-medium py-2 px-2">Joined</th>
+              <th className="text-left text-gray-500 text-xs font-normal py-2 px-2 w-10">#</th>
+              <th className="text-left text-gray-500 text-xs font-normal py-2 px-2">User</th>
+              <th className="text-right text-gray-500 text-xs font-normal py-2 px-2">Volume</th>
+              <th className="text-right text-gray-500 text-xs font-normal py-2 px-2">Fees Earned</th>
+              <th className="text-right text-gray-500 text-xs font-normal py-2 px-2">Joined</th>
             </tr>
           </thead>
           <tbody>
@@ -76,7 +76,7 @@ export function ReferredUsersTable({ referralStates }: ReferredUsersTableProps) 
                 className="border-b border-gray-800/50 hover:bg-[#1a2028]/50 transition-colors"
               >
                 <td className="text-gray-500 text-xs py-2.5 px-2">{startIdx + index + 1}</td>
-                <td className="text-white text-sm py-2.5 px-2 font-mono">
+                <td className="text-white text-sm py-2.5 px-2">
                   {formatAddress(state.user, 6)}
                 </td>
                 <td className="text-right text-white text-sm py-2.5 px-2">

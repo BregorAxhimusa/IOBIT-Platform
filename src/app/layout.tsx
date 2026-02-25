@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
+import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  subsets: ["latin"],
+  weight: ["400"],
+});
 import { Toaster } from "@/components/ui/toaster";
 import { headers } from 'next/headers';
 import ContextProvider from '@/context';
@@ -20,7 +27,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className="overflow-auto bg-[#0f0f0f]">
+      <body className={`${spaceGrotesk.variable} font-sans overflow-auto bg-[#0f0f0f]`}>
         <a href="#main-content" className="sr-skip-link">Skip to content</a>
         <ContextProvider cookies={cookies}>
           <Navbar />

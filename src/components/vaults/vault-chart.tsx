@@ -48,7 +48,7 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
           <span className="text-gray-400 text-xs">PnL</span>
           <span
             className={cn(
-              'text-xs font-medium',
+              'text-xs font-normal',
               item.value >= 0 ? 'text-green-400' : 'text-red-400'
             )}
           >

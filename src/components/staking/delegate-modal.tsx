@@ -49,7 +49,7 @@ export function DelegateModal({ isOpen, onClose, validator, availableBalance, on
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
             </div>
-            <h2 className="text-lg sm:text-xl font-bold text-white">Delegate HYPE</h2>
+            <h2 className="text-lg sm:text-xl font-normal text-white">Delegate HYPE</h2>
             <p className="text-gray-500 text-xs sm:text-sm mt-1">Stake with a validator</p>
           </div>
 
@@ -58,8 +58,8 @@ export function DelegateModal({ isOpen, onClose, validator, availableBalance, on
             <div className="flex items-start justify-between mb-2 sm:mb-3">
               <div>
                 <p className="text-[10px] sm:text-xs text-gray-500 mb-1">Validator</p>
-                <p className="text-white text-sm sm:text-base font-medium">{validator.name || 'Unknown'}</p>
-                <p className="text-gray-600 text-[10px] sm:text-xs font-mono mt-0.5">{formatAddress(validator.validator)}</p>
+                <p className="text-white text-sm sm:text-base font-normal">{validator.name || 'Unknown'}</p>
+                <p className="text-gray-600 text-[10px] sm:text-xs mt-0.5">{formatAddress(validator.validator)}</p>
               </div>
               {validator.isJailed ? (
                 <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-red-500/10 text-red-400 text-[10px] sm:text-xs border border-red-500/30">Jailed</span>
@@ -70,11 +70,11 @@ export function DelegateModal({ isOpen, onClose, validator, availableBalance, on
             <div className="grid grid-cols-2 gap-2 sm:gap-3 pt-2 sm:pt-3 border-t border-gray-800">
               <div>
                 <p className="text-gray-500 text-[10px] sm:text-xs">Commission</p>
-                <p className="text-white text-xs sm:text-sm font-medium">{(parseFloat(validator.commission) * 100).toFixed(1)}%</p>
+                <p className="text-white text-xs sm:text-sm font-normal">{(parseFloat(validator.commission) * 100).toFixed(1)}%</p>
               </div>
               <div>
                 <p className="text-gray-500 text-[10px] sm:text-xs">Total Stake</p>
-                <p className="text-white text-xs sm:text-sm font-medium">{formatCompactNumber(validator.stake)} HYPE</p>
+                <p className="text-white text-xs sm:text-sm font-normal">{formatCompactNumber(validator.stake)} HYPE</p>
               </div>
             </div>
           </div>
@@ -94,7 +94,7 @@ export function DelegateModal({ isOpen, onClose, validator, availableBalance, on
           {/* Amount Input */}
           <div className="mb-3 sm:mb-4">
             <div className="flex items-center justify-between mb-1.5 sm:mb-2">
-              <label className="text-[10px] sm:text-xs text-gray-500 font-medium">Amount (HYPE)</label>
+              <label className="text-[10px] sm:text-xs text-gray-500 font-normal">Amount (HYPE)</label>
               <span className="text-[10px] sm:text-xs text-gray-500">
                 Available: <span className="text-teal-400">{formatCompactNumber(availableBalance)}</span>
               </span>
@@ -105,11 +105,11 @@ export function DelegateModal({ isOpen, onClose, validator, availableBalance, on
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="0.00"
-                className="flex-1 bg-[#1a2028] border border-gray-800 px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm font-medium focus:outline-none focus:border-teal-500/50 placeholder-gray-600"
+                className="flex-1 bg-[#1a2028] border border-gray-800 px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-teal-500/50 placeholder-gray-600"
               />
               <button
                 onClick={() => setAmount(availableBalance)}
-                className="px-3 py-2 sm:px-4 sm:py-3 text-[10px] sm:text-xs font-medium text-teal-400 hover:text-teal-300 bg-[#1a2028] border border-gray-800 hover:border-teal-500/30 transition-colors"
+                className="px-3 py-2 sm:px-4 sm:py-3 text-[10px] sm:text-xs font-normal text-teal-400 hover:text-teal-300 bg-[#1a2028] border border-gray-800 hover:border-teal-500/30 transition-colors"
               >
                 MAX
               </button>

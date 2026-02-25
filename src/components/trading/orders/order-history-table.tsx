@@ -39,15 +39,15 @@ export function OrderHistoryTable() {
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-gray-800">
-            <th className="text-left py-3 px-4 text-xs font-medium text-gray-400">Time</th>
-            <th className="text-left py-3 px-4 text-xs font-medium text-gray-400">Symbol</th>
-            <th className="text-left py-3 px-4 text-xs font-medium text-gray-400">Type</th>
-            <th className="text-left py-3 px-4 text-xs font-medium text-gray-400">Side</th>
-            <th className="text-right py-3 px-4 text-xs font-medium text-gray-400">Price</th>
-            <th className="text-right py-3 px-4 text-xs font-medium text-gray-400">Trigger</th>
-            <th className="text-right py-3 px-4 text-xs font-medium text-gray-400">Size</th>
-            <th className="text-right py-3 px-4 text-xs font-medium text-gray-400">Filled</th>
-            <th className="text-left py-3 px-4 text-xs font-medium text-gray-400">Status</th>
+            <th className="text-left py-3 px-4 text-xs font-normal text-gray-400">Time</th>
+            <th className="text-left py-3 px-4 text-xs font-normal text-gray-400">Symbol</th>
+            <th className="text-left py-3 px-4 text-xs font-normal text-gray-400">Type</th>
+            <th className="text-left py-3 px-4 text-xs font-normal text-gray-400">Side</th>
+            <th className="text-right py-3 px-4 text-xs font-normal text-gray-400">Price</th>
+            <th className="text-right py-3 px-4 text-xs font-normal text-gray-400">Trigger</th>
+            <th className="text-right py-3 px-4 text-xs font-normal text-gray-400">Size</th>
+            <th className="text-right py-3 px-4 text-xs font-normal text-gray-400">Filled</th>
+            <th className="text-left py-3 px-4 text-xs font-normal text-gray-400">Status</th>
           </tr>
         </thead>
         <tbody>
@@ -67,7 +67,7 @@ export function OrderHistoryTable() {
                 className="border-b border-gray-800 hover:bg-[#1a2028]/50 transition-colors"
               >
                 <td className="py-3 px-4 text-gray-400 text-xs">{dateStr}</td>
-                <td className="py-3 px-4 font-medium text-white">{order.symbol}</td>
+                <td className="py-3 px-4 font-normal text-white">{order.symbol}</td>
                 <td className="py-3 px-4 text-gray-300 capitalize">
                   {order.type === 'stop-market'
                     ? 'Stop Market'
@@ -100,7 +100,7 @@ export function OrderHistoryTable() {
                 <td className="py-3 px-4">
                   <span
                     className={cn(
-                      'px-2 py-1 rounded text-xs font-medium',
+                      'px-2 py-1 rounded text-xs font-normal',
                       order.status === 'filled'
                         ? 'bg-[#14b8a6]/10 text-[#14b8a6]'
                         : order.status === 'cancelled'

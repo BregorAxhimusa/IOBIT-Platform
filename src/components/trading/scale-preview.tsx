@@ -72,7 +72,7 @@ export function ScalePreview({ startPrice, endPrice, totalSize, numOrders, sizeS
   return (
     <div className="mt-3 p-3 rounded-lg bg-[#0f0f1a] border border-gray-800">
       <div className="flex items-center justify-between mb-2">
-        <span className="text-xs text-gray-400 font-medium">
+        <span className="text-xs text-gray-400 font-normal">
           Order Distribution
         </span>
         <span className="text-xs text-gray-500">
@@ -84,7 +84,7 @@ export function ScalePreview({ startPrice, endPrice, totalSize, numOrders, sizeS
       <div className="space-y-1">
         {orders.map((order) => (
           <div key={order.index} className="flex items-center gap-2 text-xs">
-            <span className="w-[72px] text-right text-gray-400 font-mono shrink-0">
+            <span className="w-[72px] text-right text-gray-400 shrink-0">
               ${order.price.toFixed(2)}
             </span>
 
@@ -98,7 +98,7 @@ export function ScalePreview({ startPrice, endPrice, totalSize, numOrders, sizeS
               />
             </div>
 
-            <span className="w-16 text-right text-gray-400 font-mono shrink-0">
+            <span className="w-16 text-right text-gray-400 shrink-0">
               {order.size.toFixed(4)}
             </span>
           </div>

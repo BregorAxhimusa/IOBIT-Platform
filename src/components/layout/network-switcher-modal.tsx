@@ -56,7 +56,7 @@ export function NetworkSwitcherModal({ isOpen, onClose }: NetworkSwitcherModalPr
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
               </svg>
             </div>
-            <h2 className="text-lg sm:text-xl font-bold text-white">Select Network</h2>
+            <h2 className="text-lg sm:text-xl font-normal text-white">Select Network</h2>
             <p className="text-gray-500 text-xs sm:text-sm mt-1">Choose your trading environment</p>
           </div>
 

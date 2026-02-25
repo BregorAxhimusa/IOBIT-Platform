@@ -91,7 +91,7 @@ export function RewardsSection({
           onClick={handleClaim}
           disabled={!canClaim || isClaiming}
           className={cn(
-            'px-5 py-2  text-sm font-medium transition-all shrink-0 ml-3',
+            'px-5 py-2  text-sm font-normal transition-all shrink-0 ml-3',
             canClaim && !isClaiming
               ? 'bg-teal-500 hover:bg-teal-600 text-white'
               : 'bg-gray-700 text-gray-500 cursor-not-allowed'

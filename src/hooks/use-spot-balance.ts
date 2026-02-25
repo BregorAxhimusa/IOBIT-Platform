@@ -14,7 +14,7 @@ export interface SpotBalanceWithValue extends SpotBalance {
 }
 
 /**
- * Hook për të marrë spot token balances për userin e lidhur
+ * Hook to fetch spot token balances for the connected user
  */
 export function useSpotBalance() {
   const { address, isConnected } = useAppKitAccount();

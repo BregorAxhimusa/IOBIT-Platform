@@ -22,11 +22,11 @@ function AlreadyReferredView({ referrer, code }: { referrer: string; code: strin
             </svg>
           </div>
           <div>
-            <p className="text-white text-sm font-medium">
+            <p className="text-white text-sm font-normal">
               Referred by {formatAddress(referrer)}
             </p>
             <p className="text-gray-400 text-xs mt-0.5">
-              Code: <span className="text-teal-400 font-medium">{code}</span>
+              Code: <span className="text-teal-400 font-normal">{code}</span>
             </p>
           </div>
         </div>
@@ -34,7 +34,7 @@ function AlreadyReferredView({ referrer, code }: { referrer: string; code: strin
 
       <div className="bg-[#1a2028] border border-gray-800  p-3">
         <p className="text-gray-400 text-xs">
-          You get a <span className="text-teal-400 font-medium">4% fee discount</span> on your first $25M in trading volume.
+          You get a <span className="text-teal-400 font-normal">4% fee discount</span> on your first $25M in trading volume.
         </p>
       </div>
     </div>
@@ -100,7 +100,7 @@ function SetReferrerView({
           onClick={handleApply}
           disabled={!isValidCode || isSetting}
           className={cn(
-            'px-4 py-2  text-sm font-medium transition-all shrink-0',
+            'px-4 py-2  text-sm font-normal transition-all shrink-0',
             isValidCode && !isSetting
               ? 'bg-teal-500 hover:bg-teal-600 text-white'
               : 'bg-gray-700 text-gray-500 cursor-not-allowed'

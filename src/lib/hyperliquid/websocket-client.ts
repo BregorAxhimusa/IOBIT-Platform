@@ -14,7 +14,7 @@ interface Subscription {
 
 /**
  * Hyperliquid WebSocket Client
- * Menaxhon WebSocket connections dhe subscriptions për real-time data
+ * Manages WebSocket connections and subscriptions for real-time data
  */
 export class HyperliquidWebSocketClient {
   private ws: WebSocket | null = null;

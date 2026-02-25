@@ -42,11 +42,11 @@ export default function PortfolioPage() {
     return (
       <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-white mb-4">Portfolio</h1>
+          <h1 className="text-2xl font-normal text-white mb-4">Portfolio</h1>
           <p className="text-gray-400 mb-6">Connect your wallet to view your portfolio</p>
           <button
             onClick={() => open()}
-            className="px-6 py-2.5 bg-[#14b8a6] hover:bg-[#0d9488] text-white font-medium transition-colors"
+            className="px-6 py-2.5 bg-[#14b8a6] hover:bg-[#0d9488] text-white font-normal transition-colors"
           >
             Connect Wallet
           </button>
@@ -80,14 +80,14 @@ export default function PortfolioPage() {
     <div className="min-h-screen bg-[#0a0a0f] page-enter">
       <div className="container mx-auto px-4 py-6">
         {/* Header */}
-        <h1 className="text-2xl font-bold text-white mb-6">Portfolio</h1>
+        <h1 className="text-2xl font-normal text-white mb-6">Portfolio</h1>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6 stagger-children" aria-live="polite">
           {/* Account Value */}
           <div className="bg-[#0f1419] border border-gray-800 p-4">
             <div className="text-xs text-gray-400 mb-1">Account Value</div>
-            <div className="text-xl font-bold text-white">
+            <div className="text-xl font-normal text-white">
               ${accountValue.toLocaleString(undefined, {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
@@ -107,7 +107,7 @@ export default function PortfolioPage() {
           {/* Available Balance */}
           <div className="bg-[#0f1419] border border-gray-800 p-4">
             <div className="text-xs text-gray-400 mb-1">Available Balance</div>
-            <div className="text-xl font-bold text-white">
+            <div className="text-xl font-normal text-white">
               ${availableBalance.toLocaleString(undefined, {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
@@ -119,7 +119,7 @@ export default function PortfolioPage() {
           {/* Margin Used */}
           <div className="bg-[#0f1419] border border-gray-800 p-4">
             <div className="text-xs text-gray-400 mb-1">Margin Used</div>
-            <div className="text-xl font-bold text-white">
+            <div className="text-xl font-normal text-white">
               ${totalMargin.toLocaleString(undefined, {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
@@ -135,7 +135,7 @@ export default function PortfolioPage() {
             <div className="text-xs text-gray-400 mb-1">Unrealized PnL</div>
             <div
               className={cn(
-                'text-xl font-bold',
+                'text-xl font-normal',
                 totalUnrealizedPnl >= 0 ? 'text-green-400' : 'text-red-400'
               )}
             >
@@ -186,7 +186,7 @@ export default function PortfolioPage() {
                 key={tab.value}
                 onClick={() => setActiveTab(tab.value)}
                 className={cn(
-                  'px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors',
+                  'px-4 py-3 text-sm font-normal whitespace-nowrap transition-colors',
                   activeTab === tab.value
                     ? 'text-white border-b-2 border-[#14b8a6] bg-[#1a2028]'
                     : 'text-white/70 hover:text-white hover:bg-[#1a2028]/50'
@@ -263,7 +263,7 @@ function OverviewTab({ positions, accountValue }: OverviewTabProps) {
             <div key={position.symbol} className="bg-[#1a2028] p-3">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
-                  <span className="text-white font-medium text-sm">{position.symbol}</span>
+                  <span className="text-white font-normal text-sm">{position.symbol}</span>
                   <span
                     className={cn(
                       'px-1.5 py-0.5 rounded text-[10px] font-semibold',
@@ -276,7 +276,7 @@ function OverviewTab({ positions, accountValue }: OverviewTabProps) {
                   </span>
                 </div>
                 <div className="text-right">
-                  <span className={cn('text-sm font-medium', pnl >= 0 ? 'text-green-400' : 'text-red-400')}>
+                  <span className={cn('text-sm font-normal', pnl >= 0 ? 'text-green-400' : 'text-red-400')}>
                     {pnl >= 0 ? '+' : ''}${pnl.toFixed(2)}
                   </span>
                 </div>
@@ -317,14 +317,14 @@ function PositionsTab({ positions, accountValue }: OverviewTabProps) {
       <table className="w-full text-xs">
         <thead>
           <tr className="text-gray-400 border-b border-gray-800">
-            <th className="text-left py-2 px-3 font-medium">Symbol</th>
-            <th className="text-left py-2 px-3 font-medium">Side</th>
-            <th className="text-right py-2 px-3 font-medium">Size</th>
-            <th className="text-right py-2 px-3 font-medium">Entry Price</th>
-            <th className="text-right py-2 px-3 font-medium">Mark Price</th>
-            <th className="text-right py-2 px-3 font-medium">Value</th>
-            <th className="text-right py-2 px-3 font-medium">PnL</th>
-            <th className="text-right py-2 px-3 font-medium">Allocation</th>
+            <th className="text-left py-2 px-3 font-normal">Symbol</th>
+            <th className="text-left py-2 px-3 font-normal">Side</th>
+            <th className="text-right py-2 px-3 font-normal">Size</th>
+            <th className="text-right py-2 px-3 font-normal">Entry Price</th>
+            <th className="text-right py-2 px-3 font-normal">Mark Price</th>
+            <th className="text-right py-2 px-3 font-normal">Value</th>
+            <th className="text-right py-2 px-3 font-normal">PnL</th>
+            <th className="text-right py-2 px-3 font-normal">Allocation</th>
           </tr>
         </thead>
         <tbody>
@@ -338,7 +338,7 @@ function PositionsTab({ positions, accountValue }: OverviewTabProps) {
                 key={position.symbol}
                 className="border-b border-gray-800/50 hover:bg-[#1a2028]/50 transition-colors"
               >
-                <td className="py-2.5 px-3 font-medium text-white">{position.symbol}</td>
+                <td className="py-2.5 px-3 font-normal text-white">{position.symbol}</td>
                 <td className="py-2.5 px-3">
                   <span
                     className={cn(
@@ -362,7 +362,7 @@ function PositionsTab({ positions, accountValue }: OverviewTabProps) {
                   ${posValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </td>
                 <td className="py-2.5 px-3 text-right">
-                  <span className={cn('font-medium', pnl >= 0 ? 'text-green-400' : 'text-red-400')}>
+                  <span className={cn('font-normal', pnl >= 0 ? 'text-green-400' : 'text-red-400')}>
                     {pnl >= 0 ? '+' : ''}${pnl.toFixed(2)}
                   </span>
                 </td>

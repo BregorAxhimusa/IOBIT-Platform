@@ -75,10 +75,10 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
         <div className="p-4 sm:p-6">
           {/* Header */}
           <div className="flex flex-col items-center mb-4 sm:mb-6">
-            <h2 className="text-lg sm:text-xl font-bold text-white">Transfer USDC</h2>
+            <h2 className="text-lg sm:text-xl font-normal text-white">Transfer USDC</h2>
             <p className="text-gray-500 text-xs sm:text-sm mt-1 truncate max-w-full">
               {subAccount.name || 'Sub-Account'}{' '}
-              <span className="font-mono text-gray-600">
+              <span className="text-gray-600">
                 ({formatAddress(subAccount.subAccountUser)})
               </span>
             </p>
@@ -89,7 +89,7 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
             <button
               onClick={() => { setDirection('toSub'); setAmount(''); }}
               className={cn(
-                'flex-1 py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-colors',
+                'flex-1 py-2 sm:py-2.5 text-xs sm:text-sm font-normal transition-colors',
                 direction === 'toSub'
                   ? 'bg-teal-500 text-white'
                   : 'text-white/70 hover:text-white'
@@ -100,7 +100,7 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
             <button
               onClick={() => { setDirection('toMaster'); setAmount(''); }}
               className={cn(
-                'flex-1 py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-colors',
+                'flex-1 py-2 sm:py-2.5 text-xs sm:text-sm font-normal transition-colors',
                 direction === 'toMaster'
                   ? 'bg-teal-500 text-white'
                   : 'text-white/70 hover:text-white'
@@ -121,7 +121,7 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
                     "w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full",
                     direction === 'toSub' ? 'bg-purple-400' : 'bg-teal-400'
                   )} />
-                  <span className="text-white text-sm sm:text-base font-medium">
+                  <span className="text-white text-sm sm:text-base font-normal">
                     {direction === 'toSub' ? 'Master' : 'Sub-Account'}
                   </span>
                 </div>
@@ -141,7 +141,7 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
               <div className="flex-1 text-right">
                 <p className="text-[10px] sm:text-xs text-gray-500 mb-1">To</p>
                 <div className="flex items-center justify-end gap-1.5 sm:gap-2">
-                  <span className="text-white text-sm sm:text-base font-medium">
+                  <span className="text-white text-sm sm:text-base font-normal">
                     {direction === 'toSub' ? 'Sub-Account' : 'Master'}
                   </span>
                   <span className={cn(
@@ -159,10 +159,10 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
           {/* Amount Input */}
           <div className="mb-3 sm:mb-4">
             <div className="flex items-center justify-between mb-1.5 sm:mb-2">
-              <label className="text-[10px] sm:text-xs text-gray-500 font-medium">Amount (USDC)</label>
+              <label className="text-[10px] sm:text-xs text-gray-500 font-normal">Amount (USDC)</label>
               <button
                 onClick={handleMaxClick}
-                className="text-[10px] sm:text-xs text-teal-400 hover:text-teal-300 font-medium transition-colors"
+                className="text-[10px] sm:text-xs text-teal-400 hover:text-teal-300 font-normal transition-colors"
               >
                 MAX: ${availableBalance.toFixed(2)}
               </button>
@@ -172,7 +172,7 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="0.00"
-              className="w-full bg-[#1a2028] border border-gray-800 px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm font-medium focus:outline-none focus:border-teal-500/50 placeholder-gray-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              className="w-full bg-[#1a2028] border border-gray-800 px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-teal-500/50 placeholder-gray-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
           </div>
 

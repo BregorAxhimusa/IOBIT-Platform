@@ -39,7 +39,7 @@ export function OrderBook({ symbol, onPriceClick }: OrderBookProps) {
   return (
     <div className="flex flex-col h-full bg-[#0f0f0f]">
       {/* Column Headers */}
-      <div className="grid grid-cols-3 gap-1 sm:gap-2 px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs text-gray-500 font-medium border-b border-white/20 bg-[#111111]/30">
+      <div className="grid grid-cols-3 gap-1 sm:gap-2 px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs text-gray-500 font-normal border-b border-white/20 bg-[#111111]/30">
         <div className="text-left">Price</div>
         <div className="text-right">Size</div>
         <div className="text-right">Total</div>
@@ -67,7 +67,7 @@ export function OrderBook({ symbol, onPriceClick }: OrderBookProps) {
                   style={{ width: `${depthPercent}%` }}
                 />
 
-                <div className="text-left text-rose-400 relative z-10 font-medium group-hover:text-rose-300 transition-colors">
+                <div className="text-left text-rose-400 relative z-10 font-normal group-hover:text-rose-300 transition-colors">
                   {parseFloat(ask.price).toLocaleString('en-US', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
@@ -87,7 +87,7 @@ export function OrderBook({ symbol, onPriceClick }: OrderBookProps) {
         {/* Spread */}
         <div className="px-3 sm:px-4 py-2 bg-[#111111]/50 border-y border-white/20">
           <div className="flex items-center justify-between text-[10px] sm:text-xs">
-            <span className="text-gray-500 font-medium">Spread</span>
+            <span className="text-gray-500 font-normal">Spread</span>
             <span className="text-white font-semibold tabular-nums">
               {spread ? (
                 <span className="flex items-center gap-2">
@@ -124,7 +124,7 @@ export function OrderBook({ symbol, onPriceClick }: OrderBookProps) {
                   style={{ width: `${depthPercent}%` }}
                 />
 
-                <div className="text-left text-emerald-400 relative z-10 font-medium group-hover:text-emerald-300 transition-colors">
+                <div className="text-left text-emerald-400 relative z-10 font-normal group-hover:text-emerald-300 transition-colors">
                   {parseFloat(bid.price).toLocaleString('en-US', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,

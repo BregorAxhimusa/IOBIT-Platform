@@ -43,7 +43,7 @@ export default function LeaderboardPage() {
       <div className="max-w-6xl mx-auto px-4 py-6">
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-xl font-bold text-white">
+          <h1 className="text-xl font-normal text-white">
             Leaderboard
           </h1>
           <p className="text-gray-400">
@@ -83,7 +83,7 @@ export default function LeaderboardPage() {
                   <div className="flex items-center justify-between mb-4">
                     <div
                       className={cn(
-                        'w-12 h-12 rounded-full bg-gradient-to-br flex items-center justify-center text-white font-bold text-xl',
+                        'w-12 h-12 rounded-full bg-gradient-to-br flex items-center justify-center text-white font-normal text-xl',
                         colors[idx]
                       )}
                     >
@@ -91,7 +91,7 @@ export default function LeaderboardPage() {
                     </div>
                     <div className="text-right">
                       <div className="text-sm text-gray-400">Account Value</div>
-                      <div className="text-xl font-bold text-green-400">
+                      <div className="text-xl font-normal text-green-400">
                         ${(accountValue / 1000).toFixed(1)}K
                       </div>
                     </div>
@@ -201,7 +201,7 @@ export default function LeaderboardPage() {
                           </div>
                         </td>
                         <td className="px-6 py-4">
-                          <div className="font-medium text-white">
+                          <div className="font-normal text-white">
                             ${accountValue.toLocaleString(undefined, {
                               minimumFractionDigits: 2,
                               maximumFractionDigits: 2,
@@ -216,7 +216,7 @@ export default function LeaderboardPage() {
                         <td className="px-6 py-4">
                           <div
                             className={cn(
-                              'font-medium',
+                              'font-normal',
                               prize > 0 ? 'text-green-400' : 'text-gray-500'
                             )}
                           >

@@ -41,11 +41,11 @@ export function StakingBalance({ stakingState, spotHypeBalance, onDeposit, onWit
         <div className="flex items-center justify-between">
           <div>
             <p className="text-gray-400 text-xs">Spot HYPE Balance</p>
-            <p className="text-white font-medium">{formatCompactNumber(spotHypeBalance)} HYPE</p>
+            <p className="text-white font-normal">{formatCompactNumber(spotHypeBalance)} HYPE</p>
           </div>
           <button
             onClick={() => { setShowDeposit(!showDeposit); setShowWithdraw(false); }}
-            className="px-3 py-1.5 text-xs font-medium bg-teal-500/10 text-teal-400  hover:bg-teal-500/20 transition-colors"
+            className="px-3 py-1.5 text-xs font-normal bg-teal-500/10 text-teal-400  hover:bg-teal-500/20 transition-colors"
           >
             Transfer to Staking
           </button>
@@ -82,12 +82,12 @@ export function StakingBalance({ stakingState, spotHypeBalance, onDeposit, onWit
         <div className="flex items-center justify-between">
           <div>
             <p className="text-gray-400 text-xs">Staking Balance (Undelegated)</p>
-            <p className="text-white font-medium">{formatCompactNumber(stakingState?.undelegated ?? '0')} HYPE</p>
+            <p className="text-white font-normal">{formatCompactNumber(stakingState?.undelegated ?? '0')} HYPE</p>
           </div>
           <button
             onClick={() => { setShowWithdraw(!showWithdraw); setShowDeposit(false); }}
             disabled={pendingCount >= 5}
-            className="px-3 py-1.5 text-xs font-medium bg-amber-500/10 text-amber-400  hover:bg-amber-500/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-3 py-1.5 text-xs font-normal bg-amber-500/10 text-amber-400  hover:bg-amber-500/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Withdraw to Spot
           </button>

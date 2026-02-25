@@ -7,7 +7,7 @@ import { useNetworkStore } from '@/store/network-store';
 import { useSpotStore } from '@/store/spot-store';
 
 /**
- * Hook për të marrë spot metadata dhe asset contexts
+ * Hook to fetch spot metadata and asset contexts
  * Populates the spot store with market data
  */
 export function useSpotMeta() {
