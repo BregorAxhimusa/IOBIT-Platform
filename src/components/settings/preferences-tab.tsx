@@ -40,7 +40,7 @@ export function PreferencesTab({ address }: PreferencesTabProps) {
     }
   };
 
-  const selectClass = "w-full bg-[#1a2028] border border-gray-700 rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-gray-500 appearance-none cursor-pointer";
+  const selectClass = "w-full bg-[#1a2028] border border-gray-700  px-4 py-3 text-white text-sm focus:outline-none focus:border-gray-500 appearance-none cursor-pointer";
 
   return (
     <div className="max-w-lg space-y-4">
@@ -84,7 +84,7 @@ export function PreferencesTab({ address }: PreferencesTabProps) {
       <button
         onClick={handleSave}
         disabled={isSaving}
-        className="w-full py-3 rounded-lg font-semibold text-sm bg-teal-500 hover:bg-teal-500/80 text-white disabled:bg-teal-500/30 disabled:text-white/50 transition-colors mt-2"
+        className="w-full py-2.5 font-semibold text-sm bg-teal-500 hover:bg-teal-500/80 text-white disabled:bg-teal-500/30 disabled:text-white/50 transition-colors mt-2"
       >
         {isSaving ? 'Saving...' : 'Save Preferences'}
       </button>

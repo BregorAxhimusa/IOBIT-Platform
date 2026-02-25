@@ -23,7 +23,7 @@ export function FeeSavingsCard() {
 
   if (isLoading) {
     return (
-      <div className="bg-[#0f1419] border border-gray-800 rounded-lg p-4 animate-pulse">
+      <div className="bg-[#0f1419] border border-gray-800 p-4 animate-pulse">
         <div className="h-4 bg-gray-700 rounded w-1/3 mb-3" />
         <div className="h-6 bg-gray-700 rounded w-1/2 mb-2" />
         <div className="h-3 bg-gray-700 rounded w-full" />
@@ -51,7 +51,7 @@ export function FeeSavingsCard() {
     : 100;
 
   return (
-    <div className="bg-[#0f1419] border border-gray-800 rounded-lg p-4">
+    <div className="bg-[#0f1419] border border-gray-800 p-4">
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-sm font-semibold text-white">Fee Status</h3>
         {currentMilestone && (

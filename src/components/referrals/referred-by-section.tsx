@@ -14,7 +14,7 @@ interface ReferredBySectionProps {
 function AlreadyReferredView({ referrer, code }: { referrer: string; code: string }) {
   return (
     <div className="space-y-3">
-      <div className="bg-[#1a2028] border border-teal-500/20 rounded-lg p-4">
+      <div className="bg-[#1a2028] border border-teal-500/20  p-4">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-teal-500/20 flex items-center justify-center shrink-0">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-teal-400" viewBox="0 0 20 20" fill="currentColor">
@@ -32,7 +32,7 @@ function AlreadyReferredView({ referrer, code }: { referrer: string; code: strin
         </div>
       </div>
 
-      <div className="bg-[#1a2028] border border-gray-800 rounded-lg p-3">
+      <div className="bg-[#1a2028] border border-gray-800  p-3">
         <p className="text-gray-400 text-xs">
           You get a <span className="text-teal-400 font-medium">4% fee discount</span> on your first $25M in trading volume.
         </p>
@@ -78,7 +78,7 @@ function SetReferrerView({
 
   return (
     <div className="space-y-4">
-      <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-3 flex items-start gap-2">
+      <div className="bg-amber-500/10 border border-amber-500/30  p-3 flex items-start gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
           <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
         </svg>
@@ -94,13 +94,13 @@ function SetReferrerView({
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           placeholder="Enter referral code"
-          className="flex-1 bg-[#1a2028] border border-gray-700 rounded-lg px-3 py-2 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-teal-500 transition-colors uppercase"
+          className="flex-1 bg-[#1a2028] border border-gray-700  px-3 py-2 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-teal-500 transition-colors uppercase"
         />
         <button
           onClick={handleApply}
           disabled={!isValidCode || isSetting}
           className={cn(
-            'px-4 py-2 rounded-lg text-sm font-medium transition-all shrink-0',
+            'px-4 py-2  text-sm font-medium transition-all shrink-0',
             isValidCode && !isSetting
               ? 'bg-teal-500 hover:bg-teal-600 text-white'
               : 'bg-gray-700 text-gray-500 cursor-not-allowed'
@@ -139,7 +139,7 @@ export function ReferredBySection({
   const isReferred = referralInfo?.referredBy !== null && referralInfo?.referredBy !== undefined;
 
   return (
-    <div className="bg-[#0f1419] border border-gray-800 rounded-lg p-4">
+    <div className="bg-[#0f1419] border border-gray-800 p-4">
       <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-teal-500" viewBox="0 0 20 20" fill="currentColor">
           <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />

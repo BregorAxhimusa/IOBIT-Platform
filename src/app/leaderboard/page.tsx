@@ -75,7 +75,7 @@ export default function LeaderboardPage() {
                 <div
                   key={rank}
                   className={cn(
-                    'border rounded-lg p-6',
+                    'border p-6',
                     idx === 0 ? 'md:order-2' : idx === 1 ? 'md:order-1' : 'md:order-3',
                     bgColors[idx]
                   )}
@@ -117,7 +117,7 @@ export default function LeaderboardPage() {
         )}
 
         {/* Leaderboard Table */}
-        <div className="bg-[#0f1419] border border-gray-800 rounded-lg overflow-hidden">
+        <div className="bg-[#0f1419] border border-gray-800 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
@@ -248,7 +248,7 @@ export default function LeaderboardPage() {
         )}
 
         {/* Info Box */}
-        <div className="mt-6 p-4 bg-teal-500/10 border border-teal-500/20 rounded-lg">
+        <div className="mt-6 p-4 bg-teal-500/10 border border-teal-500/20">
           <p className="text-sm text-teal-300">
             <strong>Note:</strong> Leaderboard shows top traders ranked by account value and
             trading volume. Data is updated in real-time from Hyperliquid{' '}

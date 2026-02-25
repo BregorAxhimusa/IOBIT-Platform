@@ -50,20 +50,20 @@ function HasCodeView({ code }: { code: string }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3">
-        <div className="bg-[#1a2028] border border-teal-500/30 rounded-lg px-5 py-3 flex-1">
+        <div className="bg-[#1a2028] border border-teal-500/30  px-5 py-3 flex-1">
           <p className="text-gray-400 text-xs mb-1">Your Referral Code</p>
           <p className="text-teal-400 text-xl font-bold tracking-wider">{code}</p>
         </div>
       </div>
 
       <div className="flex items-center gap-2">
-        <div className="bg-[#1a2028] border border-gray-700 rounded-lg px-3 py-2 flex-1 overflow-hidden">
+        <div className="bg-[#1a2028] border border-gray-700  px-3 py-2 flex-1 overflow-hidden">
           <p className="text-gray-300 text-sm truncate">{referralLink}</p>
         </div>
         <button
           onClick={handleCopy}
           className={cn(
-            'px-4 py-2 rounded-lg text-sm font-medium transition-all shrink-0',
+            'px-4 py-2  text-sm font-medium transition-all shrink-0',
             copied
               ? 'bg-green-500/20 text-green-400 border border-green-500/30'
               : 'bg-teal-500 hover:bg-teal-600 text-white'
@@ -73,7 +73,7 @@ function HasCodeView({ code }: { code: string }) {
         </button>
       </div>
 
-      <div className="bg-[#1a2028] border border-gray-800 rounded-lg p-3">
+      <div className="bg-[#1a2028] border border-gray-800  p-3">
         <p className="text-gray-400 text-xs">
           Share this link with friends. You earn a portion of their trading fees, and they get a 4% fee discount
           on their first $25M in volume.
@@ -114,7 +114,7 @@ function CreateCodeView({
 
   return (
     <div className="space-y-4">
-      <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-3 flex items-start gap-2">
+      <div className="bg-amber-500/10 border border-amber-500/30  p-3 flex items-start gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
           <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
         </svg>
@@ -130,13 +130,13 @@ function CreateCodeView({
           onChange={handleInputChange}
           placeholder="Enter code (3-20 chars, A-Z, 0-9)"
           maxLength={20}
-          className="flex-1 bg-[#1a2028] border border-gray-700 rounded-lg px-3 py-2 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-teal-500 transition-colors uppercase"
+          className="flex-1 bg-[#1a2028] border border-gray-700  px-3 py-2 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-teal-500 transition-colors uppercase"
         />
         <button
           onClick={handleCreate}
           disabled={!isValidCode || isCreating}
           className={cn(
-            'px-4 py-2 rounded-lg text-sm font-medium transition-all shrink-0',
+            'px-4 py-2  text-sm font-medium transition-all shrink-0',
             isValidCode && !isCreating
               ? 'bg-teal-500 hover:bg-teal-600 text-white'
               : 'bg-gray-700 text-gray-500 cursor-not-allowed'
@@ -174,7 +174,7 @@ function NeedsVolumeView({ currentVolume }: { currentVolume: string }) {
 
   return (
     <div className="space-y-4">
-      <div className="bg-[#1a2028] border border-gray-800 rounded-lg p-4">
+      <div className="bg-[#1a2028] border border-gray-800 p-4">
         <p className="text-gray-300 text-sm mb-3">
           You need <span className="text-teal-400 font-semibold">$10,000</span> in trading volume to create a referral code.
         </p>
@@ -215,7 +215,7 @@ export function ReferralCodeSection({
   const scenario = getScenario(referralInfo);
 
   return (
-    <div className="bg-[#0f1419] border border-gray-800 rounded-lg p-4">
+    <div className="bg-[#0f1419] border border-gray-800 p-4">
       <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-teal-500" viewBox="0 0 20 20" fill="currentColor">
           <path fillRule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clipRule="evenodd" />

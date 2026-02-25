@@ -514,7 +514,7 @@ export class HyperliquidInfoClient {
   async getStakingState(user: string): Promise<StakingState | null> {
     try {
       const response = await this.post<StakingState>('/info', {
-        type: 'stakingState',
+        type: 'delegatorSummary',
         user,
       });
       return response;
@@ -566,14 +566,16 @@ export class HyperliquidInfoClient {
   }
 
   /**
-   * Merr leaderboard data
+   * Merr leaderboard data nga stats-data endpoint
    */
   async getLeaderboard() {
     try {
-      const response = await this.post('/info', {
-        type: 'leaderboard',
-      });
-      return response;
+      const networkStr = this.network === 'mainnet' ? 'Mainnet' : 'Testnet';
+      const response = await fetch(`https://stats-data.hyperliquid.xyz/${networkStr}/leaderboard`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
     } catch (error) {
       console.error('Error fetching leaderboard:', error);
       return [];

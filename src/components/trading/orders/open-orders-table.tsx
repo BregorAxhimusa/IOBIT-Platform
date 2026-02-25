@@ -257,7 +257,7 @@ function ModifyOrderModal({
                 onChange={(e) => setNewPrice(e.target.value)}
                 placeholder="0.00"
                 step="0.01"
-                className="w-full px-3 py-2.5 bg-[#0f1419] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6]"
+                className="w-full px-3 py-2.5 bg-[#111111] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6]"
               />
               <p className="text-xs text-gray-500 mt-1">
                 Current: ${parseFloat(order.price).toLocaleString()}
@@ -275,7 +275,7 @@ function ModifyOrderModal({
                 onChange={(e) => setNewSize(e.target.value)}
                 placeholder="0.00"
                 step="0.0001"
-                className="w-full px-3 py-2.5 bg-[#0f1419] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6]"
+                className="w-full px-3 py-2.5 bg-[#111111] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6]"
               />
               <p className="text-xs text-gray-500 mt-1">
                 Current: {order.size}
@@ -283,7 +283,7 @@ function ModifyOrderModal({
             </div>
 
             {/* Info */}
-            <div className="text-xs text-gray-500 bg-[#0f1419] p-3 rounded">
+            <div className="text-xs text-gray-500 bg-[#111111] p-3 rounded">
               <p>• Modifying an order requires a new signature</p>
               <p>• Order ID and timestamp will be updated</p>
             </div>
@@ -292,7 +292,7 @@ function ModifyOrderModal({
             <button
               onClick={handleSubmit}
               disabled={isPending || !newPrice || !newSize}
-              className="w-full py-3 bg-[#0f5549] hover:bg-[#0a3d34] disabled:bg-gray-700 disabled:cursor-not-allowed text-white rounded font-semibold transition-colors"
+              className="w-full py-2.5 bg-[#0f5549] hover:bg-[#0a3d34] disabled:bg-gray-700 disabled:cursor-not-allowed text-white font-semibold transition-colors"
             >
               {isPending ? 'Modifying...' : 'Modify Order'}
             </button>

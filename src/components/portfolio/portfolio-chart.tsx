@@ -94,7 +94,7 @@ export function PortfolioChart({
 
   if (isLoading) {
     return (
-      <div className="bg-[#0f1419] border border-gray-800 rounded-lg p-4">
+      <div className="bg-[#0f1419] border border-gray-800 p-4">
         <div className="h-[350px] flex items-center justify-center">
           <div className="animate-pulse text-gray-500">Loading chart data...</div>
         </div>
@@ -104,7 +104,7 @@ export function PortfolioChart({
 
   if (data.length === 0) {
     return (
-      <div className="bg-[#0f1419] border border-gray-800 rounded-lg p-4">
+      <div className="bg-[#0f1419] border border-gray-800 p-4">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-white font-semibold">Portfolio Performance</h3>
         </div>
@@ -126,7 +126,7 @@ export function PortfolioChart({
   const isPositive = totalPnl >= 0;
 
   return (
-    <div className="bg-[#0f1419] border border-gray-800 rounded-lg p-4">
+    <div className="bg-[#0f1419] border border-gray-800 p-4">
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-3">
         <div>
@@ -148,7 +148,7 @@ export function PortfolioChart({
                 'px-3 py-1 text-xs rounded-md transition-colors',
                 chartMode === 'cumulative'
                   ? 'bg-[#14b8a6] text-white'
-                  : 'text-gray-400 hover:text-white'
+                  : 'text-white/70 hover:text-white'
               )}
             >
               Cumulative
@@ -159,7 +159,7 @@ export function PortfolioChart({
                 'px-3 py-1 text-xs rounded-md transition-colors',
                 chartMode === 'daily'
                   ? 'bg-[#14b8a6] text-white'
-                  : 'text-gray-400 hover:text-white'
+                  : 'text-white/70 hover:text-white'
               )}
             >
               Daily
@@ -176,7 +176,7 @@ export function PortfolioChart({
                   'px-2.5 py-1 text-xs rounded-md transition-colors',
                   timeRange === range.value
                     ? 'bg-[#14b8a6] text-white'
-                    : 'text-gray-400 hover:text-white'
+                    : 'text-white/70 hover:text-white'
                 )}
               >
                 {range.label}

@@ -46,7 +46,7 @@ export default function PortfolioPage() {
           <p className="text-gray-400 mb-6">Connect your wallet to view your portfolio</p>
           <button
             onClick={() => open()}
-            className="px-6 py-3 bg-[#14b8a6] hover:bg-[#0d9488] text-white font-medium rounded-lg transition-colors"
+            className="px-6 py-2.5 bg-[#14b8a6] hover:bg-[#0d9488] text-white font-medium transition-colors"
           >
             Connect Wallet
           </button>
@@ -85,7 +85,7 @@ export default function PortfolioPage() {
         {/* Stats Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6 stagger-children" aria-live="polite">
           {/* Account Value */}
-          <div className="bg-[#0f1419] border border-gray-800 rounded-lg p-4">
+          <div className="bg-[#0f1419] border border-gray-800 p-4">
             <div className="text-xs text-gray-400 mb-1">Account Value</div>
             <div className="text-xl font-bold text-white">
               ${accountValue.toLocaleString(undefined, {
@@ -105,7 +105,7 @@ export default function PortfolioPage() {
           </div>
 
           {/* Available Balance */}
-          <div className="bg-[#0f1419] border border-gray-800 rounded-lg p-4">
+          <div className="bg-[#0f1419] border border-gray-800 p-4">
             <div className="text-xs text-gray-400 mb-1">Available Balance</div>
             <div className="text-xl font-bold text-white">
               ${availableBalance.toLocaleString(undefined, {
@@ -117,7 +117,7 @@ export default function PortfolioPage() {
           </div>
 
           {/* Margin Used */}
-          <div className="bg-[#0f1419] border border-gray-800 rounded-lg p-4">
+          <div className="bg-[#0f1419] border border-gray-800 p-4">
             <div className="text-xs text-gray-400 mb-1">Margin Used</div>
             <div className="text-xl font-bold text-white">
               ${totalMargin.toLocaleString(undefined, {
@@ -131,7 +131,7 @@ export default function PortfolioPage() {
           </div>
 
           {/* Unrealized PnL */}
-          <div className="bg-[#0f1419] border border-gray-800 rounded-lg p-4">
+          <div className="bg-[#0f1419] border border-gray-800 p-4">
             <div className="text-xs text-gray-400 mb-1">Unrealized PnL</div>
             <div
               className={cn(
@@ -178,7 +178,7 @@ export default function PortfolioPage() {
         </div>
 
         {/* Tabs */}
-        <div className="bg-[#0f1419] border border-gray-800 rounded-lg overflow-hidden">
+        <div className="bg-[#0f1419] border border-gray-800 overflow-hidden">
           {/* Tab Headers */}
           <div className="flex overflow-x-auto border-b border-gray-800 scrollbar-hide">
             {TABS.map((tab) => (
@@ -189,7 +189,7 @@ export default function PortfolioPage() {
                   'px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors',
                   activeTab === tab.value
                     ? 'text-white border-b-2 border-[#14b8a6] bg-[#1a2028]'
-                    : 'text-gray-400 hover:text-white hover:bg-[#1a2028]/50'
+                    : 'text-white/70 hover:text-white hover:bg-[#1a2028]/50'
                 )}
               >
                 {tab.label}
@@ -260,7 +260,7 @@ function OverviewTab({ positions, accountValue }: OverviewTabProps) {
           const allocation = accountValue > 0 ? (posValue / accountValue) * 100 : 0;
 
           return (
-            <div key={position.symbol} className="bg-[#1a2028] rounded-lg p-3">
+            <div key={position.symbol} className="bg-[#1a2028] p-3">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                   <span className="text-white font-medium text-sm">{position.symbol}</span>

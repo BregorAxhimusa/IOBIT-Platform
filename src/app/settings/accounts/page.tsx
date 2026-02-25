@@ -81,7 +81,7 @@ export default function AccountsPage() {
                 'px-4 py-2.5 text-sm transition-colors border-b-2 -mb-px',
                 tab === t.value
                   ? 'border-[#14b8a6] text-white'
-                  : 'border-transparent text-gray-400 hover:text-white'
+                  : 'border-transparent text-white/70 hover:text-white'
               )}
             >
               {t.label}

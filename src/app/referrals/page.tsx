@@ -78,7 +78,7 @@ export default function ReferralsPage() {
         </div>
 
         {/* How It Works */}
-        <div className="mt-4 bg-[#0f1419] border border-gray-800 rounded-lg p-5">
+        <div className="mt-4 bg-[#0f1419] border border-gray-800 p-5">
           <h3 className="text-white font-semibold mb-4">How It Works</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
             {[
@@ -90,7 +90,7 @@ export default function ReferralsPage() {
             ].map((item) => (
               <div
                 key={item.step}
-                className="bg-[#1a2028] rounded-lg p-3 text-center"
+                className="bg-[#1a2028] p-3 text-center"
               >
                 <div className="w-7 h-7 bg-teal-500/20 text-teal-400 rounded-full flex items-center justify-center text-xs font-bold mx-auto mb-2">
                   {item.step}
@@ -101,7 +101,7 @@ export default function ReferralsPage() {
             ))}
           </div>
 
-          <div className="mt-4 bg-[#1a2028] rounded-lg p-3">
+          <div className="mt-4 bg-[#1a2028] p-3">
             <p className="text-gray-400 text-xs leading-relaxed">
               <span className="text-amber-400 font-medium">Note:</span> Referral rewards are valid up to $1B volume per referred user.
               Fee discounts are valid up to $25M volume per referred user.

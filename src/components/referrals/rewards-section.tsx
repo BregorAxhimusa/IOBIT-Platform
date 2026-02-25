@@ -21,7 +21,7 @@ interface RewardCardProps {
 function RewardCard({ label, value, description, accent = false }: RewardCardProps) {
   return (
     <div className={cn(
-      'bg-[#1a2028] rounded-lg p-4',
+      'bg-[#1a2028]  p-4',
       accent && 'border border-teal-500/20'
     )}>
       <p className="text-gray-400 text-xs mb-1">{label}</p>
@@ -54,7 +54,7 @@ export function RewardsSection({
   }, [canClaim, isClaiming, onClaim]);
 
   return (
-    <div className="bg-[#0f1419] border border-gray-800 rounded-lg p-4">
+    <div className="bg-[#0f1419] border border-gray-800 p-4">
       <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-teal-500" viewBox="0 0 20 20" fill="currentColor">
           <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
@@ -79,7 +79,7 @@ export function RewardsSection({
         />
       </div>
 
-      <div className="flex items-center justify-between bg-[#1a2028] rounded-lg p-3">
+      <div className="flex items-center justify-between bg-[#1a2028]  p-3">
         <div>
           <p className="text-gray-400 text-xs">
             {canClaim
@@ -91,7 +91,7 @@ export function RewardsSection({
           onClick={handleClaim}
           disabled={!canClaim || isClaiming}
           className={cn(
-            'px-5 py-2 rounded-lg text-sm font-medium transition-all shrink-0 ml-3',
+            'px-5 py-2  text-sm font-medium transition-all shrink-0 ml-3',
             canClaim && !isClaiming
               ? 'bg-teal-500 hover:bg-teal-600 text-white'
               : 'bg-gray-700 text-gray-500 cursor-not-allowed'

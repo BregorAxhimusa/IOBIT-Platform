@@ -82,7 +82,7 @@ export default function SettingsPage() {
                 'px-4 py-2.5 text-sm transition-colors border-b-2 -mb-px',
                 tab === t.value
                   ? 'border-[#14b8a6] text-white'
-                  : 'border-transparent text-gray-400 hover:text-white'
+                  : 'border-transparent text-white/70 hover:text-white'
               )}
             >
               {t.label}
@@ -101,7 +101,7 @@ export default function SettingsPage() {
                   'px-3 py-1.5 text-xs rounded-lg transition-colors',
                   accountsSubTab === 'sub-accounts'
                     ? 'bg-gray-800 text-white'
-                    : 'text-gray-400 hover:text-white'
+                    : 'text-white/70 hover:text-white'
                 )}
               >
                 Sub-Accounts ({subAccounts.length})
@@ -112,7 +112,7 @@ export default function SettingsPage() {
                   'px-3 py-1.5 text-xs rounded-lg transition-colors',
                   accountsSubTab === 'api-wallets'
                     ? 'bg-gray-800 text-white'
-                    : 'text-gray-400 hover:text-white'
+                    : 'text-white/70 hover:text-white'
                 )}
               >
                 API Wallets ({apiWallets.length})

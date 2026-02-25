@@ -104,7 +104,7 @@ export function MarketsList({ currentSymbol }: MarketsListProps) {
               'flex-1 px-2 py-1.5 font-medium transition-colors',
               activeFilter === filter
                 ? 'text-white bg-[#1a1a1a]'
-                : 'text-gray-500 hover:text-gray-300'
+                : 'text-white/70 hover:text-white'
             )}
           >
             {filter}

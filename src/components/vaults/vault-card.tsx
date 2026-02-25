@@ -26,7 +26,7 @@ export function VaultCard({ vault }: VaultCardProps) {
 
   return (
     <Link href={`/vaults/${vault.vaultAddress}`}>
-      <div className="bg-[#0f1419] border border-gray-800 rounded-lg p-4 hover:border-gray-600 transition-all cursor-pointer group">
+      <div className="bg-[#0f1419] border border-gray-800 p-4 hover:border-gray-600 transition-all cursor-pointer group">
         {/* Header */}
         <div className="flex items-start justify-between mb-3">
           <div className="flex-1 min-w-0">

@@ -14,19 +14,24 @@ export function RecentTrades({ symbol }: RecentTradesProps) {
   const displayedTrades = trades.slice(0, 30);
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full bg-[#0f0f0f]">
       {/* Column Headers */}
-      <div className="grid grid-cols-3 gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-xs text-gray-500 border-b border-gray-800">
+      <div className="grid grid-cols-3 gap-1 sm:gap-2 px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs text-gray-500 font-medium border-b border-white/20 bg-[#111111]/30">
         <div className="text-left">Price</div>
         <div className="text-right">Size</div>
         <div className="text-right">Time</div>
       </div>
 
       {/* Trades List */}
-      <div className="flex-1 overflow-hidden">
+      <div className="flex-1 overflow-y-auto">
         {displayedTrades.length === 0 ? (
-          <div className="flex items-center justify-center h-full text-gray-500 text-sm">
-            No trades yet
+          <div className="flex flex-col items-center justify-center h-full gap-2">
+            <div className="w-10 h-10 rounded-full bg-gray-800/50 flex items-center justify-center">
+              <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+            </div>
+            <span className="text-gray-500 text-xs">No trades yet</span>
           </div>
         ) : (
           displayedTrades.map((trade, idx) => {
@@ -41,12 +46,15 @@ export function RecentTrades({ symbol }: RecentTradesProps) {
             return (
               <div
                 key={`${trade.time}-${idx}`}
-                className="grid grid-cols-3 gap-1 sm:gap-2 px-2 sm:px-4 py-0.5 sm:py-1.5 text-[10px] sm:text-xs hover:bg-gray-800/30 transition-colors"
+                className={cn(
+                  "grid grid-cols-3 gap-1 sm:gap-2 px-3 sm:px-4 py-0.5 sm:py-1 text-[10px] sm:text-xs transition-colors",
+                  trade.side === 'buy' ? 'hover:bg-emerald-500/10' : 'hover:bg-rose-500/10'
+                )}
               >
                 <div
                   className={cn(
-                    'text-left font-medium',
-                    trade.side === 'buy' ? 'text-green-400' : 'text-red-400'
+                    'text-left font-medium tabular-nums',
+                    trade.side === 'buy' ? 'text-emerald-400' : 'text-rose-400'
                   )}
                 >
                   {parseFloat(trade.price).toLocaleString('en-US', {
@@ -54,10 +62,10 @@ export function RecentTrades({ symbol }: RecentTradesProps) {
                     maximumFractionDigits: 2,
                   })}
                 </div>
-                <div className="text-right text-gray-300">
+                <div className="text-right text-gray-300 tabular-nums">
                   {parseFloat(trade.size).toFixed(4)}
                 </div>
-                <div className="text-right text-gray-500">{timeStr}</div>
+                <div className="text-right text-gray-500 tabular-nums">{timeStr}</div>
               </div>
             );
           })

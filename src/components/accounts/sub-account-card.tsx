@@ -38,7 +38,7 @@ export function SubAccountCard({ subAccount, onTransfer }: SubAccountCardProps) 
     : 0;
 
   return (
-    <div className="bg-[#0f1419] border border-gray-800 rounded-lg p-4 hover:border-gray-600 transition-colors">
+    <div className="bg-[#0f1419] border border-gray-800 p-4 hover:border-gray-600 transition-colors">
       <div className="flex items-center justify-between mb-3">
         <div>
           <h3 className="text-white font-medium text-sm">

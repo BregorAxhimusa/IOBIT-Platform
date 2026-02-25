@@ -58,92 +58,141 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose} />
 
-      <div className="relative bg-[#0f1419] border border-gray-800 rounded-xl w-full max-w-md mx-4 p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-white font-semibold">Transfer USDC</h3>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-white transition-colors text-xl"
-          >
-            &times;
-          </button>
-        </div>
+      <div className="relative bg-[#0f1419] border border-gray-800 w-full max-w-md animate-in fade-in zoom-in-95 duration-200">
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-gray-500 hover:text-white hover:bg-white/10 transition-colors z-10"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
 
-        <p className="text-gray-400 text-sm mb-4 truncate">
-          {subAccount.name || 'Sub-Account'}{' '}
-          <span className="text-gray-500 font-mono text-xs">
-            ({formatAddress(subAccount.subAccountUser)})
-          </span>
-        </p>
-
-        {/* Direction Tabs */}
-        <div className="flex bg-[#1a2028] rounded-lg p-1 mb-4">
-          <button
-            onClick={() => setDirection('toSub')}
-            className={cn(
-              'flex-1 py-2 text-sm rounded-md transition-colors',
-              direction === 'toSub'
-                ? 'bg-[#14b8a6] text-white'
-                : 'text-gray-400 hover:text-white'
-            )}
-          >
-            Master → Sub
-          </button>
-          <button
-            onClick={() => setDirection('toMaster')}
-            className={cn(
-              'flex-1 py-2 text-sm rounded-md transition-colors',
-              direction === 'toMaster'
-                ? 'bg-[#14b8a6] text-white'
-                : 'text-gray-400 hover:text-white'
-            )}
-          >
-            Sub → Master
-          </button>
-        </div>
-
-        {/* Available Balance */}
-        <div className="bg-[#1a2028] rounded-lg p-3 mb-4">
-          <div className="flex items-center justify-between text-xs">
-            <span className="text-gray-400">
-              {direction === 'toSub' ? 'Master Available' : 'Sub Available'}
-            </span>
-            <span className="text-white">${availableBalance.toFixed(2)}</span>
+        <div className="p-6">
+          {/* Header */}
+          <div className="flex flex-col items-center mb-6">
+            <h2 className="text-xl font-bold text-white">Transfer USDC</h2>
+            <p className="text-gray-500 text-sm mt-1 truncate max-w-full">
+              {subAccount.name || 'Sub-Account'}{' '}
+              <span className="font-mono text-gray-600">
+                ({formatAddress(subAccount.subAccountUser)})
+              </span>
+            </p>
           </div>
-        </div>
 
-        {/* Amount Input */}
-        <div className="mb-4">
-          <label className="text-gray-400 text-xs mb-1 block">Amount (USDC)</label>
-          <div className="relative">
+          {/* Direction Tabs */}
+          <div className="flex bg-[#1a2028] border border-gray-800 p-1 mb-6">
+            <button
+              onClick={() => { setDirection('toSub'); setAmount(''); }}
+              className={cn(
+                'flex-1 py-2.5 text-sm font-medium transition-colors',
+                direction === 'toSub'
+                  ? 'bg-teal-500 text-white'
+                  : 'text-white/70 hover:text-white'
+              )}
+            >
+              Master → Sub
+            </button>
+            <button
+              onClick={() => { setDirection('toMaster'); setAmount(''); }}
+              className={cn(
+                'flex-1 py-2.5 text-sm font-medium transition-colors',
+                direction === 'toMaster'
+                  ? 'bg-teal-500 text-white'
+                  : 'text-white/70 hover:text-white'
+              )}
+            >
+              Sub → Master
+            </button>
+          </div>
+
+          {/* Transfer Visual */}
+          <div className="bg-[#1a2028] border border-gray-800 p-4 mb-4">
+            <div className="flex items-center justify-between">
+              {/* From */}
+              <div className="flex-1">
+                <p className="text-xs text-gray-500 mb-1">From</p>
+                <div className="flex items-center gap-2">
+                  <span className={cn(
+                    "w-2 h-2 rounded-full",
+                    direction === 'toSub' ? 'bg-purple-400' : 'bg-teal-400'
+                  )} />
+                  <span className="text-white font-medium">
+                    {direction === 'toSub' ? 'Master' : 'Sub-Account'}
+                  </span>
+                </div>
+                <p className="text-xs text-gray-500 mt-1">
+                  ${(direction === 'toSub' ? masterBalance : subBalance).toFixed(2)}
+                </p>
+              </div>
+
+              {/* Arrow */}
+              <div className="mx-4">
+                <svg className="w-6 h-6 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </div>
+
+              {/* To */}
+              <div className="flex-1 text-right">
+                <p className="text-xs text-gray-500 mb-1">To</p>
+                <div className="flex items-center justify-end gap-2">
+                  <span className="text-white font-medium">
+                    {direction === 'toSub' ? 'Sub-Account' : 'Master'}
+                  </span>
+                  <span className={cn(
+                    "w-2 h-2 rounded-full",
+                    direction === 'toSub' ? 'bg-teal-400' : 'bg-purple-400'
+                  )} />
+                </div>
+                <p className="text-xs text-gray-500 mt-1">
+                  ${(direction === 'toSub' ? subBalance : masterBalance).toFixed(2)}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Amount Input */}
+          <div className="mb-4">
+            <div className="flex items-center justify-between mb-2">
+              <label className="text-xs text-gray-500 font-medium">Amount (USDC)</label>
+              <button
+                onClick={handleMaxClick}
+                className="text-xs text-teal-400 hover:text-teal-300 font-medium transition-colors"
+              >
+                MAX: ${availableBalance.toFixed(2)}
+              </button>
+            </div>
             <input
               type="number"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="0.00"
-              className="w-full bg-[#1a2028] border border-gray-700 rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-gray-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              className="w-full bg-[#1a2028] border border-gray-800 px-4 py-3 text-white text-sm font-medium focus:outline-none focus:border-teal-500/50 placeholder-gray-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
-            <button
-              onClick={handleMaxClick}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#14b8a6] hover:text-[#14b8a6]/80"
-            >
-              MAX
-            </button>
           </div>
-        </div>
 
-        <button
-          onClick={handleSubmit}
-          disabled={isTransferring || !canTransfer}
-          className="w-full py-3 rounded-lg font-semibold text-sm bg-[#14b8a6] hover:bg-[#14b8a6]/80 text-white disabled:bg-[#14b8a6]/30 disabled:text-white/50 transition-colors"
-        >
-          {isTransferring
-            ? 'Transferring...'
-            : `Transfer $${parsedAmount.toFixed(2)}`}
-        </button>
+          {/* Submit Button */}
+          <button
+            onClick={handleSubmit}
+            disabled={isTransferring || !canTransfer}
+            className="w-full py-3 font-semibold text-sm bg-teal-500 hover:bg-teal-400 text-white disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors"
+          >
+            {isTransferring ? (
+              <span className="flex items-center justify-center gap-2">
+                <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                </svg>
+                Transferring...
+              </span>
+            ) : `Transfer $${parsedAmount.toFixed(2)}`}
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -100,7 +100,7 @@ function PriceChartComponent({ symbol }: PriceChartProps) {
 
           // Override colors to match our theme
           overrides: {
-            'paneProperties.background': '#000000',
+            'paneProperties.background': '#0f0f0f',
             'paneProperties.backgroundType': 'solid',
             'paneProperties.vertGridProperties.color': '#1F2937',
             'paneProperties.horzGridProperties.color': '#1F2937',
@@ -159,7 +159,7 @@ function PriceChartComponent({ symbol }: PriceChartProps) {
 
           // Loading screen
           loading_screen: {
-            backgroundColor: '#000000',
+            backgroundColor: '#0f0f0f',
             foregroundColor: '#14b8a6',
           },
 
@@ -186,7 +186,7 @@ function PriceChartComponent({ symbol }: PriceChartProps) {
   }, [symbol]);
 
   return (
-    <div className="relative w-full h-full bg-black rounded-lg overflow-hidden">
+    <div className="relative w-full h-full bg-[#0f0f0f] rounded-lg overflow-hidden">
       <div
         ref={container}
         id="tradingview_advanced"

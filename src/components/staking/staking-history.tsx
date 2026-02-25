@@ -28,7 +28,7 @@ export function StakingHistory({ rewards, history, validators, isLoading }: Stak
   ];
 
   return (
-    <div className="bg-[#0f1419] border border-gray-800 rounded-lg p-5">
+    <div className="bg-[#0f1419] border border-gray-800 p-5">
       <div className="flex border-b border-gray-800 mb-4">
         {tabs.map((t) => (
           <button
@@ -36,7 +36,7 @@ export function StakingHistory({ rewards, history, validators, isLoading }: Stak
             onClick={() => setTab(t.value)}
             className={cn(
               'px-4 py-2 text-xs transition-colors border-b-2 -mb-px',
-              tab === t.value ? 'border-teal-500 text-white' : 'border-transparent text-gray-400 hover:text-white'
+              tab === t.value ? 'border-teal-500 text-white' : 'border-transparent text-white/70 hover:text-white'
             )}
           >
             {t.label}

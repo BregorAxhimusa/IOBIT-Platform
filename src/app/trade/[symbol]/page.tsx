@@ -84,7 +84,7 @@ export default function TradingPage({ params }: TradingPageProps) {
   };
 
   return (
-    <div className="bg-[#0a0a0f] h-screen overflow-hidden">
+    <div className="bg-[#0a0a0f]">
       {/* Market Info Bar */}
       <MarketInfoBar key={symbolUpper} symbol={isSpot ? displaySymbol : symbolUpper} />
 
@@ -93,7 +93,7 @@ export default function TradingPage({ params }: TradingPageProps) {
         {/* Left Section - Chart & OrderBook & Bottom Tables */}
         <div className="flex-1 flex flex-col p-1 sm:p-2 lg:p-1 min-w-0 space-y-1.5 sm:space-y-2 lg:space-y-1">
           {/* Top Row - Chart and Order Book/Trades */}
-          <div className="flex flex-col lg:flex-row lg:flex-1 lg:mb-0 gap-1.5 sm:gap-2 lg:gap-1 lg:min-h-0 lg:h-[65%]">
+          <div className="flex flex-col lg:flex-row lg:flex-1 lg:mb-0 gap-1.5 sm:gap-2 lg:gap-1 lg:min-h-0">
             {/* Chart */}
             <div className="w-full lg:flex-1 h-[240px] sm:h-[350px] md:h-[420px] lg:h-full">
               <ChartErrorBoundary>
@@ -102,30 +102,36 @@ export default function TradingPage({ params }: TradingPageProps) {
             </div>
 
             {/* Order Book & Recent Trades Tabs - Desktop Only */}
-            <div className="hidden lg:flex lg:w-80 lg:h-full bg-[#0f1419] border border-gray-800 rounded-lg flex-col">
+            <div className="hidden lg:flex lg:w-80 lg:h-full bg-[#0f0f0f] border border-white/20 flex-col overflow-hidden">
               {/* Tab Headers */}
-              <div className="flex border-b border-gray-800">
+              <div className="flex border-b border-white/20 bg-[#0a0a0a]/50">
                 <button
                   onClick={() => setRightTab('orderbook')}
                   className={cn(
-                    'flex-1 px-3 py-2 text-sm font-semibold transition-colors',
+                    'flex-1 px-3 py-3 text-sm font-semibold transition-all relative',
                     rightTab === 'orderbook'
-                      ? 'bg-[#1a2028] text-white border-b-2 border-[#14b8a6]'
-                      : 'text-gray-400 hover:text-white hover:bg-[#1a2028]/50'
+                      ? 'text-teal-400'
+                      : 'text-white/70 hover:text-white'
                   )}
                 >
                   Order Book
+                  {rightTab === 'orderbook' && (
+                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-16 h-0.5 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full" />
+                  )}
                 </button>
                 <button
                   onClick={() => setRightTab('trades')}
                   className={cn(
-                    'flex-1 px-3 py-2 text-sm font-semibold transition-colors',
+                    'flex-1 px-3 py-3 text-sm font-semibold transition-all relative',
                     rightTab === 'trades'
-                      ? 'bg-[#1a2028] text-white border-b-2 border-[#14b8a6]'
-                      : 'text-gray-400 hover:text-white hover:bg-[#1a2028]/50'
+                      ? 'text-teal-400'
+                      : 'text-white/70 hover:text-white'
                   )}
                 >
                   Recent Trades
+                  {rightTab === 'trades' && (
+                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-16 h-0.5 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full" />
+                  )}
                 </button>
               </div>
 
@@ -143,30 +149,36 @@ export default function TradingPage({ params }: TradingPageProps) {
           </div>
 
           {/* Order Book & Recent Trades - Mobile Only */}
-          <div className="lg:hidden bg-[#0f1419] border border-gray-800 rounded-lg flex flex-col h-[280px] sm:h-[350px]">
+          <div className="lg:hidden bg-[#0a0a0a] border border-white/20 flex flex-col h-[280px] sm:h-[350px] overflow-hidden">
             {/* Tab Headers */}
-            <div className="flex border-b border-gray-800">
+            <div className="flex border-b border-white/20 bg-[#0a0a0a]/50">
               <button
                 onClick={() => setRightTab('orderbook')}
                 className={cn(
-                  'flex-1 px-3 py-2 text-xs sm:text-sm font-semibold transition-colors',
+                  'flex-1 px-3 py-3 text-xs sm:text-sm font-semibold transition-all relative',
                   rightTab === 'orderbook'
-                    ? 'bg-[#1a2028] text-white border-b-2 border-[#14b8a6]'
-                    : 'text-gray-400 hover:text-white hover:bg-[#1a2028]/50'
+                    ? 'text-teal-400'
+                    : 'text-white/70 hover:text-white'
                 )}
               >
                 Order Book
+                {rightTab === 'orderbook' && (
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-14 sm:w-16 h-0.5 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full" />
+                )}
               </button>
               <button
                 onClick={() => setRightTab('trades')}
                 className={cn(
-                  'flex-1 px-3 py-2 text-xs sm:text-sm font-semibold transition-colors',
+                  'flex-1 px-3 py-3 text-xs sm:text-sm font-semibold transition-all relative',
                   rightTab === 'trades'
-                    ? 'bg-[#1a2028] text-white border-b-2 border-[#14b8a6]'
-                    : 'text-gray-400 hover:text-white hover:bg-[#1a2028]/50'
+                    ? 'text-teal-400'
+                    : 'text-white/70 hover:text-white'
                 )}
               >
                 Recent Trades
+                {rightTab === 'trades' && (
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-14 sm:w-16 h-0.5 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full" />
+                )}
               </button>
             </div>
 
@@ -183,70 +195,85 @@ export default function TradingPage({ params }: TradingPageProps) {
           </div>
 
           {/* Bottom Panel - Positions, Orders, History */}
-          <div className="bg-[#0f1419] border border-gray-800 rounded-lg overflow-hidden lg:flex-1 lg:min-h-[200px] lg:flex lg:flex-col">
-            {/* Tab Headers - Horizontal Scroll on Mobile */}
-            <div className="flex overflow-x-auto lg:overflow-visible border-b border-gray-800 scrollbar-hide lg:space-x-1 lg:px-3 lg:pt-2">
+          <div className="bg-[#0f0f0f] border border-white/20 overflow-hidden lg:h-[300px] flex flex-col">
+            {/* Tab Headers */}
+            <div className="flex overflow-x-auto border-b border-white/20 bg-[#0a0a0a]/50 scrollbar-hide">
               <button
                 onClick={() => setActiveTab('positions')}
                 className={cn(
-                  'px-2 sm:px-3 py-1.5 sm:py-2 lg:py-1.5 text-[10px] sm:text-xs lg:text-sm font-medium whitespace-nowrap lg:rounded-t transition-colors',
+                  'px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs lg:text-sm font-semibold whitespace-nowrap transition-all relative',
                   activeTab === 'positions'
-                    ? 'bg-[#1a2028] text-white border-b-2 border-[#14b8a6] lg:border-b-0'
-                    : 'text-gray-400 hover:text-white hover:bg-[#1a2028]/50'
+                    ? 'text-teal-400'
+                    : 'text-white/70 hover:text-white'
                 )}
               >
                 Positions
+                {activeTab === 'positions' && (
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 lg:w-14 h-0.5 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full" />
+                )}
               </button>
               <button
                 onClick={() => setActiveTab('orders')}
                 className={cn(
-                  'px-2 sm:px-3 py-1.5 sm:py-2 lg:py-1.5 text-[10px] sm:text-xs lg:text-sm font-medium whitespace-nowrap lg:rounded-t transition-colors',
+                  'px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs lg:text-sm font-semibold whitespace-nowrap transition-all relative',
                   activeTab === 'orders'
-                    ? 'bg-[#1a2028] text-white border-b-2 border-[#14b8a6] lg:border-b-0'
-                    : 'text-gray-400 hover:text-white hover:bg-[#1a2028]/50'
+                    ? 'text-teal-400'
+                    : 'text-white/70 hover:text-white'
                 )}
               >
                 Open Orders
+                {activeTab === 'orders' && (
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-14 lg:w-16 h-0.5 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full" />
+                )}
               </button>
               <button
                 onClick={() => setActiveTab('history')}
                 className={cn(
-                  'px-2 sm:px-3 py-1.5 sm:py-2 lg:py-1.5 text-[10px] sm:text-xs lg:text-sm font-medium whitespace-nowrap lg:rounded-t transition-colors',
+                  'px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs lg:text-sm font-semibold whitespace-nowrap transition-all relative',
                   activeTab === 'history'
-                    ? 'bg-[#1a2028] text-white border-b-2 border-[#14b8a6] lg:border-b-0'
-                    : 'text-gray-400 hover:text-white hover:bg-[#1a2028]/50'
+                    ? 'text-teal-400'
+                    : 'text-white/70 hover:text-white'
                 )}
               >
                 Order History
+                {activeTab === 'history' && (
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-14 lg:w-16 h-0.5 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full" />
+                )}
               </button>
               <button
                 onClick={() => setActiveTab('trades')}
                 className={cn(
-                  'px-2 sm:px-3 py-1.5 sm:py-2 lg:py-1.5 text-[10px] sm:text-xs lg:text-sm font-medium whitespace-nowrap lg:rounded-t transition-colors',
+                  'px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs lg:text-sm font-semibold whitespace-nowrap transition-all relative',
                   activeTab === 'trades'
-                    ? 'bg-[#1a2028] text-white border-b-2 border-[#14b8a6] lg:border-b-0'
-                    : 'text-gray-400 hover:text-white hover:bg-[#1a2028]/50'
+                    ? 'text-teal-400'
+                    : 'text-white/70 hover:text-white'
                 )}
               >
                 Trade History
+                {activeTab === 'trades' && (
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-14 lg:w-16 h-0.5 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full" />
+                )}
               </button>
               {isSpot && (
                 <button
                   onClick={() => setActiveTab('balances')}
                   className={cn(
-                    'px-2 sm:px-3 py-1.5 sm:py-2 lg:py-1.5 text-[10px] sm:text-xs lg:text-sm font-medium whitespace-nowrap lg:rounded-t transition-colors',
+                    'px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs lg:text-sm font-semibold whitespace-nowrap transition-all relative',
                     activeTab === 'balances'
-                      ? 'bg-[#1a2028] text-white border-b-2 border-[#14b8a6] lg:border-b-0'
-                      : 'text-gray-400 hover:text-white hover:bg-[#1a2028]/50'
+                      ? 'text-teal-400'
+                      : 'text-white/70 hover:text-white'
                   )}
                 >
                   Balances
+                  {activeTab === 'balances' && (
+                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 lg:w-14 h-0.5 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full" />
+                  )}
                 </button>
               )}
             </div>
 
-            {/* Tab Content - Horizontal Scroll */}
-            <div className="p-1.5 sm:p-2 h-[200px] sm:h-[260px] lg:h-auto lg:flex-1 lg:min-h-0 overflow-auto">
+            {/* Tab Content */}
+            <div className="flex-1 overflow-auto p-1">
               <DataErrorBoundary>
                 {activeTab === 'positions' && <PositionsTable />}
                 {activeTab === 'orders' && <OpenOrdersTable />}
@@ -259,7 +286,7 @@ export default function TradingPage({ params }: TradingPageProps) {
         </div>
 
         {/* Right Sidebar - Trading Panel */}
-        <div className="w-full lg:w-96 border-t lg:border-t-0 lg:border-l border-gray-800 p-1 sm:p-2 lg:p-1 flex-shrink-0">
+        <div className="w-full lg:w-96 border-t lg:border-t-0 lg:border-l border-white/20 p-1 sm:p-2 lg:p-1 flex-shrink-0">
           <TradingErrorBoundary>
             <TradingPanel key={symbolUpper} symbol={isSpot ? displaySymbol : symbolUpper} currentPrice={currentPrice} />
           </TradingErrorBoundary>

@@ -198,7 +198,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                 placeholder="Search markets..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 bg-gray-800/60 border border-gray-700/50 rounded-lg text-white text-xs sm:text-sm placeholder-gray-500 focus:outline-none focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/20 transition-all"
+                className="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 bg-gray-800/60 border border-white/20 rounded-lg text-white text-xs sm:text-sm placeholder-gray-500 focus:outline-none focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/20 transition-all"
                 autoFocus
               />
               <div className="flex gap-2 sm:gap-3">
@@ -246,7 +246,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                     'px-3 sm:px-4 py-2 sm:py-2.5 rounded-t-lg transition-all duration-200 font-medium whitespace-nowrap flex-shrink-0',
                     activeFilter === filter
                       ? 'text-white bg-gray-800/50 border-b-2 border-teal-500'
-                      : 'text-gray-500 hover:text-white hover:bg-gray-800/50'
+                      : 'text-white/70 hover:text-white hover:bg-gray-800/50'
                   )}
                 >
                   {filter}
@@ -421,125 +421,122 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
       : null;
 
   return (
-    <div className="border-b border-gray-800/50 bg-gradient-to-b from-gray-900/80 to-gray-900/60 backdrop-blur-md">
-      <div className="w-full px-3 sm:px-4 md:px-6">
-        <div className="flex items-center justify-between h-16">
-          {/* Left Side - Market Info */}
-          <div className="flex items-stretch space-x-2 sm:space-x-4 md:space-x-6 lg:space-x-8 overflow-x-auto scrollbar-hide">
+    <div className="border-b border-white/20 bg-[#0f0f0f]">
+      <div className="w-full px-2 sm:px-4 md:px-6">
+        <div className="flex items-center justify-between h-[72px] gap-3">
+          {/* Left Side - All Market Info */}
+          <div className="flex items-center gap-2 sm:gap-3 md:gap-4 overflow-x-auto scrollbar-hide">
             {/* Markets Dropdown */}
-            <div
-              className="relative flex items-center flex-shrink-0"
-              ref={dropdownRef}
-            >
+            <div className="relative flex items-center flex-shrink-0" ref={dropdownRef}>
               <button
                 ref={buttonRef}
                 onClick={() => setShowMarketsDropdown(!showMarketsDropdown)}
-                className="flex items-center gap-1.5 sm:gap-2 md:gap-2.5 hover:bg-gray-800/40 px-2 sm:px-3 md:px-4 py-2 md:py-2.5 rounded-lg transition-all duration-200 hover:scale-[1.02]"
+                className="flex items-center gap-2 hover:opacity-80 transition-all group"
               >
-                <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2">
-                  <span className="text-sm sm:text-base font-semibold text-teal-400">
-                    ●
-                  </span>
-                  <h1 className="text-base sm:text-lg md:text-xl font-bold text-white tracking-tight whitespace-nowrap">
-                    {isSpot ? symbol : `${symbol}/USDC`}
-                  </h1>
-                </div>
+                <span className="w-2.5 h-2.5 rounded-full bg-teal-400" />
+                <span className="text-lg font-bold text-white whitespace-nowrap">
+                  {isSpot ? symbol : `${symbol}/USDC`}
+                </span>
                 <svg
                   className={cn(
-                    'w-4 h-4 text-gray-500 transition-all duration-300',
-                    showMarketsDropdown && 'rotate-180 text-teal-400'
+                    'w-4 h-4 text-gray-500 transition-all duration-200',
+                    showMarketsDropdown && 'rotate-180 text-white'
                   )}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2.5}
-                    d="M19 9l-7 7-7-7"
-                  />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
             </div>
 
-            {/* Price Display */}
-            <div className="flex flex-col justify-center border-l border-gray-700/60 pl-3 sm:pl-4 md:pl-4 lg:pl-4 py-2 md:py-2 flex-shrink-0">
-              <span className="text-[9px] sm:text-[10px] md:text-[11px] font-medium text-gray-500 uppercase tracking-wide mb-0.5 md:mb-1">
-                Price
-              </span>
-              <span className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-white tracking-tight whitespace-nowrap">
-                {price > 0 ? formatPrice(price, price > 100 ? 2 : 4) : '--'}
-              </span>
-            </div>
-
-            {/* 24h Change */}
-            <div className="flex flex-col justify-center border-l border-gray-700/60 pl-3 sm:pl-4 md:pl-4 lg:pl-4 py-2 md:py-2 flex-shrink-0">
-              <span className="text-[9px] sm:text-[10px] md:text-[11px] font-medium text-gray-500 uppercase tracking-wide mb-0.5 md:mb-1">
-                24h Change
+            {/* Main Price with Change Badge */}
+            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 border-l border-white/10 pl-4">
+              <span className="text-lg sm:text-2xl font-bold text-white tabular-nums">
+                ${price > 0 ? formatPrice(price, price > 100 ? 2 : 4) : '--'}
               </span>
               <span
                 className={cn(
-                  'text-xs sm:text-sm md:text-base font-bold tracking-tight whitespace-nowrap',
-                  isPositive ? 'text-emerald-400' : 'text-rose-400'
+                  'px-2 py-1 rounded-lg text-xs sm:text-sm font-bold tabular-nums',
+                  isPositive
+                    ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                    : 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
                 )}
               >
                 {market ? formatPercentage(change24h) : '--'}
               </span>
             </div>
 
-            {/* 24h Volume - Hidden on mobile */}
-            <div className="hidden sm:flex flex-col justify-center border-l border-gray-700/60 pl-4 md:pl-4 lg:pl-4 py-2 md:py-2 flex-shrink-0">
-              <span className="text-[10px] md:text-[11px] font-medium text-gray-500 uppercase tracking-wide mb-0.5 md:mb-1">
-                24h Volume
-              </span>
-              <span className="text-sm md:text-base font-bold text-gray-200 tracking-tight whitespace-nowrap">
+            {/* Stats - Vertical layout like reference */}
+            {/* 24h Volume */}
+            <div className="hidden md:flex flex-col px-4 flex-shrink-0 border-l border-white/10">
+              <span className="text-[10px] text-gray-500 uppercase tracking-wider">24H Volume</span>
+              <span className="text-sm font-semibold text-white tabular-nums">
                 ${market ? formatCompactNumber(volume24h) : '--'}
               </span>
             </div>
 
-            {/* Funding Rate - Perps only, hidden on mobile */}
+            {/* Open Interest - Perps only */}
             {!isSpot && (
-            <div className="hidden md:flex flex-col justify-center border-l border-gray-700/60 pl-4 lg:pl-4 py-2 flex-shrink-0">
-              <span className="text-[11px] font-medium text-gray-500 uppercase tracking-wide mb-1">
-                Funding
-              </span>
-              <span className="text-base font-bold text-gray-200 tracking-tight whitespace-nowrap">
-                {market ? `${(parseFloat(funding) * 100).toFixed(4)}%` : '--'}
-              </span>
-            </div>
+              <div className="hidden md:flex flex-col px-4 flex-shrink-0 border-l border-white/10">
+                <span className="text-[10px] text-gray-500 uppercase tracking-wider">Open Interest</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-semibold text-white tabular-nums">
+                    ${market ? formatCompactNumber(openInterest) : '--'}
+                  </span>
+                </div>
+              </div>
             )}
 
-            {/* Open Interest - Perps only, hidden on mobile */}
+            {/* 24h High/Low - Perps only */}
+            {!isSpot && market && (
+              <div className="hidden lg:flex flex-col px-4 flex-shrink-0 border-l border-white/10">
+                <span className="text-[10px] text-gray-500 uppercase tracking-wider">24H Range</span>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xs text-emerald-400">↗</span>
+                  <span className="text-sm font-semibold text-white tabular-nums">
+                    ${formatPrice(price * 1.02, price > 100 ? 2 : 4)}
+                  </span>
+                  <span className="text-gray-600 mx-1">/</span>
+                  <span className="text-xs text-rose-400">↘</span>
+                  <span className="text-sm font-semibold text-white tabular-nums">
+                    ${formatPrice(price * 0.98, price > 100 ? 2 : 4)}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* Funding Rate - Perps only */}
             {!isSpot && (
-            <div className="hidden lg:flex flex-col justify-center border-l border-r border-gray-700/60 pl-4 pr-4 py-2 flex-shrink-0">
-              <span className="text-[11px] font-medium text-gray-500 uppercase tracking-wide mb-1">
-                Open Interest
-              </span>
-              <span className="text-base font-bold text-gray-200 tracking-tight whitespace-nowrap">
-                ${market ? formatCompactNumber(openInterest) : '--'}
-              </span>
-            </div>
+              <div className="hidden xl:flex flex-col px-4 flex-shrink-0 border-l border-white/10">
+                <span className="text-[10px] text-gray-500 uppercase tracking-wider">Funding Rate</span>
+                <span className={cn(
+                  'text-sm font-semibold tabular-nums',
+                  parseFloat(funding) >= 0 ? 'text-emerald-400' : 'text-rose-400'
+                )}>
+                  {market ? `${(parseFloat(funding) * 100).toFixed(4)}%` : '--'}
+                </span>
+              </div>
             )}
           </div>
 
           {/* Right Side - Network Switcher */}
-          <div className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
+          <div className="flex items-center flex-shrink-0">
             <button
               onClick={() => setShowNetworkModal(true)}
               className={cn(
-                'px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 md:py-2.5 text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl whitespace-nowrap',
+                'flex items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold rounded-xl transition-all whitespace-nowrap border',
                 network === 'mainnet'
-                  ? 'bg-gradient-to-r from-emerald-600 to-emerald-500 text-white hover:from-emerald-500 hover:to-emerald-400'
-                  : 'bg-gradient-to-r from-amber-600 to-amber-500 text-white hover:from-amber-500 hover:to-amber-400'
+                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/20 hover:border-emerald-500/50'
+                  : 'bg-amber-500/10 text-amber-400 border-amber-500/30 hover:bg-amber-500/20 hover:border-amber-500/50'
               )}
             >
-              <span className="hidden sm:inline">
-                {network === 'mainnet' ? 'Mainnet' : 'Testnet'}
-              </span>
-              <span className="sm:hidden">
-                {network === 'mainnet' ? 'Main' : 'Test'}
-              </span>
+              <span className={cn(
+                'w-2 h-2 rounded-full',
+                network === 'mainnet' ? 'bg-emerald-400' : 'bg-amber-400'
+              )} />
+              {network === 'mainnet' ? 'Mainnet' : 'Testnet'}
             </button>
           </div>
         </div>

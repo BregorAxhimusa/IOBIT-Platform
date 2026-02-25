@@ -241,7 +241,7 @@ function TPSLModal({
                   type="checkbox"
                   checked={enableTP}
                   onChange={(e) => setEnableTP(e.target.checked)}
-                  className="w-4 h-4 rounded border-gray-600 bg-[#0f1419] text-[#14b8a6] focus:ring-[#14b8a6] focus:ring-offset-0 cursor-pointer"
+                  className="w-4 h-4 rounded border-gray-600 bg-[#111111] text-[#14b8a6] focus:ring-[#14b8a6] focus:ring-offset-0 cursor-pointer"
                 />
                 <label className="text-sm text-gray-300 font-medium">Take Profit</label>
                 {enableTP && (
@@ -260,7 +260,7 @@ function TPSLModal({
                   onChange={(e) => setTakeProfitPrice(e.target.value)}
                   placeholder={`Enter TP price (${isLong ? '>' : '<'} ${markPriceNum.toFixed(2)})`}
                   step="0.01"
-                  className="w-full px-3 py-2.5 bg-[#0f1419] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6]"
+                  className="w-full px-3 py-2.5 bg-[#111111] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6]"
                 />
               )}
             </div>
@@ -272,7 +272,7 @@ function TPSLModal({
                   type="checkbox"
                   checked={enableSL}
                   onChange={(e) => setEnableSL(e.target.checked)}
-                  className="w-4 h-4 rounded border-gray-600 bg-[#0f1419] text-[#ef4444] focus:ring-[#ef4444] focus:ring-offset-0 cursor-pointer"
+                  className="w-4 h-4 rounded border-gray-600 bg-[#111111] text-[#ef4444] focus:ring-[#ef4444] focus:ring-offset-0 cursor-pointer"
                 />
                 <label className="text-sm text-gray-300 font-medium">Stop Loss</label>
                 {enableSL && (
@@ -291,13 +291,13 @@ function TPSLModal({
                   onChange={(e) => setStopLossPrice(e.target.value)}
                   placeholder={`Enter SL price (${isLong ? '<' : '>'} ${markPriceNum.toFixed(2)})`}
                   step="0.01"
-                  className="w-full px-3 py-2.5 bg-[#0f1419] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6]"
+                  className="w-full px-3 py-2.5 bg-[#111111] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6]"
                 />
               )}
             </div>
 
             {/* Info */}
-            <div className="text-xs text-gray-500 bg-[#0f1419] p-3 rounded">
+            <div className="text-xs text-gray-500 bg-[#111111] p-3 rounded">
               <p>• TP/SL orders are placed as trigger orders</p>
               <p>• TP uses limit order, SL uses market order</p>
               <p>• Both are reduce-only (won&apos;t increase position)</p>
@@ -307,7 +307,7 @@ function TPSLModal({
             <button
               onClick={handleSubmit}
               disabled={isPending || (!enableTP && !enableSL)}
-              className="w-full py-3 bg-[#0f5549] hover:bg-[#0a3d34] disabled:bg-gray-700 disabled:cursor-not-allowed text-white rounded font-semibold transition-colors"
+              className="w-full py-2.5 bg-[#0f5549] hover:bg-[#0a3d34] disabled:bg-gray-700 disabled:cursor-not-allowed text-white font-semibold transition-colors"
             >
               {isPending ? 'Setting...' : 'Set TP/SL'}
             </button>

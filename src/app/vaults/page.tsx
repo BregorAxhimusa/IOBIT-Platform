@@ -64,14 +64,14 @@ export default function VaultsPage() {
 
         {/* Tabs */}
         <div className="flex items-center gap-4 mb-6">
-          <div className="flex bg-[#1a2028] rounded-lg p-1">
+          <div className="flex bg-[#1a2028]  p-1">
             <button
               onClick={() => setTab('all')}
               className={cn(
                 'px-4 py-2 text-sm rounded-md transition-colors',
                 tab === 'all'
                   ? 'bg-[#14b8a6] text-white'
-                  : 'text-gray-400 hover:text-white'
+                  : 'text-white/70 hover:text-white'
               )}
             >
               All Vaults
@@ -82,7 +82,7 @@ export default function VaultsPage() {
                 'px-4 py-2 text-sm rounded-md transition-colors',
                 tab === 'my'
                   ? 'bg-[#14b8a6] text-white'
-                  : 'text-gray-400 hover:text-white'
+                  : 'text-white/70 hover:text-white'
               )}
             >
               My Vaults {equities.length > 0 && `(${equities.length})`}
@@ -101,14 +101,14 @@ export default function VaultsPage() {
                   value={searchQuery}
                   onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
                   placeholder="Search vaults..."
-                  className="w-full bg-[#1a2028] border border-gray-700 rounded-lg px-4 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-gray-500"
+                  className="w-full bg-[#1a2028] border border-gray-700  px-4 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-gray-500"
                 />
               </div>
 
               {/* Sort */}
               <div className="flex items-center gap-2">
                 <span className="text-gray-400 text-xs">Sort by:</span>
-                <div className="flex bg-[#1a2028] rounded-lg p-0.5">
+                <div className="flex bg-[#1a2028]  p-0.5">
                   {SORT_OPTIONS.map((opt) => (
                     <button
                       key={opt.value}
@@ -124,7 +124,7 @@ export default function VaultsPage() {
                         'px-2.5 py-1 text-xs rounded-md transition-colors',
                         sortField === opt.value
                           ? 'bg-gray-700 text-white'
-                          : 'text-gray-400 hover:text-white'
+                          : 'text-white/70 hover:text-white'
                       )}
                     >
                       {opt.label}
@@ -140,7 +140,7 @@ export default function VaultsPage() {
               <button
                 onClick={toggleShowClosed}
                 className={cn(
-                  'px-3 py-1.5 text-xs rounded-lg border transition-colors',
+                  'px-3 py-1.5 text-xs  border transition-colors',
                   showClosedVaults
                     ? 'border-gray-600 text-white bg-gray-800'
                     : 'border-gray-700 text-gray-400 hover:text-white'
@@ -156,7 +156,7 @@ export default function VaultsPage() {
                 {Array.from({ length: 6 }).map((_, i) => (
                   <div
                     key={i}
-                    className="bg-[#0f1419] border border-gray-800 rounded-lg p-4 animate-pulse"
+                    className="bg-[#0f1419] border border-gray-800  p-4 animate-pulse"
                   >
                     <div className="h-4 bg-gray-700 rounded w-3/4 mb-3" />
                     <div className="h-3 bg-gray-700 rounded w-1/2 mb-4" />
@@ -205,7 +205,7 @@ export default function VaultsPage() {
                 {Array.from({ length: 3 }).map((_, i) => (
                   <div
                     key={i}
-                    className="bg-[#0f1419] border border-gray-800 rounded-lg p-4 animate-pulse"
+                    className="bg-[#0f1419] border border-gray-800  p-4 animate-pulse"
                   >
                     <div className="h-4 bg-gray-700 rounded w-1/3 mb-2" />
                     <div className="h-3 bg-gray-700 rounded w-1/2" />
@@ -235,7 +235,7 @@ export default function VaultsPage() {
                       href={`/vaults/${eq.vaultAddress}`}
                       className="block"
                     >
-                      <div className="bg-[#0f1419] border border-gray-800 rounded-lg p-4 hover:border-gray-600 transition-colors">
+                      <div className="bg-[#0f1419] border border-gray-800  p-4 hover:border-gray-600 transition-colors">
                         <div className="flex items-center justify-between">
                           <div>
                             <p className="text-white font-mono text-sm">
