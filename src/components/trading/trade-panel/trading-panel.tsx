@@ -361,7 +361,11 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
 
   const orderValue = calculateOrderValue();
 
-  const availableBalance = isSpot ? spotAvailableUsdc.toFixed(2) : (walletUsdcBalance || '0.00');
+  // For perps: show Hyperliquid account balance (withdrawable)
+  // For spot: show spot USDC balance
+  const availableBalance = isSpot
+    ? spotAvailableUsdc.toFixed(2)
+    : (fullBalance?.withdrawable?.toFixed(2) || '0.00');
   const makerFee = '0.0700%';
   const takerFee = '0.0400%';
   const slippageEst = '0%';
