@@ -43,20 +43,28 @@ export function useUserPositions() {
           const entryPrice = parseFloat(pos.position.entryPx || '0');
           const leverage = pos.position.leverage.value; // Already a number
           const unrealizedPnl = parseFloat(pos.position.unrealizedPnl || '0');
+
+          // Calculate mark price from position value (positionValue = size * markPrice)
+          const positionValueNum = parseFloat(pos.position.positionValue || '0');
+          const absSize = Math.abs(size);
+          const markPrice = absSize > 0 ? positionValueNum / absSize : entryPrice;
+
           // Calculate margin used (position value / leverage)
-          const positionValue = Math.abs(size) * entryPrice;
-          const marginUsed = leverage > 0 ? positionValue / leverage : 0;
+          const marginUsed = leverage > 0 ? positionValueNum / leverage : 0;
+
+          // Calculate PnL percentage based on entry price and margin
+          const pnlPercent = marginUsed > 0 ? (unrealizedPnl / marginUsed) * 100 : 0;
 
           return {
             symbol: pos.position.coin,
             side: size > 0 ? ('long' as const) : ('short' as const),
-            size: Math.abs(size).toString(),
+            size: absSize.toString(),
             entryPrice: entryPrice.toString(),
-            markPrice: pos.position.positionValue || entryPrice.toString(),
+            markPrice: markPrice.toString(),
             liquidationPrice: pos.position.liquidationPx || undefined,
             leverage: leverage,
             unrealizedPnl: unrealizedPnl.toString(),
-            unrealizedPnlPercent: entryPrice > 0 ? ((unrealizedPnl / (Math.abs(size) * entryPrice)) * 100).toString() : '0',
+            unrealizedPnlPercent: pnlPercent.toString(),
             margin: marginUsed.toString(),
           };
         });

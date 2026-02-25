@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useAccount, useWalletClient } from 'wagmi';
+import { useQueryClient } from '@tanstack/react-query';
 import { useNetworkStore } from '@/store/network-store';
 import { getExchangeClient } from '@/lib/hyperliquid/exchange-client';
 import { signPlaceOrder, generateNonce } from '@/lib/hyperliquid/signing';
@@ -17,6 +18,7 @@ export function useClosePosition() {
   const { data: walletClient } = useWalletClient();
   const network = useNetworkStore((state) => state.network);
   const { vaultAddress } = useTradingContext();
+  const queryClient = useQueryClient();
   const [isClosing, setIsClosing] = useState(false);
   const [closingSymbol, setClosingSymbol] = useState<string | null>(null);
 
@@ -54,31 +56,31 @@ export function useClosePosition() {
       // Generate nonce
       const nonce = generateNonce();
 
+      // For market orders, use a very favorable price to ensure immediate execution
+      // Buy to close short: use very high price
+      // Sell to close long: use very low price
+      const limitPrice = isBuy ? 999999999 : 0.01;
+
       // Sign the order
       const signature = await signPlaceOrder(walletClient, {
         coin,
         isBuy,
         size: positionSize,
-        limitPrice: 0, // Market order
+        limitPrice,
         reduceOnly: true, // IMPORTANT: This ensures we only close the position, not open a new one
         nonce,
+        network,
       });
 
-      // Prepare market order type
-      const order_type = {
-        trigger: {
-          triggerPx: 0,
-          isMarket: true,
-          tpsl: 'tp',
-        },
-      };
+      // Prepare market order type - use IOC (Immediate Or Cancel) for market-like execution
+      const order_type = { limit: { tif: 'Ioc' } };
 
       // Place the market order to close the position
       const result = await exchangeClient.placeOrder({
         coin,
         is_buy: isBuy,
         sz: positionSize,
-        limit_px: 0,
+        limit_px: limitPrice,
         order_type,
         reduce_only: true,
         signature,
@@ -87,6 +89,11 @@ export function useClosePosition() {
       });
 
       if (result.success) {
+        // Invalidate queries to refetch positions and balance immediately
+        queryClient.invalidateQueries({ queryKey: ['user-positions'] });
+        queryClient.invalidateQueries({ queryKey: ['user-orders'] });
+        queryClient.invalidateQueries({ queryKey: ['account-balance'] });
+
         toast.success(`Position closed for ${symbol}`);
         return { success: true, data: result.data };
       } else {

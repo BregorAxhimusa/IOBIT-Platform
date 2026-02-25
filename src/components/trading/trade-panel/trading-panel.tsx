@@ -283,17 +283,18 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
       return;
     }
 
-    // Check if user has sufficient balance
-    const availableBalanceNum = parseFloat(balance?.usdc || '0');
+    // Check if user has sufficient balance (accounting for leverage)
+    const availableBalanceNum = parseFloat(fullBalance?.withdrawable?.toString() || balance?.usdc || '0');
     const orderValueNum = sizeNum * (currentPrice || 0);
+    const marginRequired = leverage > 0 ? orderValueNum / leverage : orderValueNum;
 
     if (availableBalanceNum === 0) {
       toast.error('No balance available. Please deposit funds first.');
       return;
     }
 
-    if (orderValueNum > availableBalanceNum) {
-      toast.error('Insufficient balance. Please deposit more funds or reduce order size.');
+    if (marginRequired > availableBalanceNum && !reduceOnly) {
+      toast.error(`Insufficient margin. Required: $${marginRequired.toFixed(2)}, Available: $${availableBalanceNum.toFixed(2)}`);
       return;
     }
 
@@ -318,11 +319,16 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
   const handlePercentageChange = (percentage: number) => {
     setSizePercentage(percentage);
     if (currentPrice) {
-      // Use wallet USDC balance for buy orders
-      const availableUsdc = parseFloat(walletUsdcBalance || '0');
+      // Use Hyperliquid account balance (withdrawable margin) for calculating position size
+      const availableMargin = parseFloat(fullBalance?.withdrawable?.toString() || balance?.usdc || '0');
       const priceToUse = activeTab === 'limit' && price ? parseFloat(price) : currentPrice;
+
       if (priceToUse && priceToUse > 0) {
-        const calculatedSize = (availableUsdc * percentage / 100) / priceToUse;
+        // With leverage, max position size = (available margin * leverage) / price
+        const effectiveLeverage = isSpot ? 1 : leverage;
+        const maxPositionValue = availableMargin * effectiveLeverage;
+        const calculatedSize = (maxPositionValue * percentage / 100) / priceToUse;
+
         // Use more decimals for very small amounts
         let decimals = 4;
         if (calculatedSize < 0.0001) decimals = 8;

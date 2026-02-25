@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useAccount, useWalletClient } from 'wagmi';
+import { useQueryClient } from '@tanstack/react-query';
 import { useNetworkStore } from '@/store/network-store';
 import { getExchangeClient } from '@/lib/hyperliquid/exchange-client';
 import { signPlaceOrder, generateNonce } from '@/lib/hyperliquid/signing';
@@ -28,6 +29,7 @@ export function usePlaceOrder() {
   const { data: walletClient } = useWalletClient();
   const network = useNetworkStore((state) => state.network);
   const { vaultAddress } = useTradingContext();
+  const queryClient = useQueryClient();
   const [isPlacing, setIsPlacing] = useState(false);
 
   const placeOrder = async (params: PlaceOrderParams) => {
@@ -108,6 +110,11 @@ export function usePlaceOrder() {
       });
 
       if (result.success) {
+        // Invalidate queries to refetch positions and orders immediately
+        queryClient.invalidateQueries({ queryKey: ['user-positions'] });
+        queryClient.invalidateQueries({ queryKey: ['user-orders'] });
+        queryClient.invalidateQueries({ queryKey: ['account-balance'] });
+
         toast.success(`${params.side.toUpperCase()} order placed successfully`);
         return { success: true, data: result.data };
       } else {
