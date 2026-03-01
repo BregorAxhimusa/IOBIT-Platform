@@ -14,12 +14,12 @@ if (!projectId) {
   throw new Error('NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID is not defined')
 }
 
-// Set up metadata
+// Set up metadata (from .env.local)
 const metadata = {
   name: 'IOBIT',
   description: 'Advanced Crypto Trading Platform powered by Hyperliquid',
-  url: 'https://iobit.app', // Change to your domain
-  icons: ['https://avatars.githubusercontent.com/u/179229932']
+  url: process.env.NEXT_PUBLIC_APP_URL || 'https://app.iobit.ai',
+  icons: [process.env.NEXT_PUBLIC_APP_ICON || 'https://avatars.githubusercontent.com/u/179229932']
 }
 
 // Create the modal

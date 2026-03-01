@@ -1,4 +1,4 @@
-import { HYPERLIQUID_MAINNET_API, HYPERLIQUID_TESTNET_API, type Network } from '../utils/constants';
+import { HYPERLIQUID_MAINNET_API, HYPERLIQUID_TESTNET_API, HYPERLIQUID_STATS_API, type Network } from '../utils/constants';
 import type { AllMids, L2Book, UserState, CandleSnapshot, SpotMeta, SpotClearinghouseState, SpotAssetCtx, UserFill, FundingPayment, LedgerUpdate, VaultDetails, UserVaultEquity, VaultStatsData, SubAccount, ApiWallet, ReferralInfo, ValidatorSummary, Delegation, StakingState, DelegatorHistoryEvent, DelegatorReward, UserFees } from './types';
 
 /**
@@ -408,7 +408,7 @@ export class HyperliquidInfoClient {
   async getVaultsList(): Promise<VaultStatsData[]> {
     try {
       const networkStr = this.network === 'mainnet' ? 'Mainnet' : 'Testnet';
-      const response = await fetch(`https://stats-data.hyperliquid.xyz/${networkStr}/vaults`);
+      const response = await fetch(`${HYPERLIQUID_STATS_API}/${networkStr}/vaults`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -571,7 +571,7 @@ export class HyperliquidInfoClient {
   async getLeaderboard() {
     try {
       const networkStr = this.network === 'mainnet' ? 'Mainnet' : 'Testnet';
-      const response = await fetch(`https://stats-data.hyperliquid.xyz/${networkStr}/leaderboard`);
+      const response = await fetch(`${HYPERLIQUID_STATS_API}/${networkStr}/leaderboard`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

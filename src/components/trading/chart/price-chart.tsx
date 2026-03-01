@@ -40,7 +40,7 @@ function PriceChartComponent({ symbol }: PriceChartProps) {
 
     // Load TradingView script
     const script = document.createElement('script');
-    script.src = 'https://s3.tradingview.com/tv.js';
+    script.src = process.env.NEXT_PUBLIC_TRADINGVIEW_CDN || 'https://s3.tradingview.com/tv.js';
     script.async = true;
     script.type = 'text/javascript';
     scriptRef.current = script;

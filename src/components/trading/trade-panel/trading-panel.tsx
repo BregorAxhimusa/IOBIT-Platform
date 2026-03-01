@@ -1438,7 +1438,7 @@ function DepositModal({ onClose }: { onClose: () => void }) {
 
     setIsRequestingFaucet(true);
     try {
-      await fetch('https://api.hyperliquid-testnet.xyz/info', {
+      await fetch(`${process.env.NEXT_PUBLIC_HYPERLIQUID_TESTNET_API || 'https://api.hyperliquid-testnet.xyz'}/info`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1549,7 +1549,7 @@ function DepositModal({ onClose }: { onClose: () => void }) {
               <p className="text-[10px] sm:text-xs text-gray-500 mt-2 sm:mt-3 text-center">
                 Or visit{' '}
                 <a
-                  href="https://app.hyperliquid-testnet.xyz"
+                  href={process.env.NEXT_PUBLIC_HYPERLIQUID_TESTNET_APP || 'https://app.hyperliquid-testnet.xyz'}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-amber-400 hover:text-amber-300 underline"

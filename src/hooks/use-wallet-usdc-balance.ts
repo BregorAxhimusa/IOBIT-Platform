@@ -3,11 +3,12 @@
 import { useAccount, useReadContract } from 'wagmi';
 import { useNetworkStore } from '@/store/network-store';
 import { formatUnits } from 'viem';
+import { USDC_ARBITRUM_ADDRESS, USDC_TESTNET_ADDRESS } from '@/lib/utils/constants';
 
-// USDC contract addresses
+// USDC contract addresses (from .env.local via constants)
 const USDC_ADDRESSES = {
-  mainnet: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831', // Arbitrum One
-  testnet: '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d', // Arbitrum Sepolia (example)
+  mainnet: USDC_ARBITRUM_ADDRESS,
+  testnet: USDC_TESTNET_ADDRESS,
 } as const;
 
 // ERC20 ABI for balanceOf

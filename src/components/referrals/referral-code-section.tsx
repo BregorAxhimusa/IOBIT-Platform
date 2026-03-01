@@ -27,7 +27,7 @@ function getScenario(referralInfo: ReferralInfo | null): Scenario {
 
 function HasCodeView({ code }: { code: string }) {
   const [copied, setCopied] = useState(false);
-  const referralLink = `https://app.hyperliquid.xyz/join/${code}`;
+  const referralLink = `${process.env.NEXT_PUBLIC_REFERRAL_BASE_URL || 'https://app.hyperliquid.xyz/join'}/${code}`;
 
   const handleCopy = useCallback(async () => {
     try {
