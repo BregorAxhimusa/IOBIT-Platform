@@ -116,7 +116,12 @@ export function useClosePosition() {
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      toast.error(`Failed to close position: ${errorMessage}`);
+      // If it's a session agent issue, give a more helpful message
+      if (errorMessage.includes('Trading session not active')) {
+        toast.error('Trading session expired. Please refresh the page to re-enable.');
+      } else {
+        toast.error(`Failed to close position: ${errorMessage}`);
+      }
       return { success: false, error: errorMessage };
     } finally {
       setIsClosing(false);

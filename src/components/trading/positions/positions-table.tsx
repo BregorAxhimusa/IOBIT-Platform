@@ -11,11 +11,13 @@ import { TableSkeleton } from '@/components/ui/skeleton';
 export function PositionsTable() {
   const [mounted, setMounted] = useState(false);
   const [showTPSLModal, setShowTPSLModal] = useState(false);
+  const [showCloseModal, setShowCloseModal] = useState(false);
   const [selectedPosition, setSelectedPosition] = useState<{
     symbol: string;
     side: 'long' | 'short';
     size: string;
     markPrice: string;
+    entryPrice: string;
   } | null>(null);
 
   const positions = usePositionsStore((state) => state.positions);
@@ -30,13 +32,14 @@ export function PositionsTable() {
     setMounted(true);
   }, []);
 
-  const handleClosePosition = async (symbol: string, side: 'long' | 'short', size: string) => {
-    await closePosition(symbol, side, size);
+  const handleOpenTPSL = (symbol: string, side: 'long' | 'short', size: string, markPrice: string, entryPrice: string) => {
+    setSelectedPosition({ symbol, side, size, markPrice, entryPrice });
+    setShowTPSLModal(true);
   };
 
-  const handleOpenTPSL = (symbol: string, side: 'long' | 'short', size: string, markPrice: string) => {
-    setSelectedPosition({ symbol, side, size, markPrice });
-    setShowTPSLModal(true);
+  const handleOpenClose = (symbol: string, side: 'long' | 'short', size: string, markPrice: string, entryPrice: string) => {
+    setSelectedPosition({ symbol, side, size, markPrice, entryPrice });
+    setShowCloseModal(true);
   };
 
   if (!mounted || isLoading) {
@@ -135,13 +138,13 @@ export function PositionsTable() {
                 <td className="py-2 sm:py-3 px-1 sm:px-4">
                   <div className="flex items-center justify-center gap-1 sm:gap-2">
                     <button
-                      onClick={() => handleOpenTPSL(position.symbol, position.side, position.size, position.markPrice)}
+                      onClick={() => handleOpenTPSL(position.symbol, position.side, position.size, position.markPrice, position.entryPrice)}
                       className="px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs bg-[#1a2028] hover:bg-[#2a3038] text-white rounded transition-colors border border-gray-700"
                     >
                       TP/SL
                     </button>
                     <button
-                      onClick={() => handleClosePosition(position.symbol, position.side, position.size)}
+                      onClick={() => handleOpenClose(position.symbol, position.side, position.size, position.markPrice, position.entryPrice)}
                       disabled={isClosing}
                       className="px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs bg-[#1a2028] hover:bg-[#2a3038] disabled:bg-gray-800 disabled:text-gray-500 disabled:cursor-not-allowed text-white rounded transition-colors border border-gray-700"
                     >
@@ -180,26 +183,176 @@ export function PositionsTable() {
           }}
         />
       )}
+
+      {/* Close Confirmation Modal */}
+      {showCloseModal && selectedPosition && (
+        <CloseModal
+          position={selectedPosition}
+          isClosing={isClosing}
+          onConfirm={async (symbol, side, size) => {
+            await closePosition(symbol, side, size);
+            setShowCloseModal(false);
+            setSelectedPosition(null);
+          }}
+          onClose={() => {
+            setShowCloseModal(false);
+            setSelectedPosition(null);
+          }}
+        />
+      )}
     </div>
   );
 }
 
-// TP/SL Modal Component
+// Close Confirmation Modal (Hyperliquid-style)
+function CloseModal({
+  position,
+  isClosing,
+  onConfirm,
+  onClose,
+}: {
+  position: { symbol: string; side: 'long' | 'short'; size: string; markPrice: string; entryPrice: string };
+  isClosing: boolean;
+  onConfirm: (symbol: string, side: 'long' | 'short', size: string) => Promise<void>;
+  onClose: () => void;
+}) {
+  const [closeType, setCloseType] = useState<'market' | 'limit'>('market');
+
+  return (
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+      <div className="bg-[#1a2028] border border-gray-700 rounded-lg max-w-md w-full relative">
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-400 hover:text-white text-lg z-10"
+        >
+          ✕
+        </button>
+
+        <div className="p-6">
+          {/* Title */}
+          <h2 className="text-base font-normal text-white text-center mb-2">Confirm Close</h2>
+          <p className="text-sm text-gray-500 text-center mb-6">
+            This will close your {position.symbol} position and cancel associated TP/SL orders.
+          </p>
+
+          {/* Close Type Options */}
+          <div className="space-y-3 mb-6">
+            <label
+              className="flex items-center gap-3 cursor-pointer group"
+              onClick={() => setCloseType('market')}
+            >
+              <div className={cn(
+                'w-4.5 h-4.5 rounded border-2 flex items-center justify-center transition-all',
+                closeType === 'market'
+                  ? 'bg-teal-500 border-teal-500'
+                  : 'border-gray-600 group-hover:border-gray-500'
+              )}>
+                {closeType === 'market' && (
+                  <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                )}
+              </div>
+              <span className="text-sm text-white">Market Close</span>
+            </label>
+
+            <label
+              className="flex items-center gap-3 cursor-pointer group"
+              onClick={() => setCloseType('limit')}
+            >
+              <div className={cn(
+                'w-4.5 h-4.5 rounded border-2 flex items-center justify-center transition-all',
+                closeType === 'limit'
+                  ? 'bg-teal-500 border-teal-500'
+                  : 'border-gray-600 group-hover:border-gray-500'
+              )}>
+                {closeType === 'limit' && (
+                  <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                )}
+              </div>
+              <span className="text-sm text-white">Limit Close at Mid Price</span>
+            </label>
+          </div>
+
+          {/* Confirm Button */}
+          <button
+            onClick={() => onConfirm(position.symbol, position.side, position.size)}
+            disabled={isClosing}
+            className="w-full py-3 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 disabled:from-gray-700 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-normal rounded-lg transition-all text-sm"
+          >
+            {isClosing ? 'Closing...' : `Confirm ${closeType === 'market' ? 'Market' : 'Limit'} Close`}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// TP/SL Modal Component (Hyperliquid-style)
+type TPSLMode = 'price' | 'percent';
+
 function TPSLModal({
   position,
   onClose,
 }: {
-  position: { symbol: string; side: 'long' | 'short'; size: string; markPrice: string };
+  position: { symbol: string; side: 'long' | 'short'; size: string; markPrice: string; entryPrice: string };
   onClose: () => void;
 }) {
-  const [takeProfitPrice, setTakeProfitPrice] = useState('');
-  const [stopLossPrice, setStopLossPrice] = useState('');
-  const [enableTP, setEnableTP] = useState(false);
-  const [enableSL, setEnableSL] = useState(false);
+  const [tpPrice, setTpPrice] = useState('');
+  const [slPrice, setSlPrice] = useState('');
+  const [tpGain, setTpGain] = useState('');
+  const [slLoss, setSlLoss] = useState('');
+  const [tpMode, setTpMode] = useState<TPSLMode>('price');
+  const [slMode, setSlMode] = useState<TPSLMode>('price');
   const { mutate: setTPSL, isPending } = useSetTPSL();
 
+  const entryPriceNum = parseFloat(position.entryPrice) || 0;
+  const markPriceNum = parseFloat(position.markPrice) || 0;
+  const isLong = position.side === 'long';
+
+  // Use entry price for % calculations, fallback to mark price
+  const refPrice = entryPriceNum > 0 ? entryPriceNum : markPriceNum;
+
+  // Convert % to price and vice versa
+  const percentToPrice = (percent: number, isTP: boolean) => {
+    if (isLong) {
+      return isTP ? refPrice * (1 + percent / 100) : refPrice * (1 - percent / 100);
+    }
+    return isTP ? refPrice * (1 - percent / 100) : refPrice * (1 + percent / 100);
+  };
+
+  const priceToPercent = (price: number, isTP: boolean) => {
+    if (refPrice === 0) return 0;
+    if (isLong) {
+      return isTP ? ((price - refPrice) / refPrice) * 100 : ((refPrice - price) / refPrice) * 100;
+    }
+    return isTP ? ((refPrice - price) / refPrice) * 100 : ((price - refPrice) / refPrice) * 100;
+  };
+
+  // Get the actual TP price (from either mode)
+  const getTPPrice = (): string => {
+    if (tpMode === 'price') return tpPrice;
+    const pct = parseFloat(tpGain);
+    if (isNaN(pct) || pct <= 0) return '';
+    return percentToPrice(pct, true).toFixed(2);
+  };
+
+  // Get the actual SL price (from either mode)
+  const getSLPrice = (): string => {
+    if (slMode === 'price') return slPrice;
+    const pct = parseFloat(slLoss);
+    if (isNaN(pct) || pct <= 0) return '';
+    return percentToPrice(pct, false).toFixed(2);
+  };
+
   const handleSubmit = () => {
-    if (!enableTP && !enableSL) {
+    const finalTP = getTPPrice();
+    const finalSL = getSLPrice();
+
+    if (!finalTP && !finalSL) {
       return;
     }
 
@@ -208,8 +361,8 @@ function TPSLModal({
         symbol: position.symbol,
         side: position.side,
         size: position.size,
-        takeProfitPrice: enableTP ? takeProfitPrice : undefined,
-        stopLossPrice: enableSL ? stopLossPrice : undefined,
+        takeProfitPrice: finalTP || undefined,
+        stopLossPrice: finalSL || undefined,
       },
       {
         onSuccess: () => {
@@ -219,12 +372,13 @@ function TPSLModal({
     );
   };
 
-  const markPriceNum = parseFloat(position.markPrice);
-  const isLong = position.side === 'long';
+  const hasTP = tpMode === 'price' ? !!tpPrice : !!tpGain;
+  const hasSL = slMode === 'price' ? !!slPrice : !!slLoss;
 
-  // Suggest TP/SL prices (5% profit, 2% loss)
-  const suggestedTP = isLong ? markPriceNum * 1.05 : markPriceNum * 0.95;
-  const suggestedSL = isLong ? markPriceNum * 0.98 : markPriceNum * 1.02;
+  const formatPrice = (num: number) => {
+    if (isNaN(num) || num === 0) return '-';
+    return num.toLocaleString(undefined, { minimumFractionDigits: 1 });
+  };
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
@@ -232,103 +386,155 @@ function TPSLModal({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-white text-xl z-10"
+          className="absolute top-4 right-4 text-gray-400 hover:text-white text-lg z-10"
         >
           ✕
         </button>
 
         <div className="p-6">
-          {/* Header */}
-          <div className="mb-6">
-            <h2 className="text-lg font-normal text-white mb-1">Set TP/SL</h2>
-            <p className="text-sm text-gray-400">
-              {position.symbol} · {position.side.toUpperCase()} · {position.size}
-            </p>
-            <p className="text-xs text-gray-500 mt-1">
-              Mark Price: ${markPriceNum.toLocaleString()}
-            </p>
+          {/* Title */}
+          <h2 className="text-base font-normal text-white text-center mb-5">TP/SL for Position</h2>
+
+          {/* Position Info */}
+          <div className="space-y-2.5 mb-6">
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-gray-400">Coin</span>
+              <span className="text-sm text-white font-normal">{position.symbol}</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-gray-400">Position</span>
+              <span className={cn('text-sm font-normal', isLong ? 'text-[#14b8a6]' : 'text-[#ef4444]')}>
+                {position.size} {position.symbol}
+              </span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-gray-400">Entry Price</span>
+              <span className="text-sm text-white">{formatPrice(entryPriceNum)}</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-gray-400">Mark Price</span>
+              <span className="text-sm text-white">{formatPrice(markPriceNum)}</span>
+            </div>
           </div>
 
-          {/* Form */}
-          <div className="space-y-4">
-            {/* Take Profit */}
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <input
-                  type="checkbox"
-                  checked={enableTP}
-                  onChange={(e) => setEnableTP(e.target.checked)}
-                  className="w-4 h-4 rounded border-gray-600 bg-[#111111] text-[#14b8a6] focus:ring-[#14b8a6] focus:ring-offset-0 cursor-pointer"
-                />
-                <label className="text-sm text-gray-300 font-normal">Take Profit</label>
-                {enableTP && (
-                  <button
-                    onClick={() => setTakeProfitPrice(suggestedTP.toFixed(2))}
-                    className="ml-auto text-xs text-[#14b8a6] hover:text-[#10b981]"
-                  >
-                    Suggest: ${suggestedTP.toFixed(2)}
-                  </button>
-                )}
-              </div>
-              {enableTP && (
+          {/* TP/SL Form */}
+          <div className="space-y-3 mb-5">
+            {/* Take Profit Row */}
+            <div className="flex items-center gap-2">
+              <div className="relative flex-1">
                 <input
                   type="number"
-                  value={takeProfitPrice}
-                  onChange={(e) => setTakeProfitPrice(e.target.value)}
-                  placeholder={`Enter TP price (${isLong ? '>' : '<'} ${markPriceNum.toFixed(2)})`}
+                  value={tpMode === 'price' ? tpPrice : tpGain}
+                  onChange={(e) => {
+                    if (tpMode === 'price') {
+                      setTpPrice(e.target.value);
+                    } else {
+                      setTpGain(e.target.value);
+                    }
+                  }}
+                  placeholder={tpMode === 'price' ? 'TP Price' : 'Gain %'}
                   step="0.01"
-                  className="w-full px-3 py-2.5 bg-[#111111] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6]"
+                  className="w-full px-3 py-2.5 bg-[#111111] border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:border-[#14b8a6] transition-colors"
                 />
-              )}
+              </div>
+              <button
+                onClick={() => {
+                  if (tpMode === 'price') {
+                    if (tpPrice) {
+                      const pct = priceToPercent(parseFloat(tpPrice), true);
+                      setTpGain(pct > 0 ? pct.toFixed(2) : '');
+                    }
+                    setTpMode('percent');
+                  } else {
+                    if (tpGain) {
+                      const price = percentToPrice(parseFloat(tpGain), true);
+                      setTpPrice(price > 0 ? price.toFixed(2) : '');
+                    }
+                    setTpMode('price');
+                  }
+                }}
+                className="flex items-center gap-1.5 px-3 py-2.5 bg-[#111111] border border-gray-700 rounded-lg text-sm text-gray-300 hover:border-gray-600 transition-colors min-w-[80px] justify-center"
+              >
+                Gain <span className="text-gray-500">{tpMode === 'percent' ? '%' : '$'}</span>
+              </button>
             </div>
 
-            {/* Stop Loss */}
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <input
-                  type="checkbox"
-                  checked={enableSL}
-                  onChange={(e) => setEnableSL(e.target.checked)}
-                  className="w-4 h-4 rounded border-gray-600 bg-[#111111] text-[#ef4444] focus:ring-[#ef4444] focus:ring-offset-0 cursor-pointer"
-                />
-                <label className="text-sm text-gray-300 font-normal">Stop Loss</label>
-                {enableSL && (
-                  <button
-                    onClick={() => setStopLossPrice(suggestedSL.toFixed(2))}
-                    className="ml-auto text-xs text-[#ef4444] hover:text-[#dc2626]"
-                  >
-                    Suggest: ${suggestedSL.toFixed(2)}
-                  </button>
-                )}
-              </div>
-              {enableSL && (
+            {/* Stop Loss Row */}
+            <div className="flex items-center gap-2">
+              <div className="relative flex-1">
                 <input
                   type="number"
-                  value={stopLossPrice}
-                  onChange={(e) => setStopLossPrice(e.target.value)}
-                  placeholder={`Enter SL price (${isLong ? '<' : '>'} ${markPriceNum.toFixed(2)})`}
+                  value={slMode === 'price' ? slPrice : slLoss}
+                  onChange={(e) => {
+                    if (slMode === 'price') {
+                      setSlPrice(e.target.value);
+                    } else {
+                      setSlLoss(e.target.value);
+                    }
+                  }}
+                  placeholder={slMode === 'price' ? 'SL Price' : 'Loss %'}
                   step="0.01"
-                  className="w-full px-3 py-2.5 bg-[#111111] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6]"
+                  className="w-full px-3 py-2.5 bg-[#111111] border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:border-[#ef4444] transition-colors"
                 />
-              )}
+              </div>
+              <button
+                onClick={() => {
+                  if (slMode === 'price') {
+                    if (slPrice) {
+                      const pct = priceToPercent(parseFloat(slPrice), false);
+                      setSlLoss(pct > 0 ? pct.toFixed(2) : '');
+                    }
+                    setSlMode('percent');
+                  } else {
+                    if (slLoss) {
+                      const price = percentToPrice(parseFloat(slLoss), false);
+                      setSlPrice(price > 0 ? price.toFixed(2) : '');
+                    }
+                    setSlMode('price');
+                  }
+                }}
+                className="flex items-center gap-1.5 px-3 py-2.5 bg-[#111111] border border-gray-700 rounded-lg text-sm text-gray-300 hover:border-gray-600 transition-colors min-w-[80px] justify-center"
+              >
+                Loss <span className="text-gray-500">{slMode === 'percent' ? '%' : '$'}</span>
+              </button>
             </div>
 
-            {/* Info */}
-            <div className="text-xs text-gray-500 bg-[#111111] p-3 rounded">
-              <p>• TP/SL orders are placed as trigger orders</p>
-              <p>• TP uses limit order, SL uses market order</p>
-              <p>• Both are reduce-only (won&apos;t increase position)</p>
-            </div>
-
-            {/* Submit Button */}
-            <button
-              onClick={handleSubmit}
-              disabled={isPending || (!enableTP && !enableSL)}
-              className="w-full py-2.5 bg-[#0f5549] hover:bg-[#0a3d34] disabled:bg-gray-700 disabled:cursor-not-allowed text-white font-normal transition-colors"
-            >
-              {isPending ? 'Setting...' : 'Set TP/SL'}
-            </button>
+            {/* Preview calculations */}
+            {(hasTP || hasSL) && (
+              <div className="text-xs text-gray-500 space-y-1 px-1">
+                {hasTP && (
+                  <div className="flex justify-between">
+                    <span>TP triggers at</span>
+                    <span className="text-[#14b8a6]">
+                      {getTPPrice() ? `$${parseFloat(getTPPrice()).toLocaleString()}` : '-'}
+                    </span>
+                  </div>
+                )}
+                {hasSL && (
+                  <div className="flex justify-between">
+                    <span>SL triggers at</span>
+                    <span className="text-[#ef4444]">
+                      {getSLPrice() ? `$${parseFloat(getSLPrice()).toLocaleString()}` : '-'}
+                    </span>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
+
+          {/* Confirm Button */}
+          <button
+            onClick={handleSubmit}
+            disabled={isPending || (!hasTP && !hasSL)}
+            className="w-full py-3 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 disabled:from-gray-700 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-normal rounded-lg transition-all text-sm"
+          >
+            {isPending ? 'Confirming...' : 'Confirm'}
+          </button>
+
+          {/* Disclaimer */}
+          <p className="text-[11px] text-gray-600 text-center mt-4 leading-relaxed">
+            By default take-profit and stop-loss orders apply to the entire position. A market order is triggered when the stop loss or take profit price is reached.
+          </p>
         </div>
       </div>
     </div>

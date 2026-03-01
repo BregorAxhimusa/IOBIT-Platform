@@ -26,7 +26,16 @@ export function useSessionAgent() {
   const [isReady, setIsReady] = useState(false);
 
   // Check agent status on mount and when wallet changes
+  // Invalidate if the agent was approved for a different wallet
   useEffect(() => {
+    if (address && sessionAgent.isReady()) {
+      if (!sessionAgent.isValidForWallet(address)) {
+        // Agent was approved for a different wallet, clear it
+        sessionAgent.clear();
+        setIsReady(false);
+        return;
+      }
+    }
     setIsReady(sessionAgent.isReady());
   }, [address, isConnected]);
 
@@ -83,8 +92,8 @@ export function useSessionAgent() {
       console.log('ApproveAgent result:', JSON.stringify(result));
 
       if (result.success) {
-        // Mark agent as approved and persist
-        sessionAgent.markApprovedWithKey(privateKey);
+        // Mark agent as approved and persist with wallet address
+        sessionAgent.markApprovedWithKey(privateKey, address);
         setIsReady(true);
         toast.success('Trading enabled successfully');
         return true;

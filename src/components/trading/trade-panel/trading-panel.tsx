@@ -1024,6 +1024,107 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
             </div>
           </div>
 
+          {/* Leverage Selector - Perps only */}
+          {!isSpot && (
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs text-gray-500 font-normal">Leverage</span>
+                <div className="flex items-center gap-2">
+                  {/* Cross/Isolated Toggle */}
+                  <button
+                    onClick={() => {
+                      setIsCrossMargin(!isCrossMargin);
+                      updateLeverage({
+                        symbol,
+                        leverage,
+                        isCross: !isCrossMargin,
+                      });
+                    }}
+                    className={cn(
+                      'px-2.5 py-1 text-xs font-normal rounded-md border transition-all',
+                      isCrossMargin
+                        ? 'border-purple-500/50 text-purple-400 bg-purple-500/10 hover:bg-purple-500/20'
+                        : 'border-amber-500/50 text-amber-400 bg-amber-500/10 hover:bg-amber-500/20'
+                    )}
+                    title={isCrossMargin ? 'Cross Margin: Shares margin across positions' : 'Isolated Margin: Margin isolated per position'}
+                  >
+                    {isCrossMargin ? 'Cross' : 'Isolated'}
+                  </button>
+
+                  {/* Leverage Display/Input */}
+                  {showLeverageInput ? (
+                    <input
+                      type="number"
+                      value={leverage}
+                      onChange={(e) => {
+                        const val = parseInt(e.target.value);
+                        if (val >= 1 && val <= 50) {
+                          setLeverage(val);
+                        }
+                      }}
+                      onBlur={() => {
+                        setShowLeverageInput(false);
+                        updateLeverage({
+                          symbol,
+                          leverage,
+                          isCross: isCrossMargin,
+                        });
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          setShowLeverageInput(false);
+                          updateLeverage({
+                            symbol,
+                            leverage,
+                            isCross: isCrossMargin,
+                          });
+                        }
+                      }}
+                      min="1"
+                      max="50"
+                      className="w-14 px-2 py-1 bg-[#111111] border border-teal-500/50 rounded-md text-white text-xs font-normal text-center focus:outline-none focus:ring-1 focus:ring-teal-500/30"
+                      autoFocus
+                    />
+                  ) : (
+                    <button
+                      onClick={() => setShowLeverageInput(true)}
+                      className="px-3 py-1 text-xs font-normal text-teal-400 bg-teal-500/10 hover:bg-teal-500/20 border border-teal-500/30 rounded-md transition-all"
+                      disabled={isUpdatingLeverage}
+                    >
+                      {leverage}x
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Quick Leverage Buttons */}
+              <div className="grid grid-cols-5 gap-1.5">
+                {[1, 2, 5, 10, 20].map((lev) => (
+                  <button
+                    key={lev}
+                    onClick={() => {
+                      setLeverage(lev);
+                      updateLeverage({
+                        symbol,
+                        leverage: lev,
+                        isCross: isCrossMargin,
+                      });
+                    }}
+                    className={cn(
+                      'py-1.5 text-xs font-normal rounded-md transition-all',
+                      leverage === lev
+                        ? 'bg-teal-500/20 text-teal-400 border border-teal-500/50'
+                        : 'bg-[#111111] text-gray-500 border border-white/20 hover:text-white hover:border-gray-600'
+                    )}
+                    disabled={isUpdatingLeverage}
+                  >
+                    {lev}x
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* TIF Selector (Limit only) */}
           {activeTab === 'limit' && (
             <div className="relative">
@@ -1200,106 +1301,6 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
             )}
           </div>
 
-        {/* Leverage Selector - Perps only */}
-        {!isSpot && (
-        <div className="px-4 py-4 border-b border-white/20">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs text-gray-500 font-normal">Leverage</span>
-            <div className="flex items-center gap-2">
-              {/* Cross/Isolated Toggle */}
-              <button
-                onClick={() => {
-                  setIsCrossMargin(!isCrossMargin);
-                  updateLeverage({
-                    symbol,
-                    leverage,
-                    isCross: !isCrossMargin,
-                  });
-                }}
-                className={cn(
-                  'px-2.5 py-1 text-xs font-normal rounded-md border transition-all',
-                  isCrossMargin
-                    ? 'border-purple-500/50 text-purple-400 bg-purple-500/10 hover:bg-purple-500/20'
-                    : 'border-amber-500/50 text-amber-400 bg-amber-500/10 hover:bg-amber-500/20'
-                )}
-                title={isCrossMargin ? 'Cross Margin: Shares margin across positions' : 'Isolated Margin: Margin isolated per position'}
-              >
-                {isCrossMargin ? 'Cross' : 'Isolated'}
-              </button>
-
-              {/* Leverage Display/Input */}
-              {showLeverageInput ? (
-                <input
-                  type="number"
-                  value={leverage}
-                  onChange={(e) => {
-                    const val = parseInt(e.target.value);
-                    if (val >= 1 && val <= 50) {
-                      setLeverage(val);
-                    }
-                  }}
-                  onBlur={() => {
-                    setShowLeverageInput(false);
-                    updateLeverage({
-                      symbol,
-                      leverage,
-                      isCross: isCrossMargin,
-                    });
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      setShowLeverageInput(false);
-                      updateLeverage({
-                        symbol,
-                        leverage,
-                        isCross: isCrossMargin,
-                      });
-                    }
-                  }}
-                  min="1"
-                  max="50"
-                  className="w-14 px-2 py-1 bg-[#111111] border border-teal-500/50 rounded-md text-white text-xs font-normal text-center focus:outline-none focus:ring-1 focus:ring-teal-500/30"
-                  autoFocus
-                />
-              ) : (
-                <button
-                  onClick={() => setShowLeverageInput(true)}
-                  className="px-3 py-1 text-xs font-normal text-teal-400 bg-teal-500/10 hover:bg-teal-500/20 border border-teal-500/30 rounded-md transition-all"
-                  disabled={isUpdatingLeverage}
-                >
-                  {leverage}x
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* Quick Leverage Buttons */}
-          <div className="grid grid-cols-5 gap-1.5">
-            {[1, 2, 5, 10, 20].map((lev) => (
-              <button
-                key={lev}
-                onClick={() => {
-                  setLeverage(lev);
-                  updateLeverage({
-                    symbol,
-                    leverage: lev,
-                    isCross: isCrossMargin,
-                  });
-                }}
-                className={cn(
-                  'py-2 text-xs font-normal rounded-md transition-all',
-                  leverage === lev
-                    ? 'bg-teal-500/20 text-teal-400 border border-teal-500/50'
-                    : 'bg-[#111111] text-gray-500 border border-white/20 hover:text-white hover:border-gray-600'
-                )}
-                disabled={isUpdatingLeverage}
-              >
-                {lev}x
-              </button>
-            ))}
-          </div>
-        </div>
-        )}
 
         {/* Deposit/Withdraw/Transfer Actions */}
         <div className="px-4 py-4 space-y-2">

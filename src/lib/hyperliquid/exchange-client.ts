@@ -1,5 +1,6 @@
 import { HYPERLIQUID_MAINNET_API, HYPERLIQUID_TESTNET_API, type Network } from '../utils/constants';
 import { floatToWire } from './signing';
+import { sessionAgent } from './session-agent';
 import type { OrderResponse } from './types';
 
 /**
@@ -123,6 +124,12 @@ export class HyperliquidExchangeClient {
       if (response.status === 'err') {
         const errorMsg = JSON.stringify(response.response);
         console.error('Order API error:', errorMsg);
+
+        // If server says agent/user doesn't exist, clear stale session agent
+        if (errorMsg.includes('does not exist')) {
+          sessionAgent.clear();
+        }
+
         return { success: false, error: `API error: ${errorMsg}` };
       }
 

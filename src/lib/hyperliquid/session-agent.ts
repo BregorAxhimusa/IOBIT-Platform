@@ -7,6 +7,7 @@ interface StoredAgent {
   privateKey: string;
   address: string;
   approvedAt: number;
+  walletAddress?: string; // The user wallet that approved this agent
 }
 
 /**
@@ -75,7 +76,7 @@ class SessionAgentManager {
   /**
    * Mark as approved and persist with the known private key
    */
-  markApprovedWithKey(privateKey: `0x${string}`) {
+  markApprovedWithKey(privateKey: `0x${string}`, walletAddress?: string) {
     if (!this.account) throw new Error('No agent generated');
     this.approved = true;
 
@@ -84,8 +85,27 @@ class SessionAgentManager {
         privateKey,
         address: this.account.address,
         approvedAt: Date.now(),
+        walletAddress,
       };
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+  }
+
+  /**
+   * Check if this agent was approved for a specific wallet address.
+   * If the wallet changed, the agent is invalid.
+   */
+  isValidForWallet(walletAddress: string): boolean {
+    if (typeof window === 'undefined') return false;
+    try {
+      const stored = sessionStorage.getItem(STORAGE_KEY);
+      if (!stored) return false;
+      const data: StoredAgent = JSON.parse(stored);
+      // If no walletAddress stored (old format), assume invalid
+      if (!data.walletAddress) return false;
+      return data.walletAddress.toLowerCase() === walletAddress.toLowerCase();
+    } catch {
+      return false;
     }
   }
 
