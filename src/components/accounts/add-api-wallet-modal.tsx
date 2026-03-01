@@ -21,7 +21,7 @@ export function AddApiWalletModal({ isOpen, onClose, onSuccess }: AddApiWalletMo
   const handleSubmit = async () => {
     if (!isValidAddress) return;
 
-    const result = await approveAgent(address, name.trim() || null);
+    const result = await approveAgent(address, name.trim() || undefined);
     if (result.success) {
       setAddress('');
       setName('');

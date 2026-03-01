@@ -1,10 +1,11 @@
 import { HYPERLIQUID_MAINNET_API, HYPERLIQUID_TESTNET_API, type Network } from '../utils/constants';
+import { floatToWire } from './signing';
 import type { OrderResponse } from './types';
 
 /**
  * Map coin names to Hyperliquid asset indices
  */
-const ASSET_INDEX_MAP: Record<string, number> = {
+export const ASSET_INDEX_MAP: Record<string, number> = {
   'BTC': 0,
   'ETH': 1,
   'SOL': 2,
@@ -18,6 +19,14 @@ const ASSET_INDEX_MAP: Record<string, number> = {
   'OP': 10,
   'XRP': 11,
 };
+
+export function getAssetIndex(coin: string): number {
+  const index = ASSET_INDEX_MAP[coin];
+  if (index === undefined) {
+    throw new Error(`Unknown coin: ${coin}. Supported: ${Object.keys(ASSET_INDEX_MAP).join(', ')}`);
+  }
+  return index;
+}
 
 /**
  * Hyperliquid Exchange Client (Wallet Required)
@@ -83,11 +92,12 @@ export class HyperliquidExchangeClient {
   }) {
     try {
       // Format order data with shortened field names as required by Hyperliquid API
+      // IMPORTANT: p and s must use floatToWire() to match the signing hash
       const orderData = {
         a: this.getAssetIndex(params.coin), // asset index (0=BTC, 1=ETH, etc.)
         b: params.is_buy,                    // is_buy
-        p: params.limit_px.toString(),       // limit price as string
-        s: params.sz.toString(),             // size as string
+        p: floatToWire(params.limit_px),     // limit price formatted to match signature
+        s: floatToWire(params.sz),           // size formatted to match signature
         r: params.reduce_only,               // reduce_only
         t: params.order_type,                // order_type
       };
@@ -100,6 +110,7 @@ export class HyperliquidExchangeClient {
         },
         nonce: params.nonce,
         signature: params.signature,
+
       };
 
       if (params.vaultAddress) {
@@ -154,13 +165,14 @@ export class HyperliquidExchangeClient {
           type: 'cancel',
           cancels: [
             {
-              a: params.coin,
+              a: this.getAssetIndex(params.coin),
               o: params.oid,
             },
           ],
         },
         nonce: params.nonce,
         signature: params.signature,
+
       };
 
       if (params.vaultAddress) {
@@ -203,6 +215,7 @@ export class HyperliquidExchangeClient {
         },
         nonce: params.nonce,
         signature: params.signature,
+
       });
       return { success: true, data: response };
     } catch (error) {
@@ -239,16 +252,17 @@ export class HyperliquidExchangeClient {
           type: 'modify',
           oid: params.oid,
           order: {
-            a: params.coin,
+            a: this.getAssetIndex(params.coin),
             b: params.is_buy,
-            p: params.limit_px.toString(),
-            s: params.sz.toString(),
+            p: floatToWire(params.limit_px),
+            s: floatToWire(params.sz),
             r: params.reduce_only,
             t: params.order_type,
           },
         },
         nonce: params.nonce,
         signature: params.signature,
+
       };
 
       if (params.vaultAddress) {
@@ -365,7 +379,7 @@ export class HyperliquidExchangeClient {
           twap: {
             a: assetId,
             b: params.is_buy,
-            s: params.sz.toString(),
+            s: floatToWire(params.sz),
             r: params.reduce_only,
             m: params.duration_minutes,
             t: params.random_timing,
@@ -373,6 +387,7 @@ export class HyperliquidExchangeClient {
         },
         nonce: params.nonce,
         signature: params.signature,
+
       };
 
       if (params.vaultAddress) {
@@ -413,6 +428,7 @@ export class HyperliquidExchangeClient {
         },
         nonce: params.nonce,
         signature: params.signature,
+
       };
 
       if (params.vaultAddress) {
@@ -481,8 +497,8 @@ export class HyperliquidExchangeClient {
       const formattedOrders = orders.map(order => ({
         a: this.getAssetIndex(order.coin),  // asset index
         b: order.is_buy,                     // is_buy
-        p: order.limit_px.toString(),        // limit price as string
-        s: order.sz.toString(),              // size as string
+        p: floatToWire(order.limit_px),      // limit price formatted to match signature
+        s: floatToWire(order.sz),            // size formatted to match signature
         r: order.reduce_only,                // reduce_only
         t: order.order_type,                 // order_type
       }));
@@ -495,6 +511,7 @@ export class HyperliquidExchangeClient {
         },
         nonce: nonce,
         signature: signature,
+
       };
 
       if (vaultAddress) {
@@ -537,6 +554,7 @@ export class HyperliquidExchangeClient {
         },
         nonce: params.nonce,
         signature: params.signature,
+
       };
 
       if (params.vaultAddress) {
@@ -579,6 +597,7 @@ export class HyperliquidExchangeClient {
         },
         nonce: params.nonce,
         signature: params.signature,
+
       };
 
       if (params.vaultAddress) {
@@ -668,7 +687,7 @@ export class HyperliquidExchangeClient {
    */
   async approveAgent(params: {
     agentAddress: string;
-    agentName: string | null;
+    agentName?: string;
     nonce: number;
     signature: {
       r: string;
@@ -677,18 +696,34 @@ export class HyperliquidExchangeClient {
     };
   }) {
     try {
-      const response = await this.post('/exchange', {
-        action: {
-          type: 'approveAgent',
-          hyperliquidChain: this.network === 'mainnet' ? 'Mainnet' : 'Testnet',
-          signatureChainId: this.network === 'mainnet' ? '0xa4b1' : '0x66eee',
-          agentAddress: params.agentAddress,
-          agentName: params.agentName,
-          nonce: params.nonce,
-        },
+      // Build action - for unnamed agents, agentName must be OMITTED entirely
+      // (not null, not ""). This matches the Hyperliquid Python SDK behavior.
+      const action: Record<string, unknown> = {
+        type: 'approveAgent',
+        hyperliquidChain: this.network === 'mainnet' ? 'Mainnet' : 'Testnet',
+        signatureChainId: this.network === 'mainnet' ? '0xa4b1' : '0x66eee',
+        agentAddress: params.agentAddress,
+        nonce: params.nonce,
+      };
+      if (params.agentName) {
+        action.agentName = params.agentName;
+      }
+
+      const response = await this.post<{ status: string; response?: unknown }>('/exchange', {
+        action,
         nonce: params.nonce,
         signature: params.signature,
       });
+
+      // Check response status
+      if (response.status === 'err') {
+        const errorMsg = typeof response.response === 'string'
+          ? response.response
+          : JSON.stringify(response.response);
+        console.error('ApproveAgent API error:', errorMsg);
+        return { success: false, error: `API error: ${errorMsg}` };
+      }
+
       return { success: true, data: response };
     } catch (error) {
       console.error('Error approving agent:', error);

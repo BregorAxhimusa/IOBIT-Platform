@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useAccount, useWalletClient } from 'wagmi';
 import { useNetworkStore } from '@/store/network-store';
 import { useOrdersStore } from '@/store/orders-store';
-import { getExchangeClient } from '@/lib/hyperliquid/exchange-client';
+import { getExchangeClient, getAssetIndex } from '@/lib/hyperliquid/exchange-client';
 import { signCancelOrder, generateNonce } from '@/lib/hyperliquid/signing';
 import { useTradingContext } from '@/hooks/use-trading-context';
 import toast from 'react-hot-toast';
@@ -44,11 +44,17 @@ export function useCancelOrder() {
       // Generate nonce
       const nonce = generateNonce();
 
+      // Get asset index for this coin
+      const assetIndex = getAssetIndex(coin);
+
       // Sign the cancel request
       const signature = await signCancelOrder(walletClient, {
         coin,
         oid,
         nonce,
+        network,
+        assetIndex,
+        vaultAddress,
       });
 
       // Cancel the order
@@ -101,12 +107,16 @@ export function useCancelOrder() {
       // Generate nonce
       const nonce = generateNonce();
 
-      // For cancel all, we use a special signature (simplified approach)
-      // In real implementation, this would require proper EIP-712 signing
+      // Get asset index for this coin
+      const assetIndex = getAssetIndex(coin);
+
       const signature = await signCancelOrder(walletClient, {
         coin,
-        oid: 0, // 0 represents cancel all
+        oid: 0,
         nonce,
+        network,
+        assetIndex,
+        vaultAddress,
       });
 
       // Cancel all orders

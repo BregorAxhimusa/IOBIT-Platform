@@ -4,9 +4,10 @@ import { useState } from 'react';
 import { useAccount, useWalletClient } from 'wagmi';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNetworkStore } from '@/store/network-store';
-import { getExchangeClient } from '@/lib/hyperliquid/exchange-client';
-import { signPlaceOrder, generateNonce } from '@/lib/hyperliquid/signing';
+import { getExchangeClient, getAssetIndex } from '@/lib/hyperliquid/exchange-client';
+import { signPlaceOrder, generateNonce, roundSize, roundPrice } from '@/lib/hyperliquid/signing';
 import { useTradingContext } from '@/hooks/use-trading-context';
+import { useMarketStore } from '@/store/market-store';
 import toast from 'react-hot-toast';
 
 export interface PlaceOrderParams {
@@ -29,6 +30,7 @@ export function usePlaceOrder() {
   const { data: walletClient } = useWalletClient();
   const network = useNetworkStore((state) => state.network);
   const { vaultAddress } = useTradingContext();
+  const getMarket = useMarketStore((state) => state.getMarket);
   const queryClient = useQueryClient();
   const [isPlacing, setIsPlacing] = useState(false);
 
@@ -52,36 +54,41 @@ export function usePlaceOrder() {
       const coin = params.symbol.replace('-USD', '').replace('/USD', '');
 
       // Parse size and price
-      const size = parseFloat(params.size);
+      let size = parseFloat(params.size);
       const limitPrice = params.price ? parseFloat(params.price) : 0;
 
       if (isNaN(size) || size <= 0) {
         throw new Error('Invalid order size');
       }
 
+      // Round size to asset's szDecimals (Hyperliquid rejects sizes with too many decimals)
+      const market = getMarket(coin);
+      if (market?.szDecimals !== undefined) {
+        size = roundSize(size, market.szDecimals);
+      }
+
       if (params.orderType === 'limit' && (isNaN(limitPrice) || limitPrice <= 0)) {
         throw new Error('Invalid limit price');
+      }
+
+      // Hyperliquid minimum order value is $10
+      const currentPrice = parseFloat(market?.price || '0');
+      const priceForCheck = params.orderType === 'market' ? currentPrice : limitPrice;
+      const orderValue = size * priceForCheck;
+      if (orderValue < 10) {
+        throw new Error(`Minimum order value is $10. Current: $${orderValue.toFixed(2)}`);
       }
 
       // Generate nonce
       const nonce = generateNonce();
 
-      // For market orders, use a price far from current price to ensure immediate execution
-      // Buy orders use a very high price, sell orders use a very low price (near 0)
-      const orderPrice = params.orderType === 'market'
-        ? (params.side === 'buy' ? 999999999 : 0.01)
-        : limitPrice;
-
-      // Sign the order
-      const signature = await signPlaceOrder(walletClient, {
-        coin,
-        isBuy: params.side === 'buy',
-        size,
-        limitPrice: orderPrice,
-        reduceOnly: params.reduceOnly || false,
-        nonce,
-        network,
-      });
+      // Get asset index for this coin
+      const assetIndex = getAssetIndex(coin);
+      const orderPrice = roundPrice(
+        params.orderType === 'market'
+          ? (params.side === 'buy' ? currentPrice * 1.5 : currentPrice * 0.5)
+          : limitPrice
+      );
 
       // Prepare order type
       // Market orders use IOC (Immediate Or Cancel), limit orders use configured TIF
@@ -95,6 +102,20 @@ export function usePlaceOrder() {
             : 'Gtc';
 
       const order_type = { limit: { tif: tifValue } };
+
+      // Sign the order (must include assetIndex and orderType for correct hash)
+      const signature = await signPlaceOrder(walletClient, {
+        coin,
+        isBuy: params.side === 'buy',
+        size,
+        limitPrice: orderPrice,
+        reduceOnly: params.reduceOnly || false,
+        nonce,
+        network,
+        assetIndex,
+        orderType: order_type,
+        vaultAddress,
+      });
 
       // Place the order
       const result = await exchangeClient.placeOrder({

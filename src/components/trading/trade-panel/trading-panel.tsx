@@ -18,6 +18,7 @@ import { useScaleOrders } from '@/hooks/use-scale-orders';
 import { useUpdateLeverage } from '@/hooks/use-update-leverage';
 import { usePlaceStopOrder } from '@/hooks/use-place-stop-order';
 import { useDeposit } from '@/hooks/use-deposit';
+import { useSessionAgent } from '@/hooks/use-session-agent';
 import { useNetworkStore } from '@/store/network-store';
 import { TwapProgress } from '../twap-progress';
 import { ScalePreview } from '../scale-preview';
@@ -77,10 +78,12 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
   const { placeSpotOrder, isPlacing: isPlacingSpot } = usePlaceSpotOrder();
   const { balance, fullBalance } = useAccountBalance();
   const { availableUsdc: spotAvailableUsdc } = useSpotBalance();
+  const { transfer } = useTransfer();
   const { placeTwapOrder, cancelTwap, isPlacing: isTwapPlacing, isCancelling: isTwapCancelling, activeTwap } = useTwapOrder();
   const { placeScaleOrders, isPlacing: isScalePlacing } = useScaleOrders();
   const { mutate: updateLeverage, isPending: isUpdatingLeverage } = useUpdateLeverage();
   const { mutate: placeStopOrder } = usePlaceStopOrder();
+  const { isReady: isAgentReady, isApproving: isAgentApproving, enableTrading } = useSessionAgent();
 
   const priceInputRef = useRef<HTMLInputElement>(null);
   const sizeInputRef = useRef<HTMLInputElement>(null);
@@ -89,6 +92,16 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Auto-enable trading when wallet is connected and has balance
+  useEffect(() => {
+    if (mounted && isConnected && !isAgentReady && !isAgentApproving) {
+      const hasBalance = (fullBalance?.withdrawable || 0) > 0 || spotAvailableUsdc > 0;
+      if (hasBalance) {
+        enableTrading();
+      }
+    }
+  }, [mounted, isConnected, isAgentReady, isAgentApproving, fullBalance, spotAvailableUsdc, enableTrading]);
 
   const {
     orderSide,
@@ -286,27 +299,52 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
       return;
     }
 
+    // Convert USDC size to crypto size if needed
+    let actualSizeInCrypto = sizeNum;
+    if (sizeDenomination === 'usdc' && currentPrice && currentPrice > 0) {
+      actualSizeInCrypto = sizeNum / currentPrice;
+    }
+
     // Check if user has sufficient balance (accounting for leverage)
     const availableBalanceNum = parseFloat(fullBalance?.withdrawable?.toString() || balance?.usdc || '0');
-    const orderValueNum = sizeNum * (currentPrice || 0);
+    const orderValueNum = sizeDenomination === 'usdc' ? sizeNum : sizeNum * (currentPrice || 0);
     const marginRequired = leverage > 0 ? orderValueNum / leverage : orderValueNum;
 
-    if (availableBalanceNum === 0) {
+    // Auto-transfer from Spot to Perps if needed
+    if (!isSpot && availableBalanceNum < marginRequired && spotAvailableUsdc > 0 && !reduceOnly) {
+      const transferAmount = Math.min(spotAvailableUsdc, Math.ceil((marginRequired - availableBalanceNum) * 100) / 100);
+      toast.loading('Transferring USDC from Spot to Perps...', { id: 'auto-transfer' });
+      const transferResult = await transfer(transferAmount.toString(), true);
+      if (!transferResult.success) {
+        toast.error('Auto-transfer failed. Please transfer manually.', { id: 'auto-transfer' });
+        return;
+      }
+      toast.success(`Transferred $${transferAmount} to Perps`, { id: 'auto-transfer' });
+      await new Promise(resolve => setTimeout(resolve, 1500));
+    }
+
+    if (availableBalanceNum === 0 && spotAvailableUsdc === 0) {
       toast.error('No balance available. Please deposit funds first.');
       return;
     }
 
-    if (marginRequired > availableBalanceNum && !reduceOnly) {
-      toast.error(`Insufficient margin. Required: $${marginRequired.toFixed(2)}, Available: $${availableBalanceNum.toFixed(2)}`);
+    if (marginRequired > (availableBalanceNum + spotAvailableUsdc) && !reduceOnly) {
+      toast.error(`Insufficient margin. Required: $${marginRequired.toFixed(2)}, Available: $${(availableBalanceNum + spotAvailableUsdc).toFixed(2)}`);
       return;
     }
+
+    // Format crypto size with appropriate decimals
+    let cryptoSizeStr: string;
+    if (actualSizeInCrypto < 0.0001) cryptoSizeStr = actualSizeInCrypto.toFixed(8);
+    else if (actualSizeInCrypto < 0.01) cryptoSizeStr = actualSizeInCrypto.toFixed(6);
+    else cryptoSizeStr = actualSizeInCrypto.toFixed(4);
 
     const result = await placeOrder({
       symbol,
       side: orderSide,
       orderType: activeTab === 'market' ? 'market' : 'limit',
       price: activeTab === 'limit' ? price : undefined,
-      size,
+      size: cryptoSizeStr,
       reduceOnly,
       postOnly: activeTab === 'limit' ? postOnly : undefined,
       timeInForce: activeTab === 'limit' ? timeInForce : 'IOC',
@@ -318,34 +356,55 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
     }
   };
 
+  // Show total available USDC (spot + perps combined)
+  const perpsBalance = fullBalance?.withdrawable || 0;
+  const totalAvailableUsdc = isSpot ? spotAvailableUsdc : perpsBalance + spotAvailableUsdc;
+
   // Calculate size based on percentage (slider only controls percentage)
   const handlePercentageChange = (percentage: number) => {
     setSizePercentage(percentage);
     if (currentPrice) {
-      // Use Hyperliquid account balance (withdrawable margin) for calculating position size
-      const availableMargin = parseFloat(fullBalance?.withdrawable?.toString() || balance?.usdc || '0');
+      const availableMargin = totalAvailableUsdc;
       const priceToUse = activeTab === 'limit' && price ? parseFloat(price) : currentPrice;
 
       if (priceToUse && priceToUse > 0) {
-        // With leverage, max position size = (available margin * leverage) / price
         const effectiveLeverage = isSpot ? 1 : leverage;
         const maxPositionValue = availableMargin * effectiveLeverage;
-        const calculatedSize = (maxPositionValue * percentage / 100) / priceToUse;
 
-        // Use more decimals for very small amounts
-        let decimals = 4;
-        if (calculatedSize < 0.0001) decimals = 8;
-        else if (calculatedSize < 0.01) decimals = 6;
-        setSize(calculatedSize.toFixed(decimals));
+        if (sizeDenomination === 'usdc') {
+          // USDC mode: size is in USDC directly
+          const calculatedUsdc = (maxPositionValue * percentage / 100);
+          setSize(calculatedUsdc.toFixed(2));
+        } else {
+          // Crypto mode: convert to coin amount
+          const calculatedSize = (maxPositionValue * percentage / 100) / priceToUse;
+          let decimals = 4;
+          if (calculatedSize < 0.0001) decimals = 8;
+          else if (calculatedSize < 0.01) decimals = 6;
+          setSize(calculatedSize.toFixed(decimals));
+        }
       }
     }
   };
+
+  // Recalculate size when leverage changes (if slider is active)
+  useEffect(() => {
+    if (sizePercentage > 0) {
+      handlePercentageChange(sizePercentage);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [leverage]);
 
   const calculateOrderValue = () => {
     const sizeNum = parseFloat(size || '0');
 
     if (sizeNum === 0 || isNaN(sizeNum)) {
       return 'N/A';
+    }
+
+    // If size is in USDC, the order value IS the size
+    if (sizeDenomination === 'usdc') {
+      return `$${sizeNum.toFixed(2)}`;
     }
 
     if (activeTab === 'market' && currentPrice) {
@@ -364,11 +423,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
 
   const orderValue = calculateOrderValue();
 
-  // For perps: show Hyperliquid account balance (withdrawable)
-  // For spot: show spot USDC balance
-  const availableBalance = isSpot
-    ? spotAvailableUsdc.toFixed(2)
-    : (fullBalance?.withdrawable?.toFixed(2) || '0.00');
+  const availableBalance = totalAvailableUsdc.toFixed(2);
   const makerFee = '0.0700%';
   const takerFee = '0.0400%';
   const slippageMax = '8.00%';
@@ -578,6 +633,28 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
               {availableBalance} <span className="text-gray-500">USDC</span>
             </span>
           </div>
+
+          {/* Deposit Banner - shown when total balance is 0 */}
+          {mounted && isConnected && totalAvailableUsdc === 0 && (
+            <div className="bg-teal-500/10 border border-teal-500/30 rounded-lg p-3">
+              <div className="flex items-center gap-2 mb-2">
+                <svg className="w-4 h-4 text-teal-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span className="text-xs text-teal-400 font-normal">No balance detected</span>
+              </div>
+              <p className="text-[11px] text-gray-400 mb-3">Deposit USDC from Arbitrum to start trading on Hyperliquid.</p>
+              <button
+                onClick={() => setShowDepositModal(true)}
+                className="w-full py-2 bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-500 hover:to-cyan-500 text-white rounded-lg text-xs font-normal transition-all flex items-center justify-center gap-1.5"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+                Deposit USDC
+              </button>
+            </div>
+          )}
 
           {/* Stop Tab - Stop Orders */}
           {activeTab === 'stop' && (
@@ -1063,7 +1140,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
           <div className="px-4 py-4">
             <button
               onClick={handlePlaceOrder}
-              disabled={isPlacing || isPlacingSpot || isTwapPlacing || isScalePlacing || isFormInvalid()}
+              disabled={isPlacing || isPlacingSpot || isTwapPlacing || isScalePlacing || isFormInvalid() || isAgentApproving}
               className={cn(
                 'w-full py-2.5 font-normal transition-all text-sm shadow-lg',
                 orderSide === 'buy'
@@ -1071,8 +1148,17 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                   : 'bg-gradient-to-r from-rose-500 to-red-500 hover:from-rose-600 hover:to-red-600 text-white shadow-rose-500/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none'
               )}
             >
-              {!mounted ? 'Enable Trading'
+              {!mounted ? 'Place Order'
                 : !isConnected ? 'Connect Wallet'
+                : isAgentApproving ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      Enabling Trading...
+                    </span>
+                  )
                 : isPlacing || isPlacingSpot || isTwapPlacing || isScalePlacing ? (
                     <span className="flex items-center justify-center gap-2">
                       <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
@@ -1694,14 +1780,21 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
 // Transfer Modal Component
 function TransferModal({ onClose }: { onClose: () => void }) {
   const [amount, setAmount] = useState('');
-  const [direction, setDirection] = useState<'perps-to-spot' | 'spot-to-perps'>('perps-to-spot');
-  const { balance } = useAccountBalance();
+  const { fullBalance } = useAccountBalance();
+  const { availableUsdc: spotAvailableUsdc } = useSpotBalance();
   const { transfer, isTransferring } = useTransfer();
 
-  // Calculate max amount based on direction
+  // Default to spot-to-perps if user has spot balance but no perps balance
+  const hasSpotBalance = spotAvailableUsdc > 0;
+  const hasPerpsBalance = (fullBalance?.withdrawable || 0) > 0;
+  const [direction, setDirection] = useState<'perps-to-spot' | 'spot-to-perps'>(
+    hasSpotBalance && !hasPerpsBalance ? 'spot-to-perps' : 'perps-to-spot'
+  );
+
+  // Calculate max amount based on direction - use actual spot balance from Hyperliquid
   const maxAmount = direction === 'perps-to-spot'
-    ? balance?.perps || '0.00'
-    : balance?.spot || '0.00';
+    ? (fullBalance?.withdrawable?.toFixed(2) || '0.00')
+    : spotAvailableUsdc.toFixed(2);
 
   const toggleDirection = () => {
     setDirection(direction === 'perps-to-spot' ? 'spot-to-perps' : 'perps-to-spot');
@@ -1755,7 +1848,7 @@ function TransferModal({ onClose }: { onClose: () => void }) {
                   </span>
                 </div>
                 <p className="text-[10px] sm:text-xs text-gray-500 mt-1">
-                  ${direction === 'perps-to-spot' ? balance?.perps || '0.00' : balance?.spot || '0.00'}
+                  ${direction === 'perps-to-spot' ? (fullBalance?.withdrawable?.toFixed(2) || '0.00') : spotAvailableUsdc.toFixed(2)}
                 </p>
               </div>
 
@@ -1782,7 +1875,7 @@ function TransferModal({ onClose }: { onClose: () => void }) {
                   )} />
                 </div>
                 <p className="text-[10px] sm:text-xs text-gray-500 mt-1">
-                  ${direction === 'perps-to-spot' ? balance?.spot || '0.00' : balance?.perps || '0.00'}
+                  ${direction === 'perps-to-spot' ? spotAvailableUsdc.toFixed(2) : (fullBalance?.withdrawable?.toFixed(2) || '0.00')}
                 </p>
               </div>
             </div>

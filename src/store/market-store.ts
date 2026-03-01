@@ -12,6 +12,7 @@ export interface MarketData {
   openInterest: string;
   high24h?: string;
   low24h?: string;
+  szDecimals?: number;
   lastUpdate: number;
 }
 

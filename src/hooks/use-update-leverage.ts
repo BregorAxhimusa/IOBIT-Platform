@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { useWalletClient } from 'wagmi';
-import { getExchangeClient } from '@/lib/hyperliquid/exchange-client';
+import { getExchangeClient, getAssetIndex } from '@/lib/hyperliquid/exchange-client';
 import { signUpdateLeverage, generateNonce } from '@/lib/hyperliquid/signing';
 import { useNetworkStore } from '@/store/network-store';
 import { useTradingContext } from '@/hooks/use-trading-context';
@@ -29,6 +29,7 @@ export function useUpdateLeverage() {
       }
 
       const nonce = generateNonce();
+      const assetIndex = getAssetIndex(symbol);
 
       // Sign the leverage update
       const signature = await signUpdateLeverage(walletClient, {
@@ -37,6 +38,8 @@ export function useUpdateLeverage() {
         leverage,
         nonce,
         network,
+        assetIndex,
+        vaultAddress,
       });
 
       // Send to exchange

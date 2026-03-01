@@ -56,66 +56,82 @@ export function PositionsTable() {
       <table className="w-full text-xs sm:text-sm">
         <thead>
           <tr className="border-b border-gray-800">
-            <th className="text-left py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">Symbol</th>
-            <th className="text-left py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">Side</th>
+            <th className="text-left py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">Coin</th>
             <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">Size</th>
-            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">Entry</th>
-            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">Mark</th>
-            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400 hidden sm:table-cell">Liq.</th>
-            <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400 hidden sm:table-cell">Lev</th>
-            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">PnL</th>
+            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400 hidden sm:table-cell">Position Value</th>
+            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">Entry Price</th>
+            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">Mark Price</th>
+            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">PNL (ROE%)</th>
+            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400 hidden sm:table-cell">Liq. Price</th>
             <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400 hidden md:table-cell">Margin</th>
-            <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">Actions</th>
+            <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">Close</th>
           </tr>
         </thead>
         <tbody>
           {positions.map((position) => {
             const pnl = parseFloat(position.unrealizedPnl);
             const pnlPercent = parseFloat(position.unrealizedPnlPercent);
+            const sizeNum = parseFloat(position.size);
+            const markPriceNum = parseFloat(position.markPrice);
+            const positionValue = sizeNum * markPriceNum;
+            const sideColor = position.side === 'long' ? 'text-[#14b8a6]' : 'text-[#ef4444]';
 
             return (
               <tr
                 key={position.symbol}
                 className="border-b border-gray-800 hover:bg-[#1a2028]/50 transition-colors"
               >
-                <td className="py-2 sm:py-3 px-2 sm:px-4 font-normal text-white whitespace-nowrap">{position.symbol}</td>
-                <td className="py-2 sm:py-3 px-2 sm:px-4">
-                  <span
-                    className={cn(
-                      'px-1.5 sm:px-2 py-0.5 sm:py-1 rounded text-[10px] sm:text-xs font-normal',
+                {/* Coin: symbol + leverage badge (like Hyperliquid "BTC 5x") */}
+                <td className="py-2 sm:py-3 px-2 sm:px-4 whitespace-nowrap">
+                  <div className="flex items-center gap-1.5">
+                    <span className={cn('font-normal', sideColor)}>{position.symbol}</span>
+                    <span className={cn(
+                      'px-1 py-0.5 rounded text-[9px] sm:text-[10px] font-normal',
                       position.side === 'long'
                         ? 'bg-[#14b8a6]/10 text-[#14b8a6]'
                         : 'bg-[#ef4444]/10 text-[#ef4444]'
-                    )}
-                  >
-                    {position.side.toUpperCase()}
-                  </span>
+                    )}>
+                      {position.leverage}x
+                    </span>
+                  </div>
                 </td>
-                <td className="py-2 sm:py-3 px-2 sm:px-4 text-right text-gray-300">{position.size}</td>
-                <td className="py-2 sm:py-3 px-2 sm:px-4 text-right text-gray-300">
-                  ${parseFloat(position.entryPrice).toLocaleString()}
+                {/* Size: amount + coin (like "0.00038 BTC") */}
+                <td className="py-2 sm:py-3 px-2 sm:px-4 text-right">
+                  <span className={sideColor}>{position.size}</span>
+                  <span className="text-gray-500 text-[10px] ml-1">{position.symbol}</span>
                 </td>
-                <td className="py-2 sm:py-3 px-2 sm:px-4 text-right text-gray-300">
-                  ${parseFloat(position.markPrice).toLocaleString()}
-                </td>
+                {/* Position Value */}
                 <td className="py-2 sm:py-3 px-2 sm:px-4 text-right text-gray-300 hidden sm:table-cell">
-                  {position.liquidationPrice
-                    ? `$${parseFloat(position.liquidationPrice).toLocaleString()}`
-                    : '-'}
+                  {positionValue.toFixed(2)} <span className="text-gray-500 text-[10px]">USDC</span>
                 </td>
-                <td className="py-2 sm:py-3 px-2 sm:px-4 text-center text-gray-300 hidden sm:table-cell">{position.leverage}x</td>
+                {/* Entry Price */}
+                <td className="py-2 sm:py-3 px-2 sm:px-4 text-right text-gray-300">
+                  {parseFloat(position.entryPrice).toLocaleString(undefined, { minimumFractionDigits: 1 })}
+                </td>
+                {/* Mark Price */}
+                <td className="py-2 sm:py-3 px-2 sm:px-4 text-right text-gray-300">
+                  {markPriceNum.toLocaleString(undefined, { minimumFractionDigits: 1 })}
+                </td>
+                {/* PNL (ROE%) */}
                 <td className="py-2 sm:py-3 px-2 sm:px-4 text-right">
                   <div className={cn('font-normal', pnl >= 0 ? 'text-[#14b8a6]' : 'text-[#ef4444]')}>
                     {pnl >= 0 ? '+' : ''}${pnl.toFixed(2)}
                   </div>
                   <div className={cn('text-[9px] sm:text-xs', pnl >= 0 ? 'text-[#14b8a6]/70' : 'text-[#ef4444]/70')}>
-                    {pnlPercent >= 0 ? '+' : ''}
-                    {pnlPercent.toFixed(2)}%
+                    ({pnlPercent >= 0 ? '+' : ''}{pnlPercent.toFixed(2)}%)
                   </div>
                 </td>
+                {/* Liq. Price */}
+                <td className="py-2 sm:py-3 px-2 sm:px-4 text-right text-gray-300 hidden sm:table-cell">
+                  {position.liquidationPrice
+                    ? parseFloat(position.liquidationPrice).toLocaleString(undefined, { minimumFractionDigits: 1 })
+                    : '-'}
+                </td>
+                {/* Margin */}
                 <td className="py-2 sm:py-3 px-2 sm:px-4 text-right text-gray-300 hidden md:table-cell">
                   ${parseFloat(position.margin).toFixed(2)}
                 </td>
+                {/* Close / TP/SL */}
                 <td className="py-2 sm:py-3 px-1 sm:px-4">
                   <div className="flex items-center justify-center gap-1 sm:gap-2">
                     <button
@@ -142,13 +158,14 @@ export function PositionsTable() {
             <td colSpan={5} className="py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">
               Total PnL
             </td>
-            <td className="py-2 sm:py-3 px-2 sm:px-4 text-right hidden sm:table-cell" colSpan={2}></td>
             <td className="py-2 sm:py-3 px-2 sm:px-4 text-right">
               <span className={cn('font-normal', totalPnl >= 0 ? 'text-[#14b8a6]' : 'text-[#ef4444]')}>
                 {totalPnl >= 0 ? '+' : ''}${totalPnl.toFixed(2)}
               </span>
             </td>
-            <td colSpan={2} className="hidden md:table-cell"></td>
+            <td className="hidden sm:table-cell"></td>
+            <td className="hidden md:table-cell"></td>
+            <td></td>
           </tr>
         </tfoot>
       </table>

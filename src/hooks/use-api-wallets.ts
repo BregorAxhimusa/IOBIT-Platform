@@ -39,7 +39,7 @@ export function useApiWallets() {
     }
   }, [data, setApiWallets]);
 
-  const approveAgent = async (agentAddress: string, agentName: string | null) => {
+  const approveAgent = async (agentAddress: string, agentName?: string) => {
     if (!isConnected || !walletClient) {
       toast.error('Wallet not connected');
       return { success: false, error: 'Wallet not connected' };
@@ -50,17 +50,19 @@ export function useApiWallets() {
     try {
       const nonce = generateNonce();
 
+      // EIP-712 signing always uses '' for unnamed agents (string type requires a value)
       const signature = await signApproveAgent(walletClient, {
         agentAddress,
-        agentName,
+        agentName: agentName || '',
         nonce,
         network,
       });
 
+      // API payload omits agentName for unnamed agents
       const exchangeClient = getExchangeClient(network);
       const result = await exchangeClient.approveAgent({
         agentAddress,
-        agentName,
+        ...(agentName ? { agentName } : {}),
         nonce,
         signature,
       });

@@ -4,9 +4,10 @@ import { useState } from 'react';
 import { useAccount, useWalletClient } from 'wagmi';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNetworkStore } from '@/store/network-store';
-import { getExchangeClient } from '@/lib/hyperliquid/exchange-client';
-import { signPlaceOrder, generateNonce } from '@/lib/hyperliquid/signing';
+import { getExchangeClient, getAssetIndex } from '@/lib/hyperliquid/exchange-client';
+import { signPlaceOrder, generateNonce, roundSize, roundPrice } from '@/lib/hyperliquid/signing';
 import { useTradingContext } from '@/hooks/use-trading-context';
+import { useMarketStore } from '@/store/market-store';
 import toast from 'react-hot-toast';
 
 /**
@@ -18,6 +19,7 @@ export function useClosePosition() {
   const { data: walletClient } = useWalletClient();
   const network = useNetworkStore((state) => state.network);
   const { vaultAddress } = useTradingContext();
+  const getMarket = useMarketStore((state) => state.getMarket);
   const queryClient = useQueryClient();
   const [isClosing, setIsClosing] = useState(false);
   const [closingSymbol, setClosingSymbol] = useState<string | null>(null);
@@ -43,10 +45,16 @@ export function useClosePosition() {
       const coin = symbol.replace('-USD', '').replace('/USD', '');
 
       // Parse size
-      const positionSize = parseFloat(size);
+      let positionSize = parseFloat(size);
 
       if (isNaN(positionSize) || positionSize <= 0) {
         throw new Error('Invalid position size');
+      }
+
+      // Round size to asset's szDecimals
+      const market = getMarket(coin);
+      if (market?.szDecimals !== undefined) {
+        positionSize = roundSize(positionSize, market.szDecimals);
       }
 
       // To close a position, we place a market order in the opposite direction
@@ -56,24 +64,30 @@ export function useClosePosition() {
       // Generate nonce
       const nonce = generateNonce();
 
-      // For market orders, use a very favorable price to ensure immediate execution
-      // Buy to close short: use very high price
-      // Sell to close long: use very low price
-      const limitPrice = isBuy ? 999999999 : 0.01;
+      // Get asset index for this coin
+      const assetIndex = getAssetIndex(coin);
 
-      // Sign the order
+      // For market orders, use a price within Hyperliquid's 95% limit from reference price
+      // All prices must be rounded to 5 significant figures
+      const currentPrice = parseFloat(market?.price || '0');
+      const limitPrice = roundPrice(isBuy ? currentPrice * 1.5 : currentPrice * 0.5);
+
+      // Prepare market order type - use IOC (Immediate Or Cancel) for market-like execution
+      const order_type = { limit: { tif: 'Ioc' } };
+
+      // Sign the order (must include assetIndex and orderType for correct hash)
       const signature = await signPlaceOrder(walletClient, {
         coin,
         isBuy,
         size: positionSize,
         limitPrice,
-        reduceOnly: true, // IMPORTANT: This ensures we only close the position, not open a new one
+        reduceOnly: true,
         nonce,
         network,
+        assetIndex,
+        orderType: order_type,
+        vaultAddress,
       });
-
-      // Prepare market order type - use IOC (Immediate Or Cancel) for market-like execution
-      const order_type = { limit: { tif: 'Ioc' } };
 
       // Place the market order to close the position
       const result = await exchangeClient.placeOrder({

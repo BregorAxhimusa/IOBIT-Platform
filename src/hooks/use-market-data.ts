@@ -40,7 +40,7 @@ export function useMarketData(symbol?: string) {
       const responseData = data as {
         mids?: Record<string, string>;
         metaAndAssetCtxs?: [
-          { universe: { name: string }[] },
+          { universe: { name: string; szDecimals: number }[] },
           {
             markPx: string;
             midPx: string;
@@ -92,6 +92,7 @@ export function useMarketData(symbol?: string) {
             volume24h: assetCtx?.dayNtlVlm || '0',
             funding: assetCtx?.funding || '0',
             openInterest: assetCtx?.openInterest || '0',
+            szDecimals: asset.szDecimals,
           },
         ];
       });
