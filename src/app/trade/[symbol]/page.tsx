@@ -286,7 +286,7 @@ export default function TradingPage({ params }: TradingPageProps) {
         </div>
 
         {/* Right Sidebar - Trading Panel */}
-        <div className="w-full lg:w-96 border-t lg:border-t-0 lg:border-l border-white/20 p-1 sm:p-2 lg:p-1 flex-shrink-0">
+        <div className="w-full lg:w-96 border-t lg:border-t-0 lg:border-l border-white/20 p-1 sm:p-2 lg:p-1 flex-shrink-0 lg:overflow-y-auto">
           <TradingErrorBoundary>
             <TradingPanel key={symbolUpper} symbol={isSpot ? displaySymbol : symbolUpper} currentPrice={currentPrice} />
           </TradingErrorBoundary>

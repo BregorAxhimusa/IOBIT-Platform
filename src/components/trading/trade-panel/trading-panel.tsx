@@ -424,7 +424,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#0f0f0f] text-white border border-white/20 overflow-hidden">
+    <div className="flex flex-col lg:h-full bg-[#0f0f0f] text-white border border-white/20">
       {/* Tabs: Market, Limit, Stop, Pro */}
       <div className="flex items-center border-b border-white/20 bg-[#111111]/50">
         <button
@@ -535,7 +535,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
         )}
       </div>
 
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col overflow-y-auto">
         <div className="p-3 sm:p-4 space-y-4 flex-1">
           {/* Buy/Sell Toggle */}
           <div className="grid grid-cols-2 gap-1 p-1 bg-[#111111] rounded-lg">
