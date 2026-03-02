@@ -78,7 +78,6 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
   const { placeSpotOrder, isPlacing: isPlacingSpot } = usePlaceSpotOrder();
   const { balance, fullBalance } = useAccountBalance();
   const { availableUsdc: spotAvailableUsdc } = useSpotBalance();
-  const { transfer } = useTransfer();
   const { placeTwapOrder, cancelTwap, isPlacing: isTwapPlacing, isCancelling: isTwapCancelling, activeTwap } = useTwapOrder();
   const { placeScaleOrders, isPlacing: isScalePlacing } = useScaleOrders();
   const { mutate: updateLeverage, isPending: isUpdatingLeverage } = useUpdateLeverage();
@@ -581,6 +580,25 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
       </div>
 
       <div className="flex-1 flex flex-col overflow-y-auto">
+        {/* Not connected state */}
+        {mounted && !isConnected ? (
+          <div className="flex-1 flex flex-col items-center justify-center px-4 py-12 text-center">
+            <div className="w-14 h-14 rounded-full bg-teal-500/10 flex items-center justify-center mb-4">
+              <svg className="w-7 h-7 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m18 0V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v3" />
+              </svg>
+            </div>
+            <p className="text-white text-sm font-normal mb-1">Connect your wallet</p>
+            <p className="text-gray-500 text-xs mb-5">to start trading on Hyperliquid</p>
+            <button
+              onClick={() => open()}
+              className="w-full max-w-[200px] py-2.5 rounded-xl font-normal text-sm bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white shadow-lg shadow-teal-500/20 transition-all"
+            >
+              Connect Wallet
+            </button>
+          </div>
+        ) : (
+        <>
         <div className="p-3 sm:p-4 space-y-4 flex-1">
           {/* Buy/Sell Toggle */}
           <div className="grid grid-cols-2 gap-1 p-1 bg-[#111111] rounded-lg">
@@ -646,6 +664,9 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
             </div>
           )}
 
+          {/* Hide form when no balance - user must deposit first */}
+          {mounted && isConnected && totalAvailableUsdc === 0 ? null : (
+          <>
           {/* Stop Tab - Stop Orders */}
           {activeTab === 'stop' && (
             <>
@@ -1205,9 +1226,12 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
               </label>
             )}
           </div>
+          </>
+          )}
         </div>
 
         {/* Bottom Section - Stays at bottom */}
+        {!(mounted && isConnected && totalAvailableUsdc === 0) && (
         <div className="mt-auto border-t border-white/20">
           {/* Order Summary */}
           <div className="px-4 py-3 bg-[#111111]/30 space-y-2">
@@ -1388,6 +1412,9 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
           )}
         </div>
         </div>
+        )}
+        </>
+        )}
       </div>
 
       {/* Deposit Modal */}
