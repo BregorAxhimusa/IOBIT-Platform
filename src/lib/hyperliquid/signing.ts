@@ -373,7 +373,8 @@ export async function signUpdateIsolatedMargin(
 // ==========================================
 
 /**
- * Create EIP-712 signature for USD transfer (Perps <-> Spot)
+ * Create EIP-712 signature for USD class transfer (Perps <-> Spot)
+ * Uses HyperliquidSignTransaction domain with HyperliquidTransaction:UsdClassTransfer type
  */
 export async function signUsdTransfer(
   walletClient: WalletClient,
@@ -391,23 +392,23 @@ export async function signUsdTransfer(
 
   const message = {
     hyperliquidChain: params.network === 'mainnet' ? 'Mainnet' : 'Testnet',
-    destination: params.toPerp ? 'perp' : 'spot',
-    amount: BigInt(Math.floor(params.amount * 1e6)),
-    time: BigInt(params.nonce),
+    amount: params.amount.toString(),
+    toPerp: params.toPerp,
+    nonce: BigInt(params.nonce),
   };
 
   const signature = await walletClient.signTypedData({
     account,
-    domain: getHyperliquidDomain(params.network),
+    domain: getUserSignedActionDomain(params.network),
     types: {
-      UsdTransfer: [
+      'HyperliquidTransaction:UsdClassTransfer': [
         { name: 'hyperliquidChain', type: 'string' },
-        { name: 'destination', type: 'string' },
-        { name: 'amount', type: 'uint256' },
-        { name: 'time', type: 'uint256' },
+        { name: 'amount', type: 'string' },
+        { name: 'toPerp', type: 'bool' },
+        { name: 'nonce', type: 'uint64' },
       ],
     },
-    primaryType: 'UsdTransfer',
+    primaryType: 'HyperliquidTransaction:UsdClassTransfer',
     message,
   });
 
@@ -416,6 +417,7 @@ export async function signUsdTransfer(
 
 /**
  * Create EIP-712 signature for withdrawal
+ * Uses HyperliquidSignTransaction domain with HyperliquidTransaction:Withdraw type
  */
 export async function signWithdraw(
   walletClient: WalletClient,
@@ -434,22 +436,22 @@ export async function signWithdraw(
   const message = {
     hyperliquidChain: params.network === 'mainnet' ? 'Mainnet' : 'Testnet',
     destination: params.destination,
-    amount: BigInt(Math.floor(params.amount * 1e6)),
+    amount: params.amount.toString(),
     time: BigInt(params.nonce),
   };
 
   const signature = await walletClient.signTypedData({
     account,
-    domain: getHyperliquidDomain(params.network),
+    domain: getUserSignedActionDomain(params.network),
     types: {
-      Withdraw: [
+      'HyperliquidTransaction:Withdraw': [
         { name: 'hyperliquidChain', type: 'string' },
         { name: 'destination', type: 'string' },
-        { name: 'amount', type: 'uint256' },
-        { name: 'time', type: 'uint256' },
+        { name: 'amount', type: 'string' },
+        { name: 'time', type: 'uint64' },
       ],
     },
-    primaryType: 'Withdraw',
+    primaryType: 'HyperliquidTransaction:Withdraw',
     message,
   });
 

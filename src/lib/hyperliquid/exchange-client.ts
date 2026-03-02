@@ -301,10 +301,10 @@ export class HyperliquidExchangeClient {
     nonce: number;
   }) {
     try {
-      const response = await this.post('/exchange', {
+      const response = await this.post<{ status: string; response?: unknown }>('/exchange', {
         action: {
           type: 'usdClassTransfer',
-          signatureChainId: this.network === 'mainnet' ? '0xa4b1' : '0x66eee', // Arbitrum mainnet or testnet
+          signatureChainId: this.network === 'mainnet' ? '0xa4b1' : '0x66eee',
           hyperliquidChain: this.network === 'mainnet' ? 'Mainnet' : 'Testnet',
           amount: params.amount.toString(),
           toPerp: params.toPerp,
@@ -313,6 +313,13 @@ export class HyperliquidExchangeClient {
         nonce: params.nonce,
         signature: params.signature,
       });
+
+      if (response.status === 'err') {
+        const errorMsg = typeof response.response === 'string' ? response.response : JSON.stringify(response.response);
+        console.error('USD transfer API error:', errorMsg);
+        return { success: false, error: errorMsg };
+      }
+
       return { success: true, data: response };
     } catch (error) {
       console.error('Error transferring USD:', error);
@@ -337,10 +344,10 @@ export class HyperliquidExchangeClient {
     nonce: number;
   }) {
     try {
-      const response = await this.post('/exchange', {
+      const response = await this.post<{ status: string; response?: unknown }>('/exchange', {
         action: {
           type: 'withdraw3',
-          signatureChainId: this.network === 'mainnet' ? '0xa4b1' : '0x66eee', // Arbitrum mainnet or testnet
+          signatureChainId: this.network === 'mainnet' ? '0xa4b1' : '0x66eee',
           hyperliquidChain: this.network === 'mainnet' ? 'Mainnet' : 'Testnet',
           destination: params.destination,
           amount: params.amount.toString(),
@@ -349,6 +356,13 @@ export class HyperliquidExchangeClient {
         nonce: params.nonce,
         signature: params.signature,
       });
+
+      if (response.status === 'err') {
+        const errorMsg = typeof response.response === 'string' ? response.response : JSON.stringify(response.response);
+        console.error('Withdraw API error:', errorMsg);
+        return { success: false, error: errorMsg };
+      }
+
       return { success: true, data: response };
     } catch (error) {
       console.error('Error withdrawing:', error);

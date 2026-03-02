@@ -1668,19 +1668,29 @@ function DepositModal({ onClose }: { onClose: () => void }) {
 // Withdraw Modal Component
 function WithdrawModal({ onClose }: { onClose: () => void }) {
   const [amount, setAmount] = useState('');
-  const { balance } = useAccountBalance();
+  const { fullBalance } = useAccountBalance();
+  const { availableUsdc: spotUsdc } = useSpotBalance();
   const { withdraw, isWithdrawing } = useWithdraw();
 
-  // Max amount is from perps balance (need to be in perps to withdraw)
-  const maxAmount = balance?.perps || '0.00';
+  // Perps withdrawable + Spot USDC = total available
+  // With unified account, withdraw works directly on total balance
+  const perpsWithdrawable = fullBalance?.withdrawable || 0;
+  const totalAvailable = perpsWithdrawable + spotUsdc;
+  const maxAmount = totalAvailable.toFixed(2);
 
   const handleWithdraw = async () => {
+    const amountNum = parseFloat(amount);
+    if (isNaN(amountNum) || amountNum <= 0) return;
+
     const result = await withdraw(amount);
     if (result.success) {
       setAmount('');
       onClose();
     }
   };
+
+  const isProcessing = isWithdrawing;
+  const amountNum = parseFloat(amount) || 0;
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4" onClick={onClose}>
@@ -1729,6 +1739,17 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
               </div>
             </div>
 
+            {/* Balance Breakdown */}
+            {(spotUsdc > 0 || perpsWithdrawable > 0) && (
+              <div className="flex items-center justify-between px-3 py-2 bg-[#1a2028] border border-gray-800 text-[10px] sm:text-xs">
+                <div className="flex items-center gap-3">
+                  <span className="text-gray-500">Perps: <span className="text-white">${perpsWithdrawable.toFixed(2)}</span></span>
+                  <span className="text-gray-500">Spot: <span className="text-white">${spotUsdc.toFixed(2)}</span></span>
+                </div>
+                <span className="text-gray-400">Total: <span className="text-white">${maxAmount}</span></span>
+              </div>
+            )}
+
             {/* Amount */}
             <div>
               <div className="flex items-center justify-between mb-1.5 sm:mb-2">
@@ -1747,29 +1768,42 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
                 placeholder="0.00"
                 className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-[#1a2028] border border-gray-800 text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-teal-500/50 placeholder-gray-600"
               />
+
+              {/* Quick Percentage Buttons */}
+              <div className="grid grid-cols-4 gap-1.5 sm:gap-2 mt-2 sm:mt-3">
+                {[25, 50, 75, 100].map((pct) => (
+                  <button
+                    key={pct}
+                    onClick={() => setAmount((totalAvailable * pct / 100).toFixed(2))}
+                    disabled={isProcessing}
+                    className="py-1.5 sm:py-2 text-[10px] sm:text-xs font-normal bg-[#1a2028] border border-gray-800 text-gray-400 hover:text-white hover:border-gray-600 transition-colors disabled:opacity-50"
+                  >
+                    {pct}%
+                  </button>
+                ))}
+              </div>
             </div>
 
             {/* Withdraw Button */}
             <button
               onClick={handleWithdraw}
-              disabled={isWithdrawing || !amount || parseFloat(amount) <= 0}
+              disabled={isProcessing || !amount || amountNum <= 0 || amountNum > totalAvailable}
               className="w-full py-2.5 sm:py-3 bg-teal-500 hover:bg-teal-400 text-white font-normal text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed"
             >
-              {isWithdrawing ? (
+              {isProcessing ? (
                 <span className="flex items-center justify-center gap-2">
                   <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                   </svg>
-                  Processing...
+                  Withdrawing...
                 </span>
               ) : 'Withdraw to Arbitrum'}
             </button>
 
             {/* Info Text */}
             <p className="text-[10px] sm:text-xs text-gray-600 text-center leading-relaxed">
-              If you have USDC in Spot Balances, transfer to Perps first.
-              <br />Withdrawals arrive within 5 minutes.
+              Withdrawals arrive within 5 minutes.
             </p>
           </div>
         </div>
@@ -1781,6 +1815,7 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
 // Transfer Modal Component
 function TransferModal({ onClose }: { onClose: () => void }) {
   const [amount, setAmount] = useState('');
+  const [isUnifiedAccount, setIsUnifiedAccount] = useState(false);
   const { fullBalance } = useAccountBalance();
   const { availableUsdc: spotAvailableUsdc } = useSpotBalance();
   const { transfer, isTransferring } = useTransfer();
@@ -1808,6 +1843,8 @@ function TransferModal({ onClose }: { onClose: () => void }) {
     if (result.success) {
       setAmount('');
       onClose();
+    } else if (result.error?.includes('unified account')) {
+      setIsUnifiedAccount(true);
     }
   };
 
@@ -1884,6 +1921,16 @@ function TransferModal({ onClose }: { onClose: () => void }) {
 
           {/* Form */}
           <div className="space-y-3 sm:space-y-4">
+            {/* Unified Account Notice */}
+            {isUnifiedAccount && (
+              <div className="p-3 sm:p-4 bg-teal-500/10 border border-teal-500/20 text-center">
+                <p className="text-xs sm:text-sm text-teal-400 font-normal mb-1">Unified Account Active</p>
+                <p className="text-[10px] sm:text-xs text-gray-400">
+                  Your Spot and Perps balances are combined automatically. No transfers needed.
+                </p>
+              </div>
+            )}
+
             {/* Amount */}
             <div>
               <div className="flex items-center justify-between mb-1.5 sm:mb-2">
@@ -1900,14 +1947,29 @@ function TransferModal({ onClose }: { onClose: () => void }) {
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="0.00"
-                className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-[#1a2028] border border-gray-800 text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-teal-500/50 placeholder-gray-600"
+                disabled={isUnifiedAccount}
+                className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-[#1a2028] border border-gray-800 text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-teal-500/50 disabled:opacity-50 placeholder-gray-600"
               />
+
+              {/* Quick Percentage Buttons */}
+              <div className="grid grid-cols-4 gap-1.5 sm:gap-2 mt-2 sm:mt-3">
+                {[25, 50, 75, 100].map((pct) => (
+                  <button
+                    key={pct}
+                    onClick={() => setAmount((parseFloat(maxAmount) * pct / 100).toFixed(2))}
+                    disabled={isTransferring || isUnifiedAccount}
+                    className="py-1.5 sm:py-2 text-[10px] sm:text-xs font-normal bg-[#1a2028] border border-gray-800 text-gray-400 hover:text-white hover:border-gray-600 transition-colors disabled:opacity-50"
+                  >
+                    {pct}%
+                  </button>
+                ))}
+              </div>
             </div>
 
             {/* Confirm Button */}
             <button
               onClick={handleTransfer}
-              disabled={isTransferring || !amount || parseFloat(amount) <= 0}
+              disabled={isTransferring || isUnifiedAccount || !amount || parseFloat(amount) <= 0}
               className="w-full py-2.5 sm:py-3 bg-teal-500 hover:bg-teal-400 text-white font-normal text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed"
             >
               {isTransferring ? (
@@ -1918,7 +1980,7 @@ function TransferModal({ onClose }: { onClose: () => void }) {
                   </svg>
                   Transferring...
                 </span>
-              ) : `Transfer to ${direction === 'perps-to-spot' ? 'Spot' : 'Perps'}`}
+              ) : isUnifiedAccount ? 'Unified Account - No Transfer Needed' : `Transfer to ${direction === 'perps-to-spot' ? 'Spot' : 'Perps'}`}
             </button>
           </div>
         </div>

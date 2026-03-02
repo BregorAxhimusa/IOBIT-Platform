@@ -59,7 +59,10 @@ export function useTransfer() {
         toast.success(`Successfully transferred $${amountNum} ${toPerps ? 'to Perps' : 'to Spot'}`);
         return { success: true, data: result.data };
       } else {
-        toast.error(`Transfer failed: ${result.error}`);
+        // Don't show toast for unified account - handled in UI
+        if (!result.error?.includes('unified account')) {
+          toast.error(`Transfer failed: ${result.error}`);
+        }
         return { success: false, error: result.error };
       }
     } catch (error) {
