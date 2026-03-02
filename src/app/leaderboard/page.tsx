@@ -4,17 +4,21 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getInfoClient } from '@/lib/hyperliquid/info-client';
 import { useNetworkStore } from '@/store/network-store';
+import { formatAddress } from '@/lib/utils/format';
 import { cn } from '@/lib/utils/cn';
 import { Pagination } from '@/components/ui/pagination';
 
 const ROWS_PER_PAGE = 20;
 
 interface LeaderboardEntry {
+  ethAddress: string;
+  displayName: string;
   accountValue: string;
-  prize: string;
-  rank?: number;
+  prize: number;
+  rank: number;
   vlm: string;
-  windowStart?: number;
+  pnl: string;
+  roi: string;
 }
 
 export default function LeaderboardPage() {
@@ -25,22 +29,32 @@ export default function LeaderboardPage() {
     queryKey: ['leaderboard', network],
     queryFn: async () => {
       const client = getInfoClient(network);
-      const response = await client.getLeaderboard();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const response: any = await client.getLeaderboard();
 
-      // Hyperliquid API returns array of leaderboard entries
-      if (Array.isArray(response)) {
-        return response as LeaderboardEntry[];
-      }
+      const rows = response?.leaderboardRows ?? (Array.isArray(response) ? response : []);
 
-      return [];
+      return rows.map((entry: { ethAddress: string; displayName?: string; accountValue: string; prize: number; windowPerformances?: [string, { pnl: string; roi: string; vlm: string }][] }, idx: number) => {
+        const allTime = entry.windowPerformances?.find((w) => w[0] === 'allTime')?.[1];
+        return {
+          ethAddress: entry.ethAddress,
+          displayName: entry.displayName || '',
+          accountValue: entry.accountValue,
+          prize: entry.prize ?? 0,
+          rank: idx + 1,
+          vlm: allTime?.vlm ?? '0',
+          pnl: allTime?.pnl ?? '0',
+          roi: allTime?.roi ?? '0',
+        };
+      }) as LeaderboardEntry[];
     },
-    refetchInterval: 30000, // Refresh every 30 seconds
+    refetchInterval: 30000,
     staleTime: 15000,
   });
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-white page-enter">
-      <div className="max-w-6xl mx-auto px-4 py-6">
+      <div className="w-full px-6 py-6">
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-xl font-normal text-white">
@@ -55,10 +69,10 @@ export default function LeaderboardPage() {
         {!isLoading && !error && leaderboard && leaderboard.length >= 3 && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             {leaderboard.slice(0, 3).map((entry, idx) => {
-              const rank = entry.rank || idx + 1;
+              const rank = entry.rank;
               const accountValue = parseFloat(entry.accountValue || '0');
               const volume = parseFloat(entry.vlm || '0');
-              const prize = parseFloat(entry.prize || '0');
+              const pnl = parseFloat(entry.pnl || '0');
 
               const colors = [
                 'from-yellow-500 to-yellow-600',
@@ -90,25 +104,23 @@ export default function LeaderboardPage() {
                       #{rank}
                     </div>
                     <div className="text-right">
-                      <div className="text-sm text-gray-400">Account Value</div>
+                      <div className="text-xs text-gray-400">{entry.displayName || formatAddress(entry.ethAddress)}</div>
                       <div className="text-xl font-normal text-green-400">
-                        ${(accountValue / 1000).toFixed(1)}K
+                        ${accountValue >= 1_000_000 ? `${(accountValue / 1_000_000).toFixed(1)}M` : `${(accountValue / 1_000).toFixed(1)}K`}
                       </div>
                     </div>
                   </div>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-gray-400">Volume</span>
-                      <span className="text-white">${(volume / 1000000).toFixed(1)}M</span>
+                      <span className="text-gray-400">PnL</span>
+                      <span className={pnl >= 0 ? 'text-green-400' : 'text-red-400'}>
+                        {pnl >= 0 ? '+' : ''}${pnl >= 1_000_000 ? `${(pnl / 1_000_000).toFixed(1)}M` : `${(pnl / 1_000).toFixed(1)}K`}
+                      </span>
                     </div>
-                    {prize > 0 && (
-                      <div className="flex justify-between">
-                        <span className="text-gray-400">Prize</span>
-                        <span className="text-green-400 font-normal">
-                          ${prize.toLocaleString()}
-                        </span>
-                      </div>
-                    )}
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Volume</span>
+                      <span className="text-white">${volume >= 1_000_000_000 ? `${(volume / 1_000_000_000).toFixed(1)}B` : `${(volume / 1_000_000).toFixed(1)}M`}</span>
+                    </div>
                   </div>
                 </div>
               );
@@ -126,20 +138,23 @@ export default function LeaderboardPage() {
                     Rank
                   </th>
                   <th className="px-6 py-4 text-left text-sm font-normal text-gray-300">
+                    Trader
+                  </th>
+                  <th className="px-6 py-4 text-right text-sm font-normal text-gray-300">
                     Account Value
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-normal text-gray-300">
-                    Volume
+                  <th className="px-6 py-4 text-right text-sm font-normal text-gray-300">
+                    PnL
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-normal text-gray-300">
-                    Prize
+                  <th className="px-6 py-4 text-right text-sm font-normal text-gray-300">
+                    Volume
                   </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-800">
                 {isLoading ? (
                   <tr>
-                    <td colSpan={4} className="px-6 py-12 text-center text-gray-500">
+                    <td colSpan={5} className="px-6 py-12 text-center text-gray-500">
                       <div className="flex items-center justify-center gap-2">
                         <div className="w-5 h-5 border-2 border-teal-500 border-t-transparent rounded-full animate-spin" />
                         Loading leaderboard...
@@ -148,13 +163,13 @@ export default function LeaderboardPage() {
                   </tr>
                 ) : error ? (
                   <tr>
-                    <td colSpan={4} className="px-6 py-12 text-center text-red-400">
+                    <td colSpan={5} className="px-6 py-12 text-center text-red-400">
                       Error loading leaderboard. Please try again later.
                     </td>
                   </tr>
                 ) : !leaderboard || leaderboard.length === 0 ? (
                   <tr>
-                    <td colSpan={4} className="px-6 py-12 text-center text-gray-500">
+                    <td colSpan={5} className="px-6 py-12 text-center text-gray-500">
                       {network === 'testnet'
                         ? 'No leaderboard data available on testnet'
                         : 'No leaderboard data available'}
@@ -163,44 +178,36 @@ export default function LeaderboardPage() {
                 ) : (() => {
                   const startIdx = (currentPage - 1) * ROWS_PER_PAGE;
                   const pageEntries = leaderboard.slice(startIdx, startIdx + ROWS_PER_PAGE);
-                  return pageEntries.map((entry, index) => {
+                  return pageEntries.map((entry) => {
                     const accountValue = parseFloat(entry.accountValue || '0');
                     const volume = parseFloat(entry.vlm || '0');
-                    const prize = parseFloat(entry.prize || '0');
-                    const rank = entry.rank || startIdx + index + 1;
-
-                    // Medal emoji for top 3
-                    const getMedal = (rank: number) => {
-                      if (rank === 1) return '🥇';
-                      if (rank === 2) return '🥈';
-                      if (rank === 3) return '🥉';
-                      return null;
-                    };
+                    const pnl = parseFloat(entry.pnl || '0');
+                    const rank = entry.rank;
 
                     return (
                       <tr
-                        key={`${rank}-${entry.accountValue}`}
+                        key={`${rank}-${entry.ethAddress}`}
                         className={cn(
                           'hover:bg-gray-800/50 transition-colors',
                           rank <= 3 && 'bg-gradient-to-r from-yellow-900/10 to-transparent'
                         )}
                       >
                         <td className="px-6 py-4">
-                          <div className="flex items-center gap-2">
-                            {getMedal(rank) && (
-                              <span className="text-xl">{getMedal(rank)}</span>
+                          <span
+                            className={cn(
+                              'font-normal',
+                              rank <= 3 ? 'text-yellow-400' : 'text-gray-300'
                             )}
-                            <span
-                              className={cn(
-                                'font-normal',
-                                rank <= 3 ? 'text-yellow-400' : 'text-gray-300'
-                              )}
-                            >
-                              #{rank}
-                            </span>
-                          </div>
+                          >
+                            #{rank}
+                          </span>
                         </td>
                         <td className="px-6 py-4">
+                          <div className="text-white text-sm">
+                            {entry.displayName || formatAddress(entry.ethAddress)}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-right">
                           <div className="font-normal text-white">
                             ${accountValue.toLocaleString(undefined, {
                               minimumFractionDigits: 2,
@@ -208,24 +215,14 @@ export default function LeaderboardPage() {
                             })}
                           </div>
                         </td>
-                        <td className="px-6 py-4">
-                          <div className="text-gray-300">
-                            ${(volume / 1000000).toFixed(2)}M
-                          </div>
+                        <td className="px-6 py-4 text-right">
+                          <span className={cn('font-normal', pnl >= 0 ? 'text-green-400' : 'text-red-400')}>
+                            {pnl >= 0 ? '+' : ''}${pnl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          </span>
                         </td>
-                        <td className="px-6 py-4">
-                          <div
-                            className={cn(
-                              'font-normal',
-                              prize > 0 ? 'text-green-400' : 'text-gray-500'
-                            )}
-                          >
-                            {prize > 0
-                              ? `$${prize.toLocaleString(undefined, {
-                                  minimumFractionDigits: 2,
-                                  maximumFractionDigits: 2,
-                                })}`
-                              : '--'}
+                        <td className="px-6 py-4 text-right">
+                          <div className="text-gray-300">
+                            ${volume >= 1_000_000_000 ? `${(volume / 1_000_000_000).toFixed(2)}B` : `${(volume / 1_000_000).toFixed(2)}M`}
                           </div>
                         </td>
                       </tr>

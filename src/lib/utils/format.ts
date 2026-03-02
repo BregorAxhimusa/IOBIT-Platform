@@ -109,6 +109,17 @@ export function formatDateTime(timestamp: number | Date): string {
 }
 
 /**
+ * Convert Hyperliquid native staking units to HYPE (8 decimal places)
+ */
+const HYPE_NATIVE_DECIMALS = 1e8;
+
+export function nativeToHype(value: string | number): string {
+  const num = typeof value === 'string' ? parseFloat(value) : value;
+  if (isNaN(num) || num === 0) return '0';
+  return (num / HYPE_NATIVE_DECIMALS).toString();
+}
+
+/**
  * Format size/volume
  */
 export function formatSize(size: number | string, decimals: number = 4): string {

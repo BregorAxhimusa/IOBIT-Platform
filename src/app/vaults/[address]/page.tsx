@@ -38,7 +38,7 @@ export default function VaultDetailPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#0b0e11] text-white">
-        <div className="max-w-5xl mx-auto px-4 py-6">
+        <div className="w-full px-6 py-6">
           <div className="animate-pulse space-y-4">
             <div className="h-6 bg-gray-700 rounded w-1/3" />
             <div className="h-4 bg-gray-700 rounded w-1/4" />
@@ -57,7 +57,7 @@ export default function VaultDetailPage() {
   if (!vault) {
     return (
       <div className="min-h-screen bg-[#0b0e11] text-white">
-        <div className="max-w-5xl mx-auto px-4 py-6">
+        <div className="w-full px-6 py-6">
           <Link href="/vaults" className="text-[#14b8a6] text-sm hover:underline mb-4 inline-block">
             &larr; Back to Vaults
           </Link>
@@ -83,7 +83,7 @@ export default function VaultDetailPage() {
 
   return (
     <div className="min-h-screen bg-[#0b0e11] text-white">
-      <div className="max-w-5xl mx-auto px-4 py-6">
+      <div className="w-full px-6 py-6">
         {/* Breadcrumb */}
         <Link href="/vaults" className="text-[#14b8a6] text-sm hover:underline mb-4 inline-block">
           &larr; Back to Vaults

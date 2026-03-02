@@ -78,7 +78,7 @@ export default function PortfolioPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] page-enter">
-      <div className="container mx-auto px-4 py-6">
+      <div className="w-full px-6 py-6">
         {/* Header */}
         <h1 className="text-2xl font-normal text-white mb-6">Portfolio</h1>
 

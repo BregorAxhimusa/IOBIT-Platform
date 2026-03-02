@@ -1,44 +1,98 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import toast from 'react-hot-toast';
 
 interface PreferencesTabProps {
   address: string;
 }
 
-export function PreferencesTab({ address }: PreferencesTabProps) {
-  const [theme, setTheme] = useState('dark');
-  const [leverage, setLeverage] = useState('1');
-  const [chartType, setChartType] = useState('candle');
-  const [slippage, setSlippage] = useState('0.5');
-  const [isSaving, setIsSaving] = useState(false);
+const STORAGE_KEY = 'iobit-preferences';
 
-  const handleSave = async () => {
+interface Preferences {
+  theme: string;
+  leverage: string;
+  chartType: string;
+  slippage: string;
+}
+
+const DEFAULTS: Preferences = {
+  theme: 'dark',
+  leverage: '1',
+  chartType: 'candle',
+  slippage: '0.5',
+};
+
+function loadPreferences(address: string): Preferences {
+  try {
+    const raw = localStorage.getItem(`${STORAGE_KEY}-${address.toLowerCase()}`);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      return { ...DEFAULTS, ...parsed };
+    }
+  } catch {
+    // ignore parse errors
+  }
+  return { ...DEFAULTS };
+}
+
+function savePreferencesLocal(address: string, prefs: Preferences) {
+  try {
+    localStorage.setItem(`${STORAGE_KEY}-${address.toLowerCase()}`, JSON.stringify(prefs));
+  } catch {
+    // ignore storage errors
+  }
+}
+
+export function PreferencesTab({ address }: PreferencesTabProps) {
+  const [theme, setTheme] = useState(DEFAULTS.theme);
+  const [leverage, setLeverage] = useState(DEFAULTS.leverage);
+  const [chartType, setChartType] = useState(DEFAULTS.chartType);
+  const [slippage, setSlippage] = useState(DEFAULTS.slippage);
+  const [isSaving, setIsSaving] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+
+  // Load preferences on mount
+  useEffect(() => {
+    if (!address) return;
+    const prefs = loadPreferences(address);
+    setTheme(prefs.theme);
+    setLeverage(prefs.leverage);
+    setChartType(prefs.chartType);
+    setSlippage(prefs.slippage);
+    setLoaded(true);
+  }, [address]);
+
+  const handleSave = useCallback(async () => {
+    if (!address) return;
     setIsSaving(true);
+
+    const prefs: Preferences = { theme, leverage, chartType, slippage };
+
+    // Save to localStorage (always works)
+    savePreferencesLocal(address, prefs);
+
+    // Also try to sync to DB (best-effort)
     try {
-      const res = await fetch('/api/user/preferences', {
+      await fetch('/api/user/preferences', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           address,
           theme,
-          leverage: parseInt(leverage),
+          defaultLeverage: parseInt(leverage),
           chartType,
-          slippage: parseFloat(slippage),
         }),
       });
-      if (res.ok) {
-        toast.success('Preferences saved');
-      } else {
-        toast.error('Failed to save preferences');
-      }
     } catch {
-      toast.error('Failed to save preferences');
-    } finally {
-      setIsSaving(false);
+      // DB sync is optional - localStorage is the primary store
     }
-  };
+
+    toast.success('Preferences saved');
+    setIsSaving(false);
+  }, [address, theme, leverage, chartType, slippage]);
+
+  if (!loaded) return null;
 
   const selectClass = "w-full bg-[#1a2028] border border-gray-700  px-4 py-3 text-white text-sm focus:outline-none focus:border-gray-500 appearance-none cursor-pointer";
 

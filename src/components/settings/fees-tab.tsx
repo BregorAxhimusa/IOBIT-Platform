@@ -23,21 +23,23 @@ export function FeesTab({ userFees, isLoading }: FeesTabProps) {
     return <p className="text-gray-500 text-sm py-8 text-center">Connect wallet to view fee information</p>;
   }
 
+  // Sum user's 14-day volume from daily entries (userCross + userAdd)
   const volume14d = (userFees.dailyUserVlm ?? [])
     .slice(-14)
     .reduce((sum, entry) => {
-      // Handle both tuple [date, vlm] and object { date, vlm } formats
-      const vlm = Array.isArray(entry) ? entry[1] : (entry as Record<string, string>)?.vlm ?? '0';
-      return sum + parseFloat(vlm || '0');
+      const cross = parseFloat(entry.userCross || '0') || 0;
+      const add = parseFloat(entry.userAdd || '0') || 0;
+      return sum + cross + add;
     }, 0);
 
   const makerRate = parseFloat(userFees.userAddRate || '0') * 100;
   const takerRate = parseFloat(userFees.userCrossRate || '0') * 100;
   const referralDiscount = parseFloat(userFees.activeReferralDiscount || '0') * 100;
 
-  const tiers = userFees.feeSchedule?.tiers ?? [];
+  // Tiers are nested under feeSchedule.tiers.vip
+  const tiers = userFees.feeSchedule?.tiers?.vip ?? [];
 
-  // Determine current tier
+  // Determine current tier based on 14d volume
   let currentTier = 0;
   for (let i = tiers.length - 1; i >= 0; i--) {
     if (volume14d >= parseFloat(tiers[i].ntlCutoff)) {
@@ -45,6 +47,10 @@ export function FeesTab({ userFees, isLoading }: FeesTabProps) {
       break;
     }
   }
+
+  // Base rates (VIP 0) come from feeSchedule root
+  const baseMaker = userFees.feeSchedule?.add ?? '0';
+  const baseTaker = userFees.feeSchedule?.cross ?? '0';
 
   return (
     <div className="space-y-6">
@@ -83,18 +89,31 @@ export function FeesTab({ userFees, isLoading }: FeesTabProps) {
                 </tr>
               </thead>
               <tbody>
+                {/* VIP 0 row (base rates, below first tier cutoff) */}
+                <tr className={`border-b border-gray-800/50 ${currentTier === 0 ? 'bg-teal-500/5' : ''}`}>
+                  <td className="py-2 text-white text-xs">
+                    VIP 0{currentTier === 0 && <span className="ml-2 text-teal-400 text-[10px]">(You)</span>}
+                  </td>
+                  <td className="py-2 text-right text-gray-300 text-xs">
+                    {'< '}${formatCompactNumber(tiers[0]?.ntlCutoff ?? '0')}
+                  </td>
+                  <td className="py-2 text-right text-white text-xs">{(parseFloat(baseMaker) * 100).toFixed(3)}%</td>
+                  <td className="py-2 text-right text-white text-xs">{(parseFloat(baseTaker) * 100).toFixed(3)}%</td>
+                </tr>
+                {/* VIP 1+ rows */}
                 {tiers.map((tier, i) => {
-                  const isCurrentTier = i + 1 === currentTier || (i === 0 && currentTier === 0);
+                  const tierNum = i + 1;
+                  const isCurrentTier = tierNum === currentTier;
                   return (
                     <tr key={i} className={`border-b border-gray-800/50 ${isCurrentTier ? 'bg-teal-500/5' : ''}`}>
                       <td className="py-2 text-white text-xs">
-                        VIP {i}{isCurrentTier && <span className="ml-2 text-teal-400 text-[10px]">(You)</span>}
+                        VIP {tierNum}{isCurrentTier && <span className="ml-2 text-teal-400 text-[10px]">(You)</span>}
                       </td>
                       <td className="py-2 text-right text-gray-300 text-xs">
-                        {i === 0 ? `< $${formatCompactNumber(tiers[1]?.ntlCutoff ?? '0')}` : `$${formatCompactNumber(tier.ntlCutoff)}+`}
+                        ${formatCompactNumber(tier.ntlCutoff)}+
                       </td>
-                      <td className="py-2 text-right text-white text-xs">{(parseFloat(tier.maker) * 100).toFixed(3)}%</td>
-                      <td className="py-2 text-right text-white text-xs">{(parseFloat(tier.taker) * 100).toFixed(3)}%</td>
+                      <td className="py-2 text-right text-white text-xs">{(parseFloat(tier.add) * 100).toFixed(3)}%</td>
+                      <td className="py-2 text-right text-white text-xs">{(parseFloat(tier.cross) * 100).toFixed(3)}%</td>
                     </tr>
                   );
                 })}

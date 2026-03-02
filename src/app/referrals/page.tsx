@@ -21,7 +21,7 @@ export default function ReferralsPage() {
   if (!isConnected) {
     return (
       <div className="min-h-screen bg-[#0a0a0f] text-white">
-        <div className="max-w-5xl mx-auto px-4 py-6">
+        <div className="w-full px-6 py-6">
           <div className="flex items-center justify-center py-16 text-gray-500">
             Please connect your wallet to view referrals
           </div>
@@ -32,7 +32,7 @@ export default function ReferralsPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-white page-enter">
-      <div className="max-w-5xl mx-auto px-4 py-6">
+      <div className="w-full px-6 py-6">
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-xl font-normal text-white">Referral Program</h1>

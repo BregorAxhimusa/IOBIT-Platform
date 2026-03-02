@@ -93,10 +93,10 @@ function aggregatePnLData(fills: UserFill[], funding: FundingPayment[]): PnLData
       realizedPnl: 0, fundingPnl: 0, trades: 0, volume: 0, fees: 0,
     };
 
-    existing.realizedPnl += parseFloat(fill.closedPnl);
+    existing.realizedPnl += parseFloat(fill.closedPnl) || 0;
     existing.trades += 1;
-    existing.volume += parseFloat(fill.px) * parseFloat(fill.sz);
-    existing.fees += parseFloat(fill.fee);
+    existing.volume += (parseFloat(fill.px) || 0) * (parseFloat(fill.sz) || 0);
+    existing.fees += parseFloat(fill.fee) || 0;
 
     dailyMap.set(date, existing);
   }
@@ -108,7 +108,7 @@ function aggregatePnLData(fills: UserFill[], funding: FundingPayment[]): PnLData
       realizedPnl: 0, fundingPnl: 0, trades: 0, volume: 0, fees: 0,
     };
 
-    existing.fundingPnl += parseFloat(payment.usdc);
+    existing.fundingPnl += parseFloat(payment.usdc) || 0;
     dailyMap.set(date, existing);
   }
 
@@ -146,16 +146,16 @@ function calculatePerformanceStats(
   const winningTrades = closingFills.filter((f) => parseFloat(f.closedPnl) > 0);
   const losingTrades = closingFills.filter((f) => parseFloat(f.closedPnl) < 0);
 
-  const totalWins = winningTrades.reduce((sum, f) => sum + parseFloat(f.closedPnl), 0);
+  const totalWins = winningTrades.reduce((sum, f) => sum + (parseFloat(f.closedPnl) || 0), 0);
   const totalLosses = Math.abs(
-    losingTrades.reduce((sum, f) => sum + parseFloat(f.closedPnl), 0)
+    losingTrades.reduce((sum, f) => sum + (parseFloat(f.closedPnl) || 0), 0)
   );
 
-  const totalRealizedPnl = fills.reduce((sum, f) => sum + parseFloat(f.closedPnl), 0);
-  const totalFunding = funding.reduce((sum, f) => sum + parseFloat(f.usdc), 0);
-  const totalFees = fills.reduce((sum, f) => sum + parseFloat(f.fee), 0);
+  const totalRealizedPnl = fills.reduce((sum, f) => sum + (parseFloat(f.closedPnl) || 0), 0);
+  const totalFunding = funding.reduce((sum, f) => sum + (parseFloat(f.usdc) || 0), 0);
+  const totalFees = fills.reduce((sum, f) => sum + (parseFloat(f.fee) || 0), 0);
   const totalVolume = fills.reduce(
-    (sum, f) => sum + parseFloat(f.px) * parseFloat(f.sz),
+    (sum, f) => sum + (parseFloat(f.px) || 0) * (parseFloat(f.sz) || 0),
     0
   );
 

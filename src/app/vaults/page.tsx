@@ -53,7 +53,7 @@ export default function VaultsPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-white page-enter">
-      <div className="max-w-7xl mx-auto px-4 py-6">
+      <div className="w-full px-6 py-6">
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-2xl font-normal text-white mb-1">Vaults</h1>

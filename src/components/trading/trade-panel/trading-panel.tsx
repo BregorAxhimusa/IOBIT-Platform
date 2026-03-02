@@ -1233,7 +1233,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
               onClick={handlePlaceOrder}
               disabled={isPlacing || isPlacingSpot || isTwapPlacing || isScalePlacing || isFormInvalid() || isAgentApproving}
               className={cn(
-                'w-full py-2.5 font-normal transition-all text-sm shadow-lg',
+                'w-full py-2.5 rounded-xl font-normal transition-all text-sm shadow-lg',
                 orderSide === 'buy'
                   ? 'bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white shadow-emerald-500/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none'
                   : 'bg-gradient-to-r from-rose-500 to-red-500 hover:from-rose-600 hover:to-red-600 text-white shadow-rose-500/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none'

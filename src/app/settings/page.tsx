@@ -38,7 +38,7 @@ export default function SettingsPage() {
   if (!isConnected) {
     return (
       <div className="min-h-screen bg-[#0a0a0f] text-white">
-        <div className="max-w-5xl mx-auto px-4 py-6">
+        <div className="w-full px-6 py-6">
           <div className="flex items-center justify-center py-16 text-gray-500">
             Please connect your wallet to access settings
           </div>
@@ -49,7 +49,7 @@ export default function SettingsPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-white page-enter">
-      <div className="max-w-5xl mx-auto px-4 py-6">
+      <div className="w-full px-6 py-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>

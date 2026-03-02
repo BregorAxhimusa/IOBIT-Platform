@@ -33,7 +33,7 @@ export default function StakingPage() {
   if (!isConnected) {
     return (
       <div className="min-h-screen bg-[#0a0a0f] text-white">
-        <div className="max-w-6xl mx-auto px-4 py-6">
+        <div className="w-full px-6 py-6">
           <div className="flex flex-col items-center justify-center py-16 text-gray-500">
             <svg className="h-12 w-12 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
@@ -47,7 +47,7 @@ export default function StakingPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-white page-enter">
-      <div className="max-w-6xl mx-auto px-4 py-6">
+      <div className="w-full px-6 py-6">
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-xl font-normal text-white">HYPE Staking</h1>

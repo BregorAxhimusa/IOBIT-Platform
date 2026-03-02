@@ -341,7 +341,7 @@ export interface ReferrerData {
 }
 
 export interface ReferrerInfo {
-  stage: 'ready' | 'needsVolume';
+  stage: 'ready' | 'needToTrade' | 'active';
   data: ReferrerData | null;
 }
 
@@ -415,15 +415,32 @@ export interface DelegatorReward {
 
 export interface UserFeeTier {
   ntlCutoff: string;
-  maker: string;
-  taker: string;
+  cross: string;
+  add: string;
+  spotCross?: string;
+  spotAdd?: string;
+}
+
+export interface DailyUserVlm {
+  date: string;
+  userCross: string;
+  userAdd: string;
+  exchange: string;
 }
 
 export interface UserFees {
   activeReferralDiscount: string;
-  dailyUserVlm: [string, string][];
+  dailyUserVlm: DailyUserVlm[];
   feeSchedule: {
-    tiers: UserFeeTier[];
+    cross: string;
+    add: string;
+    spotCross?: string;
+    spotAdd?: string;
+    tiers: {
+      vip: UserFeeTier[];
+      mm?: { makerFractionCutoff: string; add: string }[];
+    };
+    referralDiscount?: string;
   };
   userCrossRate: string;
   userAddRate: string;

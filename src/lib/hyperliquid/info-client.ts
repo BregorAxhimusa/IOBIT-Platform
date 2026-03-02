@@ -374,12 +374,82 @@ export class HyperliquidInfoClient {
    */
   async getVaultDetails(vaultAddress: string, user?: string): Promise<VaultDetails | null> {
     try {
-      const response = await this.post<VaultDetails>('/info', {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const raw: any = await this.post('/info', {
         type: 'vaultDetails',
         vaultAddress,
         ...(user && { user }),
       });
-      return response;
+      if (!raw) return null;
+
+      // Extract TVL and PnL from the allTime portfolio period
+      const allTimePeriod = raw.portfolio?.find((p: [string, unknown]) => p[0] === 'allTime');
+      const periodData = allTimePeriod?.[1] as { accountValueHistory?: [number, string][]; pnlHistory?: [number, string][]; vlm?: string } | undefined;
+      const latestAccountValue = periodData?.accountValueHistory?.at(-1)?.[1] ?? '0';
+      const latestPnl = periodData?.pnlHistory?.at(-1)?.[1] ?? '0';
+
+      // Build portfolioPeriods from period data
+      const portfolioPeriods = (raw.portfolio ?? [])
+        .filter((p: [string, unknown]) => ['day', 'week', 'month', 'allTime'].includes(p[0]))
+        .map((p: [string, { pnlHistory?: [number, string][]; vlm?: string }]) => {
+          const pnlEntries = p[1]?.pnlHistory ?? [];
+          const lastPnl = pnlEntries.at(-1)?.[1] ?? '0';
+          return {
+            period: p[0],
+            pnl: lastPnl,
+            vlm: p[1]?.vlm?.toString() ?? '0',
+            apr: 0,
+          };
+        });
+
+      // Map followers
+      const followers = (raw.followers ?? []).map((f: { user: string; vaultEquity: string; pnl: string; lockupUntil?: number; vaultEntryTime?: number }) => ({
+        user: f.user,
+        equity: f.vaultEquity ?? '0',
+        pnl: f.pnl ?? '0',
+        lockedUntil: f.lockupUntil ?? 0,
+        vaultEntryTime: f.vaultEntryTime ?? 0,
+      }));
+
+      // Fetch actual positions from clearinghouse
+      let positions: VaultDetails['portfolio'] = [];
+      try {
+        const state = await this.getUserState(vaultAddress);
+        if (state?.assetPositions) {
+          positions = state.assetPositions
+            .filter((ap) => parseFloat(ap.position.szi) !== 0)
+            .map((ap) => ({
+              coin: ap.position.coin,
+              szi: ap.position.szi,
+              entryPx: ap.position.entryPx ?? '0',
+              positionValue: ap.position.positionValue,
+              unrealizedPnl: ap.position.unrealizedPnl,
+            }));
+        }
+      } catch {
+        // Positions fetch is optional
+      }
+
+      return {
+        summary: {
+          vaultAddress: raw.vaultAddress,
+          name: raw.name ?? '',
+          leader: raw.leader ?? '',
+          leaderCommission: raw.leaderCommission ?? 0,
+          apr: raw.apr ?? 0,
+          tvl: latestAccountValue,
+          pnl: latestPnl,
+          followerCount: followers.length,
+          description: raw.description ?? '',
+          portfolioPeriods,
+          isClosed: raw.isClosed ?? false,
+          maxDistributable: raw.maxDistributable ?? '0',
+          maxWithdrawable: raw.maxWithdrawable ?? '0',
+          ...(raw.relationship && { relationship: raw.relationship }),
+        },
+        followers,
+        portfolio: positions,
+      };
     } catch (error) {
       console.error(`Error fetching vault details for ${vaultAddress}:`, error);
       return null;
@@ -412,7 +482,34 @@ export class HyperliquidInfoClient {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      return response.json();
+      const raw: {
+        apr: number;
+        pnls: [string, string[]][];
+        summary: {
+          name: string;
+          vaultAddress: string;
+          leader: string;
+          tvl: string;
+          isClosed: boolean;
+        };
+      }[] = await response.json();
+
+      return raw.map((v) => {
+        const allTimePnls = v.pnls.find((p) => p[0] === 'allTime')?.[1] ?? [];
+        const lastPnl = allTimePnls.length > 0 ? parseFloat(allTimePnls[allTimePnls.length - 1]) || 0 : 0;
+
+        return {
+          vaultAddress: v.summary.vaultAddress,
+          name: v.summary.name,
+          leader: v.summary.leader,
+          tvl: parseFloat(v.summary.tvl) || 0,
+          apr30d: v.apr || 0,
+          allTimePnl: lastPnl,
+          followerCount: 0,
+          leaderCommission: 0,
+          isClosed: v.summary.isClosed || false,
+        };
+      });
     } catch (error) {
       console.error('Error fetching vaults list from stats-data:', error);
       return [];
@@ -442,11 +539,15 @@ export class HyperliquidInfoClient {
    */
   async getExtraAgents(user: string): Promise<ApiWallet[]> {
     try {
-      const response = await this.post<{ extraAgents: ApiWallet[] }>('/info', {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const response = await this.post<any>('/info', {
         type: 'extraAgents',
         user,
       });
-      return response?.extraAgents || [];
+      // API may return array directly or wrapped in { extraAgents: [...] }
+      if (Array.isArray(response)) return response;
+      if (response?.extraAgents && Array.isArray(response.extraAgents)) return response.extraAgents;
+      return [];
     } catch (error) {
       console.error(`Error fetching extra agents for ${user}:`, error);
       return [];

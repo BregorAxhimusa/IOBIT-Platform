@@ -1,9 +1,11 @@
 'use client';
 
+import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useAppKitAccount } from '@reown/appkit/react';
 import { useNetworkStore } from '@/store/network-store';
 import { getInfoClient } from '@/lib/hyperliquid/info-client';
+import { nativeToHype } from '@/lib/utils/format';
 import type { DelegatorReward, DelegatorHistoryEvent } from '@/lib/hyperliquid/types';
 
 export function useStakingRewards() {
@@ -34,12 +36,29 @@ export function useStakingRewards() {
     refetchInterval: 120_000,
   });
 
-  const rewards = rewardsQuery.data ?? [];
+  // Convert native staking units to HYPE
+  const rewards = useMemo(() =>
+    (rewardsQuery.data ?? []).map((r) => ({ ...r, totalAmount: nativeToHype(r.totalAmount) })),
+    [rewardsQuery.data]
+  );
+
+  const history = useMemo(() =>
+    (historyQuery.data ?? []).map((h) => ({
+      ...h,
+      delta: {
+        delegate: h.delta.delegate ? { ...h.delta.delegate, amount: nativeToHype(h.delta.delegate.amount) } : undefined,
+        withdrawal: h.delta.withdrawal ? { ...h.delta.withdrawal, amount: nativeToHype(h.delta.withdrawal.amount) } : undefined,
+        deposit: h.delta.deposit ? { ...h.delta.deposit, amount: nativeToHype(h.delta.deposit.amount) } : undefined,
+      },
+    })),
+    [historyQuery.data]
+  );
+
   const totalRewards = rewards.reduce((sum, r) => sum + parseFloat(r.totalAmount || '0'), 0);
 
   return {
     rewards,
-    history: historyQuery.data ?? [],
+    history,
     totalRewards,
     isLoading: rewardsQuery.isLoading || historyQuery.isLoading,
   };

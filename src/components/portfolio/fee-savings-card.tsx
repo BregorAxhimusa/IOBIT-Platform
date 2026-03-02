@@ -37,9 +37,9 @@ export function FeeSavingsCard() {
   const makerRate = parseFloat(userFees.userAddRate || '0');
   const takerRate = parseFloat(userFees.userCrossRate || '0');
 
-  // Calculate 14-day volume
+  // Calculate 14-day volume (userCross + userAdd per day)
   const totalVolume = (userFees.dailyUserVlm || []).reduce((sum, day) => {
-    return sum + parseFloat(day[1] || '0');
+    return sum + (parseFloat(day.userCross || '0') || 0) + (parseFloat(day.userAdd || '0') || 0);
   }, 0);
 
   // Find current milestone
