@@ -11,6 +11,7 @@ import { useNetworkStore } from '@/store/network-store';
 
 const navLinks = [
   { href: '/trade/BTC', label: 'Trade' },
+  { href: '/market', label: 'Market' },
   { href: '/portfolio', label: 'Portfolio' },
   { href: '/staking', label: 'Staking' },
   { href: '/vaults', label: 'Vaults' },
