@@ -310,26 +310,16 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
     const orderValueNum = sizeDenomination === 'usdc' ? sizeNum : sizeNum * (currentPrice || 0);
     const marginRequired = leverage > 0 ? orderValueNum / leverage : orderValueNum;
 
-    // Auto-transfer from Spot to Perps if needed
-    if (!isSpot && availableBalanceNum < marginRequired && spotAvailableUsdc > 0 && !reduceOnly) {
-      const transferAmount = Math.min(spotAvailableUsdc, Math.ceil((marginRequired - availableBalanceNum) * 100) / 100);
-      toast.loading('Transferring USDC from Spot to Perps...', { id: 'auto-transfer' });
-      const transferResult = await transfer(transferAmount.toString(), true);
-      if (!transferResult.success) {
-        toast.error('Auto-transfer failed. Please transfer manually.', { id: 'auto-transfer' });
-        return;
-      }
-      toast.success(`Transferred $${transferAmount} to Perps`, { id: 'auto-transfer' });
-      await new Promise(resolve => setTimeout(resolve, 1500));
-    }
+    // With unified account, spot balance is available for perps trading directly
+    const totalAvailableBalance = availableBalanceNum + spotAvailableUsdc;
 
-    if (availableBalanceNum === 0 && spotAvailableUsdc === 0) {
+    if (totalAvailableBalance === 0) {
       toast.error('No balance available. Please deposit funds first.');
       return;
     }
 
-    if (marginRequired > (availableBalanceNum + spotAvailableUsdc) && !reduceOnly) {
-      toast.error(`Insufficient margin. Required: $${marginRequired.toFixed(2)}, Available: $${(availableBalanceNum + spotAvailableUsdc).toFixed(2)}`);
+    if (marginRequired > totalAvailableBalance && !reduceOnly) {
+      toast.error(`Insufficient margin. Required: $${marginRequired.toFixed(2)}, Available: $${totalAvailableBalance.toFixed(2)}`);
       return;
     }
 
