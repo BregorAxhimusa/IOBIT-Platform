@@ -601,7 +601,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
             <button
               onClick={enableTrading}
               disabled={isAgentApproving}
-              className="w-full max-w-[200px] py-2.5 rounded-xl font-normal text-sm bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white shadow-lg shadow-blue-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full max-w-[200px] py-2.5 rounded-lg font-normal text-sm bg-white hover:bg-gray-100 text-black transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isAgentApproving ? (
                 <span className="flex items-center justify-center gap-2">
