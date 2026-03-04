@@ -55,6 +55,10 @@ This is an **IOBIT** - a crypto perpetual trading platform built with Next.js 15
 
 - **`src/components/`** - Organized by feature: `trading/`, `portfolio/`, `vaults/`, `staking/`, `referrals/`, `accounts/`, `layout/`, `settings/`, `ui/`
 
+### TradingView Integration
+
+Charts use TradingView widget loaded from CDN (`NEXT_PUBLIC_TRADINGVIEW_CDN`). The chart component lives in `src/components/trading/` and connects to Hyperliquid's data feed.
+
 ### EIP-712 Signing Domains
 
 Three distinct signing domains exist in `signing.ts` — this is critical to understand when modifying trading operations:
@@ -114,6 +118,17 @@ Use `useAccountStore.getFetchAddress()` to get the correct address for fetching 
 - Spot uses separate metadata endpoints (`spotMeta`, `spotMetaAndAssetCtxs`, `spotClearinghouseState`)
 - Display names converted via `symbolToDisplay()`
 
+## Pages
+
+- `/trade/[symbol]` - Trading page for a specific market (e.g., `/trade/BTC`)
+- `/market` - Market overview with all available assets
+- `/portfolio` - User positions, orders, and trade history
+- `/vaults` and `/vaults/[address]` - Managed trading vaults
+- `/staking` - HYPE token delegation
+- `/referrals` - Referral code management
+- `/leaderboard` - Trading leaderboard
+- `/settings` and `/settings/accounts` - User preferences and sub-accounts
+
 ## API Routes
 
 - `GET /api/user?address=0x...` - Fetch user by wallet address
@@ -141,7 +156,7 @@ Prisma client uses a `globalThis` singleton in `src/lib/database/prisma.ts` to s
 
 ## CI Pipeline
 
-GitHub Actions (`.github/workflows/ci.yml`) runs on push to main/development and PRs against those branches. Tests against Node 18.x and 20.x matrix:
+GitHub Actions (`.github/workflows/ci.yml`) runs on push to main/development/testing-local and PRs against main/development. Tests against Node 18.x and 20.x matrix:
 
 1. `npm ci` - Install dependencies
 2. `npm run lint` - ESLint

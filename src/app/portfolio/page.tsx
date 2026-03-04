@@ -46,7 +46,7 @@ export default function PortfolioPage() {
           <p className="text-gray-400 mb-6">Connect your wallet to view your portfolio</p>
           <button
             onClick={() => open()}
-            className="px-6 py-2.5 bg-[#14b8a6] hover:bg-[#0d9488] text-white font-normal transition-colors"
+            className="px-6 py-2.5 rounded-lg bg-white hover:bg-gray-100 text-black font-normal transition-colors"
           >
             Connect Wallet
           </button>

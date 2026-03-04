@@ -166,3 +166,22 @@ body {
     min-width: 44px;
   }
 }
+
+/* Rotating conic gradient border */
+@property --border-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes border-angle-rotate {
+  0% { --border-angle: 0deg; }
+  100% { --border-angle: 360deg; }
+}
+
+.animate-rotating-border {
+  background: conic-gradient(from var(--border-angle), transparent 0%, transparent 20%, #17DD92 30%, #17DD92 50%, transparent 60%, transparent 100%);
+  padding: 2px;
+  border-radius: 8px;
+  animation: border-angle-rotate 2s linear infinite;
+}

@@ -1,6 +1,5 @@
 'use client';
 
-import { NetworkSwitcherModal } from '@/components/layout/network-switcher-modal';
 import { useSymbolData } from '@/hooks/use-market-data';
 import { cn } from '@/lib/utils/cn';
 import {
@@ -10,7 +9,6 @@ import {
 } from '@/lib/utils/format';
 import { useFavoritesStore } from '@/store/favorites-store';
 import { useMarketStore } from '@/store/market-store';
-import { useNetworkStore } from '@/store/network-store';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -23,8 +21,6 @@ interface MarketInfoBarProps {
 export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
   const router = useRouter();
   const { market } = useSymbolData(symbol);
-  const { network } = useNetworkStore();
-  const [showNetworkModal, setShowNetworkModal] = useState(false);
   const [showMarketsDropdown, setShowMarketsDropdown] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [mounted, setMounted] = useState(false);
@@ -520,36 +516,11 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
               </div>
             )}
           </div>
-
-          {/* Right Side - Network Switcher */}
-          <div className="flex items-center flex-shrink-0">
-            <button
-              onClick={() => setShowNetworkModal(true)}
-              className={cn(
-                'flex items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-normal rounded-xl transition-all whitespace-nowrap border',
-                network === 'mainnet'
-                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/20 hover:border-emerald-500/50'
-                  : 'bg-amber-500/10 text-amber-400 border-amber-500/30 hover:bg-amber-500/20 hover:border-amber-500/50'
-              )}
-            >
-              <span className={cn(
-                'w-2 h-2 rounded-full',
-                network === 'mainnet' ? 'bg-emerald-400' : 'bg-amber-400'
-              )} />
-              {network === 'mainnet' ? 'Mainnet' : 'Testnet'}
-            </button>
-          </div>
         </div>
       </div>
 
       {/* Dropdown rendered via Portal */}
       {dropdownContent}
-
-      {/* Network Switcher Modal */}
-      <NetworkSwitcherModal
-        isOpen={showNetworkModal}
-        onClose={() => setShowNetworkModal(false)}
-      />
     </div>
   );
 }

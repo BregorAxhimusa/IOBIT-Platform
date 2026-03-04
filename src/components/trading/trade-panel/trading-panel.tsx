@@ -92,15 +92,6 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
     setMounted(true);
   }, []);
 
-  // Auto-enable trading when wallet is connected and has balance
-  useEffect(() => {
-    if (mounted && isConnected && !isAgentReady && !isAgentApproving) {
-      const hasBalance = (fullBalance?.withdrawable || 0) > 0 || spotAvailableUsdc > 0;
-      if (hasBalance) {
-        enableTrading();
-      }
-    }
-  }, [mounted, isConnected, isAgentReady, isAgentApproving, fullBalance, spotAvailableUsdc, enableTrading]);
 
   const {
     orderSide,
@@ -592,9 +583,37 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
             <p className="text-gray-500 text-xs mb-5">to start trading on Hyperliquid</p>
             <button
               onClick={() => open()}
-              className="w-full max-w-[200px] py-2.5 rounded-xl font-normal text-sm bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white shadow-lg shadow-teal-500/20 transition-all"
+              className="w-full max-w-[200px] py-2.5 rounded-lg font-normal text-sm bg-white hover:bg-gray-100 text-black transition-all"
             >
               Connect Wallet
+            </button>
+          </div>
+        ) : mounted && isConnected && !isAgentReady ? (
+          /* Enable trading state - show only the button */
+          <div className="flex-1 flex flex-col items-center justify-center px-4 py-12 text-center">
+            <div className="w-14 h-14 rounded-full bg-blue-500/10 flex items-center justify-center mb-4">
+              <svg className="w-7 h-7 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+              </svg>
+            </div>
+            <p className="text-white text-sm font-normal mb-1">Enable Trading</p>
+            <p className="text-gray-500 text-xs mb-5">Approve a session agent to start trading</p>
+            <button
+              onClick={enableTrading}
+              disabled={isAgentApproving}
+              className="w-full max-w-[200px] py-2.5 rounded-xl font-normal text-sm bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white shadow-lg shadow-blue-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isAgentApproving ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  Approving...
+                </span>
+              ) : (
+                'Enable Trading'
+              )}
             </button>
           </div>
         ) : (
@@ -1255,7 +1274,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
           <div className="px-4 py-4">
             <button
               onClick={handlePlaceOrder}
-              disabled={isPlacing || isPlacingSpot || isTwapPlacing || isScalePlacing || isFormInvalid() || isAgentApproving}
+              disabled={isPlacing || isPlacingSpot || isTwapPlacing || isScalePlacing || isFormInvalid()}
               className={cn(
                 'w-full py-2.5 rounded-xl font-normal transition-all text-sm shadow-lg',
                 orderSide === 'buy'
@@ -1263,33 +1282,22 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                   : 'bg-gradient-to-r from-rose-500 to-red-500 hover:from-rose-600 hover:to-red-600 text-white shadow-rose-500/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none'
               )}
             >
-              {!mounted ? 'Place Order'
-                : !isConnected ? 'Connect Wallet'
-                : isAgentApproving ? (
-                    <span className="flex items-center justify-center gap-2">
-                      <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                      </svg>
-                      Enabling Trading...
-                    </span>
-                  )
-                : isPlacing || isPlacingSpot || isTwapPlacing || isScalePlacing ? (
-                    <span className="flex items-center justify-center gap-2">
-                      <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                      </svg>
-                      Processing...
-                    </span>
-                  )
-                : isSpot ? `${orderSide === 'buy' ? 'Buy' : 'Sell'} ${activeTab === 'market' ? 'Market' : 'Limit'}`
-                : activeTab === 'pro' && selectedProOption === 'twap' ? 'Start TWAP Order'
-                : activeTab === 'pro' && selectedProOption === 'scale' ? 'Place Scale Orders'
-                : activeTab === 'market' ? `${orderSide === 'buy' ? 'Long' : 'Short'} Market`
-                : activeTab === 'limit' ? `${orderSide === 'buy' ? 'Long' : 'Short'} Limit`
-                : activeTab === 'stop' ? `Place ${orderSide === 'buy' ? 'Buy' : 'Sell'} Stop`
-                : 'Place Order'}
+              {isPlacing || isPlacingSpot || isTwapPlacing || isScalePlacing ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  Processing...
+                </span>
+              )
+              : isSpot ? `${orderSide === 'buy' ? 'Buy' : 'Sell'} ${activeTab === 'market' ? 'Market' : 'Limit'}`
+              : activeTab === 'pro' && selectedProOption === 'twap' ? 'Start TWAP Order'
+              : activeTab === 'pro' && selectedProOption === 'scale' ? 'Place Scale Orders'
+              : activeTab === 'market' ? `${orderSide === 'buy' ? 'Long' : 'Short'} Market`
+              : activeTab === 'limit' ? `${orderSide === 'buy' ? 'Long' : 'Short'} Limit`
+              : activeTab === 'stop' ? `Place ${orderSide === 'buy' ? 'Buy' : 'Sell'} Stop`
+              : 'Place Order'}
             </button>
             {mounted && isConnected && getValidationError() && (
               <div className="mt-3">

@@ -1,45 +1,94 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
 import { cn } from '@/lib/utils/cn';
 import { formatAddress } from '@/lib/utils/format';
 import { AccountSwitcher } from '@/components/layout/account-switcher';
-import { useNetworkStore } from '@/store/network-store';
 
-const navLinks = [
+// Main navigation links
+const mainNavLinks = [
   { href: '/trade/BTC', label: 'Trade' },
   { href: '/market', label: 'Market' },
   { href: '/portfolio', label: 'Portfolio' },
   { href: '/staking', label: 'Staking' },
-  { href: '/vaults', label: 'Vaults' },
-  { href: '/leaderboard', label: 'Leaderboard' },
-  { href: '/referrals', label: 'Referrals' },
+  { href: '/vaults', label: 'Earn' },
 ];
 
-// Network Toggle Component
-function NetworkToggle() {
-  const { switchNetwork, isTestnet } = useNetworkStore();
+// More dropdown links
+const moreLinks = [
+  { href: '/vip', label: 'VIP', icon: '/iobit/more/vip.svg' },
+  { href: '/affiliates', label: 'Affiliates', icon: '/iobit/more/affiliate.svg' },
+  { href: '/explorer', label: 'Explorer', icon: '/iobit/more/explorer.svg' },
+  { href: '/leaderboard', label: 'Leaderboard', icon: '/iobit/more/leaderboard.svg' },
+];
+
+// All links for mobile menu
+const allNavLinks = [...mainNavLinks, ...moreLinks];
+
+// Airdrop texts that rotate with typewriter effect
+const airdropTexts = ['BIT', 'AIRDROP', '25M'];
+
+// Airdrop Button Component with typewriter effect
+function AirdropButton() {
+  const [textIndex, setTextIndex] = useState(0);
+  const [displayText, setDisplayText] = useState('');
+  const [isTyping, setIsTyping] = useState(true);
+
+  useEffect(() => {
+    const currentWord = airdropTexts[textIndex];
+
+    if (isTyping) {
+      // Typing effect - add one letter at a time
+      if (displayText.length < currentWord.length) {
+        const timeout = setTimeout(() => {
+          setDisplayText(currentWord.slice(0, displayText.length + 1));
+        }, 100);
+        return () => clearTimeout(timeout);
+      } else {
+        // Word complete, wait then start deleting
+        const timeout = setTimeout(() => {
+          setIsTyping(false);
+        }, 1500);
+        return () => clearTimeout(timeout);
+      }
+    } else {
+      // Deleting effect - remove one letter at a time
+      if (displayText.length > 0) {
+        const timeout = setTimeout(() => {
+          setDisplayText(displayText.slice(0, -1));
+        }, 50);
+        return () => clearTimeout(timeout);
+      } else {
+        // Move to next word
+        setTextIndex((prev) => (prev + 1) % airdropTexts.length);
+        setIsTyping(true);
+      }
+    }
+  }, [displayText, isTyping, textIndex]);
 
   return (
-    <button
-      onClick={switchNetwork}
-      className={cn(
-        'px-3 py-1.5 rounded-lg text-xs font-normal transition-all border flex items-center gap-1.5',
-        isTestnet
-          ? 'bg-amber-500/10 text-amber-400 border-amber-500/30 hover:bg-amber-500/20 hover:border-amber-500/50'
-          : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/20 hover:border-emerald-500/50'
-      )}
-      title={`Switch to ${isTestnet ? 'Mainnet' : 'Testnet'}`}
+    <Link
+      href="/bit"
+      className="animate-rotating-border inline-block group"
     >
-      <span className={cn(
-        'w-1.5 h-1.5 rounded-full',
-        isTestnet ? 'bg-amber-400' : 'bg-emerald-400'
-      )} />
-      {isTestnet ? 'TESTNET' : 'MAINNET'}
-    </button>
+      <div
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-[6px] transition-all"
+        style={{
+          background: 'linear-gradient(135deg, #0a1f1a 0%, #0f0f0f 50%, #0a1a1f 100%)'
+        }}
+      >
+        <svg className="w-3.5 h-3.5 text-[#17DD92] group-hover:text-white transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+        </svg>
+        <span className="w-[70px] text-[15px] font-normal text-[#17DD92] group-hover:text-white transition-colors duration-300">
+          {displayText}<span className="animate-pulse">|</span>
+        </span>
+      </div>
+    </Link>
   );
 }
 
@@ -58,10 +107,10 @@ function WalletButton() {
         }
       }}
       className={cn(
-        'px-4 py-2 rounded-xl font-normal text-sm transition-all border',
+        'px-4 py-2 rounded-lg font-normal text-sm transition-all',
         isConnected
-          ? 'bg-[#111111] text-white border-white/20 hover:border-white/40 hover:bg-[#1a1a1a]'
-          : 'bg-gradient-to-r from-teal-500 to-cyan-500 text-white border-transparent hover:from-teal-400 hover:to-cyan-400 shadow-lg shadow-teal-500/20'
+          ? 'bg-[#111111] text-white border border-white/20 hover:border-white/40 hover:bg-[#1a1a1a]'
+          : 'bg-white text-black hover:bg-gray-100'
       )}
     >
       {isConnected && address ? formatAddress(address) : 'Connect Wallet'}
@@ -73,6 +122,22 @@ export function Navbar() {
   const pathname = usePathname();
   const { isConnected } = useAppKitAccount();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [moreDropdownOpen, setMoreDropdownOpen] = useState(false);
+  const moreDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (moreDropdownRef.current && !moreDropdownRef.current.contains(event.target as Node)) {
+        setMoreDropdownOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Check if any "more" link is active
+  const isMoreActive = moreLinks.some(link => pathname?.startsWith(link.href));
 
   return (
     <nav className="border-b border-white/20 bg-[#0f0f0f]" role="navigation" aria-label="Main navigation">
@@ -80,15 +145,19 @@ export function Navbar() {
         {/* Left Side - Logo + Navigation Links */}
         <div className="flex items-center gap-6">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2 group">
-            <div className="text-xl font-normal bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent group-hover:from-teal-300 group-hover:to-cyan-300 transition-all">
-              IOBIT
-            </div>
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/iobit/landingpage/logo.svg"
+              alt="IOBIT"
+              width={98}
+              height={34}
+              priority
+            />
           </Link>
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-1 bg-[#111111]/50 rounded-xl p-1">
-            {navLinks.map((link) => {
+            {mainNavLinks.map((link) => {
               const isActive = pathname?.startsWith(link.href);
 
               return (
@@ -96,16 +165,69 @@ export function Navbar() {
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    'px-3 py-1.5 text-sm font-normal rounded-lg transition-all relative',
+                    'px-3 py-1.5 text-sm font-normal rounded-lg transition-all',
                     isActive
-                      ? 'bg-gradient-to-r from-teal-500/20 to-cyan-500/20 text-teal-400 border border-teal-500/30'
-                      : 'text-white hover:bg-white/5 border border-transparent'
+                      ? 'bg-white text-black'
+                      : 'text-white/70 hover:text-white'
                   )}
                 >
                   {link.label}
                 </Link>
               );
             })}
+
+            {/* Airdrop Button */}
+            <AirdropButton />
+
+            {/* More Dropdown */}
+            <div className="relative" ref={moreDropdownRef}>
+              <button
+                onClick={() => setMoreDropdownOpen(!moreDropdownOpen)}
+                className={cn(
+                  'px-3 py-1.5 text-sm font-normal rounded-lg transition-all flex items-center gap-1',
+                  isMoreActive
+                    ? 'bg-white text-black'
+                    : moreDropdownOpen
+                      ? 'text-white'
+                      : 'text-white/70 hover:text-white'
+                )}
+              >
+                More
+                <svg
+                  className={cn('w-3 h-3 transition-transform', moreDropdownOpen && 'rotate-180')}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {/* Dropdown Menu */}
+              {moreDropdownOpen && (
+                <div className="absolute top-full right-0 mt-2 w-48 bg-[#111111] border border-white/20 rounded-xl shadow-xl z-50 py-2">
+                  {moreLinks.map((link) => {
+                    const isActive = pathname?.startsWith(link.href);
+                    return (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setMoreDropdownOpen(false)}
+                        className={cn(
+                          'flex items-center gap-3 px-4 py-2.5 text-sm transition-all',
+                          isActive
+                            ? 'bg-white text-black'
+                            : 'text-white/70 hover:text-white'
+                        )}
+                      >
+                        <Image src={link.icon} alt={link.label} width={16} height={16} />
+                        {link.label}
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -113,10 +235,10 @@ export function Navbar() {
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className={cn(
-            "md:hidden p-2 rounded-lg transition-all border",
+            "md:hidden p-2 rounded-lg transition-all",
             mobileMenuOpen
-              ? "text-teal-400 bg-teal-500/10 border-teal-500/30"
-              : "text-white/70 hover:text-white hover:bg-white/5 border-white/10"
+              ? "bg-white text-black"
+              : "text-white/70 hover:text-white"
           )}
           aria-label="Toggle navigation menu"
           aria-expanded={mobileMenuOpen}
@@ -130,18 +252,17 @@ export function Navbar() {
           </svg>
         </button>
 
-        {/* Right Side - Network Toggle + Account Switcher + Settings + Wallet */}
+        {/* Right Side - Account Switcher + Settings + Wallet */}
         <div className="hidden md:flex items-center space-x-2">
-          <NetworkToggle />
           {isConnected && <AccountSwitcher />}
           {isConnected && (
             <Link
               href="/settings"
               className={cn(
-                'p-2 rounded-lg transition-all border',
+                'p-2 rounded-lg transition-all',
                 pathname?.startsWith('/settings')
-                  ? 'bg-teal-500/10 text-teal-400 border-teal-500/30'
-                  : 'text-white/70 hover:text-white hover:bg-white/5 border-white/10 hover:border-white/20'
+                  ? 'bg-white text-black'
+                  : 'text-white/70 hover:text-white'
               )}
               title="Account Settings"
             >
@@ -159,13 +280,7 @@ export function Navbar() {
       {mobileMenuOpen && (
         <div className="md:hidden border-t border-white/20 bg-[#0f0f0f] max-h-[calc(100vh-56px)] overflow-y-auto">
           <div className="px-3 py-2 space-y-1">
-            {/* Network Toggle in Mobile */}
-            <div className="px-2 py-2 flex items-center justify-between">
-              <span className="text-xs text-gray-400">Network</span>
-              <NetworkToggle />
-            </div>
-            <div className="border-b border-white/10 my-1.5" />
-            {navLinks.map((link) => {
+            {allNavLinks.map((link) => {
               const isActive = pathname?.startsWith(link.href);
               return (
                 <Link
@@ -173,12 +288,13 @@ export function Navbar() {
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={cn(
-                    'block px-2.5 py-2 text-xs font-normal rounded-lg transition-all',
+                    'flex items-center gap-2 px-2.5 py-2 text-xs font-normal rounded-lg transition-all',
                     isActive
-                      ? 'bg-teal-500/10 text-teal-400 border border-teal-500/30'
-                      : 'text-white hover:bg-white/5 border border-transparent'
+                      ? 'bg-white text-black'
+                      : 'text-white/70 hover:text-white'
                   )}
                 >
+                  {'icon' in link && <Image src={(link as { icon: string }).icon} alt={link.label} width={14} height={14} />}
                   {link.label}
                 </Link>
               );
@@ -190,13 +306,17 @@ export function Navbar() {
                 className={cn(
                   'block px-2.5 py-2 text-xs font-normal rounded-lg transition-all',
                   pathname?.startsWith('/settings')
-                    ? 'bg-teal-500/10 text-teal-400 border border-teal-500/30'
-                    : 'text-white/70 hover:text-white hover:bg-white/5 border border-transparent'
+                    ? 'bg-white text-black'
+                    : 'text-white/70 hover:text-white'
                 )}
               >
                 Settings
               </Link>
             )}
+            {/* Airdrop Button in Mobile */}
+            <div className="px-2.5 py-2">
+              <AirdropButton />
+            </div>
             {/* Account Switcher in Mobile */}
             {isConnected && (
               <div className="px-2.5 py-2">
