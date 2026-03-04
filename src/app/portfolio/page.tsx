@@ -59,7 +59,7 @@ export default function PortfolioPage() {
     return (
       <div className="min-h-screen bg-[#0a0a0c] flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#14b8a6] mx-auto mb-4" />
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#16DE93] mx-auto mb-4" />
           <p className="text-gray-400">Loading portfolio data...</p>
         </div>
       </div>
@@ -96,7 +96,7 @@ export default function PortfolioPage() {
             <div
               className={cn(
                 'text-xs mt-1',
-                allTimeReturnPct >= 0 ? 'text-green-400' : 'text-red-400'
+                allTimeReturnPct >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]'
               )}
             >
               {allTimeReturnPct >= 0 ? '+' : ''}
@@ -136,7 +136,7 @@ export default function PortfolioPage() {
             <div
               className={cn(
                 'text-xl font-normal',
-                totalUnrealizedPnl >= 0 ? 'text-green-400' : 'text-red-400'
+                totalUnrealizedPnl >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]'
               )}
             >
               {totalUnrealizedPnl >= 0 ? '+' : ''}$
@@ -148,7 +148,7 @@ export default function PortfolioPage() {
             <div
               className={cn(
                 'text-xs mt-1',
-                totalUnrealizedPnl >= 0 ? 'text-green-400/70' : 'text-red-400/70'
+                totalUnrealizedPnl >= 0 ? 'text-[#16DE93]/70' : 'text-[#f6465d]/70'
               )}
             >
               {totalUnrealizedPnl >= 0 ? '+' : ''}
@@ -188,7 +188,7 @@ export default function PortfolioPage() {
                 className={cn(
                   'px-4 py-3 text-sm font-normal whitespace-nowrap transition-colors',
                   activeTab === tab.value
-                    ? 'text-white border-b-2 border-[#14b8a6] bg-[#0a0a0a]'
+                    ? 'text-white border-b-2 border-[#16DE93] bg-[#0a0a0a]'
                     : 'text-white/70 hover:text-white hover:bg-[#0a0a0a]/50'
                 )}
               >
@@ -268,15 +268,15 @@ function OverviewTab({ positions, accountValue }: OverviewTabProps) {
                     className={cn(
                       'px-1.5 py-0.5 rounded text-[10px] font-normal',
                       position.side === 'long'
-                        ? 'bg-green-500/10 text-green-400'
-                        : 'bg-red-500/10 text-red-400'
+                        ? 'bg-[#16DE93]/10 text-[#16DE93]'
+                        : 'bg-[#f6465d]/10 text-[#f6465d]'
                     )}
                   >
                     {position.side.toUpperCase()} {position.leverage}x
                   </span>
                 </div>
                 <div className="text-right">
-                  <span className={cn('text-sm font-normal', pnl >= 0 ? 'text-green-400' : 'text-red-400')}>
+                  <span className={cn('text-sm font-normal', pnl >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]')}>
                     {pnl >= 0 ? '+' : ''}${pnl.toFixed(2)}
                   </span>
                 </div>
@@ -286,7 +286,7 @@ function OverviewTab({ positions, accountValue }: OverviewTabProps) {
                   <div
                     className={cn(
                       'h-1.5 rounded-full transition-all',
-                      position.side === 'long' ? 'bg-green-500' : 'bg-red-500'
+                      position.side === 'long' ? 'bg-[#16DE93]' : 'bg-[#f6465d]'
                     )}
                     style={{ width: `${Math.min(allocation, 100)}%` }}
                   />
@@ -344,8 +344,8 @@ function PositionsTab({ positions, accountValue }: OverviewTabProps) {
                     className={cn(
                       'px-1.5 py-0.5 rounded text-[10px] font-normal',
                       position.side === 'long'
-                        ? 'bg-green-500/10 text-green-400'
-                        : 'bg-red-500/10 text-red-400'
+                        ? 'bg-[#16DE93]/10 text-[#16DE93]'
+                        : 'bg-[#f6465d]/10 text-[#f6465d]'
                     )}
                   >
                     {position.side.toUpperCase()} {position.leverage}x
@@ -362,7 +362,7 @@ function PositionsTab({ positions, accountValue }: OverviewTabProps) {
                   ${posValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </td>
                 <td className="py-2.5 px-3 text-right">
-                  <span className={cn('font-normal', pnl >= 0 ? 'text-green-400' : 'text-red-400')}>
+                  <span className={cn('font-normal', pnl >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]')}>
                     {pnl >= 0 ? '+' : ''}${pnl.toFixed(2)}
                   </span>
                 </td>

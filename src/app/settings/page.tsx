@@ -65,7 +65,7 @@ export default function SettingsPage() {
                   ? setShowCreateSub(true)
                   : setShowAddWallet(true)
               }
-              className="px-4 py-2 bg-[#14b8a6] hover:bg-[#14b8a6]/80 text-white font-normal text-sm rounded-lg transition-colors"
+              className="px-4 py-2 bg-[#16DE93] hover:bg-[#16DE93]/80 text-white font-normal text-sm rounded-lg transition-colors"
             >
               {accountsSubTab === 'sub-accounts' ? '+ New Sub-Account' : '+ Add API Wallet'}
             </button>
@@ -81,7 +81,7 @@ export default function SettingsPage() {
               className={cn(
                 'px-4 py-2.5 text-sm transition-colors border-b-2 -mb-px',
                 tab === t.value
-                  ? 'border-[#14b8a6] text-white'
+                  ? 'border-[#16DE93] text-white'
                   : 'border-transparent text-white/70 hover:text-white'
               )}
             >
@@ -133,7 +133,7 @@ export default function SettingsPage() {
                 ) : subAccounts.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-16 text-gray-500">
                     <p className="text-sm mb-2">No sub-accounts yet</p>
-                    <button onClick={() => setShowCreateSub(true)} className="text-[#14b8a6] text-sm hover:underline">
+                    <button onClick={() => setShowCreateSub(true)} className="text-[#16DE93] text-sm hover:underline">
                       Create your first sub-account
                     </button>
                   </div>
@@ -161,7 +161,7 @@ export default function SettingsPage() {
                 ) : apiWallets.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-16 text-gray-500">
                     <p className="text-sm mb-2">No API wallets authorized</p>
-                    <button onClick={() => setShowAddWallet(true)} className="text-[#14b8a6] text-sm hover:underline">
+                    <button onClick={() => setShowAddWallet(true)} className="text-[#16DE93] text-sm hover:underline">
                       Add an API wallet
                     </button>
                   </div>

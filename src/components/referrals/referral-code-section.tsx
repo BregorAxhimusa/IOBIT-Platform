@@ -50,9 +50,9 @@ function HasCodeView({ code }: { code: string }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3">
-        <div className="bg-[#0a0a0a] border border-teal-500/30  px-5 py-3 flex-1">
+        <div className="bg-[#0a0a0a] border border-[#16DE93]/30  px-5 py-3 flex-1">
           <p className="text-gray-400 text-xs mb-1">Your Referral Code</p>
-          <p className="text-teal-400 text-xl font-normal tracking-wider">{code}</p>
+          <p className="text-[#16DE93] text-xl font-normal tracking-wider">{code}</p>
         </div>
       </div>
 
@@ -65,8 +65,8 @@ function HasCodeView({ code }: { code: string }) {
           className={cn(
             'px-4 py-2  text-sm font-normal transition-all shrink-0',
             copied
-              ? 'bg-green-500/20 text-green-400 border border-green-500/30'
-              : 'bg-teal-500 hover:bg-teal-600 text-white'
+              ? 'bg-[#16DE93]/20 text-[#16DE93] border border-[#16DE93]/30'
+              : 'bg-[#16DE93] hover:bg-[#16DE93] text-white'
           )}
         >
           {copied ? 'Copied!' : 'Copy Link'}
@@ -130,7 +130,7 @@ function CreateCodeView({
           onChange={handleInputChange}
           placeholder="Enter code (3-20 chars, A-Z, 0-9)"
           maxLength={20}
-          className="flex-1 bg-[#0a0a0a] border border-gray-700  px-3 py-2 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-teal-500 transition-colors uppercase"
+          className="flex-1 bg-[#0a0a0a] border border-gray-700  px-3 py-2 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-[#16DE93] transition-colors uppercase"
         />
         <button
           onClick={handleCreate}
@@ -138,7 +138,7 @@ function CreateCodeView({
           className={cn(
             'px-4 py-2  text-sm font-normal transition-all shrink-0',
             isValidCode && !isCreating
-              ? 'bg-teal-500 hover:bg-teal-600 text-white'
+              ? 'bg-[#16DE93] hover:bg-[#16DE93] text-white'
               : 'bg-gray-700 text-gray-500 cursor-not-allowed'
           )}
         >
@@ -157,7 +157,7 @@ function CreateCodeView({
       </div>
 
       {error && (
-        <p className="text-red-400 text-sm">{error}</p>
+        <p className="text-[#f6465d] text-sm">{error}</p>
       )}
 
       <p className="text-gray-500 text-xs">
@@ -176,7 +176,7 @@ function NeedsVolumeView({ currentVolume }: { currentVolume: string }) {
     <div className="space-y-4">
       <div className="bg-[#0a0a0a] border border-gray-800 p-4">
         <p className="text-gray-300 text-sm mb-3">
-          You need <span className="text-teal-400 font-normal">$10,000</span> in trading volume to create a referral code.
+          You need <span className="text-[#16DE93] font-normal">$10,000</span> in trading volume to create a referral code.
         </p>
 
         <div className="space-y-2">
@@ -187,7 +187,7 @@ function NeedsVolumeView({ currentVolume }: { currentVolume: string }) {
 
           <div className="w-full bg-[#0a0a0a] rounded-full h-2.5 overflow-hidden">
             <div
-              className="bg-teal-500 h-full rounded-full transition-all duration-500"
+              className="bg-[#16DE93] h-full rounded-full transition-all duration-500"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -217,7 +217,7 @@ export function ReferralCodeSection({
   return (
     <div className="bg-[#0a0a0c] border border-gray-800 p-4">
       <h3 className="text-white font-normal mb-4 flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-teal-500" viewBox="0 0 20 20" fill="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#16DE93]" viewBox="0 0 20 20" fill="currentColor">
           <path fillRule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clipRule="evenodd" />
         </svg>
         Your Referral Code

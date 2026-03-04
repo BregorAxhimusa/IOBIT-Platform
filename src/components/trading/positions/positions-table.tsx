@@ -77,7 +77,7 @@ export function PositionsTable() {
             const sizeNum = parseFloat(position.size);
             const markPriceNum = parseFloat(position.markPrice);
             const positionValue = sizeNum * markPriceNum;
-            const sideColor = position.side === 'long' ? 'text-[#14b8a6]' : 'text-[#ef4444]';
+            const sideColor = position.side === 'long' ? 'text-[#16DE93]' : 'text-[#f6465d]';
 
             return (
               <tr
@@ -91,8 +91,8 @@ export function PositionsTable() {
                     <span className={cn(
                       'px-1 py-0.5 rounded text-[9px] sm:text-[10px] font-normal',
                       position.side === 'long'
-                        ? 'bg-[#14b8a6]/10 text-[#14b8a6]'
-                        : 'bg-[#ef4444]/10 text-[#ef4444]'
+                        ? 'bg-[#16DE93]/10 text-[#16DE93]'
+                        : 'bg-[#f6465d]/10 text-[#f6465d]'
                     )}>
                       {position.leverage}x
                     </span>
@@ -117,10 +117,10 @@ export function PositionsTable() {
                 </td>
                 {/* PNL (ROE%) */}
                 <td className="py-2 sm:py-3 px-2 sm:px-4 text-right">
-                  <div className={cn('font-normal', pnl >= 0 ? 'text-[#14b8a6]' : 'text-[#ef4444]')}>
+                  <div className={cn('font-normal', pnl >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]')}>
                     {pnl >= 0 ? '+' : ''}${pnl.toFixed(2)}
                   </div>
-                  <div className={cn('text-[9px] sm:text-xs', pnl >= 0 ? 'text-[#14b8a6]/70' : 'text-[#ef4444]/70')}>
+                  <div className={cn('text-[9px] sm:text-xs', pnl >= 0 ? 'text-[#16DE93]/70' : 'text-[#f6465d]/70')}>
                     ({pnlPercent >= 0 ? '+' : ''}{pnlPercent.toFixed(2)}%)
                   </div>
                 </td>
@@ -162,7 +162,7 @@ export function PositionsTable() {
               Total PnL
             </td>
             <td className="py-2 sm:py-3 px-2 sm:px-4 text-right">
-              <span className={cn('font-normal', totalPnl >= 0 ? 'text-[#14b8a6]' : 'text-[#ef4444]')}>
+              <span className={cn('font-normal', totalPnl >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]')}>
                 {totalPnl >= 0 ? '+' : ''}${totalPnl.toFixed(2)}
               </span>
             </td>
@@ -245,7 +245,7 @@ function CloseModal({
               <div className={cn(
                 'w-4.5 h-4.5 rounded border-2 flex items-center justify-center transition-all',
                 closeType === 'market'
-                  ? 'bg-teal-500 border-teal-500'
+                  ? 'bg-[#16DE93] border-[#16DE93]'
                   : 'border-gray-600 group-hover:border-gray-500'
               )}>
                 {closeType === 'market' && (
@@ -264,7 +264,7 @@ function CloseModal({
               <div className={cn(
                 'w-4.5 h-4.5 rounded border-2 flex items-center justify-center transition-all',
                 closeType === 'limit'
-                  ? 'bg-teal-500 border-teal-500'
+                  ? 'bg-[#16DE93] border-[#16DE93]'
                   : 'border-gray-600 group-hover:border-gray-500'
               )}>
                 {closeType === 'limit' && (
@@ -281,7 +281,7 @@ function CloseModal({
           <button
             onClick={() => onConfirm(position.symbol, position.side, position.size)}
             disabled={isClosing}
-            className="w-full py-3 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 disabled:from-gray-700 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-normal rounded-lg transition-all text-sm"
+            className="w-full py-3 bg-gradient-to-r from-[#16DE93] to-[#16DE93] hover:from-[#16DE93] hover:to-[#16DE93] disabled:from-gray-700 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-normal rounded-lg transition-all text-sm"
           >
             {isClosing ? 'Closing...' : `Confirm ${closeType === 'market' ? 'Market' : 'Limit'} Close`}
           </button>
@@ -403,7 +403,7 @@ function TPSLModal({
             </div>
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-400">Position</span>
-              <span className={cn('text-sm font-normal', isLong ? 'text-[#14b8a6]' : 'text-[#ef4444]')}>
+              <span className={cn('text-sm font-normal', isLong ? 'text-[#16DE93]' : 'text-[#f6465d]')}>
                 {position.size} {position.symbol}
               </span>
             </div>
@@ -434,7 +434,7 @@ function TPSLModal({
                   }}
                   placeholder={tpMode === 'price' ? 'TP Price' : 'Gain %'}
                   step="0.01"
-                  className="w-full px-3 py-2.5 bg-[#111111] border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:border-[#14b8a6] transition-colors"
+                  className="w-full px-3 py-2.5 bg-[#111111] border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:border-[#16DE93] transition-colors"
                 />
               </div>
               <button
@@ -474,7 +474,7 @@ function TPSLModal({
                   }}
                   placeholder={slMode === 'price' ? 'SL Price' : 'Loss %'}
                   step="0.01"
-                  className="w-full px-3 py-2.5 bg-[#111111] border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:border-[#ef4444] transition-colors"
+                  className="w-full px-3 py-2.5 bg-[#111111] border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:border-[#f6465d] transition-colors"
                 />
               </div>
               <button
@@ -505,7 +505,7 @@ function TPSLModal({
                 {hasTP && (
                   <div className="flex justify-between">
                     <span>TP triggers at</span>
-                    <span className="text-[#14b8a6]">
+                    <span className="text-[#16DE93]">
                       {getTPPrice() ? `$${parseFloat(getTPPrice()).toLocaleString()}` : '-'}
                     </span>
                   </div>
@@ -513,7 +513,7 @@ function TPSLModal({
                 {hasSL && (
                   <div className="flex justify-between">
                     <span>SL triggers at</span>
-                    <span className="text-[#ef4444]">
+                    <span className="text-[#f6465d]">
                       {getSLPrice() ? `$${parseFloat(getSLPrice()).toLocaleString()}` : '-'}
                     </span>
                   </div>
@@ -526,7 +526,7 @@ function TPSLModal({
           <button
             onClick={handleSubmit}
             disabled={isPending || (!hasTP && !hasSL)}
-            className="w-full py-3 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 disabled:from-gray-700 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-normal rounded-lg transition-all text-sm"
+            className="w-full py-3 bg-gradient-to-r from-[#16DE93] to-[#16DE93] hover:from-[#16DE93] hover:to-[#16DE93] disabled:from-gray-700 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-normal rounded-lg transition-all text-sm"
           >
             {isPending ? 'Confirming...' : 'Confirm'}
           </button>

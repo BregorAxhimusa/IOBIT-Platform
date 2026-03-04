@@ -80,8 +80,8 @@ export function OrderHistoryTable() {
                     className={cn(
                       'px-2 py-1 rounded text-xs font-normal',
                       order.side === 'buy'
-                        ? 'bg-[#14b8a6]/10 text-[#14b8a6]'
-                        : 'bg-[#ef4444]/10 text-[#ef4444]'
+                        ? 'bg-[#16DE93]/10 text-[#16DE93]'
+                        : 'bg-[#f6465d]/10 text-[#f6465d]'
                     )}
                   >
                     {order.side.toUpperCase()}
@@ -102,9 +102,9 @@ export function OrderHistoryTable() {
                     className={cn(
                       'px-2 py-1 rounded text-xs font-normal',
                       order.status === 'filled'
-                        ? 'bg-[#14b8a6]/10 text-[#14b8a6]'
+                        ? 'bg-[#16DE93]/10 text-[#16DE93]'
                         : order.status === 'cancelled'
-                        ? 'bg-[#ef4444]/10 text-[#ef4444]'
+                        ? 'bg-[#f6465d]/10 text-[#f6465d]'
                         : 'bg-gray-500/10 text-gray-400'
                     )}
                   >

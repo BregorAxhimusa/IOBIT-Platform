@@ -70,7 +70,7 @@ export function FeesTab({ userFees, isLoading }: FeesTabProps) {
         </div>
         <div className="bg-[#0a0a0a] rounded-lg p-3">
           <p className="text-gray-400 text-[10px] mb-1">Referral Discount</p>
-          <p className="text-teal-400 font-normal">{referralDiscount > 0 ? `${referralDiscount}%` : 'None'}</p>
+          <p className="text-[#16DE93] font-normal">{referralDiscount > 0 ? `${referralDiscount}%` : 'None'}</p>
         </div>
       </div>
 
@@ -90,9 +90,9 @@ export function FeesTab({ userFees, isLoading }: FeesTabProps) {
               </thead>
               <tbody>
                 {/* VIP 0 row (base rates, below first tier cutoff) */}
-                <tr className={`border-b border-gray-800/50 ${currentTier === 0 ? 'bg-teal-500/5' : ''}`}>
+                <tr className={`border-b border-gray-800/50 ${currentTier === 0 ? 'bg-[#16DE93]/5' : ''}`}>
                   <td className="py-2 text-white text-xs">
-                    VIP 0{currentTier === 0 && <span className="ml-2 text-teal-400 text-[10px]">(You)</span>}
+                    VIP 0{currentTier === 0 && <span className="ml-2 text-[#16DE93] text-[10px]">(You)</span>}
                   </td>
                   <td className="py-2 text-right text-gray-300 text-xs">
                     {'< '}${formatCompactNumber(tiers[0]?.ntlCutoff ?? '0')}
@@ -105,9 +105,9 @@ export function FeesTab({ userFees, isLoading }: FeesTabProps) {
                   const tierNum = i + 1;
                   const isCurrentTier = tierNum === currentTier;
                   return (
-                    <tr key={i} className={`border-b border-gray-800/50 ${isCurrentTier ? 'bg-teal-500/5' : ''}`}>
+                    <tr key={i} className={`border-b border-gray-800/50 ${isCurrentTier ? 'bg-[#16DE93]/5' : ''}`}>
                       <td className="py-2 text-white text-xs">
-                        VIP {tierNum}{isCurrentTier && <span className="ml-2 text-teal-400 text-[10px]">(You)</span>}
+                        VIP {tierNum}{isCurrentTier && <span className="ml-2 text-[#16DE93] text-[10px]">(You)</span>}
                       </td>
                       <td className="py-2 text-right text-gray-300 text-xs">
                         ${formatCompactNumber(tier.ntlCutoff)}+

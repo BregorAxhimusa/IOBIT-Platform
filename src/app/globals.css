@@ -27,7 +27,7 @@ body {
 
 /* Focus styles */
 *:focus-visible {
-  outline: 2px solid rgba(20, 184, 166, 0.5);
+  outline: 2px solid rgba(22, 222, 147, 0.5);
   outline-offset: 2px;
 }
 
@@ -55,7 +55,7 @@ body {
   margin: 0;
   overflow: visible;
   clip: auto;
-  background: #14b8a6;
+  background: #16DE93;
   color: white;
   font-weight: 600;
 }

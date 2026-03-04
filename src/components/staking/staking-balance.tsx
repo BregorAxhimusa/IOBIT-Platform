@@ -45,7 +45,7 @@ export function StakingBalance({ stakingState, spotHypeBalance, onDeposit, onWit
           </div>
           <button
             onClick={() => { setShowDeposit(!showDeposit); setShowWithdraw(false); }}
-            className="px-3 py-1.5 text-xs font-normal bg-teal-500/10 text-teal-400  hover:bg-teal-500/20 transition-colors"
+            className="px-3 py-1.5 text-xs font-normal bg-[#16DE93]/10 text-[#16DE93]  hover:bg-[#16DE93]/20 transition-colors"
           >
             Transfer to Staking
           </button>
@@ -63,7 +63,7 @@ export function StakingBalance({ stakingState, spotHypeBalance, onDeposit, onWit
               />
               <button
                 onClick={() => setDepositAmount(spotHypeBalance)}
-                className="px-2 py-2 text-xs text-teal-400 hover:text-teal-300"
+                className="px-2 py-2 text-xs text-[#16DE93] hover:text-[#16DE93]"
               >
                 MAX
               </button>
@@ -71,7 +71,7 @@ export function StakingBalance({ stakingState, spotHypeBalance, onDeposit, onWit
             <button
               onClick={handleDeposit}
               disabled={isTransferring || !depositAmount || parseFloat(depositAmount) <= 0}
-              className="w-full py-2  text-xs font-normal bg-teal-500 hover:bg-teal-500/80 text-white disabled:bg-teal-500/30 disabled:text-white/50 transition-colors"
+              className="w-full py-2  text-xs font-normal bg-[#16DE93] hover:bg-[#16DE93]/80 text-white disabled:bg-[#16DE93]/30 disabled:text-white/50 transition-colors"
             >
               {isTransferring ? 'Transferring...' : 'Transfer to Staking'}
             </button>

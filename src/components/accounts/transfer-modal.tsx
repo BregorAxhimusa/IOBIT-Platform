@@ -91,7 +91,7 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
               className={cn(
                 'flex-1 py-2 sm:py-2.5 text-xs sm:text-sm font-normal transition-colors',
                 direction === 'toSub'
-                  ? 'bg-teal-500 text-white'
+                  ? 'bg-[#16DE93] text-white'
                   : 'text-white/70 hover:text-white'
               )}
             >
@@ -102,7 +102,7 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
               className={cn(
                 'flex-1 py-2 sm:py-2.5 text-xs sm:text-sm font-normal transition-colors',
                 direction === 'toMaster'
-                  ? 'bg-teal-500 text-white'
+                  ? 'bg-[#16DE93] text-white'
                   : 'text-white/70 hover:text-white'
               )}
             >
@@ -119,7 +119,7 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
                 <div className="flex items-center gap-1.5 sm:gap-2">
                   <span className={cn(
                     "w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full",
-                    direction === 'toSub' ? 'bg-purple-400' : 'bg-teal-400'
+                    direction === 'toSub' ? 'bg-purple-400' : 'bg-[#16DE93]'
                   )} />
                   <span className="text-white text-sm sm:text-base font-normal">
                     {direction === 'toSub' ? 'Master' : 'Sub-Account'}
@@ -132,7 +132,7 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
 
               {/* Arrow */}
               <div className="mx-2 sm:mx-4">
-                <svg className="w-5 h-5 sm:w-6 sm:h-6 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6 text-[#16DE93]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
               </div>
@@ -146,7 +146,7 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
                   </span>
                   <span className={cn(
                     "w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full",
-                    direction === 'toSub' ? 'bg-teal-400' : 'bg-purple-400'
+                    direction === 'toSub' ? 'bg-[#16DE93]' : 'bg-purple-400'
                   )} />
                 </div>
                 <p className="text-[10px] sm:text-xs text-gray-500 mt-1">
@@ -162,7 +162,7 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
               <label className="text-[10px] sm:text-xs text-gray-500 font-normal">Amount (USDC)</label>
               <button
                 onClick={handleMaxClick}
-                className="text-[10px] sm:text-xs text-teal-400 hover:text-teal-300 font-normal transition-colors"
+                className="text-[10px] sm:text-xs text-[#16DE93] hover:text-[#16DE93] font-normal transition-colors"
               >
                 MAX: ${availableBalance.toFixed(2)}
               </button>
@@ -172,7 +172,7 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="0.00"
-              className="w-full bg-[#0a0a0a] border border-[#1a1a1f] px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-teal-500/50 placeholder-gray-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              className="w-full bg-[#0a0a0a] border border-[#1a1a1f] px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 placeholder-gray-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
           </div>
 
@@ -180,7 +180,7 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
           <button
             onClick={handleSubmit}
             disabled={isTransferring || !canTransfer}
-            className="w-full py-2.5 sm:py-3 font-normal text-xs sm:text-sm bg-teal-500 hover:bg-teal-400 text-white disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors"
+            className="w-full py-2.5 sm:py-3 font-normal text-xs sm:text-sm bg-[#16DE93] hover:bg-[#16DE93] text-white disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors"
           >
             {isTransferring ? (
               <span className="flex items-center justify-center gap-2">

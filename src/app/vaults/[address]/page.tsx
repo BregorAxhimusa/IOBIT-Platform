@@ -58,7 +58,7 @@ export default function VaultDetailPage() {
     return (
       <div className="min-h-screen bg-[#0a0a0c] text-white">
         <div className="w-full px-6 py-6">
-          <Link href="/vaults" className="text-[#14b8a6] text-sm hover:underline mb-4 inline-block">
+          <Link href="/vaults" className="text-[#16DE93] text-sm hover:underline mb-4 inline-block">
             &larr; Back to Vaults
           </Link>
           <div className="flex items-center justify-center py-16 text-gray-500">
@@ -85,7 +85,7 @@ export default function VaultDetailPage() {
     <div className="min-h-screen bg-[#0a0a0c] text-white">
       <div className="w-full px-6 py-6">
         {/* Breadcrumb */}
-        <Link href="/vaults" className="text-[#14b8a6] text-sm hover:underline mb-4 inline-block">
+        <Link href="/vaults" className="text-[#16DE93] text-sm hover:underline mb-4 inline-block">
           &larr; Back to Vaults
         </Link>
 
@@ -101,7 +101,7 @@ export default function VaultDetailPage() {
                 Commission: {(summary.leaderCommission * 100).toFixed(0)}%
               </span>
               {summary.isClosed && (
-                <span className="px-2 py-0.5 bg-red-500/10 text-red-400 text-xs rounded-full">
+                <span className="px-2 py-0.5 bg-[#f6465d]/10 text-[#f6465d] text-xs rounded-full">
                   Closed
                 </span>
               )}
@@ -116,7 +116,7 @@ export default function VaultDetailPage() {
             <button
               onClick={() => setShowDepositModal(true)}
               disabled={!isConnected}
-              className="px-6 py-2.5 bg-[#14b8a6] hover:bg-[#14b8a6]/80 text-white font-normal text-sm rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-2.5 bg-[#16DE93] hover:bg-[#16DE93]/80 text-white font-normal text-sm rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {currentUserEquity > 0 ? 'Manage' : 'Deposit'}
             </button>
@@ -134,7 +134,7 @@ export default function VaultDetailPage() {
             <p
               className={cn(
                 'text-sm font-normal',
-                isPnlPositive ? 'text-green-400' : 'text-red-400'
+                isPnlPositive ? 'text-[#16DE93]' : 'text-[#f6465d]'
               )}
             >
               {isPnlPositive ? '+' : ''}
@@ -146,7 +146,7 @@ export default function VaultDetailPage() {
             <p
               className={cn(
                 'text-sm font-normal',
-                summary.apr >= 0 ? 'text-green-400' : 'text-red-400'
+                summary.apr >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]'
               )}
             >
               {summary.apr >= 0 ? '+' : ''}
@@ -163,10 +163,10 @@ export default function VaultDetailPage() {
 
         {/* User Equity Banner */}
         {currentUserEquity > 0 && userEquity && (
-          <div className="bg-[#14b8a6]/10 border border-[#14b8a6]/20 rounded-lg p-4 mb-6">
+          <div className="bg-[#16DE93]/10 border border-[#16DE93]/20 rounded-lg p-4 mb-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-[#14b8a6] text-xs font-normal">Your Position</p>
+                <p className="text-[#16DE93] text-xs font-normal">Your Position</p>
                 <p className="text-white text-lg font-normal">
                   {formatCurrency(currentUserEquity)}
                 </p>
@@ -176,7 +176,7 @@ export default function VaultDetailPage() {
                 <p
                   className={cn(
                     'text-sm font-normal',
-                    parseFloat(userEquity.pnl) >= 0 ? 'text-green-400' : 'text-red-400'
+                    parseFloat(userEquity.pnl) >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]'
                   )}
                 >
                   {parseFloat(userEquity.pnl) >= 0 ? '+' : ''}
@@ -204,7 +204,7 @@ export default function VaultDetailPage() {
               className={cn(
                 'px-4 py-2.5 text-sm transition-colors border-b-2 -mb-px',
                 tab === t.value
-                  ? 'border-[#14b8a6] text-white'
+                  ? 'border-[#16DE93] text-white'
                   : 'border-transparent text-white/70 hover:text-white'
               )}
             >
@@ -246,8 +246,8 @@ export default function VaultDetailPage() {
                                 className={cn(
                                   'px-1.5 py-0.5 rounded text-[10px] font-normal',
                                   isBuy
-                                    ? 'bg-[#14b8a6]/10 text-[#14b8a6]'
-                                    : 'bg-[#ef4444]/10 text-[#ef4444]'
+                                    ? 'bg-[#16DE93]/10 text-[#16DE93]'
+                                    : 'bg-[#f6465d]/10 text-[#f6465d]'
                                 )}
                               >
                                 {isBuy ? 'LONG' : 'SHORT'}
@@ -267,7 +267,7 @@ export default function VaultDetailPage() {
                             <span
                               className={cn(
                                 'font-normal',
-                                unrealizedPnl >= 0 ? 'text-green-400' : 'text-red-400'
+                                unrealizedPnl >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]'
                               )}
                             >
                               {unrealizedPnl >= 0 ? '+' : ''}
@@ -306,7 +306,7 @@ export default function VaultDetailPage() {
                         <div className="flex items-center gap-6">
                           <span className="text-gray-400 text-xs">
                             APR: <span className={cn(
-                              period.apr >= 0 ? 'text-green-400' : 'text-red-400'
+                              period.apr >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]'
                             )}>{period.apr.toFixed(1)}%</span>
                           </span>
                           <span className="text-gray-400 text-xs">
@@ -314,7 +314,7 @@ export default function VaultDetailPage() {
                             <span
                               className={cn(
                                 'font-normal',
-                                pnl >= 0 ? 'text-green-400' : 'text-red-400'
+                                pnl >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]'
                               )}
                             >
                               {pnl >= 0 ? '+' : ''}

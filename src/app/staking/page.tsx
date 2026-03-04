@@ -113,7 +113,7 @@ export default function StakingPage() {
               { step: '5', text: 'Withdraw to Spot (7-day queue, max 5 pending)' },
             ].map((item) => (
               <div key={item.step} className="flex items-start gap-2">
-                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-teal-500/20 text-teal-400 text-xs flex items-center justify-center font-normal">
+                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#16DE93]/20 text-[#16DE93] text-xs flex items-center justify-center font-normal">
                   {item.step}
                 </span>
                 <p className="text-gray-400 text-xs">{item.text}</p>

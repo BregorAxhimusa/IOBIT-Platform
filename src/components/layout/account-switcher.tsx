@@ -43,7 +43,7 @@ export function AccountSwitcher() {
           'flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-normal transition-colors border',
           isMaster
             ? 'border-gray-700 text-gray-300 hover:text-white hover:border-gray-500'
-            : 'border-[#14b8a6]/50 text-[#14b8a6] bg-[#14b8a6]/10 hover:bg-[#14b8a6]/20'
+            : 'border-[#16DE93]/50 text-[#16DE93] bg-[#16DE93]/10 hover:bg-[#16DE93]/20'
         )}
       >
         <span className="max-w-[100px] truncate">{currentLabel}</span>
@@ -75,7 +75,7 @@ export function AccountSwitcher() {
               <div className="text-gray-500 text-[10px]">{formatAddress(address)}</div>
             </div>
             {isMaster && (
-              <span className="text-[#14b8a6] text-[10px]">Active</span>
+              <span className="text-[#16DE93] text-[10px]">Active</span>
             )}
           </button>
 
@@ -105,7 +105,7 @@ export function AccountSwitcher() {
                   </div>
                 </div>
                 {isActive && (
-                  <span className="text-[#14b8a6] text-[10px]">Active</span>
+                  <span className="text-[#16DE93] text-[10px]">Active</span>
                 )}
               </button>
             );

@@ -79,10 +79,10 @@ export function FeeSavingsCard() {
 
       {/* Referral Discount */}
       {referralDiscount > 0 && (
-        <div className="bg-teal-500/10 border border-teal-500/20 rounded-lg px-3 py-2 mb-3">
+        <div className="bg-[#16DE93]/10 border border-[#16DE93]/20 rounded-lg px-3 py-2 mb-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-teal-400">Referral Discount</span>
-            <span className="text-xs font-normal text-teal-300">
+            <span className="text-xs text-[#16DE93]">Referral Discount</span>
+            <span className="text-xs font-normal text-[#16DE93]">
               {(referralDiscount * 100).toFixed(1)}%
             </span>
           </div>
@@ -99,7 +99,7 @@ export function FeeSavingsCard() {
           <>
             <div className="w-full bg-gray-800 rounded-full h-1.5">
               <div
-                className="h-1.5 rounded-full bg-gradient-to-r from-teal-500 to-blue-500 transition-all"
+                className="h-1.5 rounded-full bg-gradient-to-r from-[#16DE93] to-blue-500 transition-all"
                 style={{ width: `${Math.min(progressToNext, 100)}%` }}
               />
             </div>

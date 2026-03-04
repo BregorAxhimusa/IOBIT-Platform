@@ -99,8 +99,8 @@ export function VaultDepositModal({
             <div className={cn(
               "w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center mb-3 sm:mb-4 shadow-lg",
               mode === 'deposit'
-                ? 'bg-gradient-to-br from-teal-500 to-cyan-500 shadow-teal-500/20'
-                : 'bg-gradient-to-br from-rose-500 to-red-500 shadow-rose-500/20'
+                ? 'bg-gradient-to-br from-[#16DE93] to-cyan-500 shadow-[#16DE93]/20'
+                : 'bg-gradient-to-br from-[#f6465d] to-[#f6465d] shadow-[#f6465d]/20'
             )}>
               {mode === 'deposit' ? (
                 <svg className="w-6 h-6 sm:w-7 sm:h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -125,7 +125,7 @@ export function VaultDepositModal({
               className={cn(
                 'flex-1 py-2 sm:py-2.5 text-xs sm:text-sm font-normal transition-colors',
                 mode === 'deposit'
-                  ? 'bg-teal-500 text-white'
+                  ? 'bg-[#16DE93] text-white'
                   : 'text-white/70 hover:text-white'
               )}
             >
@@ -136,7 +136,7 @@ export function VaultDepositModal({
               className={cn(
                 'flex-1 py-2 sm:py-2.5 text-xs sm:text-sm font-normal transition-colors',
                 mode === 'withdraw'
-                  ? 'bg-rose-500 text-white'
+                  ? 'bg-[#f6465d] text-white'
                   : 'text-white/70 hover:text-white'
               )}
             >
@@ -149,7 +149,7 @@ export function VaultDepositModal({
             {mode === 'deposit' ? (
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1.5 sm:gap-2">
-                  <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-teal-400 rounded-full" />
+                  <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#16DE93] rounded-full" />
                   <span className="text-gray-400 text-xs sm:text-sm">Available Balance</span>
                 </div>
                 <span className="text-white text-sm sm:text-base font-normal">${availableBalance.toFixed(2)}</span>
@@ -184,7 +184,7 @@ export function VaultDepositModal({
               <label className="text-[10px] sm:text-xs text-gray-500 font-normal">Amount (USDC)</label>
               <button
                 onClick={handleMaxClick}
-                className="text-[10px] sm:text-xs text-teal-400 hover:text-teal-300 font-normal transition-colors"
+                className="text-[10px] sm:text-xs text-[#16DE93] hover:text-[#16DE93] font-normal transition-colors"
               >
                 MAX
               </button>
@@ -194,7 +194,7 @@ export function VaultDepositModal({
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="0.00"
-              className="w-full bg-[#0a0a0a] border border-[#1a1a1f] px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-teal-500/50 placeholder-gray-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              className="w-full bg-[#0a0a0a] border border-[#1a1a1f] px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 placeholder-gray-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
           </div>
 
@@ -214,8 +214,8 @@ export function VaultDepositModal({
 
           {/* Error */}
           {error && (
-            <div className="bg-red-500/10 border border-red-500/30 p-2 sm:p-3 mb-3 sm:mb-4">
-              <p className="text-red-400 text-[10px] sm:text-xs">{error}</p>
+            <div className="bg-[#f6465d]/10 border border-[#f6465d]/30 p-2 sm:p-3 mb-3 sm:mb-4">
+              <p className="text-[#f6465d] text-[10px] sm:text-xs">{error}</p>
             </div>
           )}
 
@@ -229,8 +229,8 @@ export function VaultDepositModal({
             className={cn(
               'w-full py-2.5 sm:py-3 font-normal text-xs sm:text-sm transition-colors',
               mode === 'deposit'
-                ? 'bg-teal-500 hover:bg-teal-400 text-white disabled:bg-gray-700 disabled:text-gray-500'
-                : 'bg-rose-500 hover:bg-rose-400 text-white disabled:bg-gray-700 disabled:text-gray-500',
+                ? 'bg-[#16DE93] hover:bg-[#16DE93] text-white disabled:bg-gray-700 disabled:text-gray-500'
+                : 'bg-[#f6465d] hover:bg-[#f6465d] text-white disabled:bg-gray-700 disabled:text-gray-500',
               'disabled:cursor-not-allowed'
             )}
           >

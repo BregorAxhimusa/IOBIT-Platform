@@ -68,7 +68,7 @@ export function NetworkSwitcherModal({ isOpen, onClose }: NetworkSwitcherModalPr
               className={cn(
                 'w-full p-3 sm:p-4 border-2 transition-all text-left',
                 selectedNetwork === 'mainnet'
-                  ? 'border-emerald-500 bg-emerald-500/10'
+                  ? 'border-[#16DE93] bg-[#16DE93]/10'
                   : 'border-[#1a1a1f] hover:border-gray-700 bg-[#0a0a0a]'
               )}
             >
@@ -76,7 +76,7 @@ export function NetworkSwitcherModal({ isOpen, onClose }: NetworkSwitcherModalPr
                 <div className="flex items-center gap-2 sm:gap-3">
                   <div className={cn(
                     'w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full',
-                    selectedNetwork === 'mainnet' ? 'bg-emerald-500' : 'bg-gray-600'
+                    selectedNetwork === 'mainnet' ? 'bg-[#16DE93]' : 'bg-gray-600'
                   )} />
                   <div>
                     <span className="text-white text-sm sm:text-base font-normal block">Mainnet</span>
@@ -84,7 +84,7 @@ export function NetworkSwitcherModal({ isOpen, onClose }: NetworkSwitcherModalPr
                   </div>
                 </div>
                 {selectedNetwork === 'mainnet' && (
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#16DE93]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 )}
@@ -146,7 +146,7 @@ export function NetworkSwitcherModal({ isOpen, onClose }: NetworkSwitcherModalPr
             <button
               onClick={handleSwitchNetwork}
               disabled={selectedNetwork === network}
-              className="flex-1 py-2.5 sm:py-3 bg-teal-500 hover:bg-teal-400 text-white font-normal text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed"
+              className="flex-1 py-2.5 sm:py-3 bg-[#16DE93] hover:bg-[#16DE93] text-white font-normal text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed"
             >
               Switch Network
             </button>

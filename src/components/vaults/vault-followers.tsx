@@ -82,7 +82,7 @@ export function VaultFollowers({ followers }: VaultFollowersProps) {
                   <span
                     className={cn(
                       'font-normal',
-                      pnl >= 0 ? 'text-green-400' : 'text-red-400'
+                      pnl >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]'
                     )}
                   >
                     {pnl >= 0 ? '+' : ''}

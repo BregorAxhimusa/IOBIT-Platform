@@ -104,16 +104,16 @@ export function ValidatorsTable({ validators, isLoading, onStake }: ValidatorsTa
                 <td className="py-3 text-right text-white">{formatCompactNumber(v.stake)} HYPE</td>
                 <td className="py-3 text-right">
                   {v.isJailed ? (
-                    <span className="px-2 py-0.5 bg-red-500/10 text-red-400 text-[10px] rounded-full">Jailed</span>
+                    <span className="px-2 py-0.5 bg-[#f6465d]/10 text-[#f6465d] text-[10px] rounded-full">Jailed</span>
                   ) : (
-                    <span className="px-2 py-0.5 bg-green-500/10 text-green-400 text-[10px] rounded-full">Active</span>
+                    <span className="px-2 py-0.5 bg-[#16DE93]/10 text-[#16DE93] text-[10px] rounded-full">Active</span>
                   )}
                 </td>
                 <td className="py-3 text-right">
                   <button
                     onClick={() => onStake(v)}
                     disabled={v.isJailed}
-                    className="px-3 py-1 text-xs font-normal bg-teal-500/10 text-teal-400 rounded-lg hover:bg-teal-500/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-3 py-1 text-xs font-normal bg-[#16DE93]/10 text-[#16DE93] rounded-lg hover:bg-[#16DE93]/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Stake
                   </button>

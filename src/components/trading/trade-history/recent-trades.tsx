@@ -48,13 +48,13 @@ export function RecentTrades({ symbol }: RecentTradesProps) {
                 key={`${trade.time}-${idx}`}
                 className={cn(
                   "grid grid-cols-3 gap-1 sm:gap-2 px-3 sm:px-4 py-0.5 sm:py-1 text-[10px] sm:text-xs transition-colors",
-                  trade.side === 'buy' ? 'hover:bg-emerald-500/10' : 'hover:bg-rose-500/10'
+                  trade.side === 'buy' ? 'hover:bg-[#16DE93]/10' : 'hover:bg-[#f6465d]/10'
                 )}
               >
                 <div
                   className={cn(
                     'text-left font-normal tabular-nums',
-                    trade.side === 'buy' ? 'text-emerald-400' : 'text-rose-400'
+                    trade.side === 'buy' ? 'text-[#16DE93]' : 'text-[#f6465d]'
                   )}
                 >
                   {parseFloat(trade.price).toLocaleString('en-US', {

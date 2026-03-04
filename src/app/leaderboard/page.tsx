@@ -105,7 +105,7 @@ export default function LeaderboardPage() {
                     </div>
                     <div className="text-right">
                       <div className="text-xs text-gray-400">{entry.displayName || formatAddress(entry.ethAddress)}</div>
-                      <div className="text-xl font-normal text-green-400">
+                      <div className="text-xl font-normal text-[#16DE93]">
                         ${accountValue >= 1_000_000 ? `${(accountValue / 1_000_000).toFixed(1)}M` : `${(accountValue / 1_000).toFixed(1)}K`}
                       </div>
                     </div>
@@ -113,7 +113,7 @@ export default function LeaderboardPage() {
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
                       <span className="text-gray-400">PnL</span>
-                      <span className={pnl >= 0 ? 'text-green-400' : 'text-red-400'}>
+                      <span className={pnl >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]'}>
                         {pnl >= 0 ? '+' : ''}${pnl >= 1_000_000 ? `${(pnl / 1_000_000).toFixed(1)}M` : `${(pnl / 1_000).toFixed(1)}K`}
                       </span>
                     </div>
@@ -156,14 +156,14 @@ export default function LeaderboardPage() {
                   <tr>
                     <td colSpan={5} className="px-6 py-12 text-center text-gray-500">
                       <div className="flex items-center justify-center gap-2">
-                        <div className="w-5 h-5 border-2 border-teal-500 border-t-transparent rounded-full animate-spin" />
+                        <div className="w-5 h-5 border-2 border-[#16DE93] border-t-transparent rounded-full animate-spin" />
                         Loading leaderboard...
                       </div>
                     </td>
                   </tr>
                 ) : error ? (
                   <tr>
-                    <td colSpan={5} className="px-6 py-12 text-center text-red-400">
+                    <td colSpan={5} className="px-6 py-12 text-center text-[#f6465d]">
                       Error loading leaderboard. Please try again later.
                     </td>
                   </tr>
@@ -216,7 +216,7 @@ export default function LeaderboardPage() {
                           </div>
                         </td>
                         <td className="px-6 py-4 text-right">
-                          <span className={cn('font-normal', pnl >= 0 ? 'text-green-400' : 'text-red-400')}>
+                          <span className={cn('font-normal', pnl >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]')}>
                             {pnl >= 0 ? '+' : ''}${pnl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                           </span>
                         </td>
@@ -245,8 +245,8 @@ export default function LeaderboardPage() {
         )}
 
         {/* Info Box */}
-        <div className="mt-6 p-4 bg-teal-500/10 border border-teal-500/20">
-          <p className="text-sm text-teal-300">
+        <div className="mt-6 p-4 bg-[#16DE93]/10 border border-[#16DE93]/20">
+          <p className="text-sm text-[#16DE93]">
             <strong>Note:</strong> Leaderboard shows top traders ranked by account value and
             trading volume. Data is updated in real-time from Hyperliquid{' '}
             {network === 'mainnet' ? 'mainnet' : 'testnet'}.

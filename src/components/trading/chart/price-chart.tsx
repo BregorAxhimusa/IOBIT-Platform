@@ -144,29 +144,29 @@ function PriceChartComponent({ symbol }: PriceChartProps) {
             'paneProperties.legendProperties.showSeriesTitle': true,
             'paneProperties.legendProperties.showSeriesOHLC': true,
 
-            'mainSeriesProperties.candleStyle.upColor': '#10B981',
-            'mainSeriesProperties.candleStyle.downColor': '#EF4444',
-            'mainSeriesProperties.candleStyle.borderUpColor': '#10B981',
-            'mainSeriesProperties.candleStyle.borderDownColor': '#EF4444',
-            'mainSeriesProperties.candleStyle.wickUpColor': '#10B981',
-            'mainSeriesProperties.candleStyle.wickDownColor': '#EF4444',
+            'mainSeriesProperties.candleStyle.upColor': '#16DE93',
+            'mainSeriesProperties.candleStyle.downColor': '#f6465d',
+            'mainSeriesProperties.candleStyle.borderUpColor': '#16DE93',
+            'mainSeriesProperties.candleStyle.borderDownColor': '#f6465d',
+            'mainSeriesProperties.candleStyle.wickUpColor': '#16DE93',
+            'mainSeriesProperties.candleStyle.wickDownColor': '#f6465d',
 
-            'mainSeriesProperties.hollowCandleStyle.upColor': '#10B981',
-            'mainSeriesProperties.hollowCandleStyle.downColor': '#EF4444',
-            'mainSeriesProperties.hollowCandleStyle.borderUpColor': '#10B981',
-            'mainSeriesProperties.hollowCandleStyle.borderDownColor': '#EF4444',
-            'mainSeriesProperties.hollowCandleStyle.wickUpColor': '#10B981',
-            'mainSeriesProperties.hollowCandleStyle.wickDownColor': '#EF4444',
+            'mainSeriesProperties.hollowCandleStyle.upColor': '#16DE93',
+            'mainSeriesProperties.hollowCandleStyle.downColor': '#f6465d',
+            'mainSeriesProperties.hollowCandleStyle.borderUpColor': '#16DE93',
+            'mainSeriesProperties.hollowCandleStyle.borderDownColor': '#f6465d',
+            'mainSeriesProperties.hollowCandleStyle.wickUpColor': '#16DE93',
+            'mainSeriesProperties.hollowCandleStyle.wickDownColor': '#f6465d',
 
-            'mainSeriesProperties.haStyle.upColor': '#10B981',
-            'mainSeriesProperties.haStyle.downColor': '#EF4444',
-            'mainSeriesProperties.haStyle.borderUpColor': '#10B981',
-            'mainSeriesProperties.haStyle.borderDownColor': '#EF4444',
-            'mainSeriesProperties.haStyle.wickUpColor': '#10B981',
-            'mainSeriesProperties.haStyle.wickDownColor': '#EF4444',
+            'mainSeriesProperties.haStyle.upColor': '#16DE93',
+            'mainSeriesProperties.haStyle.downColor': '#f6465d',
+            'mainSeriesProperties.haStyle.borderUpColor': '#16DE93',
+            'mainSeriesProperties.haStyle.borderDownColor': '#f6465d',
+            'mainSeriesProperties.haStyle.wickUpColor': '#16DE93',
+            'mainSeriesProperties.haStyle.wickDownColor': '#f6465d',
 
-            'mainSeriesProperties.barStyle.upColor': '#10B981',
-            'mainSeriesProperties.barStyle.downColor': '#EF4444',
+            'mainSeriesProperties.barStyle.upColor': '#16DE93',
+            'mainSeriesProperties.barStyle.downColor': '#f6465d',
 
             'mainSeriesProperties.lineStyle.color': '#3B82F6',
             'mainSeriesProperties.lineStyle.linewidth': 2,
@@ -183,8 +183,8 @@ function PriceChartComponent({ symbol }: PriceChartProps) {
 
           // Studies overrides (indicators styling)
           studies_overrides: {
-            'volume.volume.color.0': 'rgba(239, 68, 68, 0.5)',
-            'volume.volume.color.1': 'rgba(16, 185, 129, 0.5)',
+            'volume.volume.color.0': 'rgba(246, 70, 93, 0.5)',
+            'volume.volume.color.1': 'rgba(22, 222, 147, 0.5)',
             'volume.volume.transparency': 50,
             'volume.volume ma.color': '#3B82F6',
             'volume.volume ma.transparency': 30,
@@ -194,7 +194,7 @@ function PriceChartComponent({ symbol }: PriceChartProps) {
           // Loading screen
           loading_screen: {
             backgroundColor: '#0a0a0c',
-            foregroundColor: '#14b8a6',
+            foregroundColor: '#16DE93',
           },
 
           // Custom CSS

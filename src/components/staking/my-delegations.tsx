@@ -56,7 +56,7 @@ export function MyDelegations({ delegations, validators, onUndelegate, isDelegat
                         Locked ({lockRemaining}h left)
                       </span>
                     ) : (
-                      <span className="px-2 py-0.5 bg-green-500/10 text-green-400 text-[10px] rounded-full">
+                      <span className="px-2 py-0.5 bg-[#16DE93]/10 text-[#16DE93] text-[10px] rounded-full">
                         Active
                       </span>
                     )}
@@ -65,7 +65,7 @@ export function MyDelegations({ delegations, validators, onUndelegate, isDelegat
                     <button
                       onClick={() => onUndelegate(d.validator, d.amount)}
                       disabled={isLocked || isDelegating}
-                      className="text-xs text-red-400 hover:text-red-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="text-xs text-[#f6465d] hover:text-[#f6465d] disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       Undelegate
                     </button>

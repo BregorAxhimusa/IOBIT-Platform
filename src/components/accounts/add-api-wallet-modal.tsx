@@ -80,10 +80,10 @@ export function AddApiWalletModal({ isOpen, onClose, onSuccess }: AddApiWalletMo
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               placeholder="0x..."
-              className="w-full bg-[#0a0a0a] border border-[#1a1a1f] px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm focus:outline-none focus:border-teal-500/50 placeholder-gray-600"
+              className="w-full bg-[#0a0a0a] border border-[#1a1a1f] px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm focus:outline-none focus:border-[#16DE93]/50 placeholder-gray-600"
             />
             {address && !isValidAddress && (
-              <div className="flex items-center gap-1.5 mt-1.5 sm:mt-2 text-red-400">
+              <div className="flex items-center gap-1.5 mt-1.5 sm:mt-2 text-[#f6465d]">
                 <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -91,7 +91,7 @@ export function AddApiWalletModal({ isOpen, onClose, onSuccess }: AddApiWalletMo
               </div>
             )}
             {address && isValidAddress && (
-              <div className="flex items-center gap-1.5 mt-1.5 sm:mt-2 text-green-400">
+              <div className="flex items-center gap-1.5 mt-1.5 sm:mt-2 text-[#16DE93]">
                 <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
@@ -111,7 +111,7 @@ export function AddApiWalletModal({ isOpen, onClose, onSuccess }: AddApiWalletMo
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Bot Wallet"
               maxLength={24}
-              className="w-full bg-[#0a0a0a] border border-[#1a1a1f] px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm focus:outline-none focus:border-teal-500/50 placeholder-gray-600"
+              className="w-full bg-[#0a0a0a] border border-[#1a1a1f] px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm focus:outline-none focus:border-[#16DE93]/50 placeholder-gray-600"
             />
           </div>
 
@@ -119,7 +119,7 @@ export function AddApiWalletModal({ isOpen, onClose, onSuccess }: AddApiWalletMo
           <button
             onClick={handleSubmit}
             disabled={isApproving || !isValidAddress}
-            className="w-full py-2.5 sm:py-3 font-normal text-xs sm:text-sm bg-teal-500 hover:bg-teal-400 text-white disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors"
+            className="w-full py-2.5 sm:py-3 font-normal text-xs sm:text-sm bg-[#16DE93] hover:bg-[#16DE93] text-white disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors"
           >
             {isApproving ? (
               <span className="flex items-center justify-center gap-2">

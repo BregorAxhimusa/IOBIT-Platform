@@ -62,9 +62,9 @@ export function DelegateModal({ isOpen, onClose, validator, availableBalance, on
                 <p className="text-gray-600 text-[10px] sm:text-xs mt-0.5">{formatAddress(validator.validator)}</p>
               </div>
               {validator.isJailed ? (
-                <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-red-500/10 text-red-400 text-[10px] sm:text-xs border border-red-500/30">Jailed</span>
+                <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-[#f6465d]/10 text-[#f6465d] text-[10px] sm:text-xs border border-[#f6465d]/30">Jailed</span>
               ) : (
-                <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-green-500/10 text-green-400 text-[10px] sm:text-xs border border-green-500/30">Active</span>
+                <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-[#16DE93]/10 text-[#16DE93] text-[10px] sm:text-xs border border-[#16DE93]/30">Active</span>
               )}
             </div>
             <div className="grid grid-cols-2 gap-2 sm:gap-3 pt-2 sm:pt-3 border-t border-[#1a1a1f]">
@@ -96,7 +96,7 @@ export function DelegateModal({ isOpen, onClose, validator, availableBalance, on
             <div className="flex items-center justify-between mb-1.5 sm:mb-2">
               <label className="text-[10px] sm:text-xs text-gray-500 font-normal">Amount (HYPE)</label>
               <span className="text-[10px] sm:text-xs text-gray-500">
-                Available: <span className="text-teal-400">{formatCompactNumber(availableBalance)}</span>
+                Available: <span className="text-[#16DE93]">{formatCompactNumber(availableBalance)}</span>
               </span>
             </div>
             <div className="flex gap-2">
@@ -105,11 +105,11 @@ export function DelegateModal({ isOpen, onClose, validator, availableBalance, on
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="0.00"
-                className="flex-1 bg-[#0a0a0a] border border-[#1a1a1f] px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-teal-500/50 placeholder-gray-600"
+                className="flex-1 bg-[#0a0a0a] border border-[#1a1a1f] px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 placeholder-gray-600"
               />
               <button
                 onClick={() => setAmount(availableBalance)}
-                className="px-3 py-2 sm:px-4 sm:py-3 text-[10px] sm:text-xs font-normal text-teal-400 hover:text-teal-300 bg-[#0a0a0a] border border-[#1a1a1f] hover:border-teal-500/30 transition-colors"
+                className="px-3 py-2 sm:px-4 sm:py-3 text-[10px] sm:text-xs font-normal text-[#16DE93] hover:text-[#16DE93] bg-[#0a0a0a] border border-[#1a1a1f] hover:border-[#16DE93]/30 transition-colors"
               >
                 MAX
               </button>
@@ -120,7 +120,7 @@ export function DelegateModal({ isOpen, onClose, validator, availableBalance, on
           <button
             onClick={handleSubmit}
             disabled={isDelegating || !amount || parseFloat(amount) <= 0}
-            className="w-full py-2.5 sm:py-3 font-normal text-xs sm:text-sm bg-teal-500 hover:bg-teal-400 text-white disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors"
+            className="w-full py-2.5 sm:py-3 font-normal text-xs sm:text-sm bg-[#16DE93] hover:bg-[#16DE93] text-white disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors"
           >
             {isDelegating ? (
               <span className="flex items-center justify-center gap-2">

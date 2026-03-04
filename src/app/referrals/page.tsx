@@ -92,7 +92,7 @@ export default function ReferralsPage() {
                 key={item.step}
                 className="bg-[#0a0a0a] p-3 text-center"
               >
-                <div className="w-7 h-7 bg-teal-500/20 text-teal-400 rounded-full flex items-center justify-center text-xs font-normal mx-auto mb-2">
+                <div className="w-7 h-7 bg-[#16DE93]/20 text-[#16DE93] rounded-full flex items-center justify-center text-xs font-normal mx-auto mb-2">
                   {item.step}
                 </div>
                 <p className="text-white text-sm font-normal">{item.title}</p>

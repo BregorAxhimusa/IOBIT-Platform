@@ -75,7 +75,7 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
              item.dataKey === 'fundingPnl' ? 'Funding' :
              item.dataKey}
           </span>
-          <span className={cn('text-xs font-normal', item.value >= 0 ? 'text-green-400' : 'text-red-400')}>
+          <span className={cn('text-xs font-normal', item.value >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]')}>
             {formatCurrency(item.value)}
           </span>
         </div>
@@ -132,7 +132,7 @@ export function PortfolioChart({
         <div>
           <h3 className="text-white font-normal">Portfolio Performance</h3>
           <div className="flex items-center gap-2 mt-1">
-            <span className={cn('text-lg font-normal', isPositive ? 'text-green-400' : 'text-red-400')}>
+            <span className={cn('text-lg font-normal', isPositive ? 'text-[#16DE93]' : 'text-[#f6465d]')}>
               {isPositive ? '+' : ''}{formatCurrency(totalPnl)}
             </span>
             <span className="text-gray-500 text-sm">cumulative PnL</span>
@@ -147,7 +147,7 @@ export function PortfolioChart({
               className={cn(
                 'px-3 py-1 text-xs rounded-md transition-colors',
                 chartMode === 'cumulative'
-                  ? 'bg-[#14b8a6] text-white'
+                  ? 'bg-[#16DE93] text-white'
                   : 'text-white/70 hover:text-white'
               )}
             >
@@ -158,7 +158,7 @@ export function PortfolioChart({
               className={cn(
                 'px-3 py-1 text-xs rounded-md transition-colors',
                 chartMode === 'daily'
-                  ? 'bg-[#14b8a6] text-white'
+                  ? 'bg-[#16DE93] text-white'
                   : 'text-white/70 hover:text-white'
               )}
             >
@@ -175,7 +175,7 @@ export function PortfolioChart({
                 className={cn(
                   'px-2.5 py-1 text-xs rounded-md transition-colors',
                   timeRange === range.value
-                    ? 'bg-[#14b8a6] text-white'
+                    ? 'bg-[#16DE93] text-white'
                     : 'text-white/70 hover:text-white'
                 )}
               >
@@ -193,12 +193,12 @@ export function PortfolioChart({
             <AreaChart data={chartData} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
               <defs>
                 <linearGradient id="pnlGradientPos" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#14b8a6" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#14b8a6" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#16DE93" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="#16DE93" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="pnlGradientNeg" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#ef4444" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#ef4444" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#f6465d" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="#f6465d" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#1a2028" />
@@ -218,7 +218,7 @@ export function PortfolioChart({
               <Area
                 type="monotone"
                 dataKey="cumulativePnl"
-                stroke={isPositive ? '#14b8a6' : '#ef4444'}
+                stroke={isPositive ? '#16DE93' : '#f6465d'}
                 fill={isPositive ? 'url(#pnlGradientPos)' : 'url(#pnlGradientNeg)'}
                 strokeWidth={2}
               />
@@ -241,7 +241,7 @@ export function PortfolioChart({
               <Tooltip content={<CustomTooltip />} />
               <Bar
                 dataKey="realizedPnl"
-                fill="#14b8a6"
+                fill="#16DE93"
                 opacity={0.6}
                 radius={[2, 2, 0, 0]}
               />

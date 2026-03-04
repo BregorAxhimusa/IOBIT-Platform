@@ -72,22 +72,22 @@ export function PerformanceStatsSection({ stats, isLoading }: PerformanceStatsPr
         <StatCard
           label="Net PnL"
           value={formatCurrency(stats.netPnl)}
-          colorClass={stats.netPnl >= 0 ? 'text-green-400' : 'text-red-400'}
+          colorClass={stats.netPnl >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]'}
         />
         <StatCard
           label="Realized PnL"
           value={formatCurrency(stats.totalRealizedPnl)}
-          colorClass={stats.totalRealizedPnl >= 0 ? 'text-green-400' : 'text-red-400'}
+          colorClass={stats.totalRealizedPnl >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]'}
         />
         <StatCard
           label="Funding"
           value={formatCurrency(stats.totalFunding)}
-          colorClass={stats.totalFunding >= 0 ? 'text-green-400' : 'text-red-400'}
+          colorClass={stats.totalFunding >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]'}
         />
         <StatCard
           label="Total Fees"
           value={formatCurrency(stats.totalFees)}
-          colorClass="text-red-400"
+          colorClass="text-[#f6465d]"
         />
         <StatCard
           label="Total Volume"
@@ -102,44 +102,44 @@ export function PerformanceStatsSection({ stats, isLoading }: PerformanceStatsPr
         <StatCard
           label="Win Rate"
           value={formatPercent(stats.winRate)}
-          colorClass={stats.winRate >= 50 ? 'text-green-400' : 'text-red-400'}
+          colorClass={stats.winRate >= 50 ? 'text-[#16DE93]' : 'text-[#f6465d]'}
         />
         <StatCard
           label="Profit Factor"
           value={stats.profitFactor === Infinity ? '∞' : stats.profitFactor.toFixed(2)}
-          colorClass={stats.profitFactor >= 1 ? 'text-green-400' : 'text-red-400'}
+          colorClass={stats.profitFactor >= 1 ? 'text-[#16DE93]' : 'text-[#f6465d]'}
         />
         <StatCard
           label="Avg Win"
           value={formatCurrency(stats.avgWin)}
-          colorClass="text-green-400"
+          colorClass="text-[#16DE93]"
         />
         <StatCard
           label="Avg Loss"
           value={formatCurrency(stats.avgLoss)}
-          colorClass="text-red-400"
+          colorClass="text-[#f6465d]"
         />
 
         {/* Additional Stats */}
         <StatCard
           label="Largest Win"
           value={formatCurrency(stats.largestWin)}
-          colorClass="text-green-400"
+          colorClass="text-[#16DE93]"
         />
         <StatCard
           label="Largest Loss"
           value={formatCurrency(stats.largestLoss)}
-          colorClass="text-red-400"
+          colorClass="text-[#f6465d]"
         />
         <StatCard
           label="Winning Trades"
           value={stats.winningTrades.toLocaleString()}
-          colorClass="text-green-400"
+          colorClass="text-[#16DE93]"
         />
         <StatCard
           label="Losing Trades"
           value={stats.losingTrades.toLocaleString()}
-          colorClass="text-red-400"
+          colorClass="text-[#f6465d]"
         />
         <StatCard
           label="Avg Trade Size"

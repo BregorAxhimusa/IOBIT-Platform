@@ -160,7 +160,7 @@ export function MarketsList({ currentSymbol }: MarketsListProps) {
                 <div
                   className={cn(
                     'col-span-2 text-right font-normal flex items-center justify-end',
-                    market.change24h >= 0 ? 'text-green-500' : 'text-red-500'
+                    market.change24h >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]'
                   )}
                 >
                   {market.change24h !== 0 ? (

@@ -14,10 +14,10 @@ interface ReferredBySectionProps {
 function AlreadyReferredView({ referrer, code }: { referrer: string; code: string }) {
   return (
     <div className="space-y-3">
-      <div className="bg-[#0a0a0a] border border-teal-500/20  p-4">
+      <div className="bg-[#0a0a0a] border border-[#16DE93]/20  p-4">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-teal-500/20 flex items-center justify-center shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-teal-400" viewBox="0 0 20 20" fill="currentColor">
+          <div className="w-8 h-8 rounded-full bg-[#16DE93]/20 flex items-center justify-center shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#16DE93]" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
             </svg>
           </div>
@@ -26,7 +26,7 @@ function AlreadyReferredView({ referrer, code }: { referrer: string; code: strin
               Referred by {formatAddress(referrer)}
             </p>
             <p className="text-gray-400 text-xs mt-0.5">
-              Code: <span className="text-teal-400 font-normal">{code}</span>
+              Code: <span className="text-[#16DE93] font-normal">{code}</span>
             </p>
           </div>
         </div>
@@ -34,7 +34,7 @@ function AlreadyReferredView({ referrer, code }: { referrer: string; code: strin
 
       <div className="bg-[#0a0a0a] border border-gray-800  p-3">
         <p className="text-gray-400 text-xs">
-          You get a <span className="text-teal-400 font-normal">4% fee discount</span> on your first $25M in trading volume.
+          You get a <span className="text-[#16DE93] font-normal">4% fee discount</span> on your first $25M in trading volume.
         </p>
       </div>
     </div>
@@ -94,7 +94,7 @@ function SetReferrerView({
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           placeholder="Enter referral code"
-          className="flex-1 bg-[#0a0a0a] border border-gray-700  px-3 py-2 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-teal-500 transition-colors uppercase"
+          className="flex-1 bg-[#0a0a0a] border border-gray-700  px-3 py-2 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-[#16DE93] transition-colors uppercase"
         />
         <button
           onClick={handleApply}
@@ -102,7 +102,7 @@ function SetReferrerView({
           className={cn(
             'px-4 py-2  text-sm font-normal transition-all shrink-0',
             isValidCode && !isSetting
-              ? 'bg-teal-500 hover:bg-teal-600 text-white'
+              ? 'bg-[#16DE93] hover:bg-[#16DE93] text-white'
               : 'bg-gray-700 text-gray-500 cursor-not-allowed'
           )}
         >
@@ -121,7 +121,7 @@ function SetReferrerView({
       </div>
 
       {error && (
-        <p className="text-red-400 text-sm">{error}</p>
+        <p className="text-[#f6465d] text-sm">{error}</p>
       )}
 
       <p className="text-gray-500 text-xs">
@@ -141,7 +141,7 @@ export function ReferredBySection({
   return (
     <div className="bg-[#0a0a0c] border border-gray-800 p-4">
       <h3 className="text-white font-normal mb-4 flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-teal-500" viewBox="0 0 20 20" fill="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#16DE93]" viewBox="0 0 20 20" fill="currentColor">
           <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
         </svg>
         Referred By

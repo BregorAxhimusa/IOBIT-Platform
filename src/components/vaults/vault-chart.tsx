@@ -49,7 +49,7 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
           <span
             className={cn(
               'text-xs font-normal',
-              item.value >= 0 ? 'text-green-400' : 'text-red-400'
+              item.value >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]'
             )}
           >
             {formatCurrency(item.value)}
@@ -85,12 +85,12 @@ export function VaultChart({ periods }: VaultChartProps) {
         <AreaChart data={chartData} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
           <defs>
             <linearGradient id="vaultPnlPos" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#14b8a6" stopOpacity={0.3} />
-              <stop offset="95%" stopColor="#14b8a6" stopOpacity={0} />
+              <stop offset="5%" stopColor="#16DE93" stopOpacity={0.3} />
+              <stop offset="95%" stopColor="#16DE93" stopOpacity={0} />
             </linearGradient>
             <linearGradient id="vaultPnlNeg" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#ef4444" stopOpacity={0.3} />
-              <stop offset="95%" stopColor="#ef4444" stopOpacity={0} />
+              <stop offset="5%" stopColor="#f6465d" stopOpacity={0.3} />
+              <stop offset="95%" stopColor="#f6465d" stopOpacity={0} />
             </linearGradient>
           </defs>
           <CartesianGrid strokeDasharray="3 3" stroke="#1a2028" />
@@ -110,7 +110,7 @@ export function VaultChart({ periods }: VaultChartProps) {
           <Area
             type="monotone"
             dataKey="pnl"
-            stroke={isPositive ? '#14b8a6' : '#ef4444'}
+            stroke={isPositive ? '#16DE93' : '#f6465d'}
             fill={isPositive ? 'url(#vaultPnlPos)' : 'url(#vaultPnlNeg)'}
             strokeWidth={2}
           />

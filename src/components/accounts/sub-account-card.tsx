@@ -66,7 +66,7 @@ export function SubAccountCard({ subAccount, onTransfer }: SubAccountCardProps) 
           <p
             className={cn(
               'text-xs font-normal',
-              totalPnl >= 0 ? 'text-green-400' : 'text-red-400'
+              totalPnl >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]'
             )}
           >
             {totalPnl >= 0 ? '+' : ''}

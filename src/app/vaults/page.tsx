@@ -70,7 +70,7 @@ export default function VaultsPage() {
               className={cn(
                 'px-4 py-2 text-sm rounded-md transition-colors',
                 tab === 'all'
-                  ? 'bg-[#14b8a6] text-white'
+                  ? 'bg-[#16DE93] text-white'
                   : 'text-white/70 hover:text-white'
               )}
             >
@@ -81,7 +81,7 @@ export default function VaultsPage() {
               className={cn(
                 'px-4 py-2 text-sm rounded-md transition-colors',
                 tab === 'my'
-                  ? 'bg-[#14b8a6] text-white'
+                  ? 'bg-[#16DE93] text-white'
                   : 'text-white/70 hover:text-white'
               )}
             >
@@ -217,7 +217,7 @@ export default function VaultsPage() {
                 <p className="text-sm mb-2">You haven&apos;t deposited into any vaults yet</p>
                 <button
                   onClick={() => setTab('all')}
-                  className="text-[#14b8a6] text-sm hover:underline"
+                  className="text-[#16DE93] text-sm hover:underline"
                 >
                   Browse all vaults
                 </button>
@@ -250,7 +250,7 @@ export default function VaultsPage() {
                                 <span
                                   className={cn(
                                     'font-normal',
-                                    pnl >= 0 ? 'text-green-400' : 'text-red-400'
+                                    pnl >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]'
                                   )}
                                 >
                                   {pnl >= 0 ? '+' : ''}

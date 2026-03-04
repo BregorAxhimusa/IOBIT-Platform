@@ -38,7 +38,7 @@ export function VaultCard({ vault }: VaultCardProps) {
             </p>
           </div>
           {vault.isClosed && (
-            <span className="px-2 py-0.5 bg-red-500/10 text-red-400 text-xs rounded-full ml-2 shrink-0">
+            <span className="px-2 py-0.5 bg-[#f6465d]/10 text-[#f6465d] text-xs rounded-full ml-2 shrink-0">
               Closed
             </span>
           )}
@@ -58,7 +58,7 @@ export function VaultCard({ vault }: VaultCardProps) {
             <p
               className={cn(
                 'text-sm font-normal',
-                isPositiveApr ? 'text-green-400' : 'text-red-400'
+                isPositiveApr ? 'text-[#16DE93]' : 'text-[#f6465d]'
               )}
             >
               {isPositiveApr ? '+' : ''}{(vault.apr30d ?? 0).toFixed(1)}%
@@ -71,7 +71,7 @@ export function VaultCard({ vault }: VaultCardProps) {
             <p
               className={cn(
                 'text-sm font-normal',
-                isPositivePnl ? 'text-green-400' : 'text-red-400'
+                isPositivePnl ? 'text-[#16DE93]' : 'text-[#f6465d]'
               )}
             >
               {isPositivePnl ? '+' : ''}{formatCurrency(vault.allTimePnl)}

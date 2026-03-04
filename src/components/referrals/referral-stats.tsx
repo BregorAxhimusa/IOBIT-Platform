@@ -18,7 +18,7 @@ function StatCard({ label, value, icon }: StatCardProps) {
   return (
     <div className="bg-[#0a0a0c] border border-gray-800 p-4">
       <div className="flex items-center gap-2 mb-2">
-        <div className="text-teal-500">{icon}</div>
+        <div className="text-[#16DE93]">{icon}</div>
         <p className="text-gray-400 text-xs">{label}</p>
       </div>
       <p className="text-white text-lg font-normal">{value}</p>

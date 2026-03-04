@@ -29,7 +29,7 @@ export function OrderBook({ symbol, onPriceClick }: OrderBookProps) {
     return (
       <div className="flex items-center justify-center h-full bg-[#0a0a0c]">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-6 h-6 border-2 border-teal-500/30 border-t-teal-400 rounded-full animate-spin" />
+          <div className="w-6 h-6 border-2 border-[#16DE93]/30 border-t-[#16DE93] rounded-full animate-spin" />
           <span className="text-gray-500 text-xs">Loading order book...</span>
         </div>
       </div>
@@ -59,15 +59,15 @@ export function OrderBook({ symbol, onPriceClick }: OrderBookProps) {
               <button
                 key={idx}
                 onClick={() => onPriceClick?.(ask.price)}
-                className="relative grid grid-cols-3 gap-1 sm:gap-2 px-3 sm:px-4 py-0.5 sm:py-1 text-[10px] sm:text-xs hover:bg-rose-500/10 transition-colors cursor-pointer group"
+                className="relative grid grid-cols-3 gap-1 sm:gap-2 px-3 sm:px-4 py-0.5 sm:py-1 text-[10px] sm:text-xs hover:bg-[#f6465d]/10 transition-colors cursor-pointer group"
               >
                 {/* Depth bar */}
                 <div
-                  className="absolute right-0 top-0 bottom-0 bg-gradient-to-l from-rose-500/15 to-transparent transition-all"
+                  className="absolute right-0 top-0 bottom-0 bg-gradient-to-l from-[#f6465d]/15 to-transparent transition-all"
                   style={{ width: `${depthPercent}%` }}
                 />
 
-                <div className="text-left text-rose-400 relative z-10 font-normal group-hover:text-rose-300 transition-colors">
+                <div className="text-left text-[#f6465d] relative z-10 font-normal group-hover:text-[#f6465d] transition-colors">
                   {parseFloat(ask.price).toLocaleString('en-US', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
@@ -92,7 +92,7 @@ export function OrderBook({ symbol, onPriceClick }: OrderBookProps) {
               {spread ? (
                 <span className="flex items-center gap-2">
                   <span>{spread.toFixed(2)}</span>
-                  <span className="text-teal-400 bg-teal-500/10 px-1.5 py-0.5 rounded text-[9px]">
+                  <span className="text-[#16DE93] bg-[#16DE93]/10 px-1.5 py-0.5 rounded text-[9px]">
                     {spreadPercentage.toFixed(3)}%
                   </span>
                 </span>
@@ -116,15 +116,15 @@ export function OrderBook({ symbol, onPriceClick }: OrderBookProps) {
               <button
                 key={idx}
                 onClick={() => onPriceClick?.(bid.price)}
-                className="relative grid grid-cols-3 gap-1 sm:gap-2 px-3 sm:px-4 py-0.5 sm:py-1 text-[10px] sm:text-xs hover:bg-emerald-500/10 transition-colors cursor-pointer group"
+                className="relative grid grid-cols-3 gap-1 sm:gap-2 px-3 sm:px-4 py-0.5 sm:py-1 text-[10px] sm:text-xs hover:bg-[#16DE93]/10 transition-colors cursor-pointer group"
               >
                 {/* Depth bar */}
                 <div
-                  className="absolute right-0 top-0 bottom-0 bg-gradient-to-l from-emerald-500/15 to-transparent transition-all"
+                  className="absolute right-0 top-0 bottom-0 bg-gradient-to-l from-[#16DE93]/15 to-transparent transition-all"
                   style={{ width: `${depthPercent}%` }}
                 />
 
-                <div className="text-left text-emerald-400 relative z-10 font-normal group-hover:text-emerald-300 transition-colors">
+                <div className="text-left text-[#16DE93] relative z-10 font-normal group-hover:text-[#16DE93] transition-colors">
                   {parseFloat(bid.price).toLocaleString('en-US', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,

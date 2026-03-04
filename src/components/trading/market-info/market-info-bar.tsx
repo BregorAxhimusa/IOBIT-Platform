@@ -194,7 +194,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                 placeholder="Search markets..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 bg-gray-800/60 border border-[#1a1a1f] rounded-lg text-white text-xs sm:text-sm placeholder-gray-500 focus:outline-none focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/20 transition-all"
+                className="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 bg-gray-800/60 border border-[#1a1a1f] rounded-lg text-white text-xs sm:text-sm placeholder-gray-500 focus:outline-none focus:border-[#16DE93]/50 focus:ring-2 focus:ring-[#16DE93]/20 transition-all"
                 autoFocus
               />
               <div className="flex gap-2 sm:gap-3">
@@ -203,7 +203,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                   className={cn(
                     'flex-1 sm:flex-initial px-4 sm:px-5 py-2 sm:py-2.5 text-white text-xs sm:text-sm font-normal rounded-lg transition-all duration-200',
                     searchMode === 'strict'
-                      ? 'bg-gradient-to-r from-teal-600 to-teal-500 hover:from-teal-500 hover:to-teal-400 shadow-lg hover:shadow-teal-500/30'
+                      ? 'bg-gradient-to-r from-[#16DE93] to-[#16DE93] hover:from-[#16DE93] hover:to-[#16DE93] shadow-lg hover:shadow-[#16DE93]/30'
                       : 'bg-gray-700/70 hover:bg-gray-600/70'
                   )}
                 >
@@ -214,7 +214,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                   className={cn(
                     'flex-1 sm:flex-initial px-4 sm:px-5 py-2 sm:py-2.5 text-white text-xs sm:text-sm font-normal rounded-lg transition-all duration-200',
                     searchMode === 'all'
-                      ? 'bg-gradient-to-r from-teal-600 to-teal-500 hover:from-teal-500 hover:to-teal-400 shadow-lg hover:shadow-teal-500/30'
+                      ? 'bg-gradient-to-r from-[#16DE93] to-[#16DE93] hover:from-[#16DE93] hover:to-[#16DE93] shadow-lg hover:shadow-[#16DE93]/30'
                       : 'bg-gray-700/70 hover:bg-gray-600/70'
                   )}
                 >
@@ -241,7 +241,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                   className={cn(
                     'px-3 sm:px-4 py-2 sm:py-2.5 rounded-t-lg transition-all duration-200 font-normal whitespace-nowrap flex-shrink-0',
                     activeFilter === filter
-                      ? 'text-white bg-gray-800/50 border-b-2 border-teal-500'
+                      ? 'text-white bg-gray-800/50 border-b-2 border-[#16DE93]'
                       : 'text-white/70 hover:text-white hover:bg-gray-800/50'
                   )}
                 >
@@ -269,7 +269,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
               {markets.size === 0 ? (
                 <div className="flex items-center justify-center py-12 sm:py-16 text-gray-400 text-xs sm:text-sm">
                   <div className="text-center">
-                    <div className="animate-spin rounded-full h-8 w-8 sm:h-10 sm:w-10 border-b-3 border-teal-500 mx-auto mb-2 sm:mb-3"></div>
+                    <div className="animate-spin rounded-full h-8 w-8 sm:h-10 sm:w-10 border-b-3 border-[#16DE93] mx-auto mb-2 sm:mb-3"></div>
                     <div className="font-normal">Loading markets...</div>
                     <div className="text-[10px] sm:text-xs text-gray-600 mt-1 sm:mt-1.5">
                       ({markets.size} markets loaded)
@@ -313,7 +313,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                       className={cn(
                         'grid grid-cols-12 gap-1 sm:gap-2 px-3 sm:px-5 py-2 sm:py-3 border-b border-gray-800/20 hover:bg-gray-800/40 transition-all duration-150 text-[10px] sm:text-xs group',
                         isActive &&
-                          'bg-teal-500/10 border-l-2 border-l-teal-500'
+                          'bg-[#16DE93]/10 border-l-2 border-l-[#16DE93]'
                       )}
                     >
                       {/* Symbol */}
@@ -328,13 +328,13 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                         >
                           {isFav ? '★' : '☆'}
                         </button>
-                        <span className="font-normal text-white group-hover:text-teal-400 transition-colors truncate">
+                        <span className="font-normal text-white group-hover:text-[#16DE93] transition-colors truncate">
                           {m.symbol}
                         </span>
                         <span className="hidden sm:inline text-gray-600 text-[9px]">
                           -USDC
                         </span>
-                        <span className="hidden lg:inline px-1.5 py-0.5 bg-teal-500/20 text-teal-400 text-[9px] font-normal rounded">
+                        <span className="hidden lg:inline px-1.5 py-0.5 bg-[#16DE93]/20 text-[#16DE93] text-[9px] font-normal rounded">
                           40x
                         </span>
                       </div>
@@ -356,8 +356,8 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                         className={cn(
                           'col-span-3 sm:col-span-2 text-right font-normal flex items-center justify-end',
                           marketChange >= 0
-                            ? 'text-emerald-400'
-                            : 'text-rose-400'
+                            ? 'text-[#16DE93]'
+                            : 'text-[#f6465d]'
                         )}
                       >
                         {marketChange !== 0 ? (
@@ -429,7 +429,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                 onClick={() => setShowMarketsDropdown(!showMarketsDropdown)}
                 className="flex items-center gap-2 hover:opacity-80 transition-all group"
               >
-                <span className="w-2.5 h-2.5 rounded-full bg-teal-400" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#16DE93]" />
                 <span className="text-lg font-normal text-white whitespace-nowrap">
                   {isSpot ? symbol : `${symbol}/USDC`}
                 </span>
@@ -456,8 +456,8 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                 className={cn(
                   'px-2 py-1 rounded-lg text-xs sm:text-sm font-normal tabular-nums',
                   isPositive
-                    ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                    : 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
+                    ? 'bg-[#16DE93]/20 text-[#16DE93] border border-[#16DE93]/30'
+                    : 'bg-[#f6465d]/20 text-[#f6465d] border border-[#f6465d]/30'
                 )}
               >
                 {market ? formatPercentage(change24h) : '--'}
@@ -490,12 +490,12 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
               <div className="hidden lg:flex flex-col px-4 flex-shrink-0 border-l border-[#1a1a1f]">
                 <span className="text-[10px] text-gray-500 uppercase tracking-wider">24H Range</span>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-xs text-emerald-400">↗</span>
+                  <span className="text-xs text-[#16DE93]">↗</span>
                   <span className="text-sm font-normal text-white tabular-nums">
                     ${formatPrice(price * 1.02, price > 100 ? 2 : 4)}
                   </span>
                   <span className="text-gray-600 mx-1">/</span>
-                  <span className="text-xs text-rose-400">↘</span>
+                  <span className="text-xs text-[#f6465d]">↘</span>
                   <span className="text-sm font-normal text-white tabular-nums">
                     ${formatPrice(price * 0.98, price > 100 ? 2 : 4)}
                   </span>
@@ -509,7 +509,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                 <span className="text-[10px] text-gray-500 uppercase tracking-wider">Funding Rate</span>
                 <span className={cn(
                   'text-sm font-normal tabular-nums',
-                  parseFloat(funding) >= 0 ? 'text-emerald-400' : 'text-rose-400'
+                  parseFloat(funding) >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]'
                 )}>
                   {market ? `${(parseFloat(funding) * 100).toFixed(4)}%` : '--'}
                 </span>

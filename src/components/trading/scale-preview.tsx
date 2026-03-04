@@ -92,7 +92,7 @@ export function ScalePreview({ startPrice, endPrice, totalSize, numOrders, sizeS
               <div
                 className={cn(
                   'h-full rounded transition-all',
-                  isBuy ? 'bg-teal-500/40' : 'bg-red-500/40'
+                  isBuy ? 'bg-[#16DE93]/40' : 'bg-[#f6465d]/40'
                 )}
                 style={{ width: `${(order.size / maxSize) * 100}%` }}
               />

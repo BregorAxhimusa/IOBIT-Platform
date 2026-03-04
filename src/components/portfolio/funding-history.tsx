@@ -55,7 +55,7 @@ export function FundingHistory({ funding, isLoading }: FundingHistoryProps) {
         </span>
         <div className="flex items-center gap-1">
           <span className="text-gray-400 text-xs">Total:</span>
-          <span className={cn('text-xs font-normal', totalFunding >= 0 ? 'text-green-400' : 'text-red-400')}>
+          <span className={cn('text-xs font-normal', totalFunding >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]')}>
             {totalFunding >= 0 ? '+' : ''}${totalFunding.toFixed(4)}
           </span>
         </div>
@@ -83,7 +83,7 @@ export function FundingHistory({ funding, isLoading }: FundingHistoryProps) {
             >
               <span className="text-gray-400">{formatTime(payment.time)}</span>
               <span className="text-white font-normal">{payment.coin}</span>
-              <span className={cn('text-right', isPositive ? 'text-green-400' : 'text-red-400')}>
+              <span className={cn('text-right', isPositive ? 'text-[#16DE93]' : 'text-[#f6465d]')}>
                 {isPositive ? '+' : ''}${usdc.toFixed(4)}
               </span>
               <span className="text-right text-gray-300">

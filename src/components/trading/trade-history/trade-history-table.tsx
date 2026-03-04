@@ -70,8 +70,8 @@ export function TradeHistoryTable() {
                     className={cn(
                       'px-2 py-1 rounded text-xs font-normal',
                       trade.side === 'buy'
-                        ? 'bg-[#14b8a6]/10 text-[#14b8a6]'
-                        : 'bg-[#ef4444]/10 text-[#ef4444]'
+                        ? 'bg-[#16DE93]/10 text-[#16DE93]'
+                        : 'bg-[#f6465d]/10 text-[#f6465d]'
                     )}
                   >
                     {trade.side.toUpperCase()}
@@ -89,7 +89,7 @@ export function TradeHistoryTable() {
                     <span
                       className={cn(
                         'font-normal',
-                        realizedPnl >= 0 ? 'text-[#14b8a6]' : 'text-[#ef4444]'
+                        realizedPnl >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]'
                       )}
                     >
                       {realizedPnl >= 0 ? '+' : ''}${realizedPnl.toFixed(2)}

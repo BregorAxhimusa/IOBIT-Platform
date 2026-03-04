@@ -44,7 +44,7 @@ export class ErrorBoundary extends Component<Props, State> {
       return (
         <div className="flex items-center justify-center min-h-[400px] p-8">
           <div className="text-center space-y-4 max-w-md">
-            <div className="text-red-500 text-5xl">⚠️</div>
+            <div className="text-[#f6465d] text-5xl">⚠️</div>
             <h2 className="text-xl font-normal text-white">Something went wrong</h2>
             <p className="text-gray-400 text-sm">
               {this.state.error?.message || 'An unexpected error occurred'}
@@ -73,7 +73,7 @@ export function TradingErrorBoundary({ children }: { children: ReactNode }) {
       fallback={
         <div className="flex items-center justify-center p-8 bg-gray-900 rounded-lg border border-gray-800">
           <div className="text-center space-y-3">
-            <div className="text-red-500 text-3xl">⚠️</div>
+            <div className="text-[#f6465d] text-3xl">⚠️</div>
             <h3 className="text-lg font-normal text-white">Trading Error</h3>
             <p className="text-gray-400 text-sm">
               Unable to load trading interface
@@ -128,7 +128,7 @@ export function DataErrorBoundary({ children }: { children: ReactNode }) {
       fallback={
         <div className="flex items-center justify-center p-6 bg-gray-900 rounded-lg border border-gray-800">
           <div className="text-center space-y-2">
-            <div className="text-red-500 text-2xl">⚠️</div>
+            <div className="text-[#f6465d] text-2xl">⚠️</div>
             <p className="text-gray-400 text-sm">Failed to load data</p>
             <button
               onClick={() => window.location.reload()}

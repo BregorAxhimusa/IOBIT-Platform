@@ -36,7 +36,7 @@ export function StakingHistory({ rewards, history, validators, isLoading }: Stak
             onClick={() => setTab(t.value)}
             className={cn(
               'px-4 py-2 text-xs transition-colors border-b-2 -mb-px',
-              tab === t.value ? 'border-teal-500 text-white' : 'border-transparent text-white/70 hover:text-white'
+              tab === t.value ? 'border-[#16DE93] text-white' : 'border-transparent text-white/70 hover:text-white'
             )}
           >
             {t.label}
@@ -66,7 +66,7 @@ export function StakingHistory({ rewards, history, validators, isLoading }: Stak
                   <tr key={i} className="border-b border-gray-800/50">
                     <td className="py-2 text-gray-300 text-xs">{new Date(r.time).toLocaleDateString()}</td>
                     <td className="py-2 text-gray-300 text-xs capitalize">{r.source}</td>
-                    <td className="py-2 text-right text-green-400 text-xs">+{parseFloat(r.totalAmount).toFixed(4)} HYPE</td>
+                    <td className="py-2 text-right text-[#16DE93] text-xs">+{parseFloat(r.totalAmount).toFixed(4)} HYPE</td>
                   </tr>
                 ))}
               </tbody>
@@ -113,7 +113,7 @@ export function StakingHistory({ rewards, history, validators, isLoading }: Stak
                       <td className="py-2 text-gray-300 text-xs">{new Date(h.time).toLocaleDateString()}</td>
                       <td className="py-2 text-xs">
                         <span className={cn(
-                          action === 'Delegate' || action === 'Deposit' ? 'text-green-400' : 'text-red-400'
+                          action === 'Delegate' || action === 'Deposit' ? 'text-[#16DE93]' : 'text-[#f6465d]'
                         )}>
                           {action}
                         </span>

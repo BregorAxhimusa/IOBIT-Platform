@@ -65,7 +65,7 @@ export function OpenOrdersTable() {
         <button
           onClick={handleCancelAll}
           disabled={isCanceling || openOrders.length === 0}
-          className="px-3 py-1 text-xs bg-[#ef4444]/10 hover:bg-[#ef4444]/20 disabled:bg-gray-800 disabled:text-gray-500 text-[#ef4444] rounded transition-colors border border-[#ef4444]/20"
+          className="px-3 py-1 text-xs bg-[#f6465d]/10 hover:bg-[#f6465d]/20 disabled:bg-gray-800 disabled:text-gray-500 text-[#f6465d] rounded transition-colors border border-[#f6465d]/20"
         >
           {isCanceling ? 'Canceling...' : 'Cancel All'}
         </button>
@@ -116,8 +116,8 @@ export function OpenOrdersTable() {
                     className={cn(
                       'px-2 py-1 rounded text-xs font-normal',
                       order.side === 'buy'
-                        ? 'bg-[#14b8a6]/10 text-[#14b8a6]'
-                        : 'bg-[#ef4444]/10 text-[#ef4444]'
+                        ? 'bg-[#16DE93]/10 text-[#16DE93]'
+                        : 'bg-[#f6465d]/10 text-[#f6465d]'
                     )}
                   >
                     {order.side.toUpperCase()}
@@ -142,7 +142,7 @@ export function OpenOrdersTable() {
                         : order.status === 'partial'
                         ? 'bg-[#F59E0B]/10 text-[#F59E0B]'
                         : order.status === 'filled'
-                        ? 'bg-[#14b8a6]/10 text-[#14b8a6]'
+                        ? 'bg-[#16DE93]/10 text-[#16DE93]'
                         : 'bg-gray-500/10 text-gray-400'
                     )}
                   >
@@ -257,7 +257,7 @@ function ModifyOrderModal({
                 onChange={(e) => setNewPrice(e.target.value)}
                 placeholder="0.00"
                 step="0.01"
-                className="w-full px-3 py-2.5 bg-[#111111] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6]"
+                className="w-full px-3 py-2.5 bg-[#111111] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#16DE93]"
               />
               <p className="text-xs text-gray-500 mt-1">
                 Current: ${parseFloat(order.price).toLocaleString()}
@@ -275,7 +275,7 @@ function ModifyOrderModal({
                 onChange={(e) => setNewSize(e.target.value)}
                 placeholder="0.00"
                 step="0.0001"
-                className="w-full px-3 py-2.5 bg-[#111111] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#14b8a6]"
+                className="w-full px-3 py-2.5 bg-[#111111] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#16DE93]"
               />
               <p className="text-xs text-gray-500 mt-1">
                 Current: {order.size}

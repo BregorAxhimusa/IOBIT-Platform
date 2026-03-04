@@ -53,8 +53,8 @@ export function TwapProgress({ activeTwap, onCancel, isCancelling }: TwapProgres
     <div className={cn(
       'p-3 rounded-lg border',
       isActive && 'bg-yellow-500/5 border-yellow-500/20',
-      isCompleted && 'bg-green-500/5 border-green-500/20',
-      isCancelled && 'bg-red-500/5 border-red-500/20',
+      isCompleted && 'bg-[#16DE93]/5 border-[#16DE93]/20',
+      isCancelled && 'bg-[#f6465d]/5 border-[#f6465d]/20',
     )}>
       {/* Header */}
       <div className="flex items-center justify-between mb-1.5">
@@ -63,10 +63,10 @@ export function TwapProgress({ activeTwap, onCancel, isCancelling }: TwapProgres
             <div className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse" />
           )}
           {isCompleted && (
-            <div className="w-2 h-2 rounded-full bg-green-400" />
+            <div className="w-2 h-2 rounded-full bg-[#16DE93]" />
           )}
           {isCancelled && (
-            <div className="w-2 h-2 rounded-full bg-red-400" />
+            <div className="w-2 h-2 rounded-full bg-[#f6465d]" />
           )}
           <span className="text-sm font-normal text-white">
             TWAP {activeTwap.side.toUpperCase()} {activeTwap.symbol.replace('-USD', '')}
@@ -75,8 +75,8 @@ export function TwapProgress({ activeTwap, onCancel, isCancelling }: TwapProgres
         <span className={cn(
           'text-xs font-normal px-1.5 py-0.5 rounded',
           isActive && 'text-yellow-400 bg-yellow-400/10',
-          isCompleted && 'text-green-400 bg-green-400/10',
-          isCancelled && 'text-red-400 bg-red-400/10',
+          isCompleted && 'text-[#16DE93] bg-[#16DE93]/10',
+          isCancelled && 'text-[#f6465d] bg-[#f6465d]/10',
         )}>
           {activeTwap.status.toUpperCase()}
         </span>
@@ -87,7 +87,7 @@ export function TwapProgress({ activeTwap, onCancel, isCancelling }: TwapProgres
         <div
           className={cn(
             'h-1.5 rounded-full transition-all duration-500',
-            isBuy ? 'bg-teal-500' : 'bg-red-500',
+            isBuy ? 'bg-[#16DE93]' : 'bg-[#f6465d]',
             isCancelled && 'bg-gray-500',
           )}
           style={{ width: `${Math.max(timeProgress, sizeProgress)}%` }}
@@ -122,7 +122,7 @@ export function TwapProgress({ activeTwap, onCancel, isCancelling }: TwapProgres
           onClick={onCancel}
           disabled={isCancelling}
           className="w-full py-1.5 rounded text-sm font-normal transition-colors
-                     bg-red-500/10 text-red-400 hover:bg-red-500/20
+                     bg-[#f6465d]/10 text-[#f6465d] hover:bg-[#f6465d]/20
                      disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isCancelling ? (
