@@ -1,16 +1,22 @@
 'use client';
 
 import { use, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { MarketInfoBar } from '@/components/trading/market-info/market-info-bar';
 import { PriceChart } from '@/components/trading/chart/price-chart';
 import { OrderBook } from '@/components/trading/order-book/order-book';
 import { RecentTrades } from '@/components/trading/trade-history/recent-trades';
-import { TradingPanel } from '@/components/trading/trade-panel/trading-panel';
 import { PositionsTable } from '@/components/trading/positions/positions-table';
 import { OpenOrdersTable } from '@/components/trading/orders/open-orders-table';
 import { OrderHistoryTable } from '@/components/trading/orders/order-history-table';
 import { TradeHistoryTable } from '@/components/trading/trade-history/trade-history-table';
 import { SpotBalancesTable } from '@/components/trading/spot/spot-balances-table';
+
+// Dynamic import TradingPanel with ssr: false to avoid AppKit SSR issues
+const TradingPanel = dynamic(
+  () => import('@/components/trading/trade-panel/trading-panel').then(mod => ({ default: mod.TradingPanel })),
+  { ssr: false, loading: () => <div className="w-full h-full bg-[#0a0a0c] animate-pulse" /> }
+);
 import { useMarketStore } from '@/store/market-store';
 import { useSpotStore } from '@/store/spot-store';
 import { useMarketData } from '@/hooks/use-market-data';
@@ -84,12 +90,12 @@ export default function TradingPage({ params }: TradingPageProps) {
   };
 
   return (
-    <div className="bg-[#0a0a0f]">
+    <div className="bg-[#0a0a0c]">
       {/* Market Info Bar */}
       <MarketInfoBar key={symbolUpper} symbol={isSpot ? displaySymbol : symbolUpper} />
 
       {/* Main Trading Layout */}
-      <div className="flex flex-col lg:flex-row h-auto lg:h-[calc(100vh-128px)] relative">
+      <div className="flex flex-col lg:flex-row h-auto lg:h-[calc(100vh-168px)] relative">
         {/* Left Section - Chart & OrderBook & Bottom Tables */}
         <div className="flex-1 flex flex-col p-1 sm:p-2 lg:p-1 min-w-0 space-y-1.5 sm:space-y-2 lg:space-y-1">
           {/* Top Row - Chart and Order Book/Trades */}
@@ -102,9 +108,9 @@ export default function TradingPage({ params }: TradingPageProps) {
             </div>
 
             {/* Order Book & Recent Trades Tabs - Desktop Only */}
-            <div className="hidden lg:flex lg:w-80 lg:h-full bg-[#0f0f0f] border border-white/20 flex-col overflow-hidden">
+            <div className="hidden lg:flex lg:w-80 lg:h-full bg-[#0a0a0c] border border-[#1a1a1f] flex-col overflow-hidden">
               {/* Tab Headers */}
-              <div className="flex border-b border-white/20 bg-[#0a0a0a]/50">
+              <div className="flex border-b border-[#1a1a1f] bg-[#0a0a0a]">
                 <button
                   onClick={() => setRightTab('orderbook')}
                   className={cn(
@@ -149,9 +155,9 @@ export default function TradingPage({ params }: TradingPageProps) {
           </div>
 
           {/* Order Book & Recent Trades - Mobile Only */}
-          <div className="lg:hidden bg-[#0a0a0a] border border-white/20 flex flex-col h-[280px] sm:h-[350px] overflow-hidden">
+          <div className="lg:hidden bg-[#0a0a0a] border border-[#1a1a1f] flex flex-col h-[280px] sm:h-[350px] overflow-hidden">
             {/* Tab Headers */}
-            <div className="flex border-b border-white/20 bg-[#0a0a0a]/50">
+            <div className="flex border-b border-[#1a1a1f] bg-[#0a0a0a]">
               <button
                 onClick={() => setRightTab('orderbook')}
                 className={cn(
@@ -195,9 +201,9 @@ export default function TradingPage({ params }: TradingPageProps) {
           </div>
 
           {/* Bottom Panel - Positions, Orders, History */}
-          <div className="bg-[#0f0f0f] border border-white/20 overflow-hidden lg:h-[300px] flex flex-col">
+          <div className="bg-[#0a0a0c] border border-[#1a1a1f] overflow-hidden lg:h-[300px] flex flex-col">
             {/* Tab Headers */}
-            <div className="flex overflow-x-auto border-b border-white/20 bg-[#0a0a0a]/50 scrollbar-hide">
+            <div className="flex overflow-x-auto border-b border-[#1a1a1f] bg-[#0a0a0a] scrollbar-hide">
               <button
                 onClick={() => setActiveTab('positions')}
                 className={cn(
@@ -286,7 +292,7 @@ export default function TradingPage({ params }: TradingPageProps) {
         </div>
 
         {/* Right Sidebar - Trading Panel */}
-        <div className="w-full lg:w-96 border-t lg:border-t-0 lg:border-l border-white/20 p-1 sm:p-2 lg:p-1 flex-shrink-0 lg:overflow-y-auto">
+        <div className="w-full lg:w-96 border-t lg:border-t-0 lg:border-l border-[#1a1a1f] p-1 sm:p-2 lg:p-1 flex-shrink-0 lg:overflow-y-auto">
           <TradingErrorBoundary>
             <TradingPanel key={symbolUpper} symbol={isSpot ? displaySymbol : symbolUpper} currentPrice={currentPrice} />
           </TradingErrorBoundary>

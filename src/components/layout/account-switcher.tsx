@@ -58,7 +58,7 @@ export function AccountSwitcher() {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full mt-1 w-56 bg-[#0f1419] border border-gray-700 rounded-lg shadow-xl z-50 py-1">
+        <div className="absolute right-0 top-full mt-1 w-56 bg-[#0a0a0c] border border-gray-700 rounded-lg shadow-xl z-50 py-1">
           {/* Main Account */}
           <button
             onClick={() => {
@@ -66,8 +66,8 @@ export function AccountSwitcher() {
               setIsOpen(false);
             }}
             className={cn(
-              'w-full text-left px-3 py-2 text-xs hover:bg-[#1a2028] transition-colors flex items-center justify-between',
-              isMaster && 'bg-[#1a2028]'
+              'w-full text-left px-3 py-2 text-xs hover:bg-[#0a0a0a] transition-colors flex items-center justify-between',
+              isMaster && 'bg-[#0a0a0a]'
             )}
           >
             <div>
@@ -94,8 +94,8 @@ export function AccountSwitcher() {
                   setIsOpen(false);
                 }}
                 className={cn(
-                  'w-full text-left px-3 py-2 text-xs hover:bg-[#1a2028] transition-colors flex items-center justify-between',
-                  isActive && 'bg-[#1a2028]'
+                  'w-full text-left px-3 py-2 text-xs hover:bg-[#0a0a0a] transition-colors flex items-center justify-between',
+                  isActive && 'bg-[#0a0a0a]'
                 )}
               >
                 <div>

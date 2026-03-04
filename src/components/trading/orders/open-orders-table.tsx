@@ -100,7 +100,7 @@ export function OpenOrdersTable() {
             return (
               <tr
                 key={order.id}
-                className="border-b border-gray-800 hover:bg-[#1a2028]/50 transition-colors"
+                className="border-b border-gray-800 hover:bg-[#0a0a0a]/50 transition-colors"
               >
                 <td className="py-3 px-4 text-gray-400 text-xs">{timeStr}</td>
                 <td className="py-3 px-4 font-normal text-white">{order.symbol}</td>
@@ -154,7 +154,7 @@ export function OpenOrdersTable() {
                     {order.type === 'limit' && (
                       <button
                         onClick={() => handleOpenModify(order)}
-                        className="px-3 py-1 text-xs bg-[#1a2028] hover:bg-[#2a3038] text-white rounded transition-colors border border-gray-700"
+                        className="px-3 py-1 text-xs bg-[#0a0a0a] hover:bg-[#2a3038] text-white rounded transition-colors border border-gray-700"
                       >
                         Modify
                       </button>
@@ -162,7 +162,7 @@ export function OpenOrdersTable() {
                     <button
                       onClick={() => handleCancelOrder(order.id, order.symbol, order.oid)}
                       disabled={isCanceling}
-                      className="px-3 py-1 text-xs bg-[#1a2028] hover:bg-[#2a3038] disabled:bg-gray-800 disabled:text-gray-500 text-white rounded transition-colors border border-gray-700"
+                      className="px-3 py-1 text-xs bg-[#0a0a0a] hover:bg-[#2a3038] disabled:bg-gray-800 disabled:text-gray-500 text-white rounded transition-colors border border-gray-700"
                     >
                       {isCanceling ? 'Canceling...' : 'Cancel'}
                     </button>
@@ -226,7 +226,7 @@ function ModifyOrderModal({
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-      <div className="bg-[#1a2028] border border-gray-700 rounded-lg max-w-md w-full relative">
+      <div className="bg-[#0a0a0a] border border-gray-700 rounded-lg max-w-md w-full relative">
         {/* Close Button */}
         <button
           onClick={onClose}

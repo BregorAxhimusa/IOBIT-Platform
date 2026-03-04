@@ -59,7 +59,7 @@ export function SpotBalancesTable() {
             return (
               <tr
                 key={balance.coin}
-                className="border-b border-gray-800/50 hover:bg-[#1a2028]/50 transition-colors"
+                className="border-b border-gray-800/50 hover:bg-[#0a0a0a]/50 transition-colors"
               >
                 <td className="py-2 px-3 font-normal text-white">
                   {balance.coin}

@@ -5,7 +5,6 @@ import { useMarketData } from '@/hooks/use-market-data';
 import { useSpotMeta } from '@/hooks/use-spot-meta';
 import { useMarketPageData } from '@/hooks/use-market-page-data';
 import { StatsBanner } from '@/components/market/stats-banner';
-import { InfoPanels } from '@/components/market/info-panels';
 import { MarketTable, type MarketTab } from '@/components/market/market-table';
 import type { CoinCategory } from '@/lib/utils/coin-categories';
 
@@ -14,25 +13,21 @@ export default function MarketPage() {
   const [activeCategory, setActiveCategory] = useState<CoinCategory>('All');
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
 
   // Initialize data (populates stores)
   useMarketData();
   useSpotMeta();
 
-  const { globalStats, topEarners, biggestMovers, isLoading } = useMarketPageData();
+  const { globalStats, isLoading } = useMarketPageData();
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white page-enter">
-      <div className="w-full px-6 py-6">
+    <div className="min-h-screen bg-[#0a0a0c] text-white">
+      <div className="w-full">
+        {/* Stats Banner */}
         <StatsBanner stats={globalStats} isLoading={isLoading} />
 
-        <InfoPanels
-          topEarners={topEarners}
-          biggestMovers={biggestMovers}
-          isLoading={isLoading}
-        />
-
+        {/* Market Table */}
         <MarketTable
           activeTab={activeTab}
           onTabChange={(tab) => { setActiveTab(tab); setCurrentPage(1); }}

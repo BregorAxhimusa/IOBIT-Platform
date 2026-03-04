@@ -53,7 +53,7 @@ export default function LeaderboardPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white page-enter">
+    <div className="min-h-screen bg-[#0a0a0c] text-white page-enter">
       <div className="w-full px-6 py-6">
         {/* Header */}
         <div className="mb-6">
@@ -129,7 +129,7 @@ export default function LeaderboardPage() {
         )}
 
         {/* Leaderboard Table */}
-        <div className="bg-[#0f1419] border border-gray-800 overflow-hidden">
+        <div className="bg-[#0a0a0c] border border-gray-800 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>

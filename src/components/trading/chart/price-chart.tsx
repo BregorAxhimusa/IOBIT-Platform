@@ -29,9 +29,21 @@ function PriceChartComponent({ symbol }: PriceChartProps) {
     // Detect mobile for responsive config
     const isMobile = window.innerWidth < 768;
 
-    // Extract base symbol (e.g., BTC from BTC-USD or BTCUSD)
-    const baseSymbol = symbol.replace('-USD', '').replace('/USD', '');
-    const tradingViewSymbol = `BINANCE:${baseSymbol}USDT`;
+    // Extract base symbol (e.g., BTC from BTC-USD, BTCUSD, BTC/USD)
+    const baseSymbol = symbol
+      .replace('-USD', '')
+      .replace('/USD', '')
+      .replace(/USD$/i, '')
+      .replace(/USDT$/i, '');
+
+    // Map some symbols to their TradingView equivalents
+    const symbolMappings: Record<string, string> = {
+      'HYPE': 'HYPERLIQUID:HYPE',
+      'PURR': 'HYPERLIQUID:PURR',
+    };
+
+    // Use mapping if available, otherwise default to Binance
+    const tradingViewSymbol = symbolMappings[baseSymbol] || `BINANCE:${baseSymbol}USDT`;
 
     // Remove existing script if present
     if (scriptRef.current && document.head.contains(scriptRef.current)) {
@@ -45,10 +57,32 @@ function PriceChartComponent({ symbol }: PriceChartProps) {
     script.type = 'text/javascript';
     scriptRef.current = script;
 
+    // Inject CSS for TradingView after it loads
+    const injectTradingViewStyles = () => {
+      const styleId = 'tradingview-custom-styles';
+      if (!document.getElementById(styleId)) {
+        const style = document.createElement('style');
+        style.id = styleId;
+        style.textContent = `
+          #widget-container,
+          #tradingview_advanced,
+          .tradingview-widget-container,
+          .tradingview-widget-container iframe {
+            background: #0a0a0c !important;
+            border-color: #1a1a1f !important;
+          }
+        `;
+        document.head.appendChild(style);
+      }
+    };
+
     script.onload = () => {
       if (window.TradingView && container.current) {
         // Clear container
         container.current.innerHTML = '';
+
+        // Inject styles after TradingView loads
+        injectTradingViewStyles();
 
         widgetRef.current = new window.TradingView.widget({
           autosize: true,
@@ -67,7 +101,7 @@ function PriceChartComponent({ symbol }: PriceChartProps) {
           height: '100%',
 
           // Toolbar background - make it visible
-          toolbar_bg: '#1a2028',
+          toolbar_bg: '#0a0a0a',
 
           // Responsive toolbar visibility
           hide_top_toolbar: false,
@@ -100,7 +134,7 @@ function PriceChartComponent({ symbol }: PriceChartProps) {
 
           // Override colors to match our theme
           overrides: {
-            'paneProperties.background': '#0f0f0f',
+            'paneProperties.background': '#0a0a0c',
             'paneProperties.backgroundType': 'solid',
             'paneProperties.vertGridProperties.color': '#1F2937',
             'paneProperties.horzGridProperties.color': '#1F2937',
@@ -159,7 +193,7 @@ function PriceChartComponent({ symbol }: PriceChartProps) {
 
           // Loading screen
           loading_screen: {
-            backgroundColor: '#0f0f0f',
+            backgroundColor: '#0a0a0c',
             foregroundColor: '#14b8a6',
           },
 
@@ -186,7 +220,7 @@ function PriceChartComponent({ symbol }: PriceChartProps) {
   }, [symbol]);
 
   return (
-    <div className="relative w-full h-full bg-[#0f0f0f] rounded-lg overflow-hidden">
+    <div className="relative w-full h-full bg-[#0a0a0c] rounded-lg overflow-hidden border border-[#1a1a1f]">
       <div
         ref={container}
         id="tradingview_advanced"

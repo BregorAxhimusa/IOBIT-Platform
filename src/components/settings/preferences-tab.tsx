@@ -94,7 +94,7 @@ export function PreferencesTab({ address }: PreferencesTabProps) {
 
   if (!loaded) return null;
 
-  const selectClass = "w-full bg-[#1a2028] border border-gray-700  px-4 py-3 text-white text-sm focus:outline-none focus:border-gray-500 appearance-none cursor-pointer";
+  const selectClass = "w-full bg-[#0a0a0a] border border-gray-700  px-4 py-3 text-white text-sm focus:outline-none focus:border-gray-500 appearance-none cursor-pointer";
 
   return (
     <div className="max-w-lg space-y-4">

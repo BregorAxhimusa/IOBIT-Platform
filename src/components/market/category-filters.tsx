@@ -10,16 +10,16 @@ interface CategoryFiltersProps {
 
 export function CategoryFilters({ activeCategory, onCategoryChange }: CategoryFiltersProps) {
   return (
-    <div className="flex items-center gap-1.5 overflow-x-auto pb-2 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-700">
+    <div className="flex items-center gap-0.5 overflow-x-auto pb-1 px-1 scrollbar-hide">
       {ALL_CATEGORIES.map((cat) => (
         <button
           key={cat}
           onClick={() => onCategoryChange(cat)}
           className={cn(
-            'px-3 py-1.5 text-xs whitespace-nowrap border transition-colors',
+            'px-4 py-2 text-sm font-medium whitespace-nowrap rounded-md transition-all duration-200',
             activeCategory === cat
-              ? 'bg-teal-500/20 border-teal-500/50 text-teal-400'
-              : 'bg-transparent border-gray-700 text-gray-400 hover:text-white hover:border-gray-500'
+              ? 'bg-[#505057]/40 text-white'
+              : 'text-[#6b6b6b] hover:text-white'
           )}
         >
           {cat}

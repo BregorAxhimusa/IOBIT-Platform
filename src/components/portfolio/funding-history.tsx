@@ -22,7 +22,7 @@ export function FundingHistory({ funding, isLoading }: FundingHistoryProps) {
     return (
       <div className="space-y-2">
         {Array.from({ length: 5 }).map((_, i) => (
-          <div key={i} className="flex items-center justify-between p-3 bg-[#1a2028] rounded animate-pulse">
+          <div key={i} className="flex items-center justify-between p-3 bg-[#0a0a0a] rounded animate-pulse">
             <div className="h-4 bg-gray-700 rounded w-24" />
             <div className="h-4 bg-gray-700 rounded w-16" />
             <div className="h-4 bg-gray-700 rounded w-20" />
@@ -79,7 +79,7 @@ export function FundingHistory({ funding, isLoading }: FundingHistoryProps) {
           return (
             <div
               key={`${payment.time}-${payment.coin}-${index}`}
-              className="grid grid-cols-5 gap-2 px-3 py-2 text-xs border-b border-gray-800/50 hover:bg-[#1a2028]/50"
+              className="grid grid-cols-5 gap-2 px-3 py-2 text-xs border-b border-gray-800/50 hover:bg-[#0a0a0a]/50"
             >
               <span className="text-gray-400">{formatTime(payment.time)}</span>
               <span className="text-white font-normal">{payment.coin}</span>

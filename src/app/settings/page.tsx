@@ -37,7 +37,7 @@ export default function SettingsPage() {
 
   if (!isConnected) {
     return (
-      <div className="min-h-screen bg-[#0a0a0f] text-white">
+      <div className="min-h-screen bg-[#0a0a0c] text-white">
         <div className="w-full px-6 py-6">
           <div className="flex items-center justify-center py-16 text-gray-500">
             Please connect your wallet to access settings
@@ -48,7 +48,7 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white page-enter">
+    <div className="min-h-screen bg-[#0a0a0c] text-white page-enter">
       <div className="w-full px-6 py-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
@@ -124,7 +124,7 @@ export default function SettingsPage() {
                 {isLoadingSubs ? (
                   <div className="space-y-3">
                     {Array.from({ length: 3 }).map((_, i) => (
-                      <div key={i} className="bg-[#0f1419] border border-gray-800 rounded-lg p-4 animate-pulse">
+                      <div key={i} className="bg-[#0a0a0c] border border-gray-800 rounded-lg p-4 animate-pulse">
                         <div className="h-4 bg-gray-700 rounded w-1/3 mb-2" />
                         <div className="h-3 bg-gray-700 rounded w-1/2" />
                       </div>
@@ -152,7 +152,7 @@ export default function SettingsPage() {
                 {isLoadingWallets ? (
                   <div className="space-y-3">
                     {Array.from({ length: 2 }).map((_, i) => (
-                      <div key={i} className="bg-[#0f1419] border border-gray-800 rounded-lg p-4 animate-pulse">
+                      <div key={i} className="bg-[#0a0a0c] border border-gray-800 rounded-lg p-4 animate-pulse">
                         <div className="h-4 bg-gray-700 rounded w-1/3 mb-2" />
                         <div className="h-3 bg-gray-700 rounded w-1/2" />
                       </div>

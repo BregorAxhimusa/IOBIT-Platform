@@ -35,7 +35,7 @@ export function NetworkSwitcherModal({ isOpen, onClose }: NetworkSwitcherModalPr
       style={{ zIndex: 999999 }}
     >
       <div
-        className="bg-[#0f1419] border border-gray-800 w-full max-w-md animate-in fade-in zoom-in-95 duration-200 relative"
+        className="bg-[#0a0a0c] border border-[#1a1a1f] w-full max-w-md animate-in fade-in zoom-in-95 duration-200 relative"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
@@ -69,7 +69,7 @@ export function NetworkSwitcherModal({ isOpen, onClose }: NetworkSwitcherModalPr
                 'w-full p-3 sm:p-4 border-2 transition-all text-left',
                 selectedNetwork === 'mainnet'
                   ? 'border-emerald-500 bg-emerald-500/10'
-                  : 'border-gray-800 hover:border-gray-700 bg-[#1a2028]'
+                  : 'border-[#1a1a1f] hover:border-gray-700 bg-[#0a0a0a]'
               )}
             >
               <div className="flex items-center justify-between">
@@ -98,7 +98,7 @@ export function NetworkSwitcherModal({ isOpen, onClose }: NetworkSwitcherModalPr
                 'w-full p-3 sm:p-4 border-2 transition-all text-left',
                 selectedNetwork === 'testnet'
                   ? 'border-amber-500 bg-amber-500/10'
-                  : 'border-gray-800 hover:border-gray-700 bg-[#1a2028]'
+                  : 'border-[#1a1a1f] hover:border-gray-700 bg-[#0a0a0a]'
               )}
             >
               <div className="flex items-center justify-between">
@@ -139,7 +139,7 @@ export function NetworkSwitcherModal({ isOpen, onClose }: NetworkSwitcherModalPr
           <div className="flex gap-2 sm:gap-3">
             <button
               onClick={onClose}
-              className="flex-1 py-2.5 sm:py-3 bg-[#1a2028] border border-gray-800 hover:border-gray-700 text-white font-normal text-xs sm:text-sm transition-colors"
+              className="flex-1 py-2.5 sm:py-3 bg-[#0a0a0a] border border-[#1a1a1f] hover:border-gray-700 text-white font-normal text-xs sm:text-sm transition-colors"
             >
               Cancel
             </button>

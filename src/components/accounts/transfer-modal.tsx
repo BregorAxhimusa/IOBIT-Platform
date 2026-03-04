@@ -61,7 +61,7 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4">
       <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose} />
 
-      <div className="relative bg-[#0f1419] border border-gray-800 w-full max-w-md animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative bg-[#0a0a0c] border border-[#1a1a1f] w-full max-w-md animate-in fade-in zoom-in-95 duration-200">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -85,7 +85,7 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
           </div>
 
           {/* Direction Tabs */}
-          <div className="flex bg-[#1a2028] border border-gray-800 p-1 mb-4 sm:mb-6">
+          <div className="flex bg-[#0a0a0a] border border-[#1a1a1f] p-1 mb-4 sm:mb-6">
             <button
               onClick={() => { setDirection('toSub'); setAmount(''); }}
               className={cn(
@@ -111,7 +111,7 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
           </div>
 
           {/* Transfer Visual */}
-          <div className="bg-[#1a2028] border border-gray-800 p-3 sm:p-4 mb-3 sm:mb-4">
+          <div className="bg-[#0a0a0a] border border-[#1a1a1f] p-3 sm:p-4 mb-3 sm:mb-4">
             <div className="flex items-center justify-between">
               {/* From */}
               <div className="flex-1">
@@ -172,7 +172,7 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="0.00"
-              className="w-full bg-[#1a2028] border border-gray-800 px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-teal-500/50 placeholder-gray-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              className="w-full bg-[#0a0a0a] border border-[#1a1a1f] px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-teal-500/50 placeholder-gray-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
           </div>
 

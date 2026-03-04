@@ -82,7 +82,7 @@ export function PositionsTable() {
             return (
               <tr
                 key={position.symbol}
-                className="border-b border-gray-800 hover:bg-[#1a2028]/50 transition-colors"
+                className="border-b border-gray-800 hover:bg-[#0a0a0a]/50 transition-colors"
               >
                 {/* Coin: symbol + leverage badge (like Hyperliquid "BTC 5x") */}
                 <td className="py-2 sm:py-3 px-2 sm:px-4 whitespace-nowrap">
@@ -139,14 +139,14 @@ export function PositionsTable() {
                   <div className="flex items-center justify-center gap-1 sm:gap-2">
                     <button
                       onClick={() => handleOpenTPSL(position.symbol, position.side, position.size, position.markPrice, position.entryPrice)}
-                      className="px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs bg-[#1a2028] hover:bg-[#2a3038] text-white rounded transition-colors border border-gray-700"
+                      className="px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs bg-[#0a0a0a] hover:bg-[#2a3038] text-white rounded transition-colors border border-gray-700"
                     >
                       TP/SL
                     </button>
                     <button
                       onClick={() => handleOpenClose(position.symbol, position.side, position.size, position.markPrice, position.entryPrice)}
                       disabled={isClosing}
-                      className="px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs bg-[#1a2028] hover:bg-[#2a3038] disabled:bg-gray-800 disabled:text-gray-500 disabled:cursor-not-allowed text-white rounded transition-colors border border-gray-700"
+                      className="px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs bg-[#0a0a0a] hover:bg-[#2a3038] disabled:bg-gray-800 disabled:text-gray-500 disabled:cursor-not-allowed text-white rounded transition-colors border border-gray-700"
                     >
                       {isClosing ? '...' : 'Close'}
                     </button>
@@ -220,7 +220,7 @@ function CloseModal({
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-      <div className="bg-[#1a2028] border border-gray-700 rounded-lg max-w-md w-full relative">
+      <div className="bg-[#0a0a0a] border border-gray-700 rounded-lg max-w-md w-full relative">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -382,7 +382,7 @@ function TPSLModal({
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-      <div className="bg-[#1a2028] border border-gray-700 rounded-lg max-w-md w-full relative">
+      <div className="bg-[#0a0a0a] border border-gray-700 rounded-lg max-w-md w-full relative">
         {/* Close Button */}
         <button
           onClick={onClose}

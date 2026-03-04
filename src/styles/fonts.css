@@ -1,0 +1,110 @@
+/* ==========================================================================
+   Font Definitions for IOBIT Trading Platform
+
+   NOTE: If you don't have the TTHoves font files, the system will fallback
+   to Roboto Flex (loaded from Google Fonts) automatically via the
+   font-family chain in globals.css.
+
+   To use TTHoves: add the font files to public/fonts/tthoves/
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   TTHoves - Primary UI Font (optional - comment out if not using)
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'TTHoves';
+  src: url('/fonts/tthoves/tthoves-pro-regular.woff2') format('woff2'),
+       url('/fonts/tthoves/tthoves-pro-regular.woff') format('woff'),
+       url('/fonts/tthoves/tthoves-pro-regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TTHoves';
+  src: url('/fonts/tthoves/tthoves-pro-medium.woff2') format('woff2'),
+       url('/fonts/tthoves/tthoves-pro-medium.woff') format('woff'),
+       url('/fonts/tthoves/tthoves-pro-medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --------------------------------------------------------------------------
+   Relative Book Pro - Base Text Font
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Relative';
+  src: url('/fonts/relative/relative-book-pro.woff2') format('woff2'),
+       url('/fonts/relative/relative-book-pro.woff') format('woff'),
+       url('/fonts/relative/relative-book-pro.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --------------------------------------------------------------------------
+   Roboto - Numbers Only (0-9)
+   Mapped to "Relative" font-family with unicode-range
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Relative';
+  src: url('/fonts/roboto/roboto-v30-latin-regular.woff2') format('woff2'),
+       url('/fonts/roboto/roboto-v30-latin-regular.woff') format('woff'),
+       url('/fonts/roboto/roboto-v30-latin-regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+30-39; /* Only digits 0-9 */
+}
+
+@font-face {
+  font-family: 'Relative';
+  src: url('/fonts/roboto/roboto-v30-latin-500.woff2') format('woff2'),
+       url('/fonts/roboto/roboto-v30-latin-500.woff') format('woff'),
+       url('/fonts/roboto/roboto-v30-latin-500.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+30-39; /* Only digits 0-9 */
+}
+
+/* --------------------------------------------------------------------------
+   Inter - Punctuation Only (comma and period)
+   Mapped to "Relative" font-family with unicode-range
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Relative';
+  src: url('/fonts/inter/inter-v12-latin-regular.woff2') format('woff2'),
+       url('/fonts/inter/inter-v12-latin-regular.woff') format('woff'),
+       url('/fonts/inter/inter-v12-latin-regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+002C, U+002E; /* Only comma (,) and period (.) */
+}
+
+@font-face {
+  font-family: 'Relative';
+  src: url('/fonts/inter/inter-v12-latin-500.woff2') format('woff2'),
+       url('/fonts/inter/inter-v12-latin-500.woff') format('woff'),
+       url('/fonts/inter/inter-v12-latin-500.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+002C, U+002E; /* Only comma (,) and period (.) */
+}
+
+/* --------------------------------------------------------------------------
+   RelativeNumber - For Input Fields (no Roboto override)
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'RelativeNumber';
+  src: url('/fonts/relative/relative-book-pro.woff2') format('woff2'),
+       url('/fonts/relative/relative-book-pro.woff') format('woff'),
+       url('/fonts/relative/relative-book-pro.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}

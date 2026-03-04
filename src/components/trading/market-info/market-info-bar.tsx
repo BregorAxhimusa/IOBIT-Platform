@@ -194,7 +194,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                 placeholder="Search markets..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 bg-gray-800/60 border border-white/20 rounded-lg text-white text-xs sm:text-sm placeholder-gray-500 focus:outline-none focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/20 transition-all"
+                className="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 bg-gray-800/60 border border-[#1a1a1f] rounded-lg text-white text-xs sm:text-sm placeholder-gray-500 focus:outline-none focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/20 transition-all"
                 autoFocus
               />
               <div className="flex gap-2 sm:gap-3">
@@ -417,7 +417,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
       : null;
 
   return (
-    <div className="border-b border-white/20 bg-[#0f0f0f]">
+    <div className="border-b border-[#1a1a1f] bg-[#0a0a0c]">
       <div className="w-full px-2 sm:px-4 md:px-6">
         <div className="flex items-center justify-between h-[72px] gap-3">
           {/* Left Side - All Market Info */}
@@ -448,7 +448,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
             </div>
 
             {/* Main Price with Change Badge */}
-            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 border-l border-white/10 pl-4">
+            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 border-l border-[#1a1a1f] pl-4">
               <span className="text-lg sm:text-2xl font-normal text-white tabular-nums">
                 ${price > 0 ? formatPrice(price, price > 100 ? 2 : 4) : '--'}
               </span>
@@ -466,7 +466,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
 
             {/* Stats - Vertical layout like reference */}
             {/* 24h Volume */}
-            <div className="hidden md:flex flex-col px-4 flex-shrink-0 border-l border-white/10">
+            <div className="hidden md:flex flex-col px-4 flex-shrink-0 border-l border-[#1a1a1f]">
               <span className="text-[10px] text-gray-500 uppercase tracking-wider">24H Volume</span>
               <span className="text-sm font-normal text-white tabular-nums">
                 ${market ? formatCompactNumber(volume24h) : '--'}
@@ -475,7 +475,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
 
             {/* Open Interest - Perps only */}
             {!isSpot && (
-              <div className="hidden md:flex flex-col px-4 flex-shrink-0 border-l border-white/10">
+              <div className="hidden md:flex flex-col px-4 flex-shrink-0 border-l border-[#1a1a1f]">
                 <span className="text-[10px] text-gray-500 uppercase tracking-wider">Open Interest</span>
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-normal text-white tabular-nums">
@@ -487,7 +487,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
 
             {/* 24h High/Low - Perps only */}
             {!isSpot && market && (
-              <div className="hidden lg:flex flex-col px-4 flex-shrink-0 border-l border-white/10">
+              <div className="hidden lg:flex flex-col px-4 flex-shrink-0 border-l border-[#1a1a1f]">
                 <span className="text-[10px] text-gray-500 uppercase tracking-wider">24H Range</span>
                 <div className="flex items-center gap-1.5">
                   <span className="text-xs text-emerald-400">↗</span>
@@ -505,7 +505,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
 
             {/* Funding Rate - Perps only */}
             {!isSpot && (
-              <div className="hidden xl:flex flex-col px-4 flex-shrink-0 border-l border-white/10">
+              <div className="hidden xl:flex flex-col px-4 flex-shrink-0 border-l border-[#1a1a1f]">
                 <span className="text-[10px] text-gray-500 uppercase tracking-wider">Funding Rate</span>
                 <span className={cn(
                   'text-sm font-normal tabular-nums',

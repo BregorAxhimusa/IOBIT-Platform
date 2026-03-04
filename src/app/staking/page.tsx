@@ -32,7 +32,7 @@ export default function StakingPage() {
 
   if (!isConnected) {
     return (
-      <div className="min-h-screen bg-[#0a0a0f] text-white">
+      <div className="min-h-screen bg-[#0a0a0c] text-white">
         <div className="w-full px-6 py-6">
           <div className="flex flex-col items-center justify-center py-16 text-gray-500">
             <svg className="h-12 w-12 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -46,7 +46,7 @@ export default function StakingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white page-enter">
+    <div className="min-h-screen bg-[#0a0a0c] text-white page-enter">
       <div className="w-full px-6 py-6">
         {/* Header */}
         <div className="mb-6">
@@ -102,7 +102,7 @@ export default function StakingPage() {
         </div>
 
         {/* How Staking Works */}
-        <div className="bg-[#0f1419] border border-gray-800 p-5">
+        <div className="bg-[#0a0a0c] border border-gray-800 p-5">
           <h3 className="text-white font-normal text-sm mb-4">How Staking Works</h3>
           <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
             {[

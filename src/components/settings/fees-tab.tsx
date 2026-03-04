@@ -56,19 +56,19 @@ export function FeesTab({ userFees, isLoading }: FeesTabProps) {
     <div className="space-y-6">
       {/* Current Fee Info */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="bg-[#1a2028] rounded-lg p-3">
+        <div className="bg-[#0a0a0a] rounded-lg p-3">
           <p className="text-gray-400 text-[10px] mb-1">Current Tier</p>
           <p className="text-white font-normal">VIP {currentTier}</p>
         </div>
-        <div className="bg-[#1a2028] rounded-lg p-3">
+        <div className="bg-[#0a0a0a] rounded-lg p-3">
           <p className="text-gray-400 text-[10px] mb-1">14-Day Volume</p>
           <p className="text-white font-normal">{formatUSD(volume14d)}</p>
         </div>
-        <div className="bg-[#1a2028] rounded-lg p-3">
+        <div className="bg-[#0a0a0a] rounded-lg p-3">
           <p className="text-gray-400 text-[10px] mb-1">Maker / Taker</p>
           <p className="text-white font-normal">{makerRate.toFixed(3)}% / {takerRate.toFixed(3)}%</p>
         </div>
-        <div className="bg-[#1a2028] rounded-lg p-3">
+        <div className="bg-[#0a0a0a] rounded-lg p-3">
           <p className="text-gray-400 text-[10px] mb-1">Referral Discount</p>
           <p className="text-teal-400 font-normal">{referralDiscount > 0 ? `${referralDiscount}%` : 'None'}</p>
         </div>

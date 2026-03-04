@@ -37,7 +37,7 @@ export default function VaultDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#0b0e11] text-white">
+      <div className="min-h-screen bg-[#0a0a0c] text-white">
         <div className="w-full px-6 py-6">
           <div className="animate-pulse space-y-4">
             <div className="h-6 bg-gray-700 rounded w-1/3" />
@@ -56,7 +56,7 @@ export default function VaultDetailPage() {
 
   if (!vault) {
     return (
-      <div className="min-h-screen bg-[#0b0e11] text-white">
+      <div className="min-h-screen bg-[#0a0a0c] text-white">
         <div className="w-full px-6 py-6">
           <Link href="/vaults" className="text-[#14b8a6] text-sm hover:underline mb-4 inline-block">
             &larr; Back to Vaults
@@ -82,7 +82,7 @@ export default function VaultDetailPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0b0e11] text-white">
+    <div className="min-h-screen bg-[#0a0a0c] text-white">
       <div className="w-full px-6 py-6">
         {/* Breadcrumb */}
         <Link href="/vaults" className="text-[#14b8a6] text-sm hover:underline mb-4 inline-block">
@@ -125,11 +125,11 @@ export default function VaultDetailPage() {
 
         {/* Stats Row */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-          <div className="bg-[#0f1419] border border-gray-800 rounded-lg p-3">
+          <div className="bg-[#0a0a0c] border border-gray-800 rounded-lg p-3">
             <p className="text-gray-400 text-xs mb-1">TVL</p>
             <p className="text-white text-sm font-normal">{formatCurrency(tvl)}</p>
           </div>
-          <div className="bg-[#0f1419] border border-gray-800 rounded-lg p-3">
+          <div className="bg-[#0a0a0c] border border-gray-800 rounded-lg p-3">
             <p className="text-gray-400 text-xs mb-1">All-time PnL</p>
             <p
               className={cn(
@@ -141,7 +141,7 @@ export default function VaultDetailPage() {
               {formatCurrency(totalPnl)}
             </p>
           </div>
-          <div className="bg-[#0f1419] border border-gray-800 rounded-lg p-3">
+          <div className="bg-[#0a0a0c] border border-gray-800 rounded-lg p-3">
             <p className="text-gray-400 text-xs mb-1">APR</p>
             <p
               className={cn(
@@ -153,7 +153,7 @@ export default function VaultDetailPage() {
               {summary.apr.toFixed(1)}%
             </p>
           </div>
-          <div className="bg-[#0f1419] border border-gray-800 rounded-lg p-3">
+          <div className="bg-[#0a0a0c] border border-gray-800 rounded-lg p-3">
             <p className="text-gray-400 text-xs mb-1">Followers</p>
             <p className="text-white text-sm font-normal">
               {summary.followerCount?.toLocaleString() || 0}
@@ -189,7 +189,7 @@ export default function VaultDetailPage() {
 
         {/* Chart */}
         {summary.portfolioPeriods && summary.portfolioPeriods.length > 0 && (
-          <div className="bg-[#0f1419] border border-gray-800 rounded-lg p-4 mb-6">
+          <div className="bg-[#0a0a0c] border border-gray-800 rounded-lg p-4 mb-6">
             <h3 className="text-white font-normal text-sm mb-3">Performance</h3>
             <VaultChart periods={summary.portfolioPeriods} />
           </div>
@@ -214,7 +214,7 @@ export default function VaultDetailPage() {
         </div>
 
         {/* Tab Content */}
-        <div className="bg-[#0f1419] border border-gray-800 rounded-lg">
+        <div className="bg-[#0a0a0c] border border-gray-800 rounded-lg">
           {tab === 'positions' && (
             <div className="overflow-x-auto">
               {portfolio && portfolio.length > 0 ? (
@@ -237,7 +237,7 @@ export default function VaultDetailPage() {
                       return (
                         <tr
                           key={pos.coin}
-                          className="border-b border-gray-800/50 hover:bg-[#1a2028]/50 transition-colors"
+                          className="border-b border-gray-800/50 hover:bg-[#0a0a0a]/50 transition-colors"
                         >
                           <td className="py-2 px-3">
                             <div className="flex items-center gap-2">

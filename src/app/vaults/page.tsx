@@ -52,7 +52,7 @@ export default function VaultsPage() {
   const filteredVaults = getFilteredVaults();
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white page-enter">
+    <div className="min-h-screen bg-[#0a0a0c] text-white page-enter">
       <div className="w-full px-6 py-6">
         {/* Header */}
         <div className="mb-6">
@@ -64,7 +64,7 @@ export default function VaultsPage() {
 
         {/* Tabs */}
         <div className="flex items-center gap-4 mb-6">
-          <div className="flex bg-[#1a2028]  p-1">
+          <div className="flex bg-[#0a0a0a]  p-1">
             <button
               onClick={() => setTab('all')}
               className={cn(
@@ -101,14 +101,14 @@ export default function VaultsPage() {
                   value={searchQuery}
                   onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
                   placeholder="Search vaults..."
-                  className="w-full bg-[#1a2028] border border-gray-700  px-4 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-gray-500"
+                  className="w-full bg-[#0a0a0a] border border-gray-700  px-4 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-gray-500"
                 />
               </div>
 
               {/* Sort */}
               <div className="flex items-center gap-2">
                 <span className="text-gray-400 text-xs">Sort by:</span>
-                <div className="flex bg-[#1a2028]  p-0.5">
+                <div className="flex bg-[#0a0a0a]  p-0.5">
                   {SORT_OPTIONS.map((opt) => (
                     <button
                       key={opt.value}
@@ -156,7 +156,7 @@ export default function VaultsPage() {
                 {Array.from({ length: 6 }).map((_, i) => (
                   <div
                     key={i}
-                    className="bg-[#0f1419] border border-gray-800  p-4 animate-pulse"
+                    className="bg-[#0a0a0c] border border-gray-800  p-4 animate-pulse"
                   >
                     <div className="h-4 bg-gray-700 rounded w-3/4 mb-3" />
                     <div className="h-3 bg-gray-700 rounded w-1/2 mb-4" />
@@ -205,7 +205,7 @@ export default function VaultsPage() {
                 {Array.from({ length: 3 }).map((_, i) => (
                   <div
                     key={i}
-                    className="bg-[#0f1419] border border-gray-800  p-4 animate-pulse"
+                    className="bg-[#0a0a0c] border border-gray-800  p-4 animate-pulse"
                   >
                     <div className="h-4 bg-gray-700 rounded w-1/3 mb-2" />
                     <div className="h-3 bg-gray-700 rounded w-1/2" />
@@ -235,7 +235,7 @@ export default function VaultsPage() {
                       href={`/vaults/${eq.vaultAddress}`}
                       className="block"
                     >
-                      <div className="bg-[#0f1419] border border-gray-800  p-4 hover:border-gray-600 transition-colors">
+                      <div className="bg-[#0a0a0c] border border-gray-800  p-4 hover:border-gray-600 transition-colors">
                         <div className="flex items-center justify-between">
                           <div>
                             <p className="text-white text-sm">

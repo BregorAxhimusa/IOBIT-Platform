@@ -32,7 +32,7 @@ export default function AccountsPage() {
 
   if (!isConnected) {
     return (
-      <div className="min-h-screen bg-[#0a0a0f] text-white">
+      <div className="min-h-screen bg-[#0a0a0c] text-white">
         <div className="w-full px-6 py-6">
           <div className="flex items-center justify-center py-16 text-gray-500">
             Please connect your wallet to manage accounts
@@ -43,7 +43,7 @@ export default function AccountsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white">
+    <div className="min-h-screen bg-[#0a0a0c] text-white">
       <div className="w-full px-6 py-6">
         {/* Breadcrumb */}
         <Link href="/portfolio" className="text-[#14b8a6] text-sm hover:underline mb-4 inline-block">
@@ -97,7 +97,7 @@ export default function AccountsPage() {
                 {Array.from({ length: 3 }).map((_, i) => (
                   <div
                     key={i}
-                    className="bg-[#0f1419] border border-gray-800 rounded-lg p-4 animate-pulse"
+                    className="bg-[#0a0a0c] border border-gray-800 rounded-lg p-4 animate-pulse"
                   >
                     <div className="h-4 bg-gray-700 rounded w-1/3 mb-2" />
                     <div className="h-3 bg-gray-700 rounded w-1/2" />
@@ -135,7 +135,7 @@ export default function AccountsPage() {
                 {Array.from({ length: 2 }).map((_, i) => (
                   <div
                     key={i}
-                    className="bg-[#0f1419] border border-gray-800 rounded-lg p-4 animate-pulse"
+                    className="bg-[#0a0a0c] border border-gray-800 rounded-lg p-4 animate-pulse"
                   >
                     <div className="h-4 bg-gray-700 rounded w-1/3 mb-2" />
                     <div className="h-3 bg-gray-700 rounded w-1/2" />

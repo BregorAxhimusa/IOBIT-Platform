@@ -94,6 +94,29 @@ function AirdropButton() {
 
 // Wallet Button Component
 function WalletButton() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Don't render until mounted on client to avoid SSR issues with AppKit
+  if (!mounted) {
+    return (
+      <button
+        className="px-4 py-2 rounded-lg font-normal text-sm bg-white text-black"
+        disabled
+      >
+        Connect Wallet
+      </button>
+    );
+  }
+
+  return <WalletButtonInner />;
+}
+
+// Inner component that uses AppKit hooks (only rendered on client)
+function WalletButtonInner() {
   const { open } = useAppKit();
   const { address, isConnected } = useAppKitAccount();
 
@@ -109,7 +132,7 @@ function WalletButton() {
       className={cn(
         'px-4 py-2 rounded-lg font-normal text-sm transition-all',
         isConnected
-          ? 'bg-[#111111] text-white border border-white/20 hover:border-white/40 hover:bg-[#1a1a1a]'
+          ? 'bg-[#111111] text-white border border-[#1a1a1f] hover:border-[#2a2a2f] hover:bg-[#1a1a1a]'
           : 'bg-white text-black hover:bg-gray-100'
       )}
     >
@@ -140,7 +163,7 @@ export function Navbar() {
   const isMoreActive = moreLinks.some(link => pathname?.startsWith(link.href));
 
   return (
-    <nav className="border-b border-white/20 bg-[#0f0f0f]" role="navigation" aria-label="Main navigation">
+    <nav className="border-b border-[#1a1a1f] bg-[#0a0a0c]" role="navigation" aria-label="Main navigation">
       <div className="mx-auto flex h-14 items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Left Side - Logo + Navigation Links */}
         <div className="flex items-center gap-6">
@@ -156,9 +179,12 @@ export function Navbar() {
           </Link>
 
           {/* Navigation Links */}
-          <div className="hidden md:flex items-center space-x-1 bg-[#111111]/50 rounded-xl p-1">
+          <div className="hidden md:flex items-center space-x-1">
             {mainNavLinks.map((link) => {
-              const isActive = pathname?.startsWith(link.href);
+              // For Trade link, match any /trade/* route
+              const isActive = link.label === 'Trade'
+                ? pathname?.startsWith('/trade')
+                : pathname?.startsWith(link.href);
 
               return (
                 <Link
@@ -205,7 +231,7 @@ export function Navbar() {
 
               {/* Dropdown Menu */}
               {moreDropdownOpen && (
-                <div className="absolute top-full right-0 mt-2 w-48 bg-[#111111] border border-white/20 rounded-xl shadow-xl z-50 py-2">
+                <div className="absolute top-full right-0 mt-2 w-48 bg-[#0a0a0a] border border-[#1a1a1f] rounded-xl shadow-xl z-50 py-2">
                   {moreLinks.map((link) => {
                     const isActive = pathname?.startsWith(link.href);
                     return (
@@ -278,10 +304,13 @@ export function Navbar() {
 
       {/* Mobile Menu Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-white/20 bg-[#0f0f0f] max-h-[calc(100vh-56px)] overflow-y-auto">
+        <div className="md:hidden border-t border-[#1a1a1f] bg-[#0a0a0c] max-h-[calc(100vh-56px)] overflow-y-auto">
           <div className="px-3 py-2 space-y-1">
             {allNavLinks.map((link) => {
-              const isActive = pathname?.startsWith(link.href);
+              // For Trade link, match any /trade/* route
+              const isActive = link.label === 'Trade'
+                ? pathname?.startsWith('/trade')
+                : pathname?.startsWith(link.href);
               return (
                 <Link
                   key={link.href}
@@ -324,7 +353,7 @@ export function Navbar() {
               </div>
             )}
             {/* Wallet Button in Mobile */}
-            <div className="pt-1.5 border-t border-white/10 mt-1.5 px-2.5">
+            <div className="pt-1.5 border-t border-[#1a1a1f] mt-1.5 px-2.5">
               <WalletButton />
             </div>
           </div>

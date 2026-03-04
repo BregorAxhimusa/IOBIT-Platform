@@ -14,7 +14,7 @@ interface ReferredBySectionProps {
 function AlreadyReferredView({ referrer, code }: { referrer: string; code: string }) {
   return (
     <div className="space-y-3">
-      <div className="bg-[#1a2028] border border-teal-500/20  p-4">
+      <div className="bg-[#0a0a0a] border border-teal-500/20  p-4">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-teal-500/20 flex items-center justify-center shrink-0">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-teal-400" viewBox="0 0 20 20" fill="currentColor">
@@ -32,7 +32,7 @@ function AlreadyReferredView({ referrer, code }: { referrer: string; code: strin
         </div>
       </div>
 
-      <div className="bg-[#1a2028] border border-gray-800  p-3">
+      <div className="bg-[#0a0a0a] border border-gray-800  p-3">
         <p className="text-gray-400 text-xs">
           You get a <span className="text-teal-400 font-normal">4% fee discount</span> on your first $25M in trading volume.
         </p>
@@ -94,7 +94,7 @@ function SetReferrerView({
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           placeholder="Enter referral code"
-          className="flex-1 bg-[#1a2028] border border-gray-700  px-3 py-2 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-teal-500 transition-colors uppercase"
+          className="flex-1 bg-[#0a0a0a] border border-gray-700  px-3 py-2 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-teal-500 transition-colors uppercase"
         />
         <button
           onClick={handleApply}
@@ -139,7 +139,7 @@ export function ReferredBySection({
   const isReferred = referralInfo?.referredBy !== null && referralInfo?.referredBy !== undefined;
 
   return (
-    <div className="bg-[#0f1419] border border-gray-800 p-4">
+    <div className="bg-[#0a0a0c] border border-gray-800 p-4">
       <h3 className="text-white font-normal mb-4 flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-teal-500" viewBox="0 0 20 20" fill="currentColor">
           <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />

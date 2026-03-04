@@ -28,7 +28,7 @@ export function CreateSubModal({ isOpen, onClose, onSuccess }: CreateSubModalPro
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4">
       <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose} />
 
-      <div className="relative bg-[#0f1419] border border-gray-800 w-full max-w-md animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative bg-[#0a0a0c] border border-[#1a1a1f] w-full max-w-md animate-in fade-in zoom-in-95 duration-200">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -54,7 +54,7 @@ export function CreateSubModal({ isOpen, onClose, onSuccess }: CreateSubModalPro
           </div>
 
           {/* Info Box */}
-          <div className="bg-[#1a2028] border border-gray-800 p-3 sm:p-4 mb-3 sm:mb-4">
+          <div className="bg-[#0a0a0a] border border-[#1a1a1f] p-3 sm:p-4 mb-3 sm:mb-4">
             <div className="flex items-start gap-2 sm:gap-3">
               <svg className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -74,7 +74,7 @@ export function CreateSubModal({ isOpen, onClose, onSuccess }: CreateSubModalPro
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Trading Bot, Long-term"
               maxLength={24}
-              className="w-full bg-[#1a2028] border border-gray-800 px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm focus:outline-none focus:border-teal-500/50 placeholder-gray-600"
+              className="w-full bg-[#0a0a0a] border border-[#1a1a1f] px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm focus:outline-none focus:border-teal-500/50 placeholder-gray-600"
             />
             <p className="text-[10px] sm:text-xs text-gray-600 mt-1 sm:mt-1.5">{name.length}/24 characters</p>
           </div>

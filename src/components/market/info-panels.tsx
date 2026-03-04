@@ -56,7 +56,7 @@ function MoverRow({ mover }: { mover: MarketMover }) {
       <div className="flex items-center gap-2.5">
         <CoinIcon symbol={mover.symbol} />
         <span className="text-white text-sm font-normal">{mover.symbol}</span>
-        <span className="text-[10px] px-1.5 py-0.5 bg-[#1a2028] text-yellow-400 border border-gray-700">
+        <span className="text-[10px] px-1.5 py-0.5 bg-[#0a0a0a] text-yellow-400 border border-gray-700">
           {mover.maxLeverage}x
         </span>
       </div>
@@ -93,7 +93,7 @@ export function InfoPanels({ topEarners, biggestMovers, isLoading }: InfoPanelsP
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
       {/* Top Earners / High Volume */}
-      <div className="bg-[#0f1419] border border-gray-800">
+      <div className="bg-[#0a0a0c] border border-gray-800">
         <div className="px-4 py-3 border-b border-gray-800 flex items-center gap-2">
           <h3 className="text-white text-sm font-normal">Earned by Stakers</h3>
           <span className="text-[10px] px-1.5 py-0.5 bg-green-500/20 text-green-400 border border-green-500/30">
@@ -108,7 +108,7 @@ export function InfoPanels({ topEarners, biggestMovers, isLoading }: InfoPanelsP
       </div>
 
       {/* Biggest Movers */}
-      <div className="bg-[#0f1419] border border-gray-800">
+      <div className="bg-[#0a0a0c] border border-gray-800">
         <div className="px-4 py-3 border-b border-gray-800 flex items-center gap-2">
           <h3 className="text-white text-sm font-normal">Biggest Movers</h3>
           <span className="text-[10px] px-1.5 py-0.5 bg-teal-500/20 text-teal-400 border border-teal-500/30">

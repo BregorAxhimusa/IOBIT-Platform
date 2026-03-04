@@ -14,9 +14,9 @@ export function RecentTrades({ symbol }: RecentTradesProps) {
   const displayedTrades = trades.slice(0, 30);
 
   return (
-    <div className="flex flex-col h-full bg-[#0f0f0f]">
+    <div className="flex flex-col h-full bg-[#0a0a0c]">
       {/* Column Headers */}
-      <div className="grid grid-cols-3 gap-1 sm:gap-2 px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs text-gray-500 font-normal border-b border-white/20 bg-[#111111]/30">
+      <div className="grid grid-cols-3 gap-1 sm:gap-2 px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs text-gray-500 font-normal border-b border-[#1a1a1f] bg-[#0a0a0a]">
         <div className="text-left">Price</div>
         <div className="text-right">Size</div>
         <div className="text-right">Time</div>

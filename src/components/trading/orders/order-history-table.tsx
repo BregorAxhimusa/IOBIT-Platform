@@ -64,7 +64,7 @@ export function OrderHistoryTable() {
             return (
               <tr
                 key={order.id}
-                className="border-b border-gray-800 hover:bg-[#1a2028]/50 transition-colors"
+                className="border-b border-gray-800 hover:bg-[#0a0a0a]/50 transition-colors"
               >
                 <td className="py-3 px-4 text-gray-400 text-xs">{dateStr}</td>
                 <td className="py-3 px-4 font-normal text-white">{order.symbol}</td>

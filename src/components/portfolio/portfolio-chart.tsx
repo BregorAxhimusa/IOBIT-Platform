@@ -64,7 +64,7 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
   if (!active || !payload || payload.length === 0) return null;
 
   return (
-    <div className="bg-[#1a2028] border border-gray-700 rounded-lg p-3 shadow-lg">
+    <div className="bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 shadow-lg">
       <p className="text-gray-400 text-xs mb-2">{label}</p>
       {payload.map((item, index) => (
         <div key={index} className="flex items-center justify-between gap-4">
@@ -94,7 +94,7 @@ export function PortfolioChart({
 
   if (isLoading) {
     return (
-      <div className="bg-[#0f1419] border border-gray-800 p-4">
+      <div className="bg-[#0a0a0c] border border-gray-800 p-4">
         <div className="h-[350px] flex items-center justify-center">
           <div className="animate-pulse text-gray-500">Loading chart data...</div>
         </div>
@@ -104,7 +104,7 @@ export function PortfolioChart({
 
   if (data.length === 0) {
     return (
-      <div className="bg-[#0f1419] border border-gray-800 p-4">
+      <div className="bg-[#0a0a0c] border border-gray-800 p-4">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-white font-normal">Portfolio Performance</h3>
         </div>
@@ -126,7 +126,7 @@ export function PortfolioChart({
   const isPositive = totalPnl >= 0;
 
   return (
-    <div className="bg-[#0f1419] border border-gray-800 p-4">
+    <div className="bg-[#0a0a0c] border border-gray-800 p-4">
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-3">
         <div>
@@ -141,7 +141,7 @@ export function PortfolioChart({
 
         <div className="flex items-center gap-2">
           {/* Chart Mode Toggle */}
-          <div className="flex bg-[#1a2028] rounded-lg p-0.5">
+          <div className="flex bg-[#0a0a0a] rounded-lg p-0.5">
             <button
               onClick={() => setChartMode('cumulative')}
               className={cn(
@@ -167,7 +167,7 @@ export function PortfolioChart({
           </div>
 
           {/* Time Range Selector */}
-          <div className="flex bg-[#1a2028] rounded-lg p-0.5">
+          <div className="flex bg-[#0a0a0a] rounded-lg p-0.5">
             {TIME_RANGES.map((range) => (
               <button
                 key={range.value}

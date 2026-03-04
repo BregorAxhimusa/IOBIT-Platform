@@ -33,7 +33,7 @@ export function StakingBalance({ stakingState, spotHypeBalance, onDeposit, onWit
   };
 
   return (
-    <div className="bg-[#0f1419] border border-gray-800 p-5">
+    <div className="bg-[#0a0a0c] border border-gray-800 p-5">
       <h3 className="text-white font-normal text-sm mb-4">Staking Balance</h3>
 
       <div className="space-y-3">
@@ -52,14 +52,14 @@ export function StakingBalance({ stakingState, spotHypeBalance, onDeposit, onWit
         </div>
 
         {showDeposit && (
-          <div className="bg-[#1a2028]  p-3 space-y-2">
+          <div className="bg-[#0a0a0a]  p-3 space-y-2">
             <div className="flex gap-2">
               <input
                 type="number"
                 value={depositAmount}
                 onChange={(e) => setDepositAmount(e.target.value)}
                 placeholder="Amount"
-                className="flex-1 bg-[#0f1419] border border-gray-700  px-3 py-2 text-white text-sm focus:outline-none focus:border-gray-500"
+                className="flex-1 bg-[#0a0a0c] border border-gray-700  px-3 py-2 text-white text-sm focus:outline-none focus:border-gray-500"
               />
               <button
                 onClick={() => setDepositAmount(spotHypeBalance)}
@@ -94,7 +94,7 @@ export function StakingBalance({ stakingState, spotHypeBalance, onDeposit, onWit
         </div>
 
         {showWithdraw && (
-          <div className="bg-[#1a2028]  p-3 space-y-2">
+          <div className="bg-[#0a0a0a]  p-3 space-y-2">
             <div className="p-2 bg-amber-500/10 border border-amber-500/20 ">
               <p className="text-amber-400 text-[10px]">7-day unstaking queue. Max 5 pending withdrawals ({pendingCount}/5 used).</p>
             </div>
@@ -104,7 +104,7 @@ export function StakingBalance({ stakingState, spotHypeBalance, onDeposit, onWit
                 value={withdrawAmount}
                 onChange={(e) => setWithdrawAmount(e.target.value)}
                 placeholder="Amount"
-                className="flex-1 bg-[#0f1419] border border-gray-700  px-3 py-2 text-white text-sm focus:outline-none focus:border-gray-500"
+                className="flex-1 bg-[#0a0a0c] border border-gray-700  px-3 py-2 text-white text-sm focus:outline-none focus:border-gray-500"
               />
               <button
                 onClick={() => setWithdrawAmount(stakingState?.undelegated ?? '0')}

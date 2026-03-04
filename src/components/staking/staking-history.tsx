@@ -28,7 +28,7 @@ export function StakingHistory({ rewards, history, validators, isLoading }: Stak
   ];
 
   return (
-    <div className="bg-[#0f1419] border border-gray-800 p-5">
+    <div className="bg-[#0a0a0c] border border-gray-800 p-5">
       <div className="flex border-b border-gray-800 mb-4">
         {tabs.map((t) => (
           <button

@@ -41,7 +41,7 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
   if (!active || !payload || payload.length === 0) return null;
 
   return (
-    <div className="bg-[#1a2028] border border-gray-700 rounded-lg p-3 shadow-lg">
+    <div className="bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 shadow-lg">
       <p className="text-gray-400 text-xs mb-1">{label}</p>
       {payload.map((item, index) => (
         <div key={index} className="flex items-center justify-between gap-4">

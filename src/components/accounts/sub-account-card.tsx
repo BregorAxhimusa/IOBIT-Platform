@@ -38,7 +38,7 @@ export function SubAccountCard({ subAccount, onTransfer }: SubAccountCardProps) 
     : 0;
 
   return (
-    <div className="bg-[#0f1419] border border-gray-800 p-4 hover:border-gray-600 transition-colors">
+    <div className="bg-[#0a0a0c] border border-gray-800 p-4 hover:border-gray-600 transition-colors">
       <div className="flex items-center justify-between mb-3">
         <div>
           <h3 className="text-white font-normal text-sm">
@@ -50,7 +50,7 @@ export function SubAccountCard({ subAccount, onTransfer }: SubAccountCardProps) 
         </div>
         <button
           onClick={() => onTransfer(subAccount)}
-          className="px-3 py-1.5 text-xs bg-[#1a2028] text-gray-300 hover:text-white rounded-lg border border-gray-700 hover:border-gray-500 transition-colors"
+          className="px-3 py-1.5 text-xs bg-[#0a0a0a] text-gray-300 hover:text-white rounded-lg border border-gray-700 hover:border-gray-500 transition-colors"
         >
           Transfer
         </button>

@@ -30,7 +30,7 @@ export function DelegateModal({ isOpen, onClose, validator, availableBalance, on
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4">
       <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative bg-[#0f1419] border border-gray-800 w-full max-w-md animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative bg-[#0a0a0c] border border-[#1a1a1f] w-full max-w-md animate-in fade-in zoom-in-95 duration-200">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -54,7 +54,7 @@ export function DelegateModal({ isOpen, onClose, validator, availableBalance, on
           </div>
 
           {/* Validator Info */}
-          <div className="bg-[#1a2028] border border-gray-800 p-3 sm:p-4 mb-3 sm:mb-4">
+          <div className="bg-[#0a0a0a] border border-[#1a1a1f] p-3 sm:p-4 mb-3 sm:mb-4">
             <div className="flex items-start justify-between mb-2 sm:mb-3">
               <div>
                 <p className="text-[10px] sm:text-xs text-gray-500 mb-1">Validator</p>
@@ -67,7 +67,7 @@ export function DelegateModal({ isOpen, onClose, validator, availableBalance, on
                 <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-green-500/10 text-green-400 text-[10px] sm:text-xs border border-green-500/30">Active</span>
               )}
             </div>
-            <div className="grid grid-cols-2 gap-2 sm:gap-3 pt-2 sm:pt-3 border-t border-gray-800">
+            <div className="grid grid-cols-2 gap-2 sm:gap-3 pt-2 sm:pt-3 border-t border-[#1a1a1f]">
               <div>
                 <p className="text-gray-500 text-[10px] sm:text-xs">Commission</p>
                 <p className="text-white text-xs sm:text-sm font-normal">{(parseFloat(validator.commission) * 100).toFixed(1)}%</p>
@@ -105,11 +105,11 @@ export function DelegateModal({ isOpen, onClose, validator, availableBalance, on
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="0.00"
-                className="flex-1 bg-[#1a2028] border border-gray-800 px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-teal-500/50 placeholder-gray-600"
+                className="flex-1 bg-[#0a0a0a] border border-[#1a1a1f] px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-teal-500/50 placeholder-gray-600"
               />
               <button
                 onClick={() => setAmount(availableBalance)}
-                className="px-3 py-2 sm:px-4 sm:py-3 text-[10px] sm:text-xs font-normal text-teal-400 hover:text-teal-300 bg-[#1a2028] border border-gray-800 hover:border-teal-500/30 transition-colors"
+                className="px-3 py-2 sm:px-4 sm:py-3 text-[10px] sm:text-xs font-normal text-teal-400 hover:text-teal-300 bg-[#0a0a0a] border border-[#1a1a1f] hover:border-teal-500/30 transition-colors"
               >
                 MAX
               </button>

@@ -82,7 +82,7 @@ export function VaultDepositModal({
       <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose} />
 
       {/* Modal */}
-      <div className="relative bg-[#0f1419] border border-gray-800 w-full max-w-md animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative bg-[#0a0a0c] border border-[#1a1a1f] w-full max-w-md animate-in fade-in zoom-in-95 duration-200">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -119,7 +119,7 @@ export function VaultDepositModal({
           </div>
 
           {/* Tabs */}
-          <div className="flex bg-[#1a2028] border border-gray-800 p-1 mb-4 sm:mb-6">
+          <div className="flex bg-[#0a0a0a] border border-[#1a1a1f] p-1 mb-4 sm:mb-6">
             <button
               onClick={() => { setMode('deposit'); clearError(); setAmount(''); }}
               className={cn(
@@ -145,7 +145,7 @@ export function VaultDepositModal({
           </div>
 
           {/* Balance Info */}
-          <div className="bg-[#1a2028] border border-gray-800 p-3 sm:p-4 mb-3 sm:mb-4">
+          <div className="bg-[#0a0a0a] border border-[#1a1a1f] p-3 sm:p-4 mb-3 sm:mb-4">
             {mode === 'deposit' ? (
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1.5 sm:gap-2">
@@ -164,7 +164,7 @@ export function VaultDepositModal({
                   <span className="text-white text-sm sm:text-base font-normal">${currentEquity.toFixed(2)}</span>
                 </div>
                 {isLocked && lockDateStr && (
-                  <div className="flex items-center justify-between pt-2 border-t border-gray-800">
+                  <div className="flex items-center justify-between pt-2 border-t border-[#1a1a1f]">
                     <span className="text-amber-400 text-[10px] sm:text-xs flex items-center gap-1">
                       <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
@@ -194,7 +194,7 @@ export function VaultDepositModal({
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="0.00"
-              className="w-full bg-[#1a2028] border border-gray-800 px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-teal-500/50 placeholder-gray-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              className="w-full bg-[#0a0a0a] border border-[#1a1a1f] px-3 py-2 sm:px-4 sm:py-3 text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-teal-500/50 placeholder-gray-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
           </div>
 

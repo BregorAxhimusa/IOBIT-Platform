@@ -17,12 +17,6 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: var(--font-space-grotesk), -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  font-weight: 400;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 @layer utilities {
@@ -88,6 +82,29 @@ body {
 }
 .scrollbar-thin::-webkit-scrollbar-thumb:hover {
   background: #3a3a4a;
+}
+
+/* Custom dark scrollbar for tables - very subtle */
+.scrollbar-dark::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+.scrollbar-dark::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-dark::-webkit-scrollbar-thumb {
+  background: #252528;
+  border-radius: 2px;
+}
+.scrollbar-dark::-webkit-scrollbar-thumb:hover {
+  background: #3a3a3f;
+}
+.scrollbar-dark::-webkit-scrollbar-corner {
+  background: transparent;
+}
+.scrollbar-dark {
+  scrollbar-width: thin;
+  scrollbar-color: #252528 transparent;
 }
 
 /* Button press effect */
@@ -184,4 +201,13 @@ body {
   padding: 2px;
   border-radius: 8px;
   animation: border-angle-rotate 2s linear infinite;
+}
+
+/* TradingView widget styling */
+#widget-container,
+#tradingview_advanced,
+.tradingview-widget-container,
+.tradingview-widget-container iframe {
+  background: #0a0a0c !important;
+  border-color: #1a1a1f !important;
 }

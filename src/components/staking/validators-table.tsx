@@ -49,7 +49,7 @@ export function ValidatorsTable({ validators, isLoading, onStake }: ValidatorsTa
 
   if (isLoading) {
     return (
-      <div className="bg-[#0f1419] border border-gray-800 p-5">
+      <div className="bg-[#0a0a0c] border border-gray-800 p-5">
         <h3 className="text-white font-normal text-sm mb-4">Validators</h3>
         <div className="space-y-3">
           {Array.from({ length: 5 }).map((_, i) => (
@@ -61,7 +61,7 @@ export function ValidatorsTable({ validators, isLoading, onStake }: ValidatorsTa
   }
 
   return (
-    <div className="bg-[#0f1419] border border-gray-800 p-5">
+    <div className="bg-[#0a0a0c] border border-gray-800 p-5">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-white font-normal text-sm">Validators ({filtered.length})</h3>
         <input
@@ -69,7 +69,7 @@ export function ValidatorsTable({ validators, isLoading, onStake }: ValidatorsTa
           value={search}
           onChange={(e) => { setSearch(e.target.value); setCurrentPage(1); }}
           placeholder="Search validators..."
-          className="bg-[#1a2028] border border-gray-700 rounded-lg px-3 py-1.5 text-white text-xs w-48 focus:outline-none focus:border-gray-500"
+          className="bg-[#0a0a0a] border border-gray-700 rounded-lg px-3 py-1.5 text-white text-xs w-48 focus:outline-none focus:border-gray-500"
         />
       </div>
       <div className="overflow-x-auto">

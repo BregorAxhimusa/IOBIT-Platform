@@ -26,7 +26,7 @@ export function ReferredUsersTable({ referralStates }: ReferredUsersTableProps) 
 
   if (sortedStates.length === 0) {
     return (
-      <div className="bg-[#0f1419] border border-gray-800 p-4">
+      <div className="bg-[#0a0a0c] border border-gray-800 p-4">
         <h3 className="text-white font-normal mb-4 flex items-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-teal-500" viewBox="0 0 20 20" fill="currentColor">
             <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
@@ -34,7 +34,7 @@ export function ReferredUsersTable({ referralStates }: ReferredUsersTableProps) 
           Referred Users
         </h3>
         <div className="flex flex-col items-center justify-center py-10 text-center">
-          <div className="w-12 h-12 rounded-full bg-[#1a2028] flex items-center justify-center mb-3">
+          <div className="w-12 h-12 rounded-full bg-[#0a0a0a] flex items-center justify-center mb-3">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
               <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
             </svg>
@@ -49,7 +49,7 @@ export function ReferredUsersTable({ referralStates }: ReferredUsersTableProps) 
   }
 
   return (
-    <div className="bg-[#0f1419] border border-gray-800 p-4">
+    <div className="bg-[#0a0a0c] border border-gray-800 p-4">
       <h3 className="text-white font-normal mb-4 flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-teal-500" viewBox="0 0 20 20" fill="currentColor">
           <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
@@ -73,7 +73,7 @@ export function ReferredUsersTable({ referralStates }: ReferredUsersTableProps) 
             {pageStates.map((state, index) => (
               <tr
                 key={state.user}
-                className="border-b border-gray-800/50 hover:bg-[#1a2028]/50 transition-colors"
+                className="border-b border-gray-800/50 hover:bg-[#0a0a0a]/50 transition-colors"
               >
                 <td className="text-gray-500 text-xs py-2.5 px-2">{startIdx + index + 1}</td>
                 <td className="text-white text-sm py-2.5 px-2">

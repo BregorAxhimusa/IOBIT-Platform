@@ -18,7 +18,7 @@ export function ApiWalletCard({ wallet }: ApiWalletCardProps) {
     : 'Never';
 
   return (
-    <div className="bg-[#0f1419] border border-gray-800 p-4 hover:border-gray-600 transition-colors">
+    <div className="bg-[#0a0a0c] border border-gray-800 p-4 hover:border-gray-600 transition-colors">
       <div className="flex items-center justify-between mb-2">
         <div>
           <h3 className="text-white font-normal text-sm">
