@@ -33,7 +33,7 @@ const allNavLinks = [...mainNavLinks, ...moreLinks];
 const airdropTexts = ['BIT', 'AIRDROP', '25M'];
 
 // Airdrop Button Component with typewriter effect
-function AirdropButton() {
+function AirdropButton({ onClick }: { onClick?: () => void }) {
   const [textIndex, setTextIndex] = useState(0);
   const [displayText, setDisplayText] = useState('');
   const [isTyping, setIsTyping] = useState(true);
@@ -73,17 +73,22 @@ function AirdropButton() {
   return (
     <Link
       href="/bit"
+      onClick={onClick}
       className="animate-rotating-border inline-block group"
     >
       <div
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-[6px] transition-all"
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all shadow-[inset_0_0.5px_8px_rgba(22,222,147,0.10)] backdrop-blur-[2.5px]"
         style={{
           background: 'linear-gradient(135deg, #0a1f1a 0%, #0f0f0f 50%, #0a1a1f 100%)'
         }}
       >
-        <svg className="w-3.5 h-3.5 text-[#17DD92] group-hover:text-white transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-        </svg>
+        <Image
+          src="/iobit/bits/iconbits.svg"
+          alt="BIT"
+          width={14}
+          height={14}
+          className="group-hover:opacity-80 transition-opacity duration-300"
+        />
         <span className="w-[70px] text-[15px] font-normal text-[#17DD92] group-hover:text-white transition-colors duration-300">
           {displayText}<span className="animate-pulse">|</span>
         </span>
@@ -159,6 +164,11 @@ export function Navbar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Close mobile menu when pathname changes (after page transition completes)
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
   // Check if any "more" link is active
   const isMoreActive = moreLinks.some(link => pathname?.startsWith(link.href));
 
@@ -191,7 +201,7 @@ export function Navbar() {
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    'px-3 py-1.5 text-sm font-normal rounded-lg transition-all',
+                    'px-3 py-1.5 text-[15px] font-normal rounded-lg transition-all',
                     isActive
                       ? 'bg-white text-black'
                       : 'text-white/70 hover:text-white'
@@ -210,7 +220,7 @@ export function Navbar() {
               <button
                 onClick={() => setMoreDropdownOpen(!moreDropdownOpen)}
                 className={cn(
-                  'px-3 py-1.5 text-sm font-normal rounded-lg transition-all flex items-center gap-1',
+                  'px-3 py-1.5 text-[15px] font-normal rounded-lg transition-all flex items-center gap-1',
                   isMoreActive
                     ? 'bg-white text-black'
                     : moreDropdownOpen
@@ -257,28 +267,25 @@ export function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className={cn(
-            "md:hidden p-2 rounded-lg transition-all",
-            mobileMenuOpen
-              ? "bg-white text-black"
-              : "text-white/70 hover:text-white"
-          )}
-          aria-label="Toggle navigation menu"
-          aria-expanded={mobileMenuOpen}
-        >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            {mobileMenuOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            )}
-          </svg>
-        </button>
+        {/* Mobile Right Side - Wallet + Menu Button */}
+        <div className="flex md:hidden items-center gap-2">
+          <WalletButton />
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="p-2 rounded-lg transition-all"
+            aria-label="Toggle navigation menu"
+            aria-expanded={mobileMenuOpen}
+          >
+            <Image
+              src={mobileMenuOpen ? "/iobit/landingpage/close.svg" : "/iobit/landingpage/open.svg"}
+              alt={mobileMenuOpen ? "Close menu" : "Open menu"}
+              width={20}
+              height={20}
+            />
+          </button>
+        </div>
 
-        {/* Right Side - Account Switcher + Settings + Wallet */}
+        {/* Desktop Right Side - Account Switcher + Settings + Wallet */}
         <div className="hidden md:flex items-center space-x-2">
           {isConnected && <AccountSwitcher />}
           {isConnected && (
@@ -304,57 +311,70 @@ export function Navbar() {
 
       {/* Mobile Menu Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-[#1a1a1f] bg-[#0a0a0c] max-h-[calc(100vh-56px)] overflow-y-auto">
-          <div className="px-3 py-2 space-y-1">
+        <div className="md:hidden fixed inset-x-0 top-14 bottom-0 border-t border-[#1a1a1f] bg-[#0a0a0c] overflow-y-auto z-50">
+          <div className="px-0 py-4 space-y-2">
             {allNavLinks.map((link) => {
               // For Trade link, match any /trade/* route
               const isActive = link.label === 'Trade'
                 ? pathname?.startsWith('/trade')
                 : pathname?.startsWith(link.href);
               return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={cn(
-                    'flex items-center gap-2 px-2.5 py-2 text-xs font-normal rounded-lg transition-all',
-                    isActive
-                      ? 'bg-white text-black'
-                      : 'text-white/70 hover:text-white'
-                  )}
-                >
-                  {'icon' in link && <Image src={(link as { icon: string }).icon} alt={link.label} width={14} height={14} />}
-                  {link.label}
-                </Link>
+                <div key={link.href} className="px-3 py-1">
+                  <Link
+                    href={link.href}
+                    className={cn(
+                      'inline-block px-3 py-1.5 text-base font-normal rounded-lg transition-all',
+                      isActive
+                        ? 'bg-white text-black'
+                        : 'text-[#8A8A8E] hover:text-white'
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                </div>
               );
             })}
-            {isConnected && (
-              <Link
-                href="/settings"
-                onClick={() => setMobileMenuOpen(false)}
-                className={cn(
-                  'block px-2.5 py-2 text-xs font-normal rounded-lg transition-all',
-                  pathname?.startsWith('/settings')
-                    ? 'bg-white text-black'
-                    : 'text-white/70 hover:text-white'
-                )}
-              >
-                Settings
-              </Link>
-            )}
-            {/* Airdrop Button in Mobile */}
-            <div className="px-2.5 py-2">
+            {/* Divider */}
+            <div className="border-b border-[#1a1a1f] my-2" />
+            {/* Airdrop Button */}
+            <div className="px-3 py-2">
               <AirdropButton />
             </div>
-            {/* Account Switcher in Mobile */}
-            {isConnected && (
-              <div className="px-2.5 py-2">
-                <AccountSwitcher />
-              </div>
-            )}
-            {/* Wallet Button in Mobile */}
-            <div className="pt-1.5 border-t border-[#1a1a1f] mt-1.5 px-2.5">
-              <WalletButton />
+            {/* Divider */}
+            <div className="border-b border-[#1a1a1f] my-2" />
+            {/* IOBIT Branding */}
+            <Link
+              href="https://iobit.ai/"
+              target="_blank"
+              className="px-3 py-3 flex items-center gap-3"
+            >
+              <span className="text-3xl font-medium text-white">IOBIT</span>
+              <Image
+                src="/iobit/landingpage/vector-diagonal.png"
+                alt="IOBIT"
+                width={24}
+                height={24}
+              />
+            </Link>
+          </div>
+
+          {/* Footer Links */}
+          <div className="absolute bottom-0 left-0 right-0 px-4 py-6 space-y-3">
+            <div className="flex items-center justify-between">
+              <a
+                href="/privacy"
+                target="_blank"
+                className="text-[#B2B3B7] text-sm hover:text-white transition-colors"
+              >
+                PRIVACY POLICY
+              </a>
+              <a
+                href="/terms"
+                target="_blank"
+                className="text-[#B2B3B7] text-sm hover:text-white transition-colors"
+              >
+                TERMS OF SERVICE
+              </a>
             </div>
           </div>
         </div>

@@ -228,12 +228,12 @@ export function PaginationFooter({
 
   return (
     <div className={cn(
-      'flex flex-col sm:flex-row items-center justify-between gap-4',
+      'flex items-center justify-center sm:justify-between gap-4',
       'px-4 py-3',
       className
     )}>
-      {/* Left: Info text */}
-      <span className="text-[#56565B] text-sm">
+      {/* Left: Info text - hidden on mobile */}
+      <span className="hidden sm:block text-[#56565B] text-sm">
         Showing {startItem}-{endItem} Out of {totalItems}
       </span>
 
@@ -295,8 +295,8 @@ export function PaginationFooter({
         </button>
       </div>
 
-      {/* Right: Show rows dropdown */}
-      <div className="flex items-center gap-2">
+      {/* Right: Show rows dropdown - hidden on mobile */}
+      <div className="hidden sm:flex items-center gap-2">
         <span className="text-[#6b6b6b] text-sm">Show</span>
         <select
           value={itemsPerPage}
