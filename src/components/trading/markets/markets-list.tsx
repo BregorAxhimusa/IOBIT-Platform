@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useMarketStore } from '@/store/market-store';
 import { useSpotStore } from '@/store/spot-store';
 import { displayToSymbol } from '@/lib/utils/spot-helpers';
@@ -123,8 +124,15 @@ export function MarketsList({ currentSymbol }: MarketsListProps) {
       {/* Markets List */}
       <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-700">
         {filteredMarkets.length === 0 ? (
-          <div className="flex items-center justify-center h-full text-gray-600 text-xs">
-            No markets found
+          <div className="flex flex-col items-center justify-center h-full py-8">
+            <Image
+              src="/iobit/landingpage/nofound.svg"
+              alt="No markets"
+              width={40}
+              height={40}
+              className="mb-2 opacity-50"
+            />
+            <span className="text-[#8A8A8E] text-xs">No markets found</span>
           </div>
         ) : (
           filteredMarkets.map((market) => {

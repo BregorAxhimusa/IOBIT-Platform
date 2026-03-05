@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { useAppKitAccount } from '@reown/appkit/react';
 import { useValidators } from '@/hooks/use-validators';
 import { useStakingState } from '@/hooks/use-staking-state';
@@ -206,8 +207,17 @@ export default function StakingPage() {
                   </tr>
                 ) : paginatedValidators.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="text-center py-6 md:py-8 text-[#6b6b6b] text-xs md:text-sm">
-                      No validators found
+                    <td colSpan={8} className="text-center py-6 md:py-8">
+                      <div className="flex flex-col items-center justify-center">
+                        <Image
+                          src="/iobit/landingpage/nofound.svg"
+                          alt="No validators"
+                          width={48}
+                          height={48}
+                          className="mb-3 opacity-50"
+                        />
+                        <span className="text-[#8A8A8E] text-xs md:text-sm">No validators found</span>
+                      </div>
                     </td>
                   </tr>
                 ) : (
@@ -311,8 +321,19 @@ export default function StakingPage() {
                   </tr>
                 ) : filteredRewards.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="text-center py-6 md:py-8 text-[#6b6b6b] text-xs md:text-sm">
-                      {rewards.length === 0 ? 'No staking rewards yet' : 'No rewards in selected period'}
+                    <td colSpan={5} className="text-center py-6 md:py-8">
+                      <div className="flex flex-col items-center justify-center">
+                        <Image
+                          src="/iobit/landingpage/nofound.svg"
+                          alt="No rewards"
+                          width={48}
+                          height={48}
+                          className="mb-3 opacity-50"
+                        />
+                        <span className="text-[#8A8A8E] text-xs md:text-sm">
+                          {rewards.length === 0 ? 'No staking rewards yet' : 'No rewards in selected period'}
+                        </span>
+                      </div>
                     </td>
                   </tr>
                 ) : (
@@ -382,8 +403,19 @@ export default function StakingPage() {
                   </tr>
                 ) : filteredHistory.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="text-center py-6 md:py-8 text-[#6b6b6b] text-xs md:text-sm">
-                      {history.length === 0 ? 'No staking actions yet' : 'No actions in selected period'}
+                    <td colSpan={6} className="text-center py-6 md:py-8">
+                      <div className="flex flex-col items-center justify-center">
+                        <Image
+                          src="/iobit/landingpage/nofound.svg"
+                          alt="No history"
+                          width={48}
+                          height={48}
+                          className="mb-3 opacity-50"
+                        />
+                        <span className="text-[#8A8A8E] text-xs md:text-sm">
+                          {history.length === 0 ? 'No staking actions yet' : 'No actions in selected period'}
+                        </span>
+                      </div>
                     </td>
                   </tr>
                 ) : (

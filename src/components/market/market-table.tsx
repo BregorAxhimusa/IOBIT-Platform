@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useMarketStore } from '@/store/market-store';
 import { useSpotStore } from '@/store/spot-store';
 import { useFavoritesStore } from '@/store/favorites-store';
@@ -315,12 +316,14 @@ export function MarketTable({
               <tr>
                 <td colSpan={9} className="py-16 text-center">
                   <div className="flex flex-col items-center gap-3">
-                    <div className="w-12 h-12 rounded-full bg-[#1a1a1f] flex items-center justify-center">
-                      <svg className="w-6 h-6 text-[#6b6b6b]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                      </svg>
-                    </div>
-                    <p className="text-[#6b6b6b] text-sm">
+                    <Image
+                      src="/iobit/landingpage/nofound.svg"
+                      alt="No markets"
+                      width={48}
+                      height={48}
+                      className="opacity-50"
+                    />
+                    <p className="text-[#8A8A8E] text-sm">
                       {searchTerm ? 'No markets found' : activeTab === 'favorites' ? 'No favorites yet. Star markets to add them here.' : 'No markets available'}
                     </p>
                   </div>
@@ -365,8 +368,10 @@ export function MarketTable({
                     </td>
                     <td className="px-2 text-right">
                       <span className={cn(
-                        'inline-flex items-center px-2 py-1 rounded-md text-sm font-medium',
-                        isPositive ? 'bg-[#16DE93]/10 text-[#16DE93]' : 'bg-[#F6465D]/10 text-[#F6465D]'
+                        'inline-flex items-center px-2 py-1 rounded-lg text-sm font-medium',
+                        isPositive
+                          ? 'text-[#16DE93] shadow-[inset_0_0.5px_8px_rgba(22,222,147,0.10)] backdrop-blur-[2.5px]'
+                          : 'text-[#f6465d] shadow-[inset_0_0.5px_8px_rgba(246,70,93,0.10)] backdrop-blur-[2.5px]'
                       )}>
                         {formatPercentage(row.change24h)}
                       </span>
@@ -380,7 +385,7 @@ export function MarketTable({
                     <td className="px-2 text-right hidden lg:table-cell">
                       <Link
                         href={row.href}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#16DE93]/10 hover:bg-[#16DE93]/20 text-[#16DE93] text-xs font-medium rounded-md transition-colors"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[#16DE93] text-xs font-medium rounded-lg shadow-[inset_0_0.5px_8px_rgba(22,222,147,0.10)] backdrop-blur-[2.5px] hover:shadow-[inset_0_0.5px_12px_rgba(22,222,147,0.15)] transition-all"
                       >
                         Trade
                         <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

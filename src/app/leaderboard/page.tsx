@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
 import { getInfoClient } from '@/lib/hyperliquid/info-client';
 import { useNetworkStore } from '@/store/network-store';
@@ -169,10 +170,21 @@ export default function LeaderboardPage() {
                   </tr>
                 ) : !leaderboard || leaderboard.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="px-6 py-12 text-center text-gray-500">
-                      {network === 'testnet'
-                        ? 'No leaderboard data available on testnet'
-                        : 'No leaderboard data available'}
+                    <td colSpan={5} className="px-6 py-12 text-center">
+                      <div className="flex flex-col items-center justify-center">
+                        <Image
+                          src="/iobit/landingpage/nofound.svg"
+                          alt="No data"
+                          width={48}
+                          height={48}
+                          className="mb-3 opacity-50"
+                        />
+                        <span className="text-[#8A8A8E] text-sm">
+                          {network === 'testnet'
+                            ? 'No leaderboard data available on testnet'
+                            : 'No leaderboard data available'}
+                        </span>
+                      </div>
                     </td>
                   </tr>
                 ) : (() => {

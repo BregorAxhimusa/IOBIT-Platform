@@ -16,9 +16,9 @@ export function CategoryFilters({ activeCategory, onCategoryChange }: CategoryFi
           key={cat}
           onClick={() => onCategoryChange(cat)}
           className={cn(
-            'px-4 py-2 text-sm font-medium whitespace-nowrap rounded-md transition-all duration-200',
+            'px-4 py-2 text-sm font-medium whitespace-nowrap rounded-lg transition-all duration-200',
             activeCategory === cat
-              ? 'bg-[#505057]/40 text-white'
+              ? 'text-[#16DE93] shadow-[inset_0_0.5px_8px_rgba(22,222,147,0.10)] backdrop-blur-[2.5px]'
               : 'text-[#6b6b6b] hover:text-white'
           )}
         >

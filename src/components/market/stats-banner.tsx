@@ -27,7 +27,7 @@ function StatCard({
       <div className="flex items-center gap-4 mb-1">
         <span className="text-[#6b6b6b] text-sm">{label}</span>
         {badge && (
-          <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#16DE93]/10 text-[#16DE93]">
+          <span className="text-[10px] px-1.5 py-0.5 rounded-lg text-[#16DE93] shadow-[inset_0_0.5px_8px_rgba(22,222,147,0.10)] backdrop-blur-[2.5px]">
             {badge}
           </span>
         )}
@@ -159,7 +159,7 @@ export function StatsBanner({ stats, isLoading }: StatsBannerProps) {
       <div className="py-2 px-0 w-full border-y border-[#1a1a1f] lg:border-y-0">
         <div className="flex items-center gap-4 mb-0 pb-3 px-2 border-b border-[#1a1a1f]">
           <span className="text-white text-sm font-medium">Earned by Stakers</span>
-          <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#16DE93] text-black font-medium">
+          <span className="text-[10px] px-1.5 py-0.5 rounded-lg text-[#16DE93] shadow-[inset_0_0.5px_8px_rgba(22,222,147,0.10)] backdrop-blur-[2.5px]">
             NEW
           </span>
         </div>
@@ -182,7 +182,7 @@ export function StatsBanner({ stats, isLoading }: StatsBannerProps) {
       <div className="lg:border-l border-[#1a1a1f] py-2 px-0 w-full">
         <div className="flex items-center gap-4 mb-0 pb-3 px-2 border-b border-[#1a1a1f]">
           <span className="text-white text-sm font-medium">Biggest Movers</span>
-          <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#16DE93]/10 text-[#16DE93]">
+          <span className="text-[10px] px-1.5 py-0.5 rounded-lg text-[#16DE93] shadow-[inset_0_0.5px_8px_rgba(22,222,147,0.10)] backdrop-blur-[2.5px]">
             24h
           </span>
         </div>

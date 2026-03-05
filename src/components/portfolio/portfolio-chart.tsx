@@ -23,6 +23,10 @@ interface PortfolioChartProps {
   isLoading: boolean;
   timeRange: TimeRange;
   onTimeRangeChange: (range: TimeRange) => void;
+  /** Hide the header and controls, just show the chart */
+  hideHeader?: boolean;
+  /** External chart mode control */
+  chartModeOverride?: ChartMode;
 }
 
 const TIME_RANGES: { value: TimeRange; label: string }[] = [
@@ -89,13 +93,16 @@ export function PortfolioChart({
   isLoading,
   timeRange,
   onTimeRangeChange,
+  hideHeader = false,
+  chartModeOverride,
 }: PortfolioChartProps) {
-  const [chartMode, setChartMode] = useState<ChartMode>('cumulative');
+  const [internalChartMode, setChartMode] = useState<ChartMode>('cumulative');
+  const chartMode = chartModeOverride ?? internalChartMode;
 
   if (isLoading) {
     return (
-      <div className="bg-[#0a0a0c] border border-gray-800 p-4">
-        <div className="h-[350px] flex items-center justify-center">
+      <div className={cn(hideHeader ? '' : 'bg-[#0a0a0c] sm:border sm:border-[#1a1a1f] p-2 sm:p-4')}>
+        <div className={cn(hideHeader ? 'h-full' : 'h-[350px]', 'flex items-center justify-center')}>
           <div className="animate-pulse text-gray-500">Loading chart data...</div>
         </div>
       </div>
@@ -104,11 +111,13 @@ export function PortfolioChart({
 
   if (data.length === 0) {
     return (
-      <div className="bg-[#0a0a0c] border border-gray-800 p-4">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-white font-normal">Portfolio Performance</h3>
-        </div>
-        <div className="h-[350px] flex items-center justify-center">
+      <div className={cn(hideHeader ? '' : 'bg-[#0a0a0c] sm:border sm:border-[#1a1a1f] p-2 sm:p-4')}>
+        {!hideHeader && (
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-white font-normal">Portfolio Performance</h3>
+          </div>
+        )}
+        <div className={cn(hideHeader ? 'h-full' : 'h-[350px]', 'flex items-center justify-center')}>
           <p className="text-gray-500">No trading data available for this period</p>
         </div>
       </div>
@@ -126,68 +135,70 @@ export function PortfolioChart({
   const isPositive = totalPnl >= 0;
 
   return (
-    <div className="bg-[#0a0a0c] border border-gray-800 p-4">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-3">
-        <div>
-          <h3 className="text-white font-normal">Portfolio Performance</h3>
-          <div className="flex items-center gap-2 mt-1">
-            <span className={cn('text-lg font-normal', isPositive ? 'text-[#16DE93]' : 'text-[#f6465d]')}>
-              {isPositive ? '+' : ''}{formatCurrency(totalPnl)}
-            </span>
-            <span className="text-gray-500 text-sm">cumulative PnL</span>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          {/* Chart Mode Toggle */}
-          <div className="flex bg-[#0a0a0a] rounded-lg p-0.5">
-            <button
-              onClick={() => setChartMode('cumulative')}
-              className={cn(
-                'px-3 py-1 text-xs rounded-md transition-colors',
-                chartMode === 'cumulative'
-                  ? 'bg-[#16DE93] text-white'
-                  : 'text-white/70 hover:text-white'
-              )}
-            >
-              Cumulative
-            </button>
-            <button
-              onClick={() => setChartMode('daily')}
-              className={cn(
-                'px-3 py-1 text-xs rounded-md transition-colors',
-                chartMode === 'daily'
-                  ? 'bg-[#16DE93] text-white'
-                  : 'text-white/70 hover:text-white'
-              )}
-            >
-              Daily
-            </button>
+    <div className={cn(hideHeader ? 'h-full' : 'bg-[#0a0a0c] sm:border sm:border-[#1a1a1f] p-2 sm:p-4')}>
+      {/* Header - only show if hideHeader is false */}
+      {!hideHeader && (
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-3">
+          <div>
+            <h3 className="text-white font-normal">Portfolio Performance</h3>
+            <div className="flex items-center gap-2 mt-1">
+              <span className={cn('text-lg font-normal', isPositive ? 'text-[#16DE93]' : 'text-[#f6465d]')}>
+                {isPositive ? '+' : ''}{formatCurrency(totalPnl)}
+              </span>
+              <span className="text-gray-500 text-sm">cumulative PnL</span>
+            </div>
           </div>
 
-          {/* Time Range Selector */}
-          <div className="flex bg-[#0a0a0a] rounded-lg p-0.5">
-            {TIME_RANGES.map((range) => (
+          <div className="flex items-center gap-2">
+            {/* Chart Mode Toggle */}
+            <div className="flex bg-[#0a0a0a] rounded-lg p-0.5 gap-1">
               <button
-                key={range.value}
-                onClick={() => onTimeRangeChange(range.value)}
+                onClick={() => setChartMode('cumulative')}
                 className={cn(
-                  'px-2.5 py-1 text-xs rounded-md transition-colors',
-                  timeRange === range.value
-                    ? 'bg-[#16DE93] text-white'
+                  'px-3 py-1.5 text-xs rounded-lg transition-colors',
+                  chartMode === 'cumulative'
+                    ? 'text-[#16DE93] shadow-[inset_0_0.5px_8px_rgba(22,222,147,0.10)] backdrop-blur-[2.5px]'
                     : 'text-white/70 hover:text-white'
                 )}
               >
-                {range.label}
+                Cumulative
               </button>
-            ))}
+              <button
+                onClick={() => setChartMode('daily')}
+                className={cn(
+                  'px-3 py-1.5 text-xs rounded-lg transition-colors',
+                  chartMode === 'daily'
+                    ? 'text-[#16DE93] shadow-[inset_0_0.5px_8px_rgba(22,222,147,0.10)] backdrop-blur-[2.5px]'
+                    : 'text-white/70 hover:text-white'
+                )}
+              >
+                Daily
+              </button>
+            </div>
+
+            {/* Time Range Selector */}
+            <div className="flex bg-[#0a0a0a] rounded-lg p-0.5 gap-1">
+              {TIME_RANGES.map((range) => (
+                <button
+                  key={range.value}
+                  onClick={() => onTimeRangeChange(range.value)}
+                  className={cn(
+                    'px-2.5 py-1.5 text-xs rounded-lg transition-colors',
+                    timeRange === range.value
+                      ? 'text-[#16DE93] shadow-[inset_0_0.5px_8px_rgba(22,222,147,0.10)] backdrop-blur-[2.5px]'
+                      : 'text-white/70 hover:text-white'
+                  )}
+                >
+                  {range.label}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Chart */}
-      <div className="h-[300px]">
+      <div className={cn(hideHeader ? 'h-full' : 'h-[300px]')}>
         <ResponsiveContainer width="100%" height="100%">
           {chartMode === 'cumulative' ? (
             <AreaChart data={chartData} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>

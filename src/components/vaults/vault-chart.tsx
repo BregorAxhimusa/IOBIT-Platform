@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import {
   AreaChart,
   Area,
@@ -63,8 +64,15 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
 export function VaultChart({ periods }: VaultChartProps) {
   if (!periods || periods.length === 0) {
     return (
-      <div className="h-[200px] flex items-center justify-center text-gray-500 text-sm">
-        No performance data available
+      <div className="h-[200px] flex flex-col items-center justify-center">
+        <Image
+          src="/iobit/landingpage/nofound.svg"
+          alt="No data"
+          width={40}
+          height={40}
+          className="mb-2 opacity-50"
+        />
+        <span className="text-[#8A8A8E] text-sm">No performance data available</span>
       </div>
     );
   }

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useVaultDetails } from '@/hooks/use-vault-details';
 import { useVaultStore } from '@/store/vault-store';
 import { VaultChart } from '@/components/vaults/vault-chart';
@@ -280,8 +281,15 @@ export default function VaultDetailPage() {
                   </tbody>
                 </table>
               ) : (
-                <div className="flex items-center justify-center py-12 text-gray-500 text-sm">
-                  No open positions
+                <div className="flex flex-col items-center justify-center py-12">
+                  <Image
+                    src="/iobit/landingpage/nofound.svg"
+                    alt="No positions"
+                    width={48}
+                    height={48}
+                    className="mb-3 opacity-50"
+                  />
+                  <span className="text-[#8A8A8E] text-sm">No open positions</span>
                 </div>
               )}
             </div>
@@ -330,8 +338,15 @@ export default function VaultDetailPage() {
                   })}
                 </div>
               ) : (
-                <div className="flex items-center justify-center py-12 text-gray-500 text-sm">
-                  No performance data available
+                <div className="flex flex-col items-center justify-center py-12">
+                  <Image
+                    src="/iobit/landingpage/nofound.svg"
+                    alt="No data"
+                    width={48}
+                    height={48}
+                    className="mb-3 opacity-50"
+                  />
+                  <span className="text-[#8A8A8E] text-sm">No performance data available</span>
                 </div>
               )}
             </div>

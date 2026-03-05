@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useSymbolData } from '@/hooks/use-market-data';
 import { cn } from '@/lib/utils/cn';
 import {
@@ -277,8 +278,17 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                   </div>
                 </div>
               ) : filteredMarkets.length === 0 ? (
-                <div className="flex items-center justify-center py-12 sm:py-16 text-gray-500 text-xs sm:text-sm font-normal">
-                  No markets found for &ldquo;{searchTerm}&rdquo;
+                <div className="flex flex-col items-center justify-center py-12 sm:py-16">
+                  <Image
+                    src="/iobit/landingpage/nofound.svg"
+                    alt="No markets"
+                    width={40}
+                    height={40}
+                    className="mb-2 opacity-50"
+                  />
+                  <span className="text-[#8A8A8E] text-xs sm:text-sm font-normal">
+                    No markets found for &ldquo;{searchTerm}&rdquo;
+                  </span>
                 </div>
               ) : (
                 filteredMarkets.map((m) => {

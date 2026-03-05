@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { useOrdersStore } from '@/store/orders-store';
 import { useOrderHistory } from '@/hooks/use-order-history';
 import { cn } from '@/lib/utils/cn';
@@ -24,8 +25,15 @@ export function OrderHistoryTable() {
 
   if (orderHistory.length === 0) {
     return (
-      <div className="flex items-center justify-center py-12 text-gray-500 text-sm">
-        No order history
+      <div className="flex flex-col items-center justify-center py-16">
+        <Image
+          src="/iobit/landingpage/nofound.svg"
+          alt="No orders"
+          width={48}
+          height={48}
+          className="mb-3 opacity-50"
+        />
+        <span className="text-[#8A8A8E] text-sm">No order history</span>
       </div>
     );
   }

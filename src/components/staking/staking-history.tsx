@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { formatCompactNumber, formatAddress } from '@/lib/utils/format';
 import { cn } from '@/lib/utils/cn';
 import type { DelegatorReward, DelegatorHistoryEvent, ValidatorSummary } from '@/lib/hyperliquid/types';
@@ -51,7 +52,16 @@ export function StakingHistory({ rewards, history, validators, isLoading }: Stak
       ) : tab === 'rewards' ? (
         <div className="max-h-[400px] overflow-y-auto">
           {rewards.length === 0 ? (
-            <p className="text-gray-500 text-sm text-center py-8">No rewards yet</p>
+            <div className="flex flex-col items-center justify-center py-8">
+              <Image
+                src="/iobit/landingpage/nofound.svg"
+                alt="No rewards"
+                width={48}
+                height={48}
+                className="mb-3 opacity-50"
+              />
+              <p className="text-[#8A8A8E] text-sm">No rewards yet</p>
+            </div>
           ) : (
             <table className="w-full text-sm">
               <thead>
@@ -76,7 +86,16 @@ export function StakingHistory({ rewards, history, validators, isLoading }: Stak
       ) : (
         <div className="max-h-[400px] overflow-y-auto">
           {history.length === 0 ? (
-            <p className="text-gray-500 text-sm text-center py-8">No staking history yet</p>
+            <div className="flex flex-col items-center justify-center py-8">
+              <Image
+                src="/iobit/landingpage/nofound.svg"
+                alt="No history"
+                width={48}
+                height={48}
+                className="mb-3 opacity-50"
+              />
+              <p className="text-[#8A8A8E] text-sm">No staking history yet</p>
+            </div>
           ) : (
             <table className="w-full text-sm">
               <thead>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { usePositionsStore } from '@/store/positions-store';
 import { useClosePosition } from '@/hooks/use-close-position';
 import { useUserPositions } from '@/hooks/use-user-positions';
@@ -48,8 +49,15 @@ export function PositionsTable() {
 
   if (positions.length === 0) {
     return (
-      <div className="flex items-center justify-center py-12 text-gray-500 text-sm">
-        No open positions
+      <div className="flex flex-col items-center justify-center py-16">
+        <Image
+          src="/iobit/landingpage/nofound.svg"
+          alt="No positions"
+          width={48}
+          height={48}
+          className="mb-3 opacity-50"
+        />
+        <span className="text-[#8A8A8E] text-sm">No open positions</span>
       </div>
     );
   }

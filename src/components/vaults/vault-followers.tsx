@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { cn } from '@/lib/utils/cn';
 import { formatAddress } from '@/lib/utils/format';
 import { Pagination } from '@/components/ui/pagination';
@@ -27,8 +28,15 @@ export function VaultFollowers({ followers }: VaultFollowersProps) {
 
   if (followers.length === 0) {
     return (
-      <div className="flex items-center justify-center h-32 text-gray-500 text-sm">
-        No followers yet
+      <div className="flex flex-col items-center justify-center h-32">
+        <Image
+          src="/iobit/landingpage/nofound.svg"
+          alt="No followers"
+          width={40}
+          height={40}
+          className="mb-2 opacity-50"
+        />
+        <span className="text-[#8A8A8E] text-sm">No followers yet</span>
       </div>
     );
   }

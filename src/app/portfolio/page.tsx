@@ -1,379 +1,104 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
-import { usePositionsStore } from '@/store/positions-store';
-import { usePortfolioStats } from '@/hooks/use-account-balance';
-import { usePortfolioPnL } from '@/hooks/use-portfolio-pnl';
-import { PortfolioChart } from '@/components/portfolio/portfolio-chart';
-import { PerformanceStatsSection } from '@/components/portfolio/performance-stats';
-import { FundingHistory } from '@/components/portfolio/funding-history';
-import { SpotBalancesTable } from '@/components/trading/spot/spot-balances-table';
-import { TradeHistoryTable } from '@/components/trading/trade-history/trade-history-table';
-import { FeeSavingsCard } from '@/components/portfolio/fee-savings-card';
-import { cn } from '@/lib/utils/cn';
+import { useMarketData } from '@/hooks/use-market-data';
+import { PortfolioSidebar, type PortfolioRoute } from '@/components/portfolio/portfolio-sidebar';
+import { PortfolioOverview } from '@/components/portfolio/portfolio-overview';
+import { OrdersPage } from '@/components/portfolio/orders-page';
+import { FundsPage } from '@/components/portfolio/funds-page';
+import { TransfersPage } from '@/components/portfolio/transfers-page';
 
-type TimeRange = '24h' | '7d' | '30d' | '90d' | 'all';
-type PortfolioTab = 'overview' | 'positions' | 'spot' | 'funding' | 'trades';
+// Connect wallet button component that safely uses AppKit hooks
+function ConnectWalletButton() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <button
+        className="px-4 sm:px-6 py-2 sm:py-2.5 bg-white hover:bg-white/90 text-black text-sm sm:text-base font-medium transition-colors"
+        disabled
+      >
+        Connect Wallet
+      </button>
+    );
+  }
+
+  return <ConnectWalletButtonInner />;
+}
+
+function ConnectWalletButtonInner() {
+  const { open } = useAppKit();
+
+  return (
+    <button
+      onClick={() => open()}
+      className="px-4 sm:px-6 py-2 sm:py-2.5 bg-white hover:bg-white/90 text-black text-sm sm:text-base font-medium transition-colors"
+    >
+      Connect Wallet
+    </button>
+  );
+}
 
 export default function PortfolioPage() {
   const { isConnected } = useAppKitAccount();
-  const { open } = useAppKit();
-  const positions = usePositionsStore((state) => state.positions);
-  const [timeRange, setTimeRange] = useState<TimeRange>('30d');
-  const [activeTab, setActiveTab] = useState<PortfolioTab>('overview');
+  const [activeRoute, setActiveRoute] = useState<PortfolioRoute>('overview');
 
-  const {
-    accountValue,
-    availableBalance,
-    totalMargin,
-    totalUnrealizedPnl,
-    isLoading: isStatsLoading,
-  } = usePortfolioStats();
+  // Initialize market data for StatusFooter
+  useMarketData();
 
-  const {
-    pnlData,
-    stats,
-    funding,
-    isLoading: isPnlLoading,
-  } = usePortfolioPnL(timeRange);
-
+  // Not connected state
   if (!isConnected) {
     return (
-      <div className="min-h-screen bg-[#0a0a0c] flex items-center justify-center">
+      <div className="min-h-[90vh] bg-[#0a0a0c] flex items-center justify-center px-4">
         <div className="text-center">
-          <h1 className="text-2xl font-normal text-white mb-4">Portfolio</h1>
-          <p className="text-gray-400 mb-6">Connect your wallet to view your portfolio</p>
-          <button
-            onClick={() => open()}
-            className="px-6 py-2.5 rounded-lg bg-white hover:bg-gray-100 text-black font-normal transition-colors"
-          >
-            Connect Wallet
-          </button>
+          <h1 className="text-xl sm:text-2xl font-normal text-white mb-3 sm:mb-4">Portfolio</h1>
+          <p className="text-[#8A8A8E] text-sm sm:text-base mb-4 sm:mb-6">Connect your wallet to view your portfolio</p>
+          <ConnectWalletButton />
         </div>
       </div>
     );
   }
 
-  if (isStatsLoading) {
-    return (
-      <div className="min-h-screen bg-[#0a0a0c] flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#16DE93] mx-auto mb-4" />
-          <p className="text-gray-400">Loading portfolio data...</p>
-        </div>
-      </div>
-    );
-  }
-
-  const allTimeReturnPct = accountValue > 0 ? (totalUnrealizedPnl / accountValue) * 100 : 0;
-
-  const TABS: { value: PortfolioTab; label: string }[] = [
-    { value: 'overview', label: 'Overview' },
-    { value: 'positions', label: `Positions (${positions.length})` },
-    { value: 'spot', label: 'Spot Balances' },
-    { value: 'funding', label: 'Funding' },
-    { value: 'trades', label: 'Trade History' },
-  ];
+  // Render content based on active route
+  const renderContent = () => {
+    switch (activeRoute) {
+      case 'overview':
+        return <PortfolioOverview />;
+      case 'orders':
+        return <OrdersPage />;
+      case 'funds':
+        return <FundsPage />;
+      case 'transfers':
+        return <TransfersPage />;
+      default:
+        return <PortfolioOverview />;
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0c] page-enter">
-      <div className="w-full px-6 py-6">
-        {/* Header */}
-        <h1 className="text-2xl font-normal text-white mb-6">Portfolio</h1>
+    <div className="min-h-[90vh] bg-[#0a0a0c] page-enter">
+      {/* Mobile Sidebar (dropdown at top) */}
+      <div className="lg:hidden">
+        <PortfolioSidebar activeRoute={activeRoute} onRouteChange={setActiveRoute} />
+      </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6 stagger-children" aria-live="polite">
-          {/* Account Value */}
-          <div className="bg-[#0a0a0c] border border-gray-800 p-4">
-            <div className="text-xs text-gray-400 mb-1">Account Value</div>
-            <div className="text-xl font-normal text-white">
-              ${accountValue.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-            </div>
-            <div
-              className={cn(
-                'text-xs mt-1',
-                allTimeReturnPct >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]'
-              )}
-            >
-              {allTimeReturnPct >= 0 ? '+' : ''}
-              {allTimeReturnPct.toFixed(2)}% Unrealized
-            </div>
-          </div>
-
-          {/* Available Balance */}
-          <div className="bg-[#0a0a0c] border border-gray-800 p-4">
-            <div className="text-xs text-gray-400 mb-1">Available Balance</div>
-            <div className="text-xl font-normal text-white">
-              ${availableBalance.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-            </div>
-            <div className="text-xs text-gray-500 mt-1">Withdrawable</div>
-          </div>
-
-          {/* Margin Used */}
-          <div className="bg-[#0a0a0c] border border-gray-800 p-4">
-            <div className="text-xs text-gray-400 mb-1">Margin Used</div>
-            <div className="text-xl font-normal text-white">
-              ${totalMargin.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-            </div>
-            <div className="text-xs text-gray-500 mt-1">
-              {positions.length} position{positions.length !== 1 ? 's' : ''}
-            </div>
-          </div>
-
-          {/* Unrealized PnL */}
-          <div className="bg-[#0a0a0c] border border-gray-800 p-4">
-            <div className="text-xs text-gray-400 mb-1">Unrealized PnL</div>
-            <div
-              className={cn(
-                'text-xl font-normal',
-                totalUnrealizedPnl >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]'
-              )}
-            >
-              {totalUnrealizedPnl >= 0 ? '+' : ''}$
-              {Math.abs(totalUnrealizedPnl).toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-            </div>
-            <div
-              className={cn(
-                'text-xs mt-1',
-                totalUnrealizedPnl >= 0 ? 'text-[#16DE93]/70' : 'text-[#f6465d]/70'
-              )}
-            >
-              {totalUnrealizedPnl >= 0 ? '+' : ''}
-              {accountValue > 0 ? ((totalUnrealizedPnl / accountValue) * 100).toFixed(2) : '0.00'}%
-            </div>
-          </div>
+      {/* Main Layout */}
+      <div className="flex">
+        {/* Desktop Sidebar */}
+        <div className="hidden lg:block">
+          <PortfolioSidebar activeRoute={activeRoute} onRouteChange={setActiveRoute} />
         </div>
 
-        {/* Fee Status Card */}
-        <div className="mb-6">
-          <FeeSavingsCard />
-        </div>
-
-        {/* Portfolio Chart */}
-        <div className="mb-6">
-          <PortfolioChart
-            data={pnlData}
-            isLoading={isPnlLoading}
-            timeRange={timeRange}
-            onTimeRangeChange={setTimeRange}
-          />
-        </div>
-
-        {/* Performance Analytics */}
-        <div className="mb-6">
-          <PerformanceStatsSection stats={stats} isLoading={isPnlLoading} />
-        </div>
-
-        {/* Tabs */}
-        <div className="bg-[#0a0a0c] border border-gray-800 overflow-hidden">
-          {/* Tab Headers */}
-          <div className="flex overflow-x-auto border-b border-gray-800 scrollbar-hide">
-            {TABS.map((tab) => (
-              <button
-                key={tab.value}
-                onClick={() => setActiveTab(tab.value)}
-                className={cn(
-                  'px-4 py-3 text-sm font-normal whitespace-nowrap transition-colors',
-                  activeTab === tab.value
-                    ? 'text-white border-b-2 border-[#16DE93] bg-[#0a0a0a]'
-                    : 'text-white/70 hover:text-white hover:bg-[#0a0a0a]/50'
-                )}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Tab Content */}
-          <div className="p-4 min-h-[300px]">
-            {activeTab === 'overview' && (
-              <OverviewTab positions={positions} accountValue={accountValue} />
-            )}
-            {activeTab === 'positions' && (
-              <PositionsTab positions={positions} accountValue={accountValue} />
-            )}
-            {activeTab === 'spot' && <SpotBalancesTable />}
-            {activeTab === 'funding' && (
-              <FundingHistory funding={funding} isLoading={isPnlLoading} />
-            )}
-            {activeTab === 'trades' && <TradeHistoryTable />}
-          </div>
+        {/* Content Area */}
+        <div className="flex-1 min-h-[90vh]">
+          {renderContent()}
         </div>
       </div>
-    </div>
-  );
-}
-
-// ===== Overview Tab =====
-
-interface Position {
-  symbol: string;
-  side: string;
-  size: string;
-  leverage: number;
-  entryPrice: string;
-  markPrice: string;
-  unrealizedPnl: string;
-}
-
-interface OverviewTabProps {
-  positions: Position[];
-  accountValue: number;
-}
-
-function OverviewTab({ positions, accountValue }: OverviewTabProps) {
-  if (positions.length === 0) {
-    return (
-      <div className="flex items-center justify-center py-12 text-gray-500 text-sm">
-        No open positions. Start trading to see your portfolio overview.
-      </div>
-    );
-  }
-
-  // Sort positions by value descending
-  const sortedPositions = [...positions].sort((a, b) => {
-    const valueA = Math.abs(parseFloat(a.size) * parseFloat(a.markPrice));
-    const valueB = Math.abs(parseFloat(b.size) * parseFloat(b.markPrice));
-    return valueB - valueA;
-  });
-
-  return (
-    <div>
-      <h3 className="text-sm font-normal text-white mb-3">Asset Allocation</h3>
-      <div className="space-y-2">
-        {sortedPositions.map((position) => {
-          const posValue = Math.abs(parseFloat(position.size) * parseFloat(position.markPrice));
-          const pnl = parseFloat(position.unrealizedPnl);
-          const allocation = accountValue > 0 ? (posValue / accountValue) * 100 : 0;
-
-          return (
-            <div key={position.symbol} className="bg-[#0a0a0a] p-3">
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-white font-normal text-sm">{position.symbol}</span>
-                  <span
-                    className={cn(
-                      'px-1.5 py-0.5 rounded text-[10px] font-normal',
-                      position.side === 'long'
-                        ? 'bg-[#16DE93]/10 text-[#16DE93]'
-                        : 'bg-[#f6465d]/10 text-[#f6465d]'
-                    )}
-                  >
-                    {position.side.toUpperCase()} {position.leverage}x
-                  </span>
-                </div>
-                <div className="text-right">
-                  <span className={cn('text-sm font-normal', pnl >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]')}>
-                    {pnl >= 0 ? '+' : ''}${pnl.toFixed(2)}
-                  </span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="flex-1 bg-gray-800 rounded-full h-1.5">
-                  <div
-                    className={cn(
-                      'h-1.5 rounded-full transition-all',
-                      position.side === 'long' ? 'bg-[#16DE93]' : 'bg-[#f6465d]'
-                    )}
-                    style={{ width: `${Math.min(allocation, 100)}%` }}
-                  />
-                </div>
-                <span className="text-xs text-gray-400 w-12 text-right">{allocation.toFixed(1)}%</span>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-// ===== Positions Tab =====
-
-function PositionsTab({ positions, accountValue }: OverviewTabProps) {
-  if (positions.length === 0) {
-    return (
-      <div className="flex items-center justify-center py-12 text-gray-500 text-sm">
-        No open positions
-      </div>
-    );
-  }
-
-  return (
-    <div className="overflow-x-auto">
-      <table className="w-full text-xs">
-        <thead>
-          <tr className="text-gray-400 border-b border-gray-800">
-            <th className="text-left py-2 px-3 font-normal">Symbol</th>
-            <th className="text-left py-2 px-3 font-normal">Side</th>
-            <th className="text-right py-2 px-3 font-normal">Size</th>
-            <th className="text-right py-2 px-3 font-normal">Entry Price</th>
-            <th className="text-right py-2 px-3 font-normal">Mark Price</th>
-            <th className="text-right py-2 px-3 font-normal">Value</th>
-            <th className="text-right py-2 px-3 font-normal">PnL</th>
-            <th className="text-right py-2 px-3 font-normal">Allocation</th>
-          </tr>
-        </thead>
-        <tbody>
-          {positions.map((position) => {
-            const posValue = Math.abs(parseFloat(position.size) * parseFloat(position.markPrice));
-            const pnl = parseFloat(position.unrealizedPnl);
-            const allocation = accountValue > 0 ? (posValue / accountValue) * 100 : 0;
-
-            return (
-              <tr
-                key={position.symbol}
-                className="border-b border-gray-800/50 hover:bg-[#0a0a0a]/50 transition-colors"
-              >
-                <td className="py-2.5 px-3 font-normal text-white">{position.symbol}</td>
-                <td className="py-2.5 px-3">
-                  <span
-                    className={cn(
-                      'px-1.5 py-0.5 rounded text-[10px] font-normal',
-                      position.side === 'long'
-                        ? 'bg-[#16DE93]/10 text-[#16DE93]'
-                        : 'bg-[#f6465d]/10 text-[#f6465d]'
-                    )}
-                  >
-                    {position.side.toUpperCase()} {position.leverage}x
-                  </span>
-                </td>
-                <td className="py-2.5 px-3 text-right text-white">{position.size}</td>
-                <td className="py-2.5 px-3 text-right text-gray-300">
-                  ${parseFloat(position.entryPrice).toLocaleString()}
-                </td>
-                <td className="py-2.5 px-3 text-right text-gray-300">
-                  ${parseFloat(position.markPrice).toLocaleString()}
-                </td>
-                <td className="py-2.5 px-3 text-right text-white">
-                  ${posValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                </td>
-                <td className="py-2.5 px-3 text-right">
-                  <span className={cn('font-normal', pnl >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]')}>
-                    {pnl >= 0 ? '+' : ''}${pnl.toFixed(2)}
-                  </span>
-                </td>
-                <td className="py-2.5 px-3 text-right text-gray-400">
-                  {allocation.toFixed(1)}%
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
     </div>
   );
 }

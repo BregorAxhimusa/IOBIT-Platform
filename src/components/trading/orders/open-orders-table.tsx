@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { useOrdersStore } from '@/store/orders-store';
 import { useCancelOrder } from '@/hooks/use-cancel-order';
 import { useModifyOrder } from '@/hooks/use-modify-order';
@@ -52,8 +53,15 @@ export function OpenOrdersTable() {
 
   if (openOrders.length === 0) {
     return (
-      <div className="flex items-center justify-center py-12 text-gray-500 text-sm">
-        No open orders
+      <div className="flex flex-col items-center justify-center py-16">
+        <Image
+          src="/iobit/landingpage/nofound.svg"
+          alt="No orders"
+          width={48}
+          height={48}
+          className="mb-3 opacity-50"
+        />
+        <span className="text-[#8A8A8E] text-sm">No open orders</span>
       </div>
     );
   }

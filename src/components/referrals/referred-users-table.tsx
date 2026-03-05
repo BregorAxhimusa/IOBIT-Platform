@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import Image from 'next/image';
 import { formatAddress, formatCompactNumber, formatUSD, formatDate } from '@/lib/utils/format';
 import { Pagination } from '@/components/ui/pagination';
 import type { ReferralState } from '@/lib/hyperliquid/types';
@@ -34,13 +35,15 @@ export function ReferredUsersTable({ referralStates }: ReferredUsersTableProps) 
           Referred Users
         </h3>
         <div className="flex flex-col items-center justify-center py-10 text-center">
-          <div className="w-12 h-12 rounded-full bg-[#0a0a0a] flex items-center justify-center mb-3">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
-            </svg>
-          </div>
-          <p className="text-gray-400 text-sm">No referred users yet.</p>
-          <p className="text-gray-500 text-xs mt-1">
+          <Image
+            src="/iobit/landingpage/nofound.svg"
+            alt="No referred users"
+            width={48}
+            height={48}
+            className="mb-3 opacity-50"
+          />
+          <p className="text-[#8A8A8E] text-sm">No referred users yet.</p>
+          <p className="text-[#56565B] text-xs mt-1">
             Share your referral code to start earning!
           </p>
         </div>

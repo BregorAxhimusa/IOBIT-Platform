@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { useVaults } from '@/hooks/use-vaults';
 import { useUserVaults } from '@/hooks/use-user-vaults';
 import { useVaultStore } from '@/store/vault-store';
@@ -170,8 +171,17 @@ export default function VaultsPage() {
                 ))}
               </div>
             ) : filteredVaults.length === 0 ? (
-              <div className="flex items-center justify-center py-16 text-gray-500 text-sm">
-                {searchQuery ? 'No vaults match your search' : 'No vaults available'}
+              <div className="flex flex-col items-center justify-center py-16">
+                <Image
+                  src="/iobit/landingpage/nofound.svg"
+                  alt="No vaults"
+                  width={64}
+                  height={64}
+                  className="mb-4 opacity-50"
+                />
+                <p className="text-[#8A8A8E] text-sm">
+                  {searchQuery ? 'No vaults match your search' : 'No vaults available'}
+                </p>
               </div>
             ) : (() => {
               const totalPages = Math.ceil(filteredVaults.length / VAULTS_PER_PAGE);

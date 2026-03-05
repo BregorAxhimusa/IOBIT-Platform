@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import type { FundingPayment } from '@/lib/hyperliquid/types';
 import { cn } from '@/lib/utils/cn';
 
@@ -34,8 +35,15 @@ export function FundingHistory({ funding, isLoading }: FundingHistoryProps) {
 
   if (funding.length === 0) {
     return (
-      <div className="flex items-center justify-center h-48">
-        <p className="text-gray-500 text-sm">No funding payments found</p>
+      <div className="flex flex-col items-center justify-center h-48">
+        <Image
+          src="/iobit/landingpage/nofound.svg"
+          alt="No funding"
+          width={48}
+          height={48}
+          className="mb-3 opacity-50"
+        />
+        <p className="text-[#8A8A8E] text-sm">No funding payments found</p>
       </div>
     );
   }

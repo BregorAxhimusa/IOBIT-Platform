@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useRecentTrades } from '@/hooks/use-recent-trades';
 import { cn } from '@/lib/utils/cn';
 
@@ -26,12 +27,14 @@ export function RecentTrades({ symbol }: RecentTradesProps) {
       <div className="flex-1 overflow-y-auto">
         {displayedTrades.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full gap-2">
-            <div className="w-10 h-10 rounded-full bg-gray-800/50 flex items-center justify-center">
-              <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-              </svg>
-            </div>
-            <span className="text-gray-500 text-xs">No trades yet</span>
+            <Image
+              src="/iobit/landingpage/nofound.svg"
+              alt="No trades"
+              width={40}
+              height={40}
+              className="opacity-50"
+            />
+            <span className="text-[#8A8A8E] text-xs">No trades yet</span>
           </div>
         ) : (
           displayedTrades.map((trade, idx) => {
