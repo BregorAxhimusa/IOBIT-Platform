@@ -16,6 +16,7 @@
     "@prisma/client": "^5.22.0",
     "@reown/appkit": "^1.8.17",
     "@reown/appkit-adapter-wagmi": "^1.8.17",
+    "@splinetool/react-spline": "^4.1.0",
     "@tanstack/react-query": "^5.90.20",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
