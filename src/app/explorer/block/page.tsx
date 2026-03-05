@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import { TransactionsTable, type TransactionEntry } from '@/components/explorer';
 import { PaginationFooter } from '@/components/ui/pagination';
-import { SiteFooter } from '@/components/layout/site-footer';
 import { useState, useMemo } from 'react';
 
 // Mock block data
@@ -33,7 +32,7 @@ function BlockDetailsContent() {
   const blockNumber = searchParams.get('block') || mockBlockData.blockNumber.toString();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
 
   // Use mock data for now
   const blockData = mockBlockData;
@@ -59,28 +58,18 @@ function BlockDetailsContent() {
   };
 
   return (
-    <div className="bg-[#111113] text-white page-enter min-h-screen flex flex-col">
+    <div className="bg-[#0a0a0c] text-white page-enter min-h-screen flex flex-col">
       {/* Breadcrumb Header */}
-      <div className="w-full border-b border-white/10 px-3 md:px-6 lg:px-8 py-3 md:py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-xs md:text-sm">
-            <Link href="/explorer" className="text-[#16DE93] hover:underline">EXPLORER</Link>
-            <span className="text-[#56565B]">/</span>
-            <span className="text-[#16DE93]">BLOCK DETAILS</span>
-          </div>
-          <Link
-            href="/explorer"
-            className="text-white text-xs md:text-sm hover:text-[#16DE93] transition-colors flex items-center gap-1"
-          >
-            <span>←</span>
-            <span className="hidden sm:inline">Back to Explorer</span>
-            <span className="sm:hidden">Back</span>
-          </Link>
+      <div className="w-full px-3 md:px-6 lg:px-8 py-3 md:py-4">
+        <div className="flex items-center gap-2 text-xs md:text-sm">
+          <Link href="/explorer" className="text-[#16DE93] hover:underline">EXPLORER</Link>
+          <span className="text-[#56565B]">/</span>
+          <span className="text-[#16DE93]">BLOCK DETAILS</span>
         </div>
       </div>
 
       {/* Block Info Header */}
-      <div className="w-full border-b border-white/10 px-3 md:px-6 lg:px-8 py-4 md:py-6">
+      <div className="w-full border-b border-[#1a1a1f] px-3 md:px-6 lg:px-8 py-4 md:py-6">
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
           <h1 className="text-xl sm:text-2xl md:text-3xl font-normal text-white">
             Block {blockNumber}
@@ -109,8 +98,18 @@ function BlockDetailsContent() {
       </div>
 
       {/* Block Number Label */}
-      <div className="px-3 md:px-6 lg:px-8 py-3 border-b border-white/10">
+      <div className="px-3 md:px-6 lg:px-8 border-b border-[#1a1a1f] flex items-center justify-between">
         <span className="text-white text-sm md:text-base font-medium">{blockNumber}</span>
+        <div className="border-l border-r border-[#1a1a1f] px-2 md:px-4 py-3">
+          <Link
+            href="/explorer"
+            className="text-white text-xs md:text-sm hover:text-[#16DE93] transition-colors flex items-center gap-1"
+          >
+            <span>←</span>
+            <span className="hidden sm:inline">Back to Explorer</span>
+            <span className="sm:hidden">Back</span>
+          </Link>
+        </div>
       </div>
 
       {/* Transactions Table */}
@@ -126,7 +125,7 @@ function BlockDetailsContent() {
 
       {/* Pagination */}
       {blockData.transactions.length > 0 && (
-        <div className="w-full border-t border-white/10">
+        <div className="w-full border-t border-[#1a1a1f]">
           <PaginationFooter
             currentPage={currentPage}
             totalPages={totalPages}
@@ -139,9 +138,6 @@ function BlockDetailsContent() {
           />
         </div>
       )}
-
-      {/* Footer */}
-      <SiteFooter />
     </div>
   );
 }
@@ -149,7 +145,7 @@ function BlockDetailsContent() {
 export default function BlockDetailsPage() {
   return (
     <Suspense fallback={
-      <div className="bg-[#111113] text-white min-h-screen flex items-center justify-center">
+      <div className="bg-[#0a0a0c] text-white min-h-screen flex items-center justify-center">
         <div className="animate-pulse">Loading...</div>
       </div>
     }>

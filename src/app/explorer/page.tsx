@@ -10,7 +10,6 @@ import {
   type TransactionEntry,
 } from '@/components/explorer';
 import { PaginationFooter } from '@/components/ui/pagination';
-import { SiteFooter } from '@/components/layout/site-footer';
 
 type TabType = 'blocks' | 'transactions';
 
@@ -41,7 +40,7 @@ const mockTransactions: TransactionEntry[] = [
 export default function ExplorerPage() {
   const [activeTab, setActiveTab] = useState<TabType>('blocks');
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
   const [searchQuery, setSearchQuery] = useState('');
 
   // Filter data based on search query
@@ -95,9 +94,9 @@ export default function ExplorerPage() {
   };
 
   return (
-    <div className="bg-[#111113] text-white page-enter min-h-screen flex flex-col">
+    <div className="bg-[#0a0a0c] text-white page-enter min-h-screen flex flex-col">
       {/* Header Section */}
-      <div className="w-full border-b border-white/10">
+      <div className="w-full border-b border-[#1a1a1f]">
         <div className="px-3 md:px-6 lg:px-8 py-6 md:py-10">
           <h1 className="text-[30px] sm:text-4xl lg:text-[60px] font-normal text-white">
             Explorer
@@ -106,7 +105,7 @@ export default function ExplorerPage() {
       </div>
 
       {/* Tabs and Search Section */}
-      <div className="flex items-center justify-between border-b border-white/10 px-3 md:px-6 lg:px-8">
+      <div className="flex items-center justify-between border-b border-[#1a1a1f] px-3 md:px-6 lg:px-8">
         {/* Tabs */}
         <div className="flex items-center gap-6 md:gap-8">
           <button
@@ -136,15 +135,17 @@ export default function ExplorerPage() {
         </div>
 
         {/* Search */}
-        <ExplorerSearch
-          value={searchQuery}
-          onChange={handleSearchChange}
-          className="hidden sm:block w-[300px] md:w-[400px] lg:w-[500px]"
-        />
+        <div className="hidden sm:block border-l border-r border-[#1a1a1f] px-2 md:px-4">
+          <ExplorerSearch
+            value={searchQuery}
+            onChange={handleSearchChange}
+            className="w-[300px] md:w-[400px] lg:w-[500px]"
+          />
+        </div>
       </div>
 
       {/* Mobile Search */}
-      <div className="sm:hidden px-3 py-3 border-b border-white/10">
+      <div className="sm:hidden px-3 py-3 border-b border-[#1a1a1f]">
         <ExplorerSearch
           value={searchQuery}
           onChange={handleSearchChange}
@@ -181,7 +182,7 @@ export default function ExplorerPage() {
 
       {/* Pagination Section */}
       {currentData.length > 0 && (
-        <div className="w-full border-t border-white/10">
+        <div className="w-full border-t border-[#1a1a1f]">
           <PaginationFooter
             currentPage={currentPage}
             totalPages={totalPages}
@@ -194,9 +195,6 @@ export default function ExplorerPage() {
           />
         </div>
       )}
-
-      {/* Footer */}
-      <SiteFooter />
     </div>
   );
 }
