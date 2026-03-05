@@ -46,9 +46,9 @@ export function StatusFooter() {
     });
 
   return (
-    <footer className="bg-[#0a0a0c] border-t border-[#1a1a1f] flex items-center justify-between">
+    <footer className="bg-[#0a0a0c] border-t border-b border-[#1a1a1f] flex items-center justify-between">
       {/* Left: Operational Status */}
-      <div className="flex items-center gap-2 px-4 py-3 shrink-0 border-r border-[#1a1a1f]">
+      <div className="flex items-center gap-2 px-4 py-5 shrink-0 border-r border-[#1a1a1f]">
         <Image
           src="/iobit/landingpage/operational.svg"
           alt=""
@@ -59,7 +59,7 @@ export function StatusFooter() {
       </div>
 
       {/* Second Icon */}
-      <div className="flex items-center px-4 py-3 shrink-0 border-r border-[#1a1a1f]">
+      <div className="flex items-center px-4 py-5 shrink-0 border-r border-[#1a1a1f]">
         <Image
           src="/iobit/landingpage/operational1.svg"
           alt=""
@@ -102,7 +102,7 @@ export function StatusFooter() {
       </div>
 
       {/* Right: Copyright */}
-      <div className="px-4 py-2 shrink-0 border-l border-[#1a1a1f]">
+      <div className="px-4 py-4 shrink-0 border-l border-[#1a1a1f]">
         <span className="text-white/40 text-xs">@{new Date().getFullYear()} IOBit® - All Rights Reserved</span>
       </div>
 

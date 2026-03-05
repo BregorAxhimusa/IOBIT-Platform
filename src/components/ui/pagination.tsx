@@ -229,7 +229,7 @@ export function PaginationFooter({
   return (
     <div className={cn(
       'flex flex-col sm:flex-row items-center justify-between gap-4',
-      'px-4 py-3 border-b border-[#1a1a1f]',
+      'px-4 py-3',
       className
     )}>
       {/* Left: Info text */}

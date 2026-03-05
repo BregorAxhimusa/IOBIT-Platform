@@ -372,6 +372,9 @@ export interface ValidatorSummary {
   recentBlocks: number;
   isJailed: boolean;
   nJailedByStake: number;
+  description?: string;
+  uptime?: string;
+  apr?: string;
 }
 
 export interface Delegation {
