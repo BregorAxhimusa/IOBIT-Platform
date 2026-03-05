@@ -15,7 +15,7 @@ const mainNavLinks = [
   { href: '/market', label: 'Market' },
   { href: '/portfolio', label: 'Portfolio' },
   { href: '/staking', label: 'Staking' },
-  { href: '/vaults', label: 'Earn' },
+  { href: '/earn', label: 'Earn' },
 ];
 
 // More dropdown links

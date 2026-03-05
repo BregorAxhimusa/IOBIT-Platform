@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { useMarketStore } from '@/store/market-store';
 import { cn } from '@/lib/utils/cn';
 
@@ -21,18 +22,28 @@ function TickerItem({ symbol, price, change }: { symbol: string; price: string; 
 }
 
 export function StatusFooter() {
+  const pathname = usePathname();
   const markets = useMarketStore((s) => s.markets);
   const allMarkets = Array.from(markets.values());
+
+  // Hide footer on /earn page
+  if (pathname?.startsWith('/earn')) {
+    return null;
+  }
 
   // Get top markets by volume for the ticker
   const tickerMarkets = allMarkets
     .sort((a, b) => parseFloat(b.volume24h) - parseFloat(a.volume24h))
     .slice(0, 20)
-    .map(m => ({
-      symbol: `${m.symbol}USD`,
-      price: parseFloat(m.price).toFixed(m.price.includes('.') ? Math.min(5, m.price.split('.')[1]?.length || 2) : 2),
-      change: m.change24h || 0,
-    }));
+    .map(m => {
+      const priceStr = String(m.price);
+      const decimals = priceStr.includes('.') ? Math.min(5, priceStr.split('.')[1]?.length || 2) : 2;
+      return {
+        symbol: `${m.symbol}USD`,
+        price: parseFloat(priceStr).toFixed(decimals),
+        change: m.change24h || 0,
+      };
+    });
 
   return (
     <footer className="bg-[#0a0a0c] border-t border-[#1a1a1f] flex items-center justify-between">
