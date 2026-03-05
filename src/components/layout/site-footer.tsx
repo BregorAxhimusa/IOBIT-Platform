@@ -202,7 +202,7 @@ export function SiteFooter() {
       </div>
 
       {/* Spacer */}
-      <div className="py-8 md:py-12 border-t md:border-b border-[#1a1a1f]" />
+      <div className="py-6 sm:py-8 md:py-12 border-t sm:border-b border-[#1a1a1f]" />
 
       {/* Large Background Logo Section */}
       <div className="relative overflow-hidden border-t lg:border-t-0 border-[#1a1a1f] max-w-6xl mx-auto border-l border-r">
@@ -218,14 +218,17 @@ export function SiteFooter() {
 
         </div>
         {/* Center Triangle Icon - positioned at bottom of section */}
-        <div className="absolute bottom-6 md:bottom-20 left-1/2 -translate-x-1/2 translate-y-1/2 group cursor-pointer z-10">
-          <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full border border-[#2a2a2f] bg-[#0a0a0c] flex items-center justify-center">
+        <div
+          className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 translate-y-1/2 group cursor-pointer z-10"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        >
+          <div className="w-6 h-6 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full border border-[#2a2a2f] bg-[#0a0a0c] flex items-center justify-center">
             <Image
               src="/iobit/landingpage/triangle.svg"
               alt=""
               width={24}
               height={24}
-              className="w-[20px] h-[20px] sm:w-[24px] sm:h-[24px] transition-all duration-300 group-hover:scale-110 group-hover:brightness-125 group-hover:drop-shadow-[0_0_8px_rgba(34,197,94,0.4)]"
+              className="w-[14px] h-[14px] sm:w-[24px] sm:h-[24px] transition-all duration-300 group-hover:scale-110 group-hover:brightness-125 group-hover:drop-shadow-[0_0_8px_rgba(34,197,94,0.4)]"
             />
           </div>
         </div>

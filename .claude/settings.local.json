@@ -31,7 +31,24 @@
       "Bash(node -e \"async function main\\(\\) { const res = await fetch\\(''https://api.hyperliquid.xyz/info'', { method: ''POST'', headers: {''Content-Type'': ''application/json''}, body: JSON.stringify\\({type:''userFees'', user:''0xdfc24b077bc1425ad1dea75bcb6f8158e10df303''}\\) }\\); const j = JSON.parse\\(await res.text\\(\\)\\); console.log\\(''Keys:'', Object.keys\\(j\\)\\); console.log\\(''dailyUserVlm sample:'', JSON.stringify\\(j.dailyUserVlm?.[0]\\)\\); console.log\\(''dailyUserVlm length:'', j.dailyUserVlm?.length\\); console.log\\(''feeSchedule:'', JSON.stringify\\(j.feeSchedule\\)\\); console.log\\(''userCrossRate:'', j.userCrossRate\\); console.log\\(''userAddRate:'', j.userAddRate\\); console.log\\(''activeReferralDiscount:'', j.activeReferralDiscount\\); } main\\(\\);\")",
       "Bash(node -e \"async function main\\(\\) { const res = await fetch\\(''https://api.hyperliquid-testnet.xyz/info'', { method: ''POST'', headers: {''Content-Type'': ''application/json''}, body: JSON.stringify\\({type:''subAccounts'', user:''0xdfc24b077bc1425ad1dea75bcb6f8158e10df303''}\\) }\\); console.log\\(''testnet subAccounts:'', await res.text\\(\\)\\); const res2 = await fetch\\(''https://api.hyperliquid-testnet.xyz/info'', { method: ''POST'', headers: {''Content-Type'': ''application/json''}, body: JSON.stringify\\({type:''extraAgents'', user:''0xdfc24b077bc1425ad1dea75bcb6f8158e10df303''}\\) }\\); console.log\\(''testnet extraAgents:'', await res2.text\\(\\)\\); } main\\(\\);\")",
       "WebFetch(domain:ui.shadcn.com)",
-      "Bash(NODE_OPTIONS=\"--max-old-space-size=4096\" npm run build)"
+      "Bash(NODE_OPTIONS=\"--max-old-space-size=4096\" npm run build)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "WebFetch(domain:cryptologos.cc)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(curl:*)",
+      "Bash(node scripts/download-coin-icons.js:*)",
+      "Bash(dir:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(npx replace:*)",
+      "Bash(node -e:*)",
+      "Bash(node scripts/fix-colors.js:*)",
+      "WebFetch(domain:medium.com)",
+      "WebFetch(domain:www.tradingview.com)",
+      "WebFetch(domain:tradingview.github.io)",
+      "WebFetch(domain:github.com)",
+      "Bash(git checkout:*)"
     ]
   }
 }

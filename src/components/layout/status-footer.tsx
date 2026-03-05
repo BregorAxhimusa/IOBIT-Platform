@@ -26,8 +26,8 @@ export function StatusFooter() {
   const markets = useMarketStore((s) => s.markets);
   const allMarkets = Array.from(markets.values());
 
-  // Hide footer on /earn page
-  if (pathname?.startsWith('/earn')) {
+  // Hide footer on /earn and /bit pages
+  if (pathname?.startsWith('/earn') || pathname?.startsWith('/bit')) {
     return null;
   }
 
