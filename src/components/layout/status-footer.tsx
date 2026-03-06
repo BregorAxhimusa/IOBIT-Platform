@@ -30,10 +30,13 @@ export function StatusFooter() {
   const markets = useMarketStore((s) => s.markets);
   const allMarkets = Array.from(markets.values());
 
-  // Hide footer on /earn, /bit, /vip, and /affiliates pages
+  // Hide footer completely on /earn, /bit, /vip, /affiliates pages
   if (pathname?.startsWith('/earn') || pathname?.startsWith('/bit') || pathname?.startsWith('/vip') || pathname?.startsWith('/affiliates')) {
     return null;
   }
+
+  // Check if on trade page (hide on mobile only)
+  const isTradePage = pathname?.startsWith('/trade');
 
   // Get top markets by volume for the ticker - only coins with icons
   const tickerMarkets = allMarkets
@@ -51,7 +54,10 @@ export function StatusFooter() {
     });
 
   return (
-    <footer className="hidden lg:block bg-[#0a0a0c] border-t border-b border-[#1a1a1f]">
+    <footer className={cn(
+      "bg-[#0a0a0c] border-t border-b border-[#1a1a1f]",
+      isTradePage && "hidden lg:block"
+    )}>
       {/* Main row */}
       <div className="flex items-center justify-between">
         {/* Left: Operational Status */}
@@ -66,8 +72,8 @@ export function StatusFooter() {
         <span className="text-white text-xs font-medium">Operational</span>
       </div>
 
-      {/* Second Icon */}
-      <div className="flex items-center px-4 py-5 shrink-0 border-r border-[#1a1a1f]">
+      {/* Second Icon - hidden on mobile */}
+      <div className="hidden sm:flex items-center px-4 py-5 shrink-0 border-r border-[#1a1a1f]">
         <Image
           src="/iobit/landingpage/operational1.svg"
           alt=""

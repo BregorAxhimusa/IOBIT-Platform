@@ -52,7 +52,12 @@
       "Bash(ls:*)",
       "Bash(xargs:*)",
       "Bash(comm -23:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(wsl ls:*)",
+      "Bash(node check-icons.js:*)",
+      "Bash(git merge:*)",
+      "Bash(git stash:*)",
+      "Bash(git log:*)"
     ]
   }
 }
