@@ -216,12 +216,12 @@ export function MarketTable({
 
   const SortIcon = ({ field }: { field: SortField }) => {
     if (sortField !== field) return (
-      <svg className="w-3 h-3 ml-1 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <svg className="w-3 h-3 ml-1 text-[#6b6b6b]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <path d="M7 15l5 5 5-5M7 9l5-5 5 5" />
       </svg>
     );
     return (
-      <svg className="w-3 h-3 ml-1 text-[#16DE93]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <svg className="w-3 h-3 ml-1 text-[#6b6b6b]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         {sortDir === 'desc' ? <path d="M19 9l-7 7-7-7" /> : <path d="M5 15l7-7 7 7" />}
       </svg>
     );
@@ -363,7 +363,7 @@ export function MarketTable({
                     </td>
                     <td className="px-2 hidden lg:table-cell">
                       <div className="flex justify-center">
-                        <SparklineChart prevPrice={row.prevDayPrice} currentPrice={row.price} />
+                        <SparklineChart symbol={row.symbol} prevPrice={row.prevDayPrice} currentPrice={row.price} />
                       </div>
                     </td>
                     <td className="px-2 text-right">

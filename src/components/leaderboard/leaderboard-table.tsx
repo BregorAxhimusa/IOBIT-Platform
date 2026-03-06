@@ -150,7 +150,7 @@ export function LeaderboardTable({
                           />
                         </svg>
                       </div>
-                      <span className="text-white text-xs md:text-sm font-mono truncate max-w-[80px] sm:max-w-none">
+                      <span className="text-white text-xs md:text-sm truncate max-w-[80px] sm:max-w-none">
                         {entry.displayName || formatAddress(entry.ethAddress)}
                       </span>
                     </div>

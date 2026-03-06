@@ -11,6 +11,8 @@ import { OpenOrdersTable } from '@/components/trading/orders/open-orders-table';
 import { OrderHistoryTable } from '@/components/trading/orders/order-history-table';
 import { TradeHistoryTable } from '@/components/trading/trade-history/trade-history-table';
 import { SpotBalancesTable } from '@/components/trading/spot/spot-balances-table';
+import { MobileBottomNav } from '@/components/trading/mobile';
+import { MobileAccountPanel } from '@/components/trading/mobile/mobile-account-panel';
 
 // Dynamic import TradingPanel with ssr: false to avoid AppKit SSR issues
 const TradingPanel = dynamic(
@@ -37,12 +39,26 @@ interface TradingPageProps {
 
 type BottomTab = 'positions' | 'orders' | 'history' | 'trades' | 'balances';
 type RightSidebarTab = 'orderbook' | 'trades';
+type MobileMainTab = 'chart' | 'orderbook' | 'trades';
+type MobileBottomSection = 'trade' | 'markets' | 'account';
 
 export default function TradingPage({ params }: TradingPageProps) {
   const { symbol } = use(params);
   const symbolUpper = symbol.toUpperCase();
   const [activeTab, setActiveTab] = useState<BottomTab>('positions');
   const [rightTab, setRightTab] = useState<RightSidebarTab>('orderbook');
+  const [mobileMainTab, setMobileMainTab] = useState<MobileMainTab>('chart');
+  const [mobileBottomSection, setMobileBottomSection] = useState<MobileBottomSection>('markets');
+  const [mobileStatsExpanded, setMobileStatsExpanded] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  // Track screen size to conditionally render chart (avoid duplicate TradingView instances)
+  useEffect(() => {
+    const checkDesktop = () => setIsDesktop(window.innerWidth >= 1024);
+    checkDesktop();
+    window.addEventListener('resize', checkDesktop);
+    return () => window.removeEventListener('resize', checkDesktop);
+  }, []);
 
   const { setCurrentSymbol, setMarketType, getMarket, marketType } = useMarketStore();
   const { setPrice } = useTradingStore();
@@ -110,24 +126,116 @@ export default function TradingPage({ params }: TradingPageProps) {
 
   return (
     <div className="bg-[#0a0a0c]">
-      {/* Market Info Bar */}
-      <MarketInfoBar key={symbolUpper} symbol={isSpot ? displaySymbol : symbolUpper} />
+      {/* Desktop Market Info Bar */}
+      <div className="hidden lg:block">
+        <MarketInfoBar key={symbolUpper} symbol={isSpot ? displaySymbol : symbolUpper} />
+      </div>
+
+      {/* Mobile Market Info Bar - Compact Version */}
+      <div className="lg:hidden">
+        <MarketInfoBar
+          key={symbolUpper}
+          symbol={isSpot ? displaySymbol : symbolUpper}
+          mobileStatsExpanded={mobileStatsExpanded}
+          onMobileStatsToggle={setMobileStatsExpanded}
+        />
+      </div>
+
+      {/* Mobile Main Content Tabs (Chart/OrderBook/Trades) - Only show when Markets tab is active */}
+      <div className={cn("lg:hidden border-b border-[#1a1a1f]", mobileBottomSection !== 'markets' && 'hidden')}>
+        <div className="flex">
+          <button
+            onClick={() => setMobileMainTab('chart')}
+            className={cn(
+              'flex-1 py-2.5 text-xs font-medium transition-all relative',
+              mobileMainTab === 'chart'
+                ? 'text-white'
+                : 'text-[#56565B]'
+            )}
+          >
+            Chart
+            {mobileMainTab === 'chart' && (
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#16DE93]" />
+            )}
+          </button>
+          <button
+            onClick={() => setMobileMainTab('orderbook')}
+            className={cn(
+              'flex-1 py-2.5 text-xs font-medium transition-all relative',
+              mobileMainTab === 'orderbook'
+                ? 'text-white'
+                : 'text-[#56565B]'
+            )}
+          >
+            Order Book
+            {mobileMainTab === 'orderbook' && (
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#16DE93]" />
+            )}
+          </button>
+          <button
+            onClick={() => setMobileMainTab('trades')}
+            className={cn(
+              'flex-1 py-2.5 text-xs font-medium transition-all relative',
+              mobileMainTab === 'trades'
+                ? 'text-white'
+                : 'text-[#56565B]'
+            )}
+          >
+            Trades
+            {mobileMainTab === 'trades' && (
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#16DE93]" />
+            )}
+          </button>
+        </div>
+      </div>
 
       {/* Main Trading Layout */}
-      <div className="flex flex-col lg:flex-row h-auto lg:h-[calc(100vh-168px)] relative">
+      <div className="flex flex-col lg:flex-row relative pb-14 lg:pb-0">
         {/* Left Section - Chart & OrderBook & Bottom Tables */}
-        <div className="flex-1 flex flex-col p-1 sm:p-2 lg:p-1 min-w-0 space-y-1.5 sm:space-y-2 lg:space-y-1">
-          {/* Top Row - Chart and Order Book/Trades */}
-          <div className="flex flex-col lg:flex-row lg:flex-1 lg:mb-0 gap-1.5 sm:gap-2 lg:gap-1 lg:min-h-0">
-            {/* Chart */}
-            <div className="w-full lg:flex-1 h-[240px] sm:h-[350px] md:h-[420px] lg:h-full">
-              <ChartErrorBoundary>
-                <PriceChart key={symbolUpper} symbol={symbolUpper} />
-              </ChartErrorBoundary>
+        <div className="flex-1 flex flex-col lg:p-1 min-w-0">
+          {/* Mobile Main Content Area - Only show when Markets tab is active */}
+          <div className={cn("lg:hidden", mobileBottomSection !== 'markets' && 'hidden')}>
+            {/* Chart - Mobile */}
+            {mobileMainTab === 'chart' && !isDesktop && (
+              <div className="h-[55vh] min-h-[300px]">
+                <ChartErrorBoundary>
+                  <PriceChart key={`mobile-${symbolUpper}`} symbol={symbolUpper} />
+                </ChartErrorBoundary>
+              </div>
+            )}
+
+            {/* Order Book - Mobile */}
+            {mobileMainTab === 'orderbook' && (
+              <div className="h-[55vh] min-h-[300px] overflow-hidden">
+                <DataErrorBoundary>
+                  <OrderBook key={symbolUpper} symbol={symbolUpper} onPriceClick={handlePriceClick} />
+                </DataErrorBoundary>
+              </div>
+            )}
+
+            {/* Recent Trades - Mobile */}
+            {mobileMainTab === 'trades' && (
+              <div className="h-[55vh] min-h-[300px] overflow-hidden">
+                <DataErrorBoundary>
+                  <RecentTrades key={symbolUpper} symbol={symbolUpper} />
+                </DataErrorBoundary>
+              </div>
+            )}
+          </div>
+
+          {/* Desktop: Top Row - Chart and Order Book/Trades */}
+          <div className="hidden lg:flex lg:flex-row lg:mt-0 lg:mb-0 gap-1 lg:h-[calc(100vh-470px)]">
+            {/* Chart - Desktop */}
+            <div className="w-full lg:flex-1 h-full">
+              {isDesktop && (
+                <ChartErrorBoundary>
+                  <PriceChart key={`desktop-${symbolUpper}`} symbol={symbolUpper} />
+                </ChartErrorBoundary>
+              )}
             </div>
 
             {/* Order Book & Recent Trades Tabs - Desktop Only */}
-            <div className="hidden lg:flex lg:w-80 lg:h-full bg-[#0a0a0c] border border-[#1a1a1f] flex-col overflow-hidden">
+            <div className="lg:w-80 h-full bg-[#0a0a0c] border border-[#1a1a1f] flex-col overflow-hidden flex">
               {/* Tab Headers */}
               <div className="flex border-b border-[#1a1a1f] bg-[#0a0a0a]">
                 <button
@@ -135,7 +243,7 @@ export default function TradingPage({ params }: TradingPageProps) {
                   className={cn(
                     'flex-1 px-3 py-3 text-sm font-normal transition-all relative border-r border-[#1a1a1f]',
                     rightTab === 'orderbook'
-                      ? 'text-[#16DE93]'
+                      ? 'text-white'
                       : 'text-white/70 hover:text-white'
                   )}
                 >
@@ -149,7 +257,7 @@ export default function TradingPage({ params }: TradingPageProps) {
                   className={cn(
                     'flex-1 px-3 py-3 text-sm font-normal transition-all relative',
                     rightTab === 'trades'
-                      ? 'text-[#16DE93]'
+                      ? 'text-white'
                       : 'text-white/70 hover:text-white'
                   )}
                 >
@@ -173,63 +281,20 @@ export default function TradingPage({ params }: TradingPageProps) {
             </div>
           </div>
 
-          {/* Order Book & Recent Trades - Mobile Only */}
-          <div className="lg:hidden bg-[#0a0a0a] border border-[#1a1a1f] flex flex-col h-[280px] sm:h-[350px] overflow-hidden">
+          {/* Bottom Panel - Positions, Orders, History (always show on desktop, show when Markets tab on mobile) */}
+          <div className={cn(
+            "bg-[#0a0a0c] border-t lg:border border-[#1a1a1f] overflow-hidden flex flex-col lg:flex-1",
+            mobileBottomSection !== 'markets' ? 'hidden lg:flex' : 'flex'
+          )}>
             {/* Tab Headers */}
             <div className="flex border-b border-[#1a1a1f] bg-[#0a0a0a]">
               <button
-                onClick={() => setRightTab('orderbook')}
-                className={cn(
-                  'flex-1 px-3 py-3 text-xs sm:text-sm font-normal transition-all relative border-r border-[#1a1a1f]',
-                  rightTab === 'orderbook'
-                    ? 'text-[#16DE93]'
-                    : 'text-white/70 hover:text-white'
-                )}
-              >
-                Order Book
-                {rightTab === 'orderbook' && (
-                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#16DE93]" />
-                )}
-              </button>
-              <button
-                onClick={() => setRightTab('trades')}
-                className={cn(
-                  'flex-1 px-3 py-3 text-xs sm:text-sm font-normal transition-all relative',
-                  rightTab === 'trades'
-                    ? 'text-[#16DE93]'
-                    : 'text-white/70 hover:text-white'
-                )}
-              >
-                Recent Trades
-                {rightTab === 'trades' && (
-                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#16DE93]" />
-                )}
-              </button>
-            </div>
-
-            {/* Tab Content */}
-            <div className="flex-1 overflow-hidden">
-              <DataErrorBoundary>
-                {rightTab === 'orderbook' ? (
-                  <OrderBook key={symbolUpper} symbol={symbolUpper} onPriceClick={handlePriceClick} />
-                ) : (
-                  <RecentTrades key={symbolUpper} symbol={symbolUpper} />
-                )}
-              </DataErrorBoundary>
-            </div>
-          </div>
-
-          {/* Bottom Panel - Positions, Orders, History */}
-          <div className="bg-[#0a0a0c] border border-[#1a1a1f] overflow-hidden lg:h-[300px] flex flex-col">
-            {/* Tab Headers */}
-            <div className="flex overflow-x-auto border-b border-[#1a1a1f] bg-[#0a0a0a] scrollbar-hide">
-              <button
                 onClick={() => setActiveTab('positions')}
                 className={cn(
-                  'px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs lg:text-sm font-normal whitespace-nowrap transition-all relative',
+                  'flex-1 lg:flex-none px-2 py-2 lg:px-3 lg:py-3 text-xs lg:text-sm font-normal transition-all relative',
                   activeTab === 'positions'
-                    ? 'text-[#16DE93]'
-                    : 'text-white/70 hover:text-white'
+                    ? 'text-white'
+                    : 'text-[#56565B] lg:text-white/70 lg:hover:text-white'
                 )}
               >
                 Positions
@@ -240,13 +305,13 @@ export default function TradingPage({ params }: TradingPageProps) {
               <button
                 onClick={() => setActiveTab('orders')}
                 className={cn(
-                  'px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs lg:text-sm font-normal whitespace-nowrap transition-all relative',
+                  'flex-1 lg:flex-none px-2 py-2 lg:px-3 lg:py-3 text-xs lg:text-sm font-normal transition-all relative',
                   activeTab === 'orders'
-                    ? 'text-[#16DE93]'
-                    : 'text-white/70 hover:text-white'
+                    ? 'text-white'
+                    : 'text-[#56565B] lg:text-white/70 lg:hover:text-white'
                 )}
               >
-                Open Orders
+                Orders
                 {activeTab === 'orders' && (
                   <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#16DE93]" />
                 )}
@@ -254,13 +319,13 @@ export default function TradingPage({ params }: TradingPageProps) {
               <button
                 onClick={() => setActiveTab('history')}
                 className={cn(
-                  'px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs lg:text-sm font-normal whitespace-nowrap transition-all relative',
+                  'flex-1 lg:flex-none px-2 py-2 lg:px-3 lg:py-3 text-xs lg:text-sm font-normal transition-all relative',
                   activeTab === 'history'
-                    ? 'text-[#16DE93]'
-                    : 'text-white/70 hover:text-white'
+                    ? 'text-white'
+                    : 'text-[#56565B] lg:text-white/70 lg:hover:text-white'
                 )}
               >
-                Order History
+                History
                 {activeTab === 'history' && (
                   <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#16DE93]" />
                 )}
@@ -268,13 +333,13 @@ export default function TradingPage({ params }: TradingPageProps) {
               <button
                 onClick={() => setActiveTab('trades')}
                 className={cn(
-                  'px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs lg:text-sm font-normal whitespace-nowrap transition-all relative',
+                  'flex-1 lg:flex-none px-2 py-2 lg:px-3 lg:py-3 text-xs lg:text-sm font-normal transition-all relative',
                   activeTab === 'trades'
-                    ? 'text-[#16DE93]'
-                    : 'text-white/70 hover:text-white'
+                    ? 'text-white'
+                    : 'text-[#56565B] lg:text-white/70 lg:hover:text-white'
                 )}
               >
-                Trade History
+                Trades
                 {activeTab === 'trades' && (
                   <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#16DE93]" />
                 )}
@@ -283,10 +348,10 @@ export default function TradingPage({ params }: TradingPageProps) {
                 <button
                   onClick={() => setActiveTab('balances')}
                   className={cn(
-                    'px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs lg:text-sm font-normal whitespace-nowrap transition-all relative',
+                    'flex-1 lg:flex-none px-2 py-2 lg:px-3 lg:py-3 text-xs lg:text-sm font-normal transition-all relative',
                     activeTab === 'balances'
-                      ? 'text-[#16DE93]'
-                      : 'text-white/70 hover:text-white'
+                      ? 'text-white'
+                      : 'text-[#56565B] lg:text-white/70 lg:hover:text-white'
                   )}
                 >
                   Balances
@@ -298,7 +363,7 @@ export default function TradingPage({ params }: TradingPageProps) {
             </div>
 
             {/* Tab Content */}
-            <div className="flex-1 overflow-auto p-1">
+            <div className="flex-1 overflow-auto p-1 min-h-[250px] lg:min-h-0">
               <DataErrorBoundary>
                 {activeTab === 'positions' && <PositionsTable />}
                 {activeTab === 'orders' && <OpenOrdersTable />}
@@ -310,13 +375,45 @@ export default function TradingPage({ params }: TradingPageProps) {
           </div>
         </div>
 
-        {/* Right Sidebar - Trading Panel */}
-        <div className="w-full lg:w-96 border-t lg:border-t-0 lg:border-l border-[#1a1a1f] p-1 sm:p-2 lg:p-1 flex-shrink-0 lg:overflow-y-auto">
+        {/* Right Sidebar - Trading Panel - Desktop Only */}
+        <div className="hidden lg:block w-96 border-l border-[#1a1a1f] p-1 flex-shrink-0 overflow-y-auto">
           <TradingErrorBoundary>
             <TradingPanel key={symbolUpper} symbol={isSpot ? displaySymbol : symbolUpper} currentPrice={currentPrice} />
           </TradingErrorBoundary>
         </div>
       </div>
+
+      {/* Mobile Trading Panel - Full Screen Overlay (only show when Trade tab is active) */}
+      {mobileBottomSection === 'trade' && (
+        <div
+          className={cn(
+            "lg:hidden fixed inset-x-0 bottom-14 z-[60] bg-[#0a0a0c] overflow-y-auto border-t border-[#1a1a1f]",
+            mobileStatsExpanded ? "top-[207px]" : "top-[100px]"
+          )}
+        >
+          <TradingErrorBoundary>
+            <TradingPanel key={symbolUpper} symbol={isSpot ? displaySymbol : symbolUpper} currentPrice={currentPrice} />
+          </TradingErrorBoundary>
+        </div>
+      )}
+
+      {/* Mobile Account Panel - Full Screen Overlay (only show when Account tab is active) */}
+      {mobileBottomSection === 'account' && (
+        <div
+          className={cn(
+            "lg:hidden fixed inset-x-0 bottom-14 z-[60] bg-[#0a0a0c] overflow-y-auto border-t border-[#1a1a1f]",
+            mobileStatsExpanded ? "top-[207px]" : "top-[100px]"
+          )}
+        >
+          <MobileAccountPanel />
+        </div>
+      )}
+
+      {/* Mobile Bottom Navigation */}
+      <MobileBottomNav
+        activeSection={mobileBottomSection}
+        onSectionChange={(section) => setMobileBottomSection(section)}
+      />
     </div>
   );
 }

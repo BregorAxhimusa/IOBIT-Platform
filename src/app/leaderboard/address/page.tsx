@@ -149,10 +149,10 @@ export default function TraderDetailsPage() {
         <div className="px-3 md:px-6 lg:px-8 py-4 md:py-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-4">
             <div className="min-w-0">
-              <h1 className="text-xl md:text-3xl lg:text-4xl font-light text-white font-mono">
+              <h1 className="text-xl md:text-3xl lg:text-4xl font-light text-white">
                 {formatAddress(address, 8)}
               </h1>
-              <p className="text-[#56565B] text-xs md:text-sm mt-1 font-mono truncate">{address}</p>
+              <p className="text-[#56565B] text-xs md:text-sm mt-1 truncate">{address}</p>
             </div>
 
             {/* Quick Stats */}
@@ -252,7 +252,7 @@ export default function TraderDetailsPage() {
                     className="border-b border-[#1a1a1f] last:border-b-0 hover:bg-[#16DE93]/[0.03] transition-colors"
                   >
                     <td className="py-2 px-2">
-                      <span className="text-white text-xs md:text-sm font-mono">
+                      <span className="text-white text-xs md:text-sm">
                         {formatHash(fill.hash)}
                       </span>
                     </td>

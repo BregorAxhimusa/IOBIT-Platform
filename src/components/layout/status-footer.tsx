@@ -51,7 +51,7 @@ export function StatusFooter() {
     });
 
   return (
-    <footer className="bg-[#0a0a0c] border-t border-b border-[#1a1a1f]">
+    <footer className="hidden lg:block bg-[#0a0a0c] border-t border-b border-[#1a1a1f]">
       {/* Main row */}
       <div className="flex items-center justify-between">
         {/* Left: Operational Status */}

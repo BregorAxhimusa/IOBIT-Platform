@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
@@ -17,6 +17,14 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: "IOBIT - Advanced Crypto Trading Platform",
   description: "Trade cryptocurrencies with advanced tools and real-time data powered by Hyperliquid",
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  viewportFit: 'cover',
+  themeColor: '#0a0a0c',
 };
 
 export default async function RootLayout({

@@ -1,12 +1,22 @@
 'use client';
 
 import { Toaster as HotToaster } from 'react-hot-toast';
+import { useEffect, useState } from 'react';
 
 export function Toaster() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   return (
     <HotToaster
-      position="bottom-right"
-      containerStyle={{ bottom: 20, right: 20 }}
+      position={isMobile ? 'top-center' : 'bottom-right'}
+      containerStyle={isMobile ? { top: 80 } : { bottom: 20, right: 20 }}
       gutter={8}
       toastOptions={{
         duration: 4000,
@@ -14,10 +24,10 @@ export function Toaster() {
           background: '#111118',
           color: '#fff',
           border: '1px solid #2a2a3a',
-          borderRadius: '8px',
-          fontSize: '14px',
+          borderRadius: isMobile ? '6px' : '8px',
+          fontSize: isMobile ? '10px' : '12px',
           fontWeight: '500',
-          padding: '12px 16px',
+          padding: isMobile ? '8px 10px' : '10px 14px',
           boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
         },
         success: {

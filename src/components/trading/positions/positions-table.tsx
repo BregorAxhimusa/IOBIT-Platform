@@ -63,123 +63,197 @@ export function PositionsTable() {
   }
 
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full text-xs sm:text-sm">
-        <thead>
-          <tr className="border-b border-[#2a2a2f]">
-            <th className="text-left py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-white">Coin</th>
-            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-white">Size</th>
-            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-white hidden sm:table-cell">Position Value</th>
-            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-white">Entry Price</th>
-            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-white">Mark Price</th>
-            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-white">PNL (ROE%)</th>
-            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-white hidden sm:table-cell">Liq. Price</th>
-            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-white hidden md:table-cell">Margin</th>
-            <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-white">Close</th>
-          </tr>
-        </thead>
-        <tbody>
-          {positions.map((position) => {
-            const pnl = parseFloat(position.unrealizedPnl);
-            const pnlPercent = parseFloat(position.unrealizedPnlPercent);
-            const sizeNum = parseFloat(position.size);
-            const markPriceNum = parseFloat(position.markPrice);
-            const positionValue = sizeNum * markPriceNum;
-            const sideColor = position.side === 'long' ? 'text-[#16DE93]' : 'text-[#f6465d]';
+    <div>
+      {/* Mobile Card Layout */}
+      <div className="lg:hidden space-y-2 p-2">
+        {positions.map((position) => {
+          const pnl = parseFloat(position.unrealizedPnl);
+          const pnlPercent = parseFloat(position.unrealizedPnlPercent);
+          const markPriceNum = parseFloat(position.markPrice);
+          const sideColor = position.side === 'long' ? 'text-[#16DE93]' : 'text-[#f6465d]';
+          const sideBg = position.side === 'long' ? 'bg-[#16DE93]/10' : 'bg-[#f6465d]/10';
 
-            return (
-              <tr
-                key={position.symbol}
-                className="border-b border-[#2a2a2f] hover:bg-[#0a0a0a]/50 transition-colors"
-              >
-                {/* Coin: symbol + leverage badge (like Hyperliquid "BTC 5x") */}
-                <td className="py-2 sm:py-3 px-2 sm:px-4 whitespace-nowrap">
-                  <div className="flex items-center gap-1.5">
-                    <span className={cn('font-normal', sideColor)}>{position.symbol}</span>
-                    <span className={cn(
-                      'px-1 py-0.5 rounded text-[9px] sm:text-[10px] font-normal',
-                      position.side === 'long'
-                        ? 'bg-[#16DE93]/10 text-[#16DE93]'
-                        : 'bg-[#f6465d]/10 text-[#f6465d]'
-                    )}>
-                      {position.leverage}x
-                    </span>
-                  </div>
-                </td>
-                {/* Size: amount + coin (like "0.00038 BTC") */}
-                <td className="py-2 sm:py-3 px-2 sm:px-4 text-right">
-                  <span className={sideColor}>{position.size}</span>
-                  <span className="text-[#68686f] text-[10px] ml-1">{position.symbol}</span>
-                </td>
-                {/* Position Value */}
-                <td className="py-2 sm:py-3 px-2 sm:px-4 text-right text-white hidden sm:table-cell">
-                  {positionValue.toFixed(2)} <span className="text-[#68686f] text-[10px]">USDC</span>
-                </td>
-                {/* Entry Price */}
-                <td className="py-2 sm:py-3 px-2 sm:px-4 text-right text-white">
-                  {parseFloat(position.entryPrice).toLocaleString(undefined, { minimumFractionDigits: 1 })}
-                </td>
-                {/* Mark Price */}
-                <td className="py-2 sm:py-3 px-2 sm:px-4 text-right text-white">
-                  {markPriceNum.toLocaleString(undefined, { minimumFractionDigits: 1 })}
-                </td>
-                {/* PNL (ROE%) */}
-                <td className="py-2 sm:py-3 px-2 sm:px-4 text-right">
-                  <div className={cn('font-normal', pnl >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]')}>
+          return (
+            <div key={position.symbol} className="bg-[#111111] border border-[#1a1a1f] rounded-lg p-3">
+              {/* Header: Symbol + Leverage + PnL */}
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <span className={cn('text-sm font-medium', sideColor)}>{position.symbol}</span>
+                  <span className={cn('px-1.5 py-0.5 rounded text-[10px] font-normal', sideBg, sideColor)}>
+                    {position.leverage}x
+                  </span>
+                </div>
+                <div className="text-right">
+                  <div className={cn('text-sm font-medium', pnl >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]')}>
                     {pnl >= 0 ? '+' : ''}${pnl.toFixed(2)}
                   </div>
-                  <div className={cn('text-[9px] sm:text-xs', pnl >= 0 ? 'text-[#16DE93]/70' : 'text-[#f6465d]/70')}>
-                    ({pnlPercent >= 0 ? '+' : ''}{pnlPercent.toFixed(2)}%)
+                  <div className={cn('text-[10px]', pnl >= 0 ? 'text-[#16DE93]/70' : 'text-[#f6465d]/70')}>
+                    {pnlPercent >= 0 ? '+' : ''}{pnlPercent.toFixed(2)}%
                   </div>
-                </td>
-                {/* Liq. Price */}
-                <td className="py-2 sm:py-3 px-2 sm:px-4 text-right text-white hidden sm:table-cell">
-                  {position.liquidationPrice
-                    ? parseFloat(position.liquidationPrice).toLocaleString(undefined, { minimumFractionDigits: 1 })
-                    : '-'}
-                </td>
-                {/* Margin */}
-                <td className="py-2 sm:py-3 px-2 sm:px-4 text-right text-white hidden md:table-cell">
-                  ${parseFloat(position.margin).toFixed(2)}
-                </td>
-                {/* Close / TP/SL */}
-                <td className="py-2 sm:py-3 px-1 sm:px-4">
-                  <div className="flex items-center justify-center gap-1 sm:gap-2">
-                    <button
-                      onClick={() => handleOpenTPSL(position.symbol, position.side, position.size, position.markPrice, position.entryPrice)}
-                      className="px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs bg-[#0a0a0a] hover:bg-[#2a3038] text-white rounded transition-colors border border-gray-700"
-                    >
-                      TP/SL
-                    </button>
-                    <button
-                      onClick={() => handleOpenClose(position.symbol, position.side, position.size, position.markPrice, position.entryPrice)}
-                      disabled={isClosing}
-                      className="px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs bg-[#0a0a0a] hover:bg-[#2a3038] disabled:bg-gray-800 disabled:text-[#68686f] disabled:cursor-not-allowed text-white rounded transition-colors border border-gray-700"
-                    >
-                      {isClosing ? '...' : 'Close'}
-                    </button>
+                </div>
+              </div>
+
+              {/* Info Grid */}
+              <div className="grid grid-cols-2 gap-2 text-xs mb-3">
+                <div>
+                  <span className="text-[#68686f]">Size</span>
+                  <div className={sideColor}>{position.size}</div>
+                </div>
+                <div className="text-right">
+                  <span className="text-[#68686f]">Entry</span>
+                  <div className="text-white">${parseFloat(position.entryPrice).toLocaleString()}</div>
+                </div>
+                <div>
+                  <span className="text-[#68686f]">Mark</span>
+                  <div className="text-white">${markPriceNum.toLocaleString()}</div>
+                </div>
+                <div className="text-right">
+                  <span className="text-[#68686f]">Liq.</span>
+                  <div className="text-white">
+                    {position.liquidationPrice ? `$${parseFloat(position.liquidationPrice).toLocaleString()}` : '-'}
                   </div>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-        <tfoot>
-          <tr className="border-t border-gray-700">
-            <td colSpan={5} className="py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-white">
-              Total PnL
-            </td>
-            <td className="py-2 sm:py-3 px-2 sm:px-4 text-right">
-              <span className={cn('font-normal', totalPnl >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]')}>
-                {totalPnl >= 0 ? '+' : ''}${totalPnl.toFixed(2)}
-              </span>
-            </td>
-            <td className="hidden sm:table-cell"></td>
-            <td className="hidden md:table-cell"></td>
-            <td></td>
-          </tr>
-        </tfoot>
-      </table>
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex gap-2">
+                <button
+                  onClick={() => handleOpenTPSL(position.symbol, position.side, position.size, position.markPrice, position.entryPrice)}
+                  className="flex-1 py-2 text-xs bg-[#1a1a1f] hover:bg-[#2a2a2f] text-white rounded transition-colors border border-[#2a2a2f]"
+                >
+                  TP/SL
+                </button>
+                <button
+                  onClick={() => handleOpenClose(position.symbol, position.side, position.size, position.markPrice, position.entryPrice)}
+                  disabled={isClosing}
+                  className="flex-1 py-2 text-xs bg-[#1a1a1f] hover:bg-[#2a2a2f] disabled:bg-gray-800 disabled:text-[#68686f] text-white rounded transition-colors border border-[#2a2a2f]"
+                >
+                  {isClosing ? '...' : 'Close'}
+                </button>
+              </div>
+            </div>
+          );
+        })}
+
+        {/* Mobile Total PnL */}
+        <div className="flex items-center justify-between px-3 py-2 bg-[#111111] border border-[#1a1a1f] rounded-lg">
+          <span className="text-xs text-white">Total PnL</span>
+          <span className={cn('text-sm font-medium', totalPnl >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]')}>
+            {totalPnl >= 0 ? '+' : ''}${totalPnl.toFixed(2)}
+          </span>
+        </div>
+      </div>
+
+      {/* Desktop Table Layout */}
+      <div className="hidden lg:block overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b border-[#2a2a2f]">
+              <th className="text-left py-3 px-4 text-xs font-normal text-white">Coin</th>
+              <th className="text-right py-3 px-4 text-xs font-normal text-white">Size</th>
+              <th className="text-right py-3 px-4 text-xs font-normal text-white">Position Value</th>
+              <th className="text-right py-3 px-4 text-xs font-normal text-white">Entry Price</th>
+              <th className="text-right py-3 px-4 text-xs font-normal text-white">Mark Price</th>
+              <th className="text-right py-3 px-4 text-xs font-normal text-white">PNL (ROE%)</th>
+              <th className="text-right py-3 px-4 text-xs font-normal text-white">Liq. Price</th>
+              <th className="text-right py-3 px-4 text-xs font-normal text-white">Margin</th>
+              <th className="text-center py-3 px-4 text-xs font-normal text-white">Close</th>
+            </tr>
+          </thead>
+          <tbody>
+            {positions.map((position) => {
+              const pnl = parseFloat(position.unrealizedPnl);
+              const pnlPercent = parseFloat(position.unrealizedPnlPercent);
+              const sizeNum = parseFloat(position.size);
+              const markPriceNum = parseFloat(position.markPrice);
+              const positionValue = sizeNum * markPriceNum;
+              const sideColor = position.side === 'long' ? 'text-[#16DE93]' : 'text-[#f6465d]';
+
+              return (
+                <tr
+                  key={position.symbol}
+                  className="border-b border-[#2a2a2f] hover:bg-[#0a0a0a]/50 transition-colors"
+                >
+                  <td className="py-3 px-4 whitespace-nowrap">
+                    <div className="flex items-center gap-1.5">
+                      <span className={cn('font-normal', sideColor)}>{position.symbol}</span>
+                      <span className={cn(
+                        'px-1 py-0.5 rounded text-[10px] font-normal',
+                        position.side === 'long'
+                          ? 'bg-[#16DE93]/10 text-[#16DE93]'
+                          : 'bg-[#f6465d]/10 text-[#f6465d]'
+                      )}>
+                        {position.leverage}x
+                      </span>
+                    </div>
+                  </td>
+                  <td className="py-3 px-4 text-right">
+                    <span className={sideColor}>{position.size}</span>
+                    <span className="text-[#68686f] text-[10px] ml-1">{position.symbol}</span>
+                  </td>
+                  <td className="py-3 px-4 text-right text-white">
+                    {positionValue.toFixed(2)} <span className="text-[#68686f] text-[10px]">USDC</span>
+                  </td>
+                  <td className="py-3 px-4 text-right text-white">
+                    {parseFloat(position.entryPrice).toLocaleString(undefined, { minimumFractionDigits: 1 })}
+                  </td>
+                  <td className="py-3 px-4 text-right text-white">
+                    {markPriceNum.toLocaleString(undefined, { minimumFractionDigits: 1 })}
+                  </td>
+                  <td className="py-3 px-4 text-right">
+                    <div className={cn('font-normal', pnl >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]')}>
+                      {pnl >= 0 ? '+' : ''}${pnl.toFixed(2)}
+                    </div>
+                    <div className={cn('text-xs', pnl >= 0 ? 'text-[#16DE93]/70' : 'text-[#f6465d]/70')}>
+                      ({pnlPercent >= 0 ? '+' : ''}{pnlPercent.toFixed(2)}%)
+                    </div>
+                  </td>
+                  <td className="py-3 px-4 text-right text-white">
+                    {position.liquidationPrice
+                      ? parseFloat(position.liquidationPrice).toLocaleString(undefined, { minimumFractionDigits: 1 })
+                      : '-'}
+                  </td>
+                  <td className="py-3 px-4 text-right text-white">
+                    ${parseFloat(position.margin).toFixed(2)}
+                  </td>
+                  <td className="py-3 px-4">
+                    <div className="flex items-center justify-center gap-2">
+                      <button
+                        onClick={() => handleOpenTPSL(position.symbol, position.side, position.size, position.markPrice, position.entryPrice)}
+                        className="px-3 py-1 text-xs bg-[#0a0a0a] hover:bg-[#2a3038] text-white rounded transition-colors border border-gray-700"
+                      >
+                        TP/SL
+                      </button>
+                      <button
+                        onClick={() => handleOpenClose(position.symbol, position.side, position.size, position.markPrice, position.entryPrice)}
+                        disabled={isClosing}
+                        className="px-3 py-1 text-xs bg-[#0a0a0a] hover:bg-[#2a3038] disabled:bg-gray-800 disabled:text-[#68686f] disabled:cursor-not-allowed text-white rounded transition-colors border border-gray-700"
+                      >
+                        {isClosing ? '...' : 'Close'}
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+          <tfoot>
+            <tr className="border-t border-gray-700">
+              <td colSpan={5} className="py-3 px-4 text-xs font-normal text-white">
+                Total PnL
+              </td>
+              <td className="py-3 px-4 text-right">
+                <span className={cn('font-normal', totalPnl >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]')}>
+                  {totalPnl >= 0 ? '+' : ''}${totalPnl.toFixed(2)}
+                </span>
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
 
       {/* TP/SL Modal */}
       {showTPSLModal && selectedPosition && (

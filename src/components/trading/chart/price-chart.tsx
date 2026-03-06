@@ -220,7 +220,7 @@ function PriceChartComponent({ symbol }: PriceChartProps) {
   }, [symbol]);
 
   return (
-    <div className="relative w-full h-full bg-[#0a0a0c] rounded-lg overflow-hidden border border-[#1a1a1f]">
+    <div className="relative w-full h-full bg-[#0a0a0c] overflow-hidden border border-[#1a1a1f]">
       <div
         ref={container}
         id="tradingview_advanced"

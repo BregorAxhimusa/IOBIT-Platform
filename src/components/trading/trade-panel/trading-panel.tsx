@@ -25,6 +25,7 @@ import { ScalePreview } from '../scale-preview';
 import { cn } from '@/lib/utils/cn';
 import { ChevronDown } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Image from 'next/image';
 
 interface TradingPanelProps {
   symbol: string;
@@ -459,7 +460,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
   };
 
   return (
-    <div className="flex flex-col lg:h-full bg-[#0a0a0c] text-white border border-[#1a1a1f]">
+    <div className="flex flex-col lg:h-full bg-[#0a0a0c] text-white lg:border lg:border-[#1a1a1f]">
       {/* Tabs: Market, Limit, Stop, Pro */}
       <div className="flex items-center border-b border-[#1a1a1f] bg-[#0a0a0a]">
         <button
@@ -468,7 +469,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
             setSelectedProOption('scale'); // Reset to default when leaving Pro
           }}
           className={cn(
-            'flex-1 px-3 py-3.5 text-sm font-normal transition-all relative',
+            'flex-1 px-2 py-2 lg:px-3 lg:py-3 text-xs lg:text-sm font-normal transition-all relative',
             activeTab === 'market'
               ? 'text-[#16DE93] bg-gradient-to-r from-[#164131] to-[#164131]'
               : 'text-white/70 hover:text-white'
@@ -485,7 +486,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
             setSelectedProOption('scale'); // Reset to default when leaving Pro
           }}
           className={cn(
-            'flex-1 px-3 py-3.5 text-sm font-normal transition-all relative',
+            'flex-1 px-2 py-2 lg:px-3 lg:py-3 text-xs lg:text-sm font-normal transition-all relative',
             activeTab === 'limit'
               ? 'text-[#16DE93] bg-gradient-to-r from-[#164131] to-[#164131]'
               : 'text-white/70 hover:text-white'
@@ -505,7 +506,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                 setSelectedProOption('scale');
               }}
               className={cn(
-                'flex-1 px-3 py-3.5 text-sm font-normal transition-all relative',
+                'flex-1 px-2 py-2 lg:px-3 lg:py-3 text-xs lg:text-sm font-normal transition-all relative',
                 activeTab === 'stop'
                   ? 'text-[#16DE93] bg-gradient-to-r from-[#164131] to-[#164131]'
                   : 'text-white/70 hover:text-white'
@@ -523,14 +524,14 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                   setShowProDropdown(!showProDropdown);
                 }}
                 className={cn(
-                  'w-full px-4 py-3.5 text-sm font-normal transition-all flex items-center justify-center gap-1 relative',
+                  'w-full px-2 py-2 lg:px-3 lg:py-3 text-xs lg:text-sm font-normal transition-all flex items-center justify-center gap-1 relative',
                   activeTab === 'pro'
                     ? 'text-[#16DE93] bg-gradient-to-r from-[#164131] to-[#164131]'
                     : 'text-white/70 hover:text-white'
                 )}
               >
                 {activeTab === 'pro' ? (selectedProOption === 'scale' ? 'Scale' : 'TWAP') : 'Pro'}
-                <ChevronDown className="w-4 h-4" />
+                <ChevronDown className="w-3 h-3 lg:w-4 lg:h-4" />
                 {activeTab === 'pro' && (
                   <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#16DE93]" />
                 )}
@@ -646,12 +647,12 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
           </div>
 
           {/* Available to Trade */}
-          <div className="flex items-center justify-between text-xs px-1">
+          <div className="flex items-center justify-between text-sm px-1">
             <button
               onClick={() => setShowTransferModal(true)}
               className="text-[#68686f] hover:text-[#16DE93] transition-colors flex items-center gap-1"
             >
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
               </svg>
               Available
@@ -998,13 +999,13 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
           {/* Percentage Slider */}
           <div className="space-y-3">
             {/* Quick Percentage Buttons */}
-            <div className="grid grid-cols-4 gap-1.5">
+            <div className="grid grid-cols-4 gap-1">
               {[25, 50, 75, 100].map((pct) => (
                 <button
                   key={pct}
                   onClick={() => handlePercentageChange(pct)}
                   className={cn(
-                    "px-2 py-2 text-xs font-normal  transition-all",
+                    "px-1 py-1 lg:px-1.5 lg:py-1 text-[10px] lg:text-[11px] font-normal transition-all",
                     sizePercentage === pct
                       ? "bg-[#16DE93]/20 text-[#16DE93] border border-[#16DE93]/50"
                       : "bg-[#111111] text-[#68686f] border border-[#1a1a1f] hover:text-white hover:border-gray-600"
@@ -1015,8 +1016,8 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
               ))}
             </div>
 
-            {/* Slider with input */}
-            <div className="flex items-center gap-3 px-1">
+            {/* Slider with input - Hidden */}
+            <div className="hidden items-center gap-3 px-1">
               <div className="relative flex-1 h-6 flex items-center">
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden">
@@ -1128,7 +1129,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
               </div>
 
               {/* Quick Leverage Buttons */}
-              <div className="grid grid-cols-5 gap-1.5">
+              <div className="grid grid-cols-5 gap-1">
                 {[1, 2, 5, 10, 20].map((lev) => (
                   <button
                     key={lev}
@@ -1141,7 +1142,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                       });
                     }}
                     className={cn(
-                      'py-1.5 text-xs font-normal  transition-all',
+                      'py-1 lg:py-1 text-[10px] lg:text-[11px] font-normal transition-all',
                       leverage === lev
                         ? 'bg-[#16DE93]/20 text-[#16DE93] border border-[#16DE93]/50 shadow-[inset_0_0.5px_8px_rgba(22,222,147,0.15)]'
                         : 'bg-[#111111] text-[#68686f] border border-[#1a1a1f] hover:text-white hover:border-gray-600'
@@ -1271,7 +1272,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
           </div>
 
           {/* Main Action Button */}
-          <div className="px-4 py-4">
+          <div className="px-2 py-2">
             <button
               onClick={handlePlaceOrder}
               disabled={isPlacing || isPlacingSpot || isTwapPlacing || isScalePlacing || isFormInvalid()}
@@ -1299,38 +1300,30 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
               : activeTab === 'stop' ? `Place ${orderSide === 'buy' ? 'Buy' : 'Sell'} Stop`
               : 'Place Order'}
             </button>
-            {mounted && isConnected && getValidationError() && (
+            {/* Only show Switch Network button when on wrong chain */}
+            {mounted && isConnected && chain?.id !== arbitrum.id && (
               <div className="mt-3">
-                {chain?.id !== arbitrum.id ? (
-                  <button
-                    onClick={async () => {
-                      try {
-                        await switchChain?.({ chainId: arbitrum.id });
-                        toast.success('Switched to Arbitrum network');
-                      } catch (error) {
-                        console.error('Failed to switch network:', error);
-                        toast.error('Failed to switch network. Please switch manually in your wallet.');
-                      }
-                    }}
-                    className="w-full py-2.5 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/50 text-blue-400  font-normal transition-all text-xs"
-                  >
-                    Switch to Arbitrum
-                  </button>
-                ) : (
-                  <div className="flex items-center justify-center gap-2 text-xs text-[#f6465d] bg-[#f6465d]/10 py-2 px-3 border border-[#f6465d]/20">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#f6465d] shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                    </svg>
-                    <span>{getValidationError()}</span>
-                  </div>
-                )}
+                <button
+                  onClick={async () => {
+                    try {
+                      await switchChain?.({ chainId: arbitrum.id });
+                      toast.success('Switched to Arbitrum network');
+                    } catch (error) {
+                      console.error('Failed to switch network:', error);
+                      toast.error('Failed to switch network. Please switch manually in your wallet.');
+                    }
+                  }}
+                  className="w-full py-2.5 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/50 text-blue-400  font-normal transition-all text-xs"
+                >
+                  Switch to Arbitrum
+                </button>
               </div>
             )}
           </div>
 
 
-        {/* Deposit/Withdraw/Transfer Actions */}
-        <div className="px-4 py-4 space-y-2">
+        {/* Deposit/Withdraw/Transfer Actions - Hidden on mobile */}
+        <div className="hidden lg:block px-4 py-4 space-y-2">
           <button
             onClick={() => setShowDepositModal(true)}
             className="w-full py-2.5 bg-[#111111] border border-[#1a1a1f] hover:border-gray-600 text-white hover:text-white  font-normal transition-all text-xs flex items-center justify-center gap-2"
@@ -1363,8 +1356,8 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
           </div>
         </div>
 
-        {/* Account Overview */}
-        <div className="px-4 py-4 border-t border-[#1a1a1f] bg-[#0a0a0a]">
+        {/* Account Overview - Hidden on mobile */}
+        <div className="hidden lg:block px-4 py-4 border-t border-[#1a1a1f] bg-[#0a0a0a]">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-xs font-normal text-white uppercase tracking-wider">Account</h3>
             <div className="flex items-center gap-3 text-xs">
@@ -1598,14 +1591,14 @@ function DepositModal({ onClose }: { onClose: () => void }) {
                 <div>
                   <label className="block text-[10px] sm:text-xs text-[#68686f] font-normal mb-1.5 sm:mb-2">Asset</label>
                   <div className="px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-[#2a2a2f] text-white text-xs sm:text-sm flex items-center gap-2">
-                    <span className="w-4 h-4 sm:w-5 sm:h-5 bg-blue-500 text-[8px] sm:text-[10px] font-normal flex items-center justify-center text-white">$</span>
+                    <Image src="/iobit/chain/usdc.svg" alt="USDC" width={20} height={20} className="w-4 h-4 sm:w-5 sm:h-5" />
                     USDC
                   </div>
                 </div>
                 <div>
                   <label className="block text-[10px] sm:text-xs text-[#68686f] font-normal mb-1.5 sm:mb-2">Chain</label>
                   <div className="px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-[#2a2a2f] text-white text-xs sm:text-sm flex items-center gap-2">
-                    <span className="w-4 h-4 sm:w-5 sm:h-5 bg-blue-600 text-[8px] sm:text-[10px] flex items-center justify-center">A</span>
+                    <Image src="/arbitrum.svg" alt="Arbitrum" width={20} height={20} className="w-4 h-4 sm:w-5 sm:h-5" />
                     Arbitrum
                   </div>
                 </div>
@@ -1623,9 +1616,13 @@ function DepositModal({ onClose }: { onClose: () => void }) {
                   </button>
                 </div>
                 <input
-                  type="number"
+                  type="text"
+                  inputMode="decimal"
                   value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+                    setAmount(value);
+                  }}
                   placeholder="0.00"
                   disabled={isDepositing}
                   className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-[#2a2a2f] text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 disabled:opacity-50 placeholder-gray-600"
@@ -1756,14 +1753,14 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
               <div>
                 <label className="block text-[10px] sm:text-xs text-[#68686f] font-normal mb-1.5 sm:mb-2">Asset</label>
                 <div className="px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-[#2a2a2f] text-white text-xs sm:text-sm flex items-center gap-2">
-                  <span className="w-4 h-4 sm:w-5 sm:h-5 bg-blue-500 text-[8px] sm:text-[10px] font-normal flex items-center justify-center text-white">$</span>
+                  <Image src="/iobit/chain/usdc.svg" alt="USDC" width={20} height={20} className="w-4 h-4 sm:w-5 sm:h-5" />
                   USDC
                 </div>
               </div>
               <div>
                 <label className="block text-[10px] sm:text-xs text-[#68686f] font-normal mb-1.5 sm:mb-2">Chain</label>
                 <div className="px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-[#2a2a2f] text-white text-xs sm:text-sm flex items-center gap-2">
-                  <span className="w-4 h-4 sm:w-5 sm:h-5 bg-blue-600 text-[8px] sm:text-[10px] flex items-center justify-center">A</span>
+                  <Image src="/arbitrum.svg" alt="Arbitrum" width={20} height={20} className="w-4 h-4 sm:w-5 sm:h-5" />
                   Arbitrum
                 </div>
               </div>
@@ -1792,9 +1789,13 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
                 </button>
               </div>
               <input
-                type="number"
+                type="text"
+                inputMode="decimal"
                 value={amount}
-                onChange={(e) => setAmount(e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+                  setAmount(value);
+                }}
                 placeholder="0.00"
                 className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-[#2a2a2f] text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 placeholder-gray-600"
               />

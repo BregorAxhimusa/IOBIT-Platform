@@ -89,8 +89,6 @@ export function useSessionAgent() {
         signature,
       });
 
-      console.log('ApproveAgent result:', JSON.stringify(result));
-
       if (result.success) {
         // Mark agent as approved and persist with wallet address
         sessionAgent.markApprovedWithKey(privateKey, address);

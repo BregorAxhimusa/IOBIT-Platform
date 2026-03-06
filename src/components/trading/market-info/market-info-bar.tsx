@@ -10,6 +10,7 @@ import {
 } from '@/lib/utils/format';
 import { useFavoritesStore } from '@/store/favorites-store';
 import { useMarketStore } from '@/store/market-store';
+import { CoinIcon } from '@/components/ui/coin-icon';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -17,6 +18,8 @@ import { createPortal } from 'react-dom';
 
 interface MarketInfoBarProps {
   symbol: string;
+  mobileStatsExpanded?: boolean;
+  onMobileStatsToggle?: (expanded: boolean) => void;
 }
 
 // Known symbols with coin icons - only include symbols that have actual icon files
@@ -35,10 +38,21 @@ const SYMBOLS_WITH_ICONS = new Set([
   'XMR', 'XRP', 'YGG', 'ZEC', 'ZETA', 'ZK', 'ZRO'
 ]);
 
-export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
+export function MarketInfoBar({ symbol, mobileStatsExpanded, onMobileStatsToggle }: MarketInfoBarProps) {
   const router = useRouter();
   const { market } = useSymbolData(symbol);
   const [showMarketsDropdown, setShowMarketsDropdown] = useState(false);
+  const [showMobileStatsInternal, setShowMobileStatsInternal] = useState(false);
+
+  // Use controlled state if provided, otherwise use internal state
+  const showMobileStats = mobileStatsExpanded !== undefined ? mobileStatsExpanded : showMobileStatsInternal;
+  const setShowMobileStats = (value: boolean) => {
+    if (onMobileStatsToggle) {
+      onMobileStatsToggle(value);
+    } else {
+      setShowMobileStatsInternal(value);
+    }
+  };
   const [searchTerm, setSearchTerm] = useState('');
   const [mounted, setMounted] = useState(false);
   const [searchMode, setSearchMode] = useState<'strict' | 'all'>('all');
@@ -200,13 +214,24 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
       ? createPortal(
           <div
             ref={dropdownContentRef}
-            className="fixed w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] md:w-[95%] lg:w-[1100px] max-w-[1200px] bg-[#0a0a0c] border border-[#1a1a1f] shadow-2xl overflow-hidden"
-            style={{
-              zIndex: 99998,
-              top: '128.6px',
-              left: '0px',
-            }}
+            className={cn(
+              "fixed inset-x-0 bottom-14 lg:bottom-auto lg:inset-x-auto lg:top-[128.6px] lg:left-0 lg:w-[1100px] lg:max-w-[1200px] bg-[#0a0a0c] overflow-hidden border-t lg:border border-[#1a1a1f] shadow-2xl z-[60] lg:z-[99998] flex flex-col",
+              showMobileStats ? "top-[207px]" : "top-[100px]"
+            )}
           >
+            {/* Mobile Header */}
+            <div className="lg:hidden flex items-center justify-between p-3 border-b border-[#2a2a2f]">
+              <h2 className="text-sm font-medium text-white">Select Market</h2>
+              <button
+                onClick={() => setShowMarketsDropdown(false)}
+                className="p-1.5 text-[#68686f] hover:text-white transition-colors"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
             {/* Search Bar */}
             <div className="p-2 sm:p-3 border-b border-[#2a2a2f] flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
               <div className="relative flex-1">
@@ -294,7 +319,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
             </div>
 
             {/* Markets List */}
-            <div className="max-h-[300px] sm:max-h-[400px] md:max-h-[450px] overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-700 hover:scrollbar-thumb-gray-600">
+            <div className="flex-1 lg:flex-none lg:max-h-[450px] overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-700 hover:scrollbar-thumb-gray-600">
               {markets.size === 0 ? (
                 <div className="flex items-center justify-center py-12 sm:py-16 text-white text-xs sm:text-sm">
                   <div className="text-center">
@@ -366,15 +391,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                         >
                           {isFav ? '★' : '☆'}
                         </button>
-                        {SYMBOLS_WITH_ICONS.has(m.symbol) && (
-                          <Image
-                            src={`/icons/coins/${m.symbol}.png`}
-                            alt={m.symbol}
-                            width={16}
-                            height={16}
-                            className="w-4 h-4 rounded-full"
-                          />
-                        )}
+                        <CoinIcon symbol={m.symbol} size="sm" />
                         <span className={cn(
                             'font-normal transition-colors truncate',
                             isActive ? 'text-[#16DE93]' : 'text-white group-hover:text-[#16DE93]'
@@ -482,16 +499,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                 onClick={() => setShowMarketsDropdown(!showMarketsDropdown)}
                 className="flex items-center gap-2 hover:opacity-80 transition-all group"
               >
-                <Image
-                  src={`/icons/coins/${symbol}.png`}
-                  alt={symbol}
-                  width={20}
-                  height={20}
-                  className="w-5 h-5 rounded-full"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = 'none';
-                  }}
-                />
+                <CoinIcon symbol={symbol} size="sm" />
                 <span className="text-lg font-normal text-white whitespace-nowrap">
                   {isSpot ? symbol : `${symbol}/USD`}
                 </span>
@@ -519,7 +527,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
               </span>
               <span
                 className={cn(
-                  'px-2 py-1 rounded-lg text-xs sm:text-sm font-normal tabular-nums backdrop-blur-[2.5px]',
+                  'hidden sm:inline px-2 py-1 rounded-lg text-xs sm:text-sm font-normal tabular-nums backdrop-blur-[2.5px]',
                   isPositive
                     ? 'text-[#16DE93] shadow-[inset_0_0.5px_8px_rgba(22,222,147,0.10)]'
                     : 'text-[#f6465d] shadow-[inset_0_0.5px_8px_rgba(246,70,93,0.10)]'
@@ -584,8 +592,71 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                 </span>
               </div>
             )}
+
+            {/* Mobile Stats Button */}
+            <button
+              onClick={() => setShowMobileStats(!showMobileStats)}
+              className={cn(
+                'md:hidden flex items-center justify-center px-2 py-1.5 rounded border transition-all flex-shrink-0',
+                showMobileStats
+                  ? 'bg-[#16DE93]/20 border-[#16DE93]/50 text-[#16DE93]'
+                  : 'bg-[#111111] border-[#1a1a1f] text-[#68686f] hover:border-[#333]'
+              )}
+            >
+              <svg className={cn('w-4 h-4 transition-transform', showMobileStats && 'rotate-180')} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
           </div>
         </div>
+
+        {/* Mobile Stats Dropdown */}
+        {showMobileStats && (
+          <div className="md:hidden border-t border-[#1a1a1f] py-3 px-2 grid grid-cols-2 gap-3">
+            {/* 24h Volume */}
+            <div className="flex flex-col">
+              <span className="text-[10px] text-[#68686f] uppercase tracking-wider">24H Volume</span>
+              <span className="text-sm font-normal text-white tabular-nums">
+                ${market ? formatCompactNumber(volume24h) : '--'}
+              </span>
+            </div>
+
+            {/* Open Interest - Perps only */}
+            {!isSpot && (
+              <div className="flex flex-col">
+                <span className="text-[10px] text-[#68686f] uppercase tracking-wider">Open Interest</span>
+                <span className="text-sm font-normal text-white tabular-nums">
+                  ${market ? formatCompactNumber(openInterest) : '--'}
+                </span>
+              </div>
+            )}
+
+            {/* 24h Range - Perps only */}
+            {!isSpot && market && (
+              <div className="flex flex-col">
+                <span className="text-[10px] text-[#68686f] uppercase tracking-wider">24H Range</span>
+                <div className="flex items-center gap-1 text-sm">
+                  <span className="text-[#16DE93]">${formatPrice(price * 1.02, price > 100 ? 2 : 4)}</span>
+                  <span className="text-gray-600">/</span>
+                  <span className="text-[#f6465d]">${formatPrice(price * 0.98, price > 100 ? 2 : 4)}</span>
+                </div>
+              </div>
+            )}
+
+            {/* Funding Rate - Perps only */}
+            {!isSpot && (
+              <div className="flex flex-col">
+                <span className="text-[10px] text-[#68686f] uppercase tracking-wider">Funding Rate</span>
+                <span className={cn(
+                  'text-sm font-normal tabular-nums',
+                  parseFloat(funding) >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]'
+                )}>
+                  {market ? `${(parseFloat(funding) * 100).toFixed(4)}%` : '--'}
+                </span>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Dropdown rendered via Portal */}

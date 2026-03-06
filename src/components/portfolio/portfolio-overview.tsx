@@ -613,14 +613,14 @@ function DepositModal({ onClose }: { onClose: () => void }) {
                 <div>
                   <label className="block text-[10px] sm:text-xs text-[#68686f] font-normal mb-1.5 sm:mb-2">Asset</label>
                   <div className="px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-[#1a1a1f] text-white text-xs sm:text-sm flex items-center gap-2">
-                    <span className="w-4 h-4 sm:w-5 sm:h-5 bg-blue-500 text-[8px] sm:text-[10px] font-normal flex items-center justify-center text-white">$</span>
+                    <Image src="/iobit/chain/usdc.svg" alt="USDC" width={20} height={20} className="w-4 h-4 sm:w-5 sm:h-5" />
                     USDC
                   </div>
                 </div>
                 <div>
                   <label className="block text-[10px] sm:text-xs text-[#68686f] font-normal mb-1.5 sm:mb-2">Chain</label>
                   <div className="px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-[#1a1a1f] text-white text-xs sm:text-sm flex items-center gap-2">
-                    <span className="w-4 h-4 sm:w-5 sm:h-5 bg-blue-600 text-[8px] sm:text-[10px] flex items-center justify-center">A</span>
+                    <Image src="/arbitrum.svg" alt="Arbitrum" width={20} height={20} className="w-4 h-4 sm:w-5 sm:h-5" />
                     Arbitrum
                   </div>
                 </div>
@@ -638,9 +638,15 @@ function DepositModal({ onClose }: { onClose: () => void }) {
                   </button>
                 </div>
                 <input
-                  type="number"
+                  type="text"
+                  inputMode="decimal"
                   value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (value === '' || /^[0-9]*\.?[0-9]*$/.test(value)) {
+                      setAmount(value);
+                    }
+                  }}
                   placeholder="0.00"
                   disabled={isDepositing}
                   className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-[#1a1a1f] text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 disabled:opacity-50 placeholder-gray-600"
@@ -769,14 +775,14 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
               <div>
                 <label className="block text-[10px] sm:text-xs text-[#68686f] font-normal mb-1.5 sm:mb-2">Asset</label>
                 <div className="px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-[#1a1a1f] text-white text-xs sm:text-sm flex items-center gap-2">
-                  <span className="w-4 h-4 sm:w-5 sm:h-5 bg-blue-500 text-[8px] sm:text-[10px] font-normal flex items-center justify-center text-white">$</span>
+                  <Image src="/iobit/chain/usdc.svg" alt="USDC" width={20} height={20} className="w-4 h-4 sm:w-5 sm:h-5" />
                   USDC
                 </div>
               </div>
               <div>
                 <label className="block text-[10px] sm:text-xs text-[#68686f] font-normal mb-1.5 sm:mb-2">Chain</label>
                 <div className="px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-[#1a1a1f] text-white text-xs sm:text-sm flex items-center gap-2">
-                  <span className="w-4 h-4 sm:w-5 sm:h-5 bg-blue-600 text-[8px] sm:text-[10px] flex items-center justify-center">A</span>
+                  <Image src="/arbitrum.svg" alt="Arbitrum" width={20} height={20} className="w-4 h-4 sm:w-5 sm:h-5" />
                   Arbitrum
                 </div>
               </div>
@@ -805,9 +811,15 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
                 </button>
               </div>
               <input
-                type="number"
+                type="text"
+                inputMode="decimal"
                 value={amount}
-                onChange={(e) => setAmount(e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value === '' || /^[0-9]*\.?[0-9]*$/.test(value)) {
+                    setAmount(value);
+                  }
+                }}
                 placeholder="0.00"
                 className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-[#1a1a1f] text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 placeholder-gray-600"
               />

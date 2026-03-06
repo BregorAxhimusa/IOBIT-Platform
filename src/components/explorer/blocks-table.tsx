@@ -90,10 +90,10 @@ export function BlocksTable({
                 <td className="py-3 px-3 md:px-4 text-white">{block.time}</td>
                 <td className="py-3 px-3 md:px-4 text-white">{block.transactions}</td>
                 <td className="py-3 px-3 md:px-4">
-                  <span className="text-white font-mono">{formatAddress(block.proposer)}</span>
+                  <span className="text-white">{formatAddress(block.proposer)}</span>
                 </td>
                 <td className="py-3 px-3 md:px-4">
-                  <span className="text-[#16DE93] font-mono">{formatAddress(block.hash)}</span>
+                  <span className="text-[#16DE93]">{formatAddress(block.hash)}</span>
                 </td>
               </tr>
             ))

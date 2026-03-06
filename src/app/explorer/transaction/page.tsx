@@ -70,7 +70,7 @@ function TransactionDetailsContent() {
         {/* Hash */}
         <div className="px-3 md:px-6 lg:px-8 py-3 border-b border-[#1a1a1f] flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-0">
           <span className="text-[#8A8A8E] text-sm w-32 flex-shrink-0">Hash</span>
-          <span className="text-white text-sm font-mono break-all">{txData.hash}</span>
+          <span className="text-white text-sm break-all">{txData.hash}</span>
         </div>
 
         {/* Block */}
@@ -95,7 +95,7 @@ function TransactionDetailsContent() {
           <span className="text-[#8A8A8E] text-sm w-32 flex-shrink-0">User</span>
           <Link
             href={`/leaderboard/address?address=${txData.user}`}
-            className="text-[#16DE93] text-sm font-mono hover:underline break-all"
+            className="text-[#16DE93] text-sm hover:underline break-all"
           >
             {txData.user}
           </Link>

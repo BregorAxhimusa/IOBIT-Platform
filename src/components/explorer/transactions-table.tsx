@@ -92,7 +92,7 @@ export function TransactionsTable({
                 className="border-b border-[#1a1a1f] last:border-b-0 hover:bg-[#16DE93]/[0.03] transition-colors cursor-pointer"
               >
                 <td className="py-3 px-3 md:px-4">
-                  <span className="text-[#16DE93] font-mono">{formatAddress(tx.hash)}</span>
+                  <span className="text-[#16DE93]">{formatAddress(tx.hash)}</span>
                 </td>
                 <td className="py-3 px-3 md:px-4 text-white">{tx.action}</td>
                 {showBlockColumn && (
@@ -109,7 +109,7 @@ export function TransactionsTable({
                 <td className="py-3 px-3 md:px-4">
                   <button
                     onClick={(e) => handleUserClick(e, tx.user)}
-                    className="text-[#16DE93] font-mono hover:underline"
+                    className="text-[#16DE93] hover:underline"
                   >
                     {formatAddress(tx.user)}
                   </button>

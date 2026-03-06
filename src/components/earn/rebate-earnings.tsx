@@ -290,7 +290,7 @@ export function RebateEarnings() {
           {/* Next Update Time */}
           <div className="pb-4 md:pb-6">
             <p className="text-[#6b6b6b] text-[10px] md:text-xs mb-2">Next update time:</p>
-            <div className="flex items-center gap-1 text-white text-xl md:text-2xl font-mono">
+            <div className="flex items-center gap-1 text-white text-xl md:text-2xl">
               <span>00</span>
               <span className="text-[#6b6b6b]">:</span>
               <span>00</span>

@@ -209,6 +209,22 @@ body {
   }
 }
 
+/* Safe area for iOS devices (iPhone notch) */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.safe-area-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+/* Ensure proper viewport handling for mobile */
+@supports (padding: max(0px)) {
+  .safe-area-bottom {
+    padding-bottom: max(0px, env(safe-area-inset-bottom));
+  }
+}
+
 /* Rotating conic gradient border */
 @property --border-angle {
   syntax: "<angle>";

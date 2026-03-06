@@ -36,7 +36,7 @@ const moreLinks = [
 const allNavLinks = [...mainNavLinks, ...moreLinks];
 
 // Airdrop texts that rotate with typewriter effect
-const airdropTexts = ['BIT', 'AIRDROP', '25M'];
+const airdropTexts = ['BIT', 'Airdrop', '25M'];
 
 // Airdrop Button Component with typewriter effect
 function AirdropButton({ onClick }: { onClick?: () => void }) {
@@ -116,10 +116,11 @@ function WalletButton() {
   if (!mounted) {
     return (
       <button
-        className="px-4 py-2 rounded-lg font-normal text-sm bg-white text-black"
+        className="px-4 py-2 md:px-4 md:py-2 rounded-lg font-normal text-[10px] md:text-sm bg-white text-black"
         disabled
       >
-        Connect Wallet
+        <span className="md:hidden">Connect</span>
+        <span className="hidden md:inline">Connect Wallet</span>
       </button>
     );
   }
@@ -142,13 +143,15 @@ function WalletButtonInner() {
         }
       }}
       className={cn(
-        'px-4 py-2 rounded-lg font-normal text-sm transition-all',
+        'rounded-lg font-normal transition-all',
+        'px-4 py-2 md:px-4 md:py-2 text-[10px] md:text-sm',
         isConnected
           ? 'bg-[#111111] text-white border border-[#1a1a1f] hover:border-[#2a2a2f] hover:bg-[#1a1a1a]'
           : 'bg-white text-black hover:bg-gray-100'
       )}
     >
-      {isConnected && address ? formatAddress(address) : 'Connect Wallet'}
+      <span className="md:hidden">{isConnected && address ? formatAddress(address, 3) : 'Connect'}</span>
+      <span className="hidden md:inline">{isConnected && address ? formatAddress(address) : 'Connect Wallet'}</span>
     </button>
   );
 }
@@ -182,15 +185,15 @@ function ChainIndicatorInner() {
   return (
     <button
       onClick={() => open({ view: 'Networks' })}
-      className="p-2 rounded-lg bg-[#111111] border border-[#1a1a1f] hover:border-[#2a2a2f] hover:bg-[#1a1a1a] transition-all"
+      className="p-1.5 md:p-2 rounded-lg bg-[#111111] border border-[#1a1a1f] hover:border-[#2a2a2f] hover:bg-[#1a1a1a] transition-all"
       title={`Switch Network (${chainInfo.name})`}
     >
       {chainInfo.icon && (
         <Image
           src={chainInfo.icon}
           alt={chainInfo.name}
-          width={18}
-          height={18}
+          width={20}
+          height={20}
           className="rounded-full"
         />
       )}
@@ -225,7 +228,7 @@ export function Navbar() {
   const isMoreActive = moreLinks.some(link => pathname?.startsWith(link.href));
 
   return (
-    <nav className="border-b border-[#1a1a1f] bg-[#0a0a0c] py-2" role="navigation" aria-label="Main navigation">
+    <nav className="border-b border-[#1a1a1f] bg-[#0a0a0c] py-0 md:py-2" role="navigation" aria-label="Main navigation">
       <div className="mx-auto flex h-14 items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Left Side - Logo + Navigation Links */}
         <div className="flex items-center gap-6">
@@ -327,20 +330,20 @@ export function Navbar() {
         </div>
 
         {/* Mobile Right Side - Wallet + Chain + Menu Button */}
-        <div className="flex md:hidden items-center gap-2">
+        <div className="flex md:hidden items-center gap-1.5">
           <WalletButton />
           <ChainIndicator />
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-lg transition-all"
+            className="p-0 rounded-lg transition-all"
             aria-label="Toggle navigation menu"
             aria-expanded={mobileMenuOpen}
           >
             <Image
               src={mobileMenuOpen ? "/iobit/landingpage/close.svg" : "/iobit/landingpage/open.svg"}
               alt={mobileMenuOpen ? "Close menu" : "Open menu"}
-              width={20}
-              height={20}
+              width={30}
+              height={30}
             />
           </button>
         </div>
@@ -355,7 +358,7 @@ export function Navbar() {
 
       {/* Mobile Menu Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-x-0 top-14 bottom-0 border-t border-[#1a1a1f] bg-[#0a0a0c] overflow-y-auto z-50">
+        <div className="md:hidden fixed inset-x-0 top-14 bottom-0 border-t border-[#1a1a1f] bg-[#0a0a0c] overflow-y-auto z-[100]">
           <div className="px-0 py-4 space-y-2">
             {allNavLinks.map((link) => {
               // For Trade link, match any /trade/* route

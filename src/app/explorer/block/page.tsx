@@ -88,13 +88,13 @@ function BlockDetailsContent() {
             </div>
             <div className="max-w-[200px] md:max-w-none">
               <span className="text-[#8A8A8E]">Hash</span>
-              <p className="text-white mt-1 font-mono truncate" title={blockData.hash}>
+              <p className="text-white mt-1 truncate" title={blockData.hash}>
                 {formatAddress(blockData.hash)}
               </p>
             </div>
             <div className="max-w-[200px] md:max-w-none">
               <span className="text-[#8A8A8E]">Proposer</span>
-              <p className="text-white mt-1 font-mono truncate" title={blockData.proposer}>
+              <p className="text-white mt-1 truncate" title={blockData.proposer}>
                 {formatAddress(blockData.proposer)}
               </p>
             </div>
