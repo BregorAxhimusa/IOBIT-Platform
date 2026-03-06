@@ -37,7 +37,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${spaceGrotesk.variable} font-sans overflow-auto bg-[#0a0a0c]`}>
+      <body className={`${spaceGrotesk.variable} font-sans overflow-y-auto overflow-x-hidden bg-[#0a0a0c]`}>
         <a href="#main-content" className="sr-skip-link">Skip to content</a>
         <ContextProvider cookies={cookies}>
           <PageTransition>

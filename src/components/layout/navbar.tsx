@@ -194,7 +194,7 @@ function ChainIndicatorInner() {
           alt={chainInfo.name}
           width={20}
           height={20}
-          className="rounded-full"
+          className="rounded-full w-5 min-w-5 max-w-5 h-5 min-h-5 max-h-5"
         />
       )}
     </button>
@@ -228,10 +228,10 @@ export function Navbar() {
   const isMoreActive = moreLinks.some(link => pathname?.startsWith(link.href));
 
   return (
-    <nav className="border-b border-[#1a1a1f] bg-[#0a0a0c] py-0 md:py-2" role="navigation" aria-label="Main navigation">
+    <nav className="border-b border-[#1a1a1f] bg-[#0a0a0c] py-0 md:py-2 overflow-x-hidden" role="navigation" aria-label="Main navigation">
       <div className="mx-auto flex h-14 items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Left Side - Logo + Navigation Links */}
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4 lg:gap-6">
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <Image
@@ -240,7 +240,7 @@ export function Navbar() {
               width={98}
               height={34}
               priority
-              style={{ width: '98px', height: 'auto' }}
+              className="w-[98px] min-w-[98px] max-w-[98px] h-auto"
             />
           </Link>
 

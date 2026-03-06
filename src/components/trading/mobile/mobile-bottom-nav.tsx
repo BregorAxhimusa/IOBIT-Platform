@@ -16,9 +16,7 @@ export function MobileBottomNav({ activeSection = 'trade', onSectionChange }: Mo
 
   return (
     <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 safe-area-bottom">
-      {/* Blur overlay above the nav */}
-      <div className="absolute -top-4 left-0 right-0 h-4 bg-gradient-to-t from-[#0a0a0c]/90 to-transparent backdrop-blur-[2px] pointer-events-none" />
-      <div className="bg-[#0a0a0c]">
+      <div className="bg-[#0a0a0c] border-t border-[#1a1a1f]">
       <div className="flex items-center justify-around h-14">
         {/* Markets - Shows Positions/Orders table */}
         <button

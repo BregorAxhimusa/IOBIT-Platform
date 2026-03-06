@@ -491,7 +491,7 @@ export function MarketInfoBar({ symbol, mobileStatsExpanded, onMobileStatsToggle
       <div className="w-full px-2 sm:px-4 md:px-6">
         <div className="flex items-center justify-between gap-3">
           {/* Left Side - All Market Info */}
-          <div className="flex items-center gap-2 sm:gap-3 md:gap-4 overflow-x-auto scrollbar-hide">
+          <div className="flex items-center gap-2 sm:gap-3 md:gap-4 overflow-x-auto scrollbar-hide justify-between w-full">
             {/* Markets Dropdown */}
             <div className="relative flex items-center flex-shrink-0 py-2" ref={dropdownRef}>
               <button
