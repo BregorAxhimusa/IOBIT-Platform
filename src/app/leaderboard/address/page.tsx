@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -39,6 +39,11 @@ export default function TraderDetailsPage() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(20);
+
+  // Set page title
+  useEffect(() => {
+    document.title = 'Trader Details | IOBIT';
+  }, []);
 
   // Fetch trader's user state for stats
   const { data: statsData } = useQuery({

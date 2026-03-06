@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BitHeader } from '@/components/bit/bit-header';
 import { BitOverview } from '@/components/bit/bit-overview';
 import { BitRanking } from '@/components/bit/bit-ranking';
@@ -17,6 +17,11 @@ const TABS: { key: BitTab; label: string }[] = [
 
 export default function BitPage() {
   const [activeTab, setActiveTab] = useState<BitTab>('overview');
+
+  // Set page title
+  useEffect(() => {
+    document.title = 'BIT Token | IOBIT';
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#0a0a0c] text-white page-enter">

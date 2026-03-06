@@ -48,6 +48,11 @@ export default function PortfolioPage() {
   const { isConnected } = useAppKitAccount();
   const [activeRoute, setActiveRoute] = useState<PortfolioRoute>('overview');
 
+  // Set page title
+  useEffect(() => {
+    document.title = 'Portfolio | IOBIT';
+  }, []);
+
   // Initialize market data for StatusFooter
   useMarketData();
 

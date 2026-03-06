@@ -62,7 +62,7 @@ export function BitActionCards() {
           title="Earn"
           subtitle="Earn from Vault"
           buttonText="Deposit Now"
-          buttonHref="/vaults"
+          buttonHref="/earn"
         />
       </div>
 

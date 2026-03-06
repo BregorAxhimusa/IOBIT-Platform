@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getInfoClient } from '@/lib/hyperliquid/info-client';
 import { useNetworkStore } from '@/store/network-store';
@@ -19,6 +19,11 @@ export default function LeaderboardPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [dateFilter, setDateFilter] = useState<DateFilterValue>('30d');
   const network = useNetworkStore((state) => state.network);
+
+  // Set page title
+  useEffect(() => {
+    document.title = 'Leaderboard | IOBIT';
+  }, []);
 
   const { data: leaderboard, isLoading, error } = useQuery({
     queryKey: ['leaderboard', network],

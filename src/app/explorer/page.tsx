@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { cn } from '@/lib/utils/cn';
 import {
   ExplorerSearch,
@@ -42,6 +42,11 @@ export default function ExplorerPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Set page title
+  useEffect(() => {
+    document.title = 'Explorer | IOBIT';
+  }, []);
 
   // Filter data based on search query
   const filteredBlocks = useMemo(() => {

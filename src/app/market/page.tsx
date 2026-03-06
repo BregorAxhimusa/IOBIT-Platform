@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useMarketData } from '@/hooks/use-market-data';
 import { useSpotMeta } from '@/hooks/use-spot-meta';
 import { useMarketPageData } from '@/hooks/use-market-page-data';
@@ -14,6 +14,11 @@ export default function MarketPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(20);
+
+  // Set page title
+  useEffect(() => {
+    document.title = 'Market | IOBIT';
+  }, []);
 
   // Initialize data (populates stores)
   useMarketData();

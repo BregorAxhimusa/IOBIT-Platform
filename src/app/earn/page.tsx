@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { SplineEarnHeader } from '@/components/earn/spline-earn-header';
 import { EarnStatsBanner } from '@/components/earn/earn-stats-banner';
 import { RebateEarnings } from '@/components/earn/rebate-earnings';
@@ -19,6 +19,11 @@ const TABS: { key: EarnTab; label: string }[] = [
 
 export default function EarnPage() {
   const [activeTab, setActiveTab] = useState<EarnTab>('rebate');
+
+  // Set page title
+  useEffect(() => {
+    document.title = 'Earn | IOBIT';
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#0a0a0c] text-white">

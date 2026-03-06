@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useAppKitAccount } from '@reown/appkit/react';
 import { useValidators } from '@/hooks/use-validators';
@@ -39,6 +39,12 @@ function filterByDate<T extends { time: number }>(items: T[], days: number | nul
 
 export default function StakingPage() {
   const { isConnected } = useAppKitAccount();
+
+  // Set page title
+  useEffect(() => {
+    document.title = 'Staking | IOBIT';
+  }, []);
+
   useMarketData(); // Initialize market data for StatusFooter
   const { validators, isLoading: isLoadingValidators } = useValidators();
   const { stakingState, delegations } = useStakingState();

@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { cn } from '@/lib/utils/cn';
@@ -25,6 +26,11 @@ export default function VipPage() {
   const userVolume = 10;
   const targetVolume = 5000000;
   const progressPercent = (userVolume / targetVolume) * 100;
+
+  // Set page title
+  useEffect(() => {
+    document.title = 'VIP Program | IOBIT';
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#0a0a0c] text-white page-enter overflow-hidden">

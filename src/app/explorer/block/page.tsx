@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { TransactionsTable, type TransactionEntry } from '@/components/explorer';
 import { PaginationFooter } from '@/components/ui/pagination';
 import { useState, useMemo } from 'react';
@@ -33,6 +33,11 @@ function BlockDetailsContent() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(20);
+
+  // Set page title
+  useEffect(() => {
+    document.title = `Block ${blockNumber} | IOBIT`;
+  }, [blockNumber]);
 
   // Use mock data for now
   const blockData = mockBlockData;

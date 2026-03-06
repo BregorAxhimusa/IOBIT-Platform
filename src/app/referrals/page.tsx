@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useAppKitAccount } from '@reown/appkit/react';
 import { useReferralInfo } from '@/hooks/use-referral-info';
 import { useCreateReferralCode } from '@/hooks/use-create-referral-code';
@@ -17,6 +18,11 @@ export default function ReferralsPage() {
   const { createCode, isCreating } = useCreateReferralCode();
   const { setReferrer, isSetting } = useSetReferrer();
   const { claimRewards, isClaiming } = useClaimReferralRewards();
+
+  // Set page title
+  useEffect(() => {
+    document.title = 'Referrals | IOBIT';
+  }, []);
 
   if (!isConnected) {
     return (

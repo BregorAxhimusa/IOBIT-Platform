@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 
 // Mock transaction data
 const mockTransactionData = {
@@ -23,6 +23,11 @@ function TransactionDetailsContent() {
   const txData = mockTransactionData;
 
   const displayHash = hash.length > 20 ? `${hash.slice(0, 10)}...${hash.slice(-4)}` : hash;
+
+  // Set page title
+  useEffect(() => {
+    document.title = `Transaction ${displayHash} | IOBIT`;
+  }, [displayHash]);
 
   return (
     <div className="bg-[#0a0a0c] text-white page-enter min-h-screen flex flex-col">

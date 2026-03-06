@@ -1,11 +1,17 @@
 'use client';
 
+import { useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { EarningsChart, AffiliateSteps, AffiliatesFaq } from '@/components/affiliates';
 import { SiteFooter } from '@/components/layout/site-footer';
 
 export default function AffiliatesPage() {
+  // Set page title
+  useEffect(() => {
+    document.title = 'Affiliates | IOBIT';
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#0a0a0c] text-white page-enter overflow-hidden">
       {/* Section 1: Hero */}

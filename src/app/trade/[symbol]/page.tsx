@@ -84,6 +84,25 @@ export default function TradingPage({ params }: TradingPageProps) {
 
   const currentPrice = getPrice();
 
+  // Update document title with current price
+  useEffect(() => {
+    const formatPriceForTitle = (p: number): string => {
+      if (p >= 1000) return p.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      if (p >= 1) return p.toFixed(2);
+      return p.toFixed(4);
+    };
+
+    if (currentPrice && currentPrice > 0) {
+      document.title = `$${formatPriceForTitle(currentPrice)} | ${displaySymbol} USD | IOBIT`;
+    } else {
+      document.title = `${displaySymbol} USD | IOBIT - Trade`;
+    }
+
+    return () => {
+      document.title = 'IOBIT - Advanced Crypto Trading Platform';
+    };
+  }, [currentPrice, displaySymbol]);
+
   // Handle price click from order book
   const handlePriceClick = (price: string) => {
     setPrice(price);
