@@ -387,7 +387,7 @@ export default function TradingPage({ params }: TradingPageProps) {
       {mobileBottomSection === 'trade' && (
         <div
           className={cn(
-            "lg:hidden fixed inset-x-0 bottom-14 z-[60] bg-[#0a0a0c] overflow-y-auto border-t border-[#1a1a1f]",
+            "lg:hidden fixed inset-x-0 bottom-14 z-[60] bg-[#0a0a0c] overflow-y-auto border-t border-b border-[#1a1a1f]",
             mobileStatsExpanded ? "top-[207px]" : "top-[100px]"
           )}
         >
@@ -401,7 +401,7 @@ export default function TradingPage({ params }: TradingPageProps) {
       {mobileBottomSection === 'account' && (
         <div
           className={cn(
-            "lg:hidden fixed inset-x-0 bottom-14 z-[60] bg-[#0a0a0c] overflow-y-auto border-t border-[#1a1a1f]",
+            "lg:hidden fixed inset-x-0 bottom-14 z-[60] bg-[#0a0a0c] overflow-y-auto border-t border-b border-[#1a1a1f]",
             mobileStatsExpanded ? "top-[207px]" : "top-[100px]"
           )}
         >
