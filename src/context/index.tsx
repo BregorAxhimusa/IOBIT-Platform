@@ -33,9 +33,6 @@ if (typeof window !== 'undefined') {
     },
     themeMode: 'dark',
     themeVariables: {
-      '--w3m-accent': '#16DE93',
-      '--w3m-color-mix': '#0a0a0c',
-      '--w3m-color-mix-strength': 100,
       '--w3m-border-radius-master': '0px',
       '--w3m-font-family': 'inherit',
       '--w3m-z-index': 100

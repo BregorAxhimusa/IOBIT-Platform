@@ -253,35 +253,9 @@ body {
   border-color: #1a1a1f !important;
 }
 
-/* AppKit/Reown Modal Styling */
+/* AppKit/Reown Modal Styling - Border Radius Only */
 :root {
-  --w3m-color-mix: #0a0a0c !important;
-  --w3m-color-mix-strength: 100 !important;
-  --w3m-accent: #16DE93 !important;
   --w3m-border-radius-master: 0px !important;
-  --wui-color-modal-bg: #0a0a0c !important;
-  --wui-color-bg-100: #0a0a0c !important;
-  --wui-color-bg-125: #0a0a0c !important;
-  --wui-color-bg-150: #111111 !important;
-  --wui-color-bg-175: #1a1a1f !important;
-  --wui-color-bg-200: #1a1a1f !important;
-  --wui-color-bg-225: #2a2a2f !important;
-  --wui-color-bg-250: #2a2a2f !important;
-  --wui-color-bg-275: #333338 !important;
-  --wui-color-bg-300: #333338 !important;
-  --wui-gray-glass-001: rgba(10, 10, 12, 0.01) !important;
-  --wui-gray-glass-002: rgba(10, 10, 12, 0.02) !important;
-  --wui-gray-glass-005: rgba(10, 10, 12, 0.05) !important;
-  --wui-gray-glass-010: rgba(10, 10, 12, 0.1) !important;
-  --wui-gray-glass-015: rgba(10, 10, 12, 0.15) !important;
-  --wui-gray-glass-020: rgba(10, 10, 12, 0.2) !important;
-  --wui-gray-glass-025: rgba(10, 10, 12, 0.25) !important;
-  --wui-gray-glass-030: rgba(10, 10, 12, 0.3) !important;
-  --wui-gray-glass-060: rgba(10, 10, 12, 0.6) !important;
-  --wui-gray-glass-080: rgba(10, 10, 12, 0.8) !important;
-  --wui-color-accent-100: #16DE93 !important;
-  --wui-color-accent-090: #14c583 !important;
-  --wui-color-accent-080: #12ac73 !important;
   --wui-border-radius-l: 0px !important;
   --wui-border-radius-m: 0px !important;
   --wui-border-radius-s: 0px !important;
@@ -292,24 +266,9 @@ body {
   --wui-border-radius-5xl: 0px !important;
 }
 
-w3m-modal,
-appkit-modal {
-  --wui-color-modal-bg: #0a0a0c !important;
-  --wui-color-bg-100: #0a0a0c !important;
-  --wui-color-bg-125: #0a0a0c !important;
-  --wui-color-bg-150: #111111 !important;
-  --wui-color-bg-175: #1a1a1f !important;
-  --wui-color-bg-200: #1a1a1f !important;
-  --w3m-color-mix: #0a0a0c !important;
-  --w3m-accent: #16DE93 !important;
-}
-
 w3m-modal::part(modal),
 appkit-modal::part(modal) {
   border-radius: 0 !important;
-  border: 1px solid #2a2a2f !important;
-  background: #0a0a0c !important;
-  background-color: #0a0a0c !important;
 }
 
 wui-card,
@@ -317,40 +276,11 @@ wui-flex {
   border-radius: 0 !important;
 }
 
-/* Force all modal backgrounds */
-w3m-modal *,
-appkit-modal * {
-  --wui-color-modal-bg: #0a0a0c !important;
-  --wui-color-bg-100: #0a0a0c !important;
-  --wui-color-bg-125: #0a0a0c !important;
-}
-
-/* Modal card backgrounds */
-wui-card {
-  background: #0a0a0c !important;
-  background-color: #0a0a0c !important;
-}
-
-/* Modal backdrop */
-w3m-modal::part(overlay),
-appkit-modal::part(overlay) {
-  background: rgba(0, 0, 0, 0.8) !important;
-}
-
-/* Input fields in modal */
 wui-input-text,
 wui-search-bar {
-  background: #111111 !important;
-  border-color: #2a2a2f !important;
   border-radius: 0 !important;
 }
 
-/* List items */
 wui-list-item {
-  background: #0a0a0c !important;
   border-radius: 0 !important;
-}
-
-wui-list-item:hover {
-  background: #111111 !important;
 }
