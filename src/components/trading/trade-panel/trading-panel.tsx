@@ -470,13 +470,13 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
           className={cn(
             'flex-1 px-3 py-3.5 text-sm font-normal transition-all relative',
             activeTab === 'market'
-              ? 'text-[#16DE93]'
+              ? 'text-[#16DE93] bg-gradient-to-r from-[#164131] to-[#164131]'
               : 'text-white/70 hover:text-white'
           )}
         >
           Market
           {activeTab === 'market' && (
-            <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-0.5 bg-gradient-to-r from-[#16DE93] to-[#16DE93] rounded-full" />
+            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#16DE93]" />
           )}
         </button>
         <button
@@ -487,13 +487,13 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
           className={cn(
             'flex-1 px-3 py-3.5 text-sm font-normal transition-all relative',
             activeTab === 'limit'
-              ? 'text-[#16DE93]'
+              ? 'text-[#16DE93] bg-gradient-to-r from-[#164131] to-[#164131]'
               : 'text-white/70 hover:text-white'
           )}
         >
           Limit
           {activeTab === 'limit' && (
-            <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-0.5 bg-gradient-to-r from-[#16DE93] to-[#16DE93] rounded-full" />
+            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#16DE93]" />
           )}
         </button>
         {/* Stop and Pro tabs - perps only */}
@@ -507,13 +507,13 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
               className={cn(
                 'flex-1 px-3 py-3.5 text-sm font-normal transition-all relative',
                 activeTab === 'stop'
-                  ? 'text-[#16DE93]'
+                  ? 'text-[#16DE93] bg-gradient-to-r from-[#164131] to-[#164131]'
                   : 'text-white/70 hover:text-white'
               )}
             >
               Stop
               {activeTab === 'stop' && (
-                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-0.5 bg-gradient-to-r from-[#16DE93] to-[#16DE93] rounded-full" />
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#16DE93]" />
               )}
             </button>
             <div className="relative flex-1">
@@ -525,20 +525,20 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                 className={cn(
                   'w-full px-4 py-3.5 text-sm font-normal transition-all flex items-center justify-center gap-1 relative',
                   activeTab === 'pro'
-                    ? 'text-[#16DE93]'
+                    ? 'text-[#16DE93] bg-gradient-to-r from-[#164131] to-[#164131]'
                     : 'text-white/70 hover:text-white'
                 )}
               >
                 {activeTab === 'pro' ? (selectedProOption === 'scale' ? 'Scale' : 'TWAP') : 'Pro'}
                 <ChevronDown className="w-4 h-4" />
                 {activeTab === 'pro' && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-0.5 bg-gradient-to-r from-[#16DE93] to-[#16DE93] rounded-full" />
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#16DE93]" />
                 )}
               </button>
 
               {/* Pro Dropdown */}
               {showProDropdown && (
-                <div className="absolute top-full right-0 mt-1 bg-[#0a0a0c] border border-[#1a1a1f] rounded-lg shadow-xl z-50 min-w-[120px] overflow-hidden">
+                <div className="absolute top-full right-0 mt-1 bg-[#0a0a0c] border border-[#1a1a1f]  shadow-xl z-50 min-w-[120px] overflow-hidden">
                   <button
                     onClick={() => {
                       setSelectedProOption('scale');
@@ -580,10 +580,10 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
               </svg>
             </div>
             <p className="text-white text-sm font-normal mb-1">Connect your wallet</p>
-            <p className="text-gray-500 text-xs mb-5">to start trading on Hyperliquid</p>
+            <p className="text-[#68686f] text-xs mb-5">to start trading on Hyperliquid</p>
             <button
               onClick={() => open()}
-              className="w-full max-w-[200px] py-2.5 rounded-lg font-normal text-sm bg-white hover:bg-gray-100 text-black transition-all"
+              className="w-full max-w-[200px] py-2.5  font-normal text-sm bg-white hover:bg-gray-100 text-black transition-all"
             >
               Connect Wallet
             </button>
@@ -591,17 +591,17 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
         ) : mounted && isConnected && !isAgentReady ? (
           /* Enable trading state - show only the button */
           <div className="flex-1 flex flex-col items-center justify-center px-4 py-12 text-center">
-            <div className="w-14 h-14 rounded-full bg-blue-500/10 flex items-center justify-center mb-4">
-              <svg className="w-7 h-7 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="w-14 h-14 rounded-full bg-[#16DE93]/10 flex items-center justify-center mb-4">
+              <svg className="w-7 h-7 text-[#16DE93]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
               </svg>
             </div>
             <p className="text-white text-sm font-normal mb-1">Enable Trading</p>
-            <p className="text-gray-500 text-xs mb-5">Approve a session agent to start trading</p>
+            <p className="text-[#68686f] text-xs mb-5">Approve a session agent to start trading</p>
             <button
               onClick={enableTrading}
               disabled={isAgentApproving}
-              className="w-full max-w-[200px] py-2.5 rounded-lg font-normal text-sm bg-white hover:bg-gray-100 text-black transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full max-w-[200px] py-2.5  font-normal text-sm bg-white hover:bg-gray-100 text-black transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isAgentApproving ? (
                 <span className="flex items-center justify-center gap-2">
@@ -620,11 +620,11 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
         <>
         <div className="p-3 sm:p-4 space-y-4 flex-1">
           {/* Buy/Sell Toggle */}
-          <div className="grid grid-cols-2 gap-1 p-1 bg-[#111111] rounded-lg">
+          <div className="grid grid-cols-2 gap-1 p-1 bg-[#111111] ">
             <button
               onClick={() => setOrderSide('buy')}
               className={cn(
-                'px-4 py-2.5 text-sm font-normal rounded-md transition-all',
+                'px-4 py-2.5 text-sm font-normal  transition-all',
                 orderSide === 'buy'
                   ? 'text-[#16DE93]'
                   : 'text-[#56565B] hover:text-[#16DE93]'
@@ -635,7 +635,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
             <button
               onClick={() => setOrderSide('sell')}
               className={cn(
-                'px-4 py-2.5 text-sm font-normal rounded-md transition-all',
+                'px-4 py-2.5 text-sm font-normal  transition-all',
                 orderSide === 'sell'
                   ? 'text-[#f6465d]'
                   : 'text-[#56565B] hover:text-[#f6465d]'
@@ -649,7 +649,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
           <div className="flex items-center justify-between text-xs px-1">
             <button
               onClick={() => setShowTransferModal(true)}
-              className="text-gray-500 hover:text-[#16DE93] transition-colors flex items-center gap-1"
+              className="text-[#68686f] hover:text-[#16DE93] transition-colors flex items-center gap-1"
             >
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
@@ -657,23 +657,23 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
               Available
             </button>
             <span className="text-white font-normal">
-              {availableBalance} <span className="text-gray-500">USDC</span>
+              {availableBalance} <span className="text-[#68686f]">USDC</span>
             </span>
           </div>
 
           {/* Deposit Banner - shown when total balance is 0 */}
           {mounted && isConnected && totalAvailableUsdc === 0 && (
-            <div className="bg-[#16DE93]/10 border border-[#16DE93]/30 rounded-lg p-3">
+            <div className="bg-[#16DE93]/10 border border-[#16DE93]/30  p-3">
               <div className="flex items-center gap-2 mb-2">
                 <svg className="w-4 h-4 text-[#16DE93] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <span className="text-xs text-[#16DE93] font-normal">No balance detected</span>
               </div>
-              <p className="text-[11px] text-gray-400 mb-3">Deposit USDC from Arbitrum to start trading on Hyperliquid.</p>
+              <p className="text-[11px] text-white mb-3">Deposit USDC from Arbitrum to start trading on Hyperliquid.</p>
               <button
                 onClick={() => setShowDepositModal(true)}
-                className="w-full py-2 bg-gradient-to-r from-[#16DE93] to-[#16DE93] hover:from-[#16DE93] hover:to-[#16DE93] text-white rounded-lg text-xs font-normal transition-all flex items-center justify-center gap-1.5"
+                className="w-full py-2 bg-gradient-to-r from-[#16DE93] to-[#16DE93] hover:from-[#16DE93] hover:to-[#16DE93] text-white  text-xs font-normal transition-all flex items-center justify-center gap-1.5"
               >
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -691,12 +691,12 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
             <>
               {/* Stop Order Type Toggle */}
               <div>
-                <label className="text-xs text-gray-500 font-normal mb-2 block px-1">Order Type</label>
-                <div className="grid grid-cols-2 gap-1 p-1 bg-[#111111] rounded-lg">
+                <label className="text-xs text-[#68686f] font-normal mb-2 block px-1">Order Type</label>
+                <div className="grid grid-cols-2 gap-1 p-1 bg-[#111111] ">
                   <button
                     onClick={() => setStopOrderType('stop-market')}
                     className={cn(
-                      'px-3 py-2 text-xs font-normal rounded-md transition-all',
+                      'px-3 py-2 text-xs font-normal  transition-all',
                       stopOrderType === 'stop-market'
                         ? 'bg-[#16DE93]/20 text-[#16DE93] border border-[#16DE93]/50'
                         : 'text-white/70 hover:text-white'
@@ -707,7 +707,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                   <button
                     onClick={() => setStopOrderType('stop-limit')}
                     className={cn(
-                      'px-3 py-2 text-xs font-normal rounded-md transition-all',
+                      'px-3 py-2 text-xs font-normal  transition-all',
                       stopOrderType === 'stop-limit'
                         ? 'bg-[#16DE93]/20 text-[#16DE93] border border-[#16DE93]/50'
                         : 'text-white/70 hover:text-white'
@@ -721,7 +721,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
               {/* Trigger Price */}
               <div>
                 <div className="flex items-center justify-between mb-2 px-1">
-                  <label className="text-xs text-gray-500 font-normal">Trigger Price</label>
+                  <label className="text-xs text-[#68686f] font-normal">Trigger Price</label>
                   <button
                     onClick={() => currentPrice && setTriggerPrice(currentPrice.toString())}
                     className="text-xs text-[#16DE93] hover:text-[#16DE93] font-normal transition-colors"
@@ -736,9 +736,9 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                     onChange={(e) => setTriggerPrice(e.target.value)}
                     placeholder={currentPrice?.toString() || '0'}
                     step="0.01"
-                    className="w-full px-4 py-3 bg-[#111111] border border-[#1a1a1f] rounded-lg text-white text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 focus:ring-1 focus:ring-[#16DE93]/20 transition-all"
+                    className="w-full px-4 py-3 bg-[#111111] border border-[#1a1a1f]  text-white text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 focus:ring-1 focus:ring-[#16DE93]/20 transition-all"
                   />
-                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-500 font-normal">USDC</span>
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-[#68686f] font-normal">USDC</span>
                 </div>
                 <p className="text-[10px] text-gray-600 mt-1.5 px-1">
                   Triggers when price {orderSide === 'buy' ? 'rises above' : 'falls below'} this level
@@ -749,7 +749,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
               {stopOrderType === 'stop-limit' && (
                 <div>
                   <div className="flex items-center justify-between mb-2 px-1">
-                    <label className="text-xs text-gray-500 font-normal">Limit Price</label>
+                    <label className="text-xs text-[#68686f] font-normal">Limit Price</label>
                     <button
                       onClick={() => currentPrice && setPrice(currentPrice.toString())}
                       className="text-xs text-[#16DE93] hover:text-[#16DE93] font-normal transition-colors"
@@ -764,9 +764,9 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                       onChange={(e) => setPrice(e.target.value)}
                       placeholder={currentPrice?.toString() || '0'}
                       step="0.01"
-                      className="w-full px-4 py-3 bg-[#111111] border border-[#1a1a1f] rounded-lg text-white text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 focus:ring-1 focus:ring-[#16DE93]/20 transition-all"
+                      className="w-full px-4 py-3 bg-[#111111] border border-[#1a1a1f]  text-white text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 focus:ring-1 focus:ring-[#16DE93]/20 transition-all"
                     />
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-500 font-normal">USDC</span>
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-[#68686f] font-normal">USDC</span>
                   </div>
                   <p className="text-[10px] text-gray-600 mt-1.5 px-1">
                     Limit order placed at this price when triggered
@@ -780,7 +780,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
           {activeTab === 'pro' && selectedProOption === 'twap' && (
             <>
               <div>
-                <label className="text-xs text-gray-500 font-normal mb-2 block px-1">Duration (5m - 24h)</label>
+                <label className="text-xs text-[#68686f] font-normal mb-2 block px-1">Duration (5m - 24h)</label>
                 <div className="grid grid-cols-2 gap-2">
                   <div className="relative">
                     <input
@@ -790,9 +790,9 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                       placeholder="0"
                       min="0"
                       max="24"
-                      className="w-full px-4 py-3 bg-[#111111] border border-[#1a1a1f] rounded-lg text-white text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 focus:ring-1 focus:ring-[#16DE93]/20 transition-all"
+                      className="w-full px-4 py-3 bg-[#111111] border border-[#1a1a1f]  text-white text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 focus:ring-1 focus:ring-[#16DE93]/20 transition-all"
                     />
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-500">hrs</span>
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-[#68686f]">hrs</span>
                   </div>
                   <div className="relative">
                     <input
@@ -802,15 +802,15 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                       placeholder="30"
                       min="0"
                       max="59"
-                      className="w-full px-4 py-3 bg-[#111111] border border-[#1a1a1f] rounded-lg text-white text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 focus:ring-1 focus:ring-[#16DE93]/20 transition-all"
+                      className="w-full px-4 py-3 bg-[#111111] border border-[#1a1a1f]  text-white text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 focus:ring-1 focus:ring-[#16DE93]/20 transition-all"
                     />
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-500">min</span>
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-[#68686f]">min</span>
                   </div>
                 </div>
               </div>
               <label className="flex items-center gap-2.5 cursor-pointer group px-1">
                 <div className={cn(
-                  "w-4 h-4 rounded border-2 flex items-center justify-center transition-all",
+                  "w-4 h-4 border-2 flex items-center justify-center transition-all",
                   twapRandomize ? "bg-[#16DE93] border-[#16DE93]" : "border-gray-600 group-hover:border-gray-500"
                 )}>
                   {twapRandomize && (
@@ -825,7 +825,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                   onChange={(e) => setTwapRandomize(e.target.checked)}
                   className="sr-only"
                 />
-                <span className="text-xs text-gray-400 group-hover:text-gray-300 transition-colors">Randomize execution timing</span>
+                <span className="text-xs text-white group-hover:text-white transition-colors">Randomize execution timing</span>
               </label>
 
               {/* TWAP Progress Indicator */}
@@ -844,7 +844,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
             <>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs text-gray-500 font-normal mb-2 block px-1">Start Price</label>
+                  <label className="text-xs text-[#68686f] font-normal mb-2 block px-1">Start Price</label>
                   <div className="relative">
                     <input
                       type="number"
@@ -852,13 +852,13 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                       onChange={(e) => setScaleStartPrice(e.target.value)}
                       placeholder="0"
                       step="0.01"
-                      className="w-full px-4 py-3 bg-[#111111] border border-[#1a1a1f] rounded-lg text-white text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 focus:ring-1 focus:ring-[#16DE93]/20 transition-all"
+                      className="w-full px-4 py-3 bg-[#111111] border border-[#1a1a1f]  text-white text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 focus:ring-1 focus:ring-[#16DE93]/20 transition-all"
                     />
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] text-gray-500">USD</span>
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] text-[#68686f]">USD</span>
                   </div>
                 </div>
                 <div>
-                  <label className="text-xs text-gray-500 font-normal mb-2 block px-1">End Price</label>
+                  <label className="text-xs text-[#68686f] font-normal mb-2 block px-1">End Price</label>
                   <div className="relative">
                     <input
                       type="number"
@@ -866,15 +866,15 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                       onChange={(e) => setScaleEndPrice(e.target.value)}
                       placeholder="0"
                       step="0.01"
-                      className="w-full px-4 py-3 bg-[#111111] border border-[#1a1a1f] rounded-lg text-white text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 focus:ring-1 focus:ring-[#16DE93]/20 transition-all"
+                      className="w-full px-4 py-3 bg-[#111111] border border-[#1a1a1f]  text-white text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 focus:ring-1 focus:ring-[#16DE93]/20 transition-all"
                     />
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] text-gray-500">USD</span>
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] text-[#68686f]">USD</span>
                   </div>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs text-gray-500 font-normal mb-2 block px-1">Orders (2-10)</label>
+                  <label className="text-xs text-[#68686f] font-normal mb-2 block px-1">Orders (2-10)</label>
                   <input
                     type="number"
                     value={scaleTotalOrders}
@@ -882,18 +882,18 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                     placeholder="5"
                     min="2"
                     max="10"
-                    className="w-full px-4 py-3 bg-[#111111] border border-[#1a1a1f] rounded-lg text-white text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 focus:ring-1 focus:ring-[#16DE93]/20 transition-all"
+                    className="w-full px-4 py-3 bg-[#111111] border border-[#1a1a1f]  text-white text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 focus:ring-1 focus:ring-[#16DE93]/20 transition-all"
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-gray-500 font-normal mb-2 block px-1">Size Skew</label>
+                  <label className="text-xs text-[#68686f] font-normal mb-2 block px-1">Size Skew</label>
                   <input
                     type="number"
                     value={scaleSizeSkew}
                     onChange={(e) => setScaleSizeSkew(e.target.value)}
                     placeholder="1.00"
                     step="0.1"
-                    className="w-full px-4 py-3 bg-[#111111] border border-[#1a1a1f] rounded-lg text-white text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 focus:ring-1 focus:ring-[#16DE93]/20 transition-all"
+                    className="w-full px-4 py-3 bg-[#111111] border border-[#1a1a1f]  text-white text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 focus:ring-1 focus:ring-[#16DE93]/20 transition-all"
                   />
                 </div>
               </div>
@@ -916,7 +916,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
           {activeTab === 'limit' && (
             <div>
               <div className="flex items-center justify-between mb-2 px-1">
-                <label className="text-xs text-gray-500 font-normal">Price</label>
+                <label className="text-xs text-[#68686f] font-normal">Price</label>
                 <button
                   onClick={() => currentPrice && setPrice(currentPrice.toString())}
                   className="text-xs text-[#16DE93] hover:text-[#16DE93] font-normal transition-colors"
@@ -931,9 +931,9 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                   placeholder={currentPrice?.toString() || '0'}
-                  className="w-full px-4 py-3 bg-[#111111] border border-[#1a1a1f] rounded-lg text-white text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 focus:ring-1 focus:ring-[#16DE93]/20 transition-all"
+                  className="w-full px-4 py-3 bg-[#111111] border border-[#1a1a1f]  text-white text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 focus:ring-1 focus:ring-[#16DE93]/20 transition-all"
                 />
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-500 font-normal">USDC</span>
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-[#68686f] font-normal">USDC</span>
               </div>
             </div>
           )}
@@ -941,7 +941,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
           {/* Size Input */}
           <div>
             <div className="flex items-center justify-between mb-2 px-1">
-              <label className="text-xs text-gray-500 font-normal">Size</label>
+              <label className="text-xs text-[#68686f] font-normal">Size</label>
             </div>
             <div className="relative">
               <input
@@ -950,19 +950,19 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                 value={size}
                 onChange={(e) => setSize(e.target.value)}
                 placeholder="0.00"
-                className="w-full px-4 py-3 pr-24 bg-[#111111] border border-[#1a1a1f] rounded-lg text-white text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 focus:ring-1 focus:ring-[#16DE93]/20 transition-all"
+                className="w-full px-4 py-3 pr-24 bg-[#111111] border border-[#1a1a1f]  text-white text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 focus:ring-1 focus:ring-[#16DE93]/20 transition-all"
               />
               <div className="absolute right-2 top-1/2 -translate-y-1/2">
                 <button
                   type="button"
                   onClick={() => setShowSizeDropdown(!showSizeDropdown)}
-                  className="flex items-center gap-1 bg-[#0a0a0c] text-gray-300 text-xs px-2.5 py-1.5 rounded-md border border-[#1a1a1f] hover:border-gray-500 hover:text-white focus:outline-none transition-all"
+                  className="flex items-center gap-1 bg-[#0a0a0c] text-white text-xs px-2.5 py-1.5  border border-[#1a1a1f] hover:border-gray-500 hover:text-white focus:outline-none transition-all"
                 >
                   <span className="font-normal">{sizeDenomination === 'crypto' ? symbol.replace('-USD', '').replace('/USD', '') : 'USDC'}</span>
                   <ChevronDown className={cn("w-3 h-3 transition-transform", showSizeDropdown && "rotate-180")} />
                 </button>
                 {showSizeDropdown && (
-                  <div className="absolute top-full right-0 mt-1 bg-[#0a0a0c] border border-[#1a1a1f] rounded-lg shadow-xl z-50 min-w-[80px] overflow-hidden">
+                  <div className="absolute top-full right-0 mt-1 bg-[#0a0a0c] border border-[#1a1a1f]  shadow-xl z-50 min-w-[80px] overflow-hidden">
                     <button
                       type="button"
                       onClick={() => {
@@ -971,7 +971,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                       }}
                       className={cn(
                         "w-full px-3 py-2 text-xs text-left transition-colors font-normal",
-                        sizeDenomination === 'crypto' ? 'bg-[#16DE93]/10 text-[#16DE93]' : 'text-gray-300 hover:bg-gray-700/50 hover:text-white'
+                        sizeDenomination === 'crypto' ? 'bg-[#16DE93]/10 text-[#16DE93]' : 'text-white hover:bg-gray-700/50 hover:text-white'
                       )}
                     >
                       {symbol.replace('-USD', '').replace('/USD', '')}
@@ -984,7 +984,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                       }}
                       className={cn(
                         "w-full px-3 py-2 text-xs text-left transition-colors font-normal",
-                        sizeDenomination === 'usdc' ? 'bg-[#16DE93]/10 text-[#16DE93]' : 'text-gray-300 hover:bg-gray-700/50 hover:text-white'
+                        sizeDenomination === 'usdc' ? 'bg-[#16DE93]/10 text-[#16DE93]' : 'text-white hover:bg-gray-700/50 hover:text-white'
                       )}
                     >
                       USDC
@@ -1004,10 +1004,10 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                   key={pct}
                   onClick={() => handlePercentageChange(pct)}
                   className={cn(
-                    "px-2 py-2 text-xs font-normal rounded-md transition-all",
+                    "px-2 py-2 text-xs font-normal  transition-all",
                     sizePercentage === pct
                       ? "bg-[#16DE93]/20 text-[#16DE93] border border-[#16DE93]/50"
-                      : "bg-[#111111] text-gray-500 border border-[#1a1a1f] hover:text-white hover:border-gray-600"
+                      : "bg-[#111111] text-[#68686f] border border-[#1a1a1f] hover:text-white hover:border-gray-600"
                   )}
                 >
                   {pct}%
@@ -1040,7 +1040,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                   style={{ left: `calc(${isNaN(sizePercentage) ? 0 : sizePercentage}% - 7px)` }}
                 />
               </div>
-              <div className="flex items-center bg-[#111111] border border-[#1a1a1f] rounded-md overflow-hidden">
+              <div className="flex items-center bg-[#111111] border border-[#1a1a1f]  overflow-hidden">
                 <input
                   type="number"
                   value={isNaN(sizePercentage) ? 0 : Math.round(sizePercentage)}
@@ -1049,7 +1049,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                   min="0"
                   max="100"
                 />
-                <span className="pr-2 text-xs text-gray-500">%</span>
+                <span className="pr-2 text-xs text-[#68686f]">%</span>
               </div>
             </div>
           </div>
@@ -1058,7 +1058,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
           {!isSpot && (
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs text-gray-500 font-normal">Leverage</span>
+                <span className="text-xs text-[#68686f] font-normal">Leverage</span>
                 <div className="flex items-center gap-2">
                   {/* Cross/Isolated Toggle */}
                   <button
@@ -1071,7 +1071,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                       });
                     }}
                     className={cn(
-                      'px-2.5 py-1 text-xs font-normal rounded-md border transition-all',
+                      'px-2.5 py-1 text-xs font-normal  border transition-all',
                       isCrossMargin
                         ? 'border-purple-500/50 text-purple-400 bg-purple-500/10 hover:bg-purple-500/20'
                         : 'border-amber-500/50 text-amber-400 bg-amber-500/10 hover:bg-amber-500/20'
@@ -1112,13 +1112,13 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                       }}
                       min="1"
                       max="50"
-                      className="w-14 px-2 py-1 bg-[#111111] border border-[#16DE93]/50 rounded-md text-white text-xs font-normal text-center focus:outline-none focus:ring-1 focus:ring-[#16DE93]/30"
+                      className="w-14 px-2 py-1 bg-[#111111] border border-[#16DE93]/50 shadow-[inset_0_0.5px_8px_rgba(22,222,147,0.15)] text-white text-xs font-normal text-center focus:outline-none focus:ring-1 focus:ring-[#16DE93]/30"
                       autoFocus
                     />
                   ) : (
                     <button
                       onClick={() => setShowLeverageInput(true)}
-                      className="px-3 py-1 text-xs font-normal text-[#16DE93] bg-[#16DE93]/10 hover:bg-[#16DE93]/20 border border-[#16DE93]/30 rounded-md transition-all"
+                      className="px-3 py-1 text-xs font-normal text-[#16DE93] bg-[#16DE93]/10 hover:bg-[#16DE93]/20 border border-[#16DE93]/30 shadow-[inset_0_0.5px_8px_rgba(22,222,147,0.15)] transition-all"
                       disabled={isUpdatingLeverage}
                     >
                       {leverage}x
@@ -1141,10 +1141,10 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                       });
                     }}
                     className={cn(
-                      'py-1.5 text-xs font-normal rounded-md transition-all',
+                      'py-1.5 text-xs font-normal  transition-all',
                       leverage === lev
-                        ? 'bg-[#16DE93]/20 text-[#16DE93] border border-[#16DE93]/50'
-                        : 'bg-[#111111] text-gray-500 border border-[#1a1a1f] hover:text-white hover:border-gray-600'
+                        ? 'bg-[#16DE93]/20 text-[#16DE93] border border-[#16DE93]/50 shadow-[inset_0_0.5px_8px_rgba(22,222,147,0.15)]'
+                        : 'bg-[#111111] text-[#68686f] border border-[#1a1a1f] hover:text-white hover:border-gray-600'
                     )}
                     disabled={isUpdatingLeverage}
                   >
@@ -1159,17 +1159,17 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
           {activeTab === 'limit' && (
             <div className="relative">
               <div className="flex items-center justify-between mb-2 px-1">
-                <label className="text-xs text-gray-500 font-normal">Time in Force</label>
+                <label className="text-xs text-[#68686f] font-normal">Time in Force</label>
               </div>
               <button
                 onClick={() => setShowTifDropdown(!showTifDropdown)}
-                className="w-full px-4 py-3 bg-[#111111] border border-[#1a1a1f] rounded-lg text-white text-sm font-normal text-left flex items-center justify-between hover:border-gray-600 transition-all"
+                className="w-full px-4 py-3 bg-[#111111] border border-[#1a1a1f]  text-white text-sm font-normal text-left flex items-center justify-between hover:border-gray-600 transition-all"
               >
                 <span>{timeInForce === 'GTC' ? 'Good Till Cancel' : timeInForce === 'IOC' ? 'Immediate or Cancel' : 'Add Liquidity Only'}</span>
-                <ChevronDown className={cn("w-4 h-4 text-gray-400 transition-transform", showTifDropdown && "rotate-180")} />
+                <ChevronDown className={cn("w-4 h-4 text-white transition-transform", showTifDropdown && "rotate-180")} />
               </button>
               {showTifDropdown && (
-                <div className="absolute top-full left-0 right-0 mt-1 bg-[#0a0a0c] border border-[#1a1a1f] rounded-lg shadow-xl z-50 overflow-hidden">
+                <div className="absolute top-full left-0 right-0 mt-1 bg-[#0a0a0c] border border-[#1a1a1f]  shadow-xl z-50 overflow-hidden">
                   {[
                     { value: 'GTC', label: 'Good Till Cancel', desc: 'Order remains until filled or cancelled' },
                     { value: 'IOC', label: 'Immediate or Cancel', desc: 'Fill immediately or cancel' },
@@ -1189,7 +1189,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                       <div className={cn("text-sm font-normal", timeInForce === option.value ? 'text-[#16DE93]' : 'text-white')}>
                         {option.label}
                       </div>
-                      <div className="text-xs text-gray-500 mt-0.5">{option.desc}</div>
+                      <div className="text-xs text-[#68686f] mt-0.5">{option.desc}</div>
                     </button>
                   ))}
                 </div>
@@ -1203,7 +1203,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
             {!isSpot && (
               <label className="flex items-center gap-2 cursor-pointer group">
                 <div className={cn(
-                  "w-4 h-4 rounded border-2 flex items-center justify-center transition-all",
+                  "w-4 h-4 border-2 flex items-center justify-center transition-all",
                   reduceOnly ? "bg-[#16DE93] border-[#16DE93]" : "border-gray-600 group-hover:border-gray-500"
                 )}>
                   {reduceOnly && (
@@ -1218,7 +1218,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                   onChange={(e) => setReduceOnly(e.target.checked)}
                   className="sr-only"
                 />
-                <span className="text-xs text-gray-400 group-hover:text-gray-300 transition-colors">Reduce Only</span>
+                <span className="text-xs text-white group-hover:text-white transition-colors">Reduce Only</span>
               </label>
             )}
 
@@ -1226,7 +1226,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
             {activeTab === 'limit' && (
               <label className="flex items-center gap-2 cursor-pointer group">
                 <div className={cn(
-                  "w-4 h-4 rounded border-2 flex items-center justify-center transition-all",
+                  "w-4 h-4 border-2 flex items-center justify-center transition-all",
                   postOnly ? "bg-[#16DE93] border-[#16DE93]" : "border-gray-600 group-hover:border-gray-500"
                 )}>
                   {postOnly && (
@@ -1241,7 +1241,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                   onChange={(e) => setPostOnly(e.target.checked)}
                   className="sr-only"
                 />
-                <span className="text-xs text-gray-400 group-hover:text-gray-300 transition-colors">Post Only</span>
+                <span className="text-xs text-white group-hover:text-white transition-colors">Post Only</span>
               </label>
             )}
           </div>
@@ -1255,17 +1255,17 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
           {/* Order Summary */}
           <div className="px-4 py-3 bg-[#0a0a0a] space-y-2">
             <div className="flex items-center justify-between text-xs">
-              <span className="text-gray-500">Order Value</span>
+              <span className="text-[#68686f]">Order Value</span>
               <span className="text-white font-normal">{orderValue}</span>
             </div>
             <div className="flex items-center justify-between text-xs">
-              <span className="text-gray-500">Est. Fees</span>
-              <span className="text-gray-400">{activeTab === 'limit' ? makerFee : takerFee}</span>
+              <span className="text-[#68686f]">Est. Fees</span>
+              <span className="text-white">{activeTab === 'limit' ? makerFee : takerFee}</span>
             </div>
             {activeTab === 'market' && (
               <div className="flex items-center justify-between text-xs">
-                <span className="text-gray-500">Max Slippage</span>
-                <span className="text-gray-400">{slippageMax}</span>
+                <span className="text-[#68686f]">Max Slippage</span>
+                <span className="text-white">{slippageMax}</span>
               </div>
             )}
           </div>
@@ -1276,10 +1276,10 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
               onClick={handlePlaceOrder}
               disabled={isPlacing || isPlacingSpot || isTwapPlacing || isScalePlacing || isFormInvalid()}
               className={cn(
-                'w-full py-2.5 rounded-xl font-normal transition-all text-sm shadow-lg',
+                'w-full py-3.5 text-xs font-normal transition-all',
                 orderSide === 'buy'
-                  ? 'bg-gradient-to-r from-[#16DE93] to-[#16DE93] hover:from-[#16DE93] hover:to-[#16DE93] text-white shadow-[#16DE93]/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none'
-                  : 'bg-gradient-to-r from-[#f6465d] to-[#f6465d] hover:from-[#f6465d] hover:to-[#f6465d] text-white shadow-[#f6465d]/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none'
+                  ? 'bg-[#16DE93]/20 text-[#16DE93] border border-[#16DE93]/50 hover:bg-[#16DE93]/30 disabled:opacity-50 disabled:cursor-not-allowed'
+                  : 'bg-[#f6465d]/20 text-[#f6465d] border border-[#f6465d]/50 hover:bg-[#f6465d]/30 disabled:opacity-50 disabled:cursor-not-allowed'
               )}
             >
               {isPlacing || isPlacingSpot || isTwapPlacing || isScalePlacing ? (
@@ -1312,12 +1312,17 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                         toast.error('Failed to switch network. Please switch manually in your wallet.');
                       }
                     }}
-                    className="w-full py-2.5 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/50 text-blue-400 rounded-lg font-normal transition-all text-xs"
+                    className="w-full py-2.5 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/50 text-blue-400  font-normal transition-all text-xs"
                   >
                     Switch to Arbitrum
                   </button>
                 ) : (
-                  <p className="text-xs text-[#f6465d] text-center bg-[#f6465d]/10 py-2 px-3 rounded-lg border border-[#f6465d]/20">{getValidationError()}</p>
+                  <div className="flex items-center justify-center gap-2 text-xs text-[#f6465d] bg-[#f6465d]/10 py-2 px-3 border border-[#f6465d]/20">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#f6465d] shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                    <span>{getValidationError()}</span>
+                  </div>
                 )}
               </div>
             )}
@@ -1328,7 +1333,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
         <div className="px-4 py-4 space-y-2">
           <button
             onClick={() => setShowDepositModal(true)}
-            className="w-full py-2.5 bg-[#111111] border border-[#1a1a1f] hover:border-gray-600 text-gray-300 hover:text-white rounded-lg font-normal transition-all text-xs flex items-center justify-center gap-2"
+            className="w-full py-2.5 bg-[#111111] border border-[#1a1a1f] hover:border-gray-600 text-white hover:text-white  font-normal transition-all text-xs flex items-center justify-center gap-2"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -1339,7 +1344,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
           <div className="grid grid-cols-2 gap-2">
             <button
               onClick={() => setShowTransferModal(true)}
-              className="py-2.5 bg-[#111111] border border-[#1a1a1f] hover:border-gray-600 text-gray-300 hover:text-white rounded-lg text-xs font-normal transition-all flex items-center justify-center gap-1.5"
+              className="py-2.5 bg-[#111111] border border-[#1a1a1f] hover:border-gray-600 text-white hover:text-white  text-xs font-normal transition-all flex items-center justify-center gap-1.5"
             >
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
@@ -1348,7 +1353,7 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
             </button>
             <button
               onClick={() => setShowWithdrawModal(true)}
-              className="py-2.5 bg-[#111111] border border-[#1a1a1f] hover:border-gray-600 text-gray-300 hover:text-white rounded-lg text-xs font-normal transition-all flex items-center justify-center gap-1.5"
+              className="py-2.5 bg-[#111111] border border-[#1a1a1f] hover:border-gray-600 text-white hover:text-white  text-xs font-normal transition-all flex items-center justify-center gap-1.5"
             >
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19V5m0 14l-4-4m4 4l4-4" />
@@ -1361,16 +1366,16 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
         {/* Account Overview */}
         <div className="px-4 py-4 border-t border-[#1a1a1f] bg-[#0a0a0a]">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-xs font-normal text-gray-400 uppercase tracking-wider">Account</h3>
+            <h3 className="text-xs font-normal text-white uppercase tracking-wider">Account</h3>
             <div className="flex items-center gap-3 text-xs">
               <div className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-[#16DE93]"></span>
-                <span className="text-gray-500">Spot</span>
+                <span className="text-[#68686f]">Spot</span>
                 <span className="text-white font-normal">${balance?.spot || '0.00'}</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-purple-400"></span>
-                <span className="text-gray-500">Perps</span>
+                <span className="text-[#68686f]">Perps</span>
                 <span className="text-white font-normal">${balance?.perps || '0.00'}</span>
               </div>
             </div>
@@ -1379,12 +1384,12 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
           {/* Perps Details - only for perps */}
           {!isSpot && (
             <div className="space-y-2 text-xs">
-              <div className="flex items-center justify-between py-2 px-3 bg-[#0a0e13] rounded-lg">
-                <span className="text-gray-500">Account Value</span>
+              <div className="flex items-center justify-between py-2 px-3 bg-[#0a0e13] ">
+                <span className="text-[#68686f]">Account Value</span>
                 <span className="text-white font-normal">${fullBalance?.accountValue.toFixed(2) || '0.00'}</span>
               </div>
-              <div className="flex items-center justify-between py-2 px-3 bg-[#0a0e13] rounded-lg">
-                <span className="text-gray-500">Unrealized PNL</span>
+              <div className="flex items-center justify-between py-2 px-3 bg-[#0a0e13] ">
+                <span className="text-[#68686f]">Unrealized PNL</span>
                 <span className={cn(
                   "font-normal",
                   fullBalance && fullBalance.totalNtlPos > 0 ? 'text-[#16DE93]' : fullBalance && fullBalance.totalNtlPos < 0 ? 'text-[#f6465d]' : 'text-white'
@@ -1393,16 +1398,16 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
                 </span>
               </div>
               <div className="grid grid-cols-2 gap-2">
-                <div className="py-2 px-3 bg-[#0a0e13] rounded-lg">
-                  <div className="text-gray-500 text-[10px] mb-0.5">Margin Ratio</div>
+                <div className="py-2 px-3 bg-[#0a0e13] ">
+                  <div className="text-[#68686f] text-[10px] mb-0.5">Margin Ratio</div>
                   <div className="text-white font-normal">
                     {fullBalance && fullBalance.accountValue > 0
                       ? ((fullBalance.totalMarginUsed / fullBalance.accountValue) * 100).toFixed(2)
                       : '0.00'}%
                   </div>
                 </div>
-                <div className="py-2 px-3 bg-[#0a0e13] rounded-lg">
-                  <div className="text-gray-500 text-[10px] mb-0.5">Maint. Margin</div>
+                <div className="py-2 px-3 bg-[#0a0e13] ">
+                  <div className="text-[#68686f] text-[10px] mb-0.5">Maint. Margin</div>
                   <div className="text-white font-normal">${fullBalance?.totalMarginUsed.toFixed(2) || '0.00'}</div>
                 </div>
               </div>
@@ -1411,9 +1416,9 @@ export function TradingPanel({ symbol, currentPrice }: TradingPanelProps) {
 
           {/* Spot Details - only for spot */}
           {isSpot && (
-            <div className="py-2 px-3 bg-[#0a0e13] rounded-lg">
+            <div className="py-2 px-3 bg-[#0a0e13] ">
               <div className="flex items-center justify-between text-xs">
-                <span className="text-gray-500">Available USDC</span>
+                <span className="text-[#68686f]">Available USDC</span>
                 <span className="text-white font-normal">${spotAvailableUsdc.toFixed(2)}</span>
               </div>
             </div>
@@ -1524,12 +1529,12 @@ function DepositModal({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4" onClick={onClose}>
-      <div className="bg-[#0a0a0c] border border-gray-800 w-full max-w-md relative animate-in fade-in zoom-in-95 duration-200" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-[#0a0a0c] border border-[#2a2a2f] w-full max-w-md relative animate-in fade-in zoom-in-95 duration-200" onClick={(e) => e.stopPropagation()}>
         {/* Close Button */}
         <button
           onClick={onClose}
           disabled={isDepositing}
-          className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-gray-500 hover:text-white hover:bg-white/10 transition-colors disabled:opacity-50"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-[#68686f] hover:text-white hover:bg-white/10 transition-colors disabled:opacity-50"
         >
           <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -1547,7 +1552,7 @@ function DepositModal({ onClose }: { onClose: () => void }) {
             <h2 className="text-lg sm:text-xl font-normal text-white">
               {isTestnet ? 'Get Testnet USDC' : 'Deposit USDC'}
             </h2>
-            <p className="text-gray-500 text-xs sm:text-sm mt-1">
+            <p className="text-[#68686f] text-xs sm:text-sm mt-1">
               {isTestnet ? 'Practice trading with test funds' : 'From Arbitrum network'}
             </p>
             {isTestnet && (
@@ -1561,7 +1566,7 @@ function DepositModal({ onClose }: { onClose: () => void }) {
           {isTestnet && (
             <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-amber-500/5 border border-amber-500/20">
               <h3 className="text-xs sm:text-sm font-normal text-amber-400 mb-2">Get Free Test USDC</h3>
-              <p className="text-[10px] sm:text-xs text-gray-400 mb-3 sm:mb-4">
+              <p className="text-[10px] sm:text-xs text-white mb-3 sm:mb-4">
                 Request free testnet USDC to practice trading without real funds.
               </p>
               <button
@@ -1571,7 +1576,7 @@ function DepositModal({ onClose }: { onClose: () => void }) {
               >
                 {isRequestingFaucet ? 'Requesting...' : 'Request 10,000 Test USDC'}
               </button>
-              <p className="text-[10px] sm:text-xs text-gray-500 mt-2 sm:mt-3 text-center">
+              <p className="text-[10px] sm:text-xs text-[#68686f] mt-2 sm:mt-3 text-center">
                 Or visit{' '}
                 <a
                   href={process.env.NEXT_PUBLIC_HYPERLIQUID_TESTNET_APP || 'https://app.hyperliquid-testnet.xyz'}
@@ -1591,15 +1596,15 @@ function DepositModal({ onClose }: { onClose: () => void }) {
               {/* Asset & Chain */}
               <div className="grid grid-cols-2 gap-2 sm:gap-3">
                 <div>
-                  <label className="block text-[10px] sm:text-xs text-gray-500 font-normal mb-1.5 sm:mb-2">Asset</label>
-                  <div className="px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-gray-800 text-white text-xs sm:text-sm flex items-center gap-2">
+                  <label className="block text-[10px] sm:text-xs text-[#68686f] font-normal mb-1.5 sm:mb-2">Asset</label>
+                  <div className="px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-[#2a2a2f] text-white text-xs sm:text-sm flex items-center gap-2">
                     <span className="w-4 h-4 sm:w-5 sm:h-5 bg-blue-500 text-[8px] sm:text-[10px] font-normal flex items-center justify-center text-white">$</span>
                     USDC
                   </div>
                 </div>
                 <div>
-                  <label className="block text-[10px] sm:text-xs text-gray-500 font-normal mb-1.5 sm:mb-2">Chain</label>
-                  <div className="px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-gray-800 text-white text-xs sm:text-sm flex items-center gap-2">
+                  <label className="block text-[10px] sm:text-xs text-[#68686f] font-normal mb-1.5 sm:mb-2">Chain</label>
+                  <div className="px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-[#2a2a2f] text-white text-xs sm:text-sm flex items-center gap-2">
                     <span className="w-4 h-4 sm:w-5 sm:h-5 bg-blue-600 text-[8px] sm:text-[10px] flex items-center justify-center">A</span>
                     Arbitrum
                   </div>
@@ -1609,7 +1614,7 @@ function DepositModal({ onClose }: { onClose: () => void }) {
               {/* Amount */}
               <div>
                 <div className="flex items-center justify-between mb-1.5 sm:mb-2">
-                  <label className="text-[10px] sm:text-xs text-gray-500 font-normal">Amount</label>
+                  <label className="text-[10px] sm:text-xs text-[#68686f] font-normal">Amount</label>
                   <button
                     onClick={() => setAmount(maxAmount)}
                     className="text-[10px] sm:text-xs text-[#16DE93] hover:text-[#16DE93] font-normal transition-colors"
@@ -1623,7 +1628,7 @@ function DepositModal({ onClose }: { onClose: () => void }) {
                   onChange={(e) => setAmount(e.target.value)}
                   placeholder="0.00"
                   disabled={isDepositing}
-                  className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-gray-800 text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 disabled:opacity-50 placeholder-gray-600"
+                  className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-[#2a2a2f] text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 disabled:opacity-50 placeholder-gray-600"
                 />
 
                 {/* Quick Percentage Buttons */}
@@ -1633,7 +1638,7 @@ function DepositModal({ onClose }: { onClose: () => void }) {
                       key={pct}
                       onClick={() => handlePercentageClick(pct)}
                       disabled={isDepositing}
-                      className="py-1.5 sm:py-2 text-[10px] sm:text-xs font-normal bg-[#0a0a0a] border border-gray-800 text-gray-400 hover:text-white hover:border-gray-600 transition-colors disabled:opacity-50"
+                      className="py-1.5 sm:py-2 text-[10px] sm:text-xs font-normal bg-[#0a0a0a] border border-[#2a2a2f] text-white hover:text-white hover:border-gray-600 transition-colors disabled:opacity-50"
                     >
                       {pct}%
                     </button>
@@ -1658,7 +1663,7 @@ function DepositModal({ onClose }: { onClose: () => void }) {
               <button
                 onClick={handleDeposit}
                 disabled={!canDeposit}
-                className="w-full py-2.5 sm:py-3 bg-[#16DE93] hover:bg-[#16DE93] text-white font-normal text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed"
+                className="w-full py-2.5 sm:py-3 bg-[#16DE93] hover:bg-[#16DE93] text-white font-normal text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-[#68686f] disabled:cursor-not-allowed"
               >
                 {isDepositing ? (
                   <span className="flex items-center justify-center gap-2">
@@ -1719,11 +1724,11 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4" onClick={onClose}>
-      <div className="bg-[#0a0a0c] border border-gray-800 w-full max-w-md relative animate-in fade-in zoom-in-95 duration-200" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-[#0a0a0c] border border-[#2a2a2f] w-full max-w-md relative animate-in fade-in zoom-in-95 duration-200" onClick={(e) => e.stopPropagation()}>
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-gray-500 hover:text-white hover:bg-white/10 transition-colors"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-[#68686f] hover:text-white hover:bg-white/10 transition-colors"
         >
           <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -1739,7 +1744,7 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
               </svg>
             </div>
             <h2 className="text-lg sm:text-xl font-normal text-white">Withdraw USDC</h2>
-            <p className="text-gray-500 text-xs sm:text-sm mt-1 text-center">
+            <p className="text-[#68686f] text-xs sm:text-sm mt-1 text-center">
               To Arbitrum network • 1 USDC fee
             </p>
           </div>
@@ -1749,15 +1754,15 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
             {/* Asset & Chain */}
             <div className="grid grid-cols-2 gap-2 sm:gap-3">
               <div>
-                <label className="block text-[10px] sm:text-xs text-gray-500 font-normal mb-1.5 sm:mb-2">Asset</label>
-                <div className="px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-gray-800 text-white text-xs sm:text-sm flex items-center gap-2">
+                <label className="block text-[10px] sm:text-xs text-[#68686f] font-normal mb-1.5 sm:mb-2">Asset</label>
+                <div className="px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-[#2a2a2f] text-white text-xs sm:text-sm flex items-center gap-2">
                   <span className="w-4 h-4 sm:w-5 sm:h-5 bg-blue-500 text-[8px] sm:text-[10px] font-normal flex items-center justify-center text-white">$</span>
                   USDC
                 </div>
               </div>
               <div>
-                <label className="block text-[10px] sm:text-xs text-gray-500 font-normal mb-1.5 sm:mb-2">Chain</label>
-                <div className="px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-gray-800 text-white text-xs sm:text-sm flex items-center gap-2">
+                <label className="block text-[10px] sm:text-xs text-[#68686f] font-normal mb-1.5 sm:mb-2">Chain</label>
+                <div className="px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-[#2a2a2f] text-white text-xs sm:text-sm flex items-center gap-2">
                   <span className="w-4 h-4 sm:w-5 sm:h-5 bg-blue-600 text-[8px] sm:text-[10px] flex items-center justify-center">A</span>
                   Arbitrum
                 </div>
@@ -1766,19 +1771,19 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
 
             {/* Balance Breakdown */}
             {(spotUsdc > 0 || perpsWithdrawable > 0) && (
-              <div className="flex items-center justify-between px-3 py-2 bg-[#0a0a0a] border border-gray-800 text-[10px] sm:text-xs">
+              <div className="flex items-center justify-between px-3 py-2 bg-[#0a0a0a] border border-[#2a2a2f] text-[10px] sm:text-xs">
                 <div className="flex items-center gap-3">
-                  <span className="text-gray-500">Perps: <span className="text-white">${perpsWithdrawable.toFixed(2)}</span></span>
-                  <span className="text-gray-500">Spot: <span className="text-white">${spotUsdc.toFixed(2)}</span></span>
+                  <span className="text-[#68686f]">Perps: <span className="text-white">${perpsWithdrawable.toFixed(2)}</span></span>
+                  <span className="text-[#68686f]">Spot: <span className="text-white">${spotUsdc.toFixed(2)}</span></span>
                 </div>
-                <span className="text-gray-400">Total: <span className="text-white">${maxAmount}</span></span>
+                <span className="text-white">Total: <span className="text-white">${maxAmount}</span></span>
               </div>
             )}
 
             {/* Amount */}
             <div>
               <div className="flex items-center justify-between mb-1.5 sm:mb-2">
-                <label className="text-[10px] sm:text-xs text-gray-500 font-normal">Amount</label>
+                <label className="text-[10px] sm:text-xs text-[#68686f] font-normal">Amount</label>
                 <button
                   onClick={() => setAmount(maxAmount)}
                   className="text-[10px] sm:text-xs text-[#16DE93] hover:text-[#16DE93] font-normal transition-colors"
@@ -1791,7 +1796,7 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="0.00"
-                className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-gray-800 text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 placeholder-gray-600"
+                className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-[#2a2a2f] text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 placeholder-gray-600"
               />
 
               {/* Quick Percentage Buttons */}
@@ -1801,7 +1806,7 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
                     key={pct}
                     onClick={() => setAmount((totalAvailable * pct / 100).toFixed(2))}
                     disabled={isProcessing}
-                    className="py-1.5 sm:py-2 text-[10px] sm:text-xs font-normal bg-[#0a0a0a] border border-gray-800 text-gray-400 hover:text-white hover:border-gray-600 transition-colors disabled:opacity-50"
+                    className="py-1.5 sm:py-2 text-[10px] sm:text-xs font-normal bg-[#0a0a0a] border border-[#2a2a2f] text-white hover:text-white hover:border-gray-600 transition-colors disabled:opacity-50"
                   >
                     {pct}%
                   </button>
@@ -1813,7 +1818,7 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
             <button
               onClick={handleWithdraw}
               disabled={isProcessing || !amount || amountNum <= 0 || amountNum > totalAvailable}
-              className="w-full py-2.5 sm:py-3 bg-[#16DE93] hover:bg-[#16DE93] text-white font-normal text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed"
+              className="w-full py-2.5 sm:py-3 bg-[#16DE93] hover:bg-[#16DE93] text-white font-normal text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-[#68686f] disabled:cursor-not-allowed"
             >
               {isProcessing ? (
                 <span className="flex items-center justify-center gap-2">
@@ -1875,11 +1880,11 @@ function TransferModal({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4" onClick={onClose}>
-      <div className="bg-[#0a0a0c] border border-gray-800 w-full max-w-md relative animate-in fade-in zoom-in-95 duration-200" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-[#0a0a0c] border border-[#2a2a2f] w-full max-w-md relative animate-in fade-in zoom-in-95 duration-200" onClick={(e) => e.stopPropagation()}>
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-gray-500 hover:text-white hover:bg-white/10 transition-colors"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-[#68686f] hover:text-white hover:bg-white/10 transition-colors"
         >
           <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -1890,17 +1895,17 @@ function TransferModal({ onClose }: { onClose: () => void }) {
           {/* Header */}
           <div className="flex flex-col items-center mb-4 sm:mb-6">
             <h2 className="text-lg sm:text-xl font-normal text-white">Transfer USDC</h2>
-            <p className="text-gray-500 text-xs sm:text-sm mt-1">
+            <p className="text-[#68686f] text-xs sm:text-sm mt-1">
               Between Perps and Spot balances
             </p>
           </div>
 
           {/* Direction Selector */}
-          <div className="bg-[#0a0a0a] border border-gray-800 p-3 sm:p-4 mb-4 sm:mb-6">
+          <div className="bg-[#0a0a0a] border border-[#2a2a2f] p-3 sm:p-4 mb-4 sm:mb-6">
             <div className="flex items-center justify-between">
               {/* From */}
               <div className="flex-1">
-                <p className="text-[10px] sm:text-xs text-gray-500 mb-1">From</p>
+                <p className="text-[10px] sm:text-xs text-[#68686f] mb-1">From</p>
                 <div className="flex items-center gap-1.5 sm:gap-2">
                   <span className={cn(
                     "w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full",
@@ -1910,7 +1915,7 @@ function TransferModal({ onClose }: { onClose: () => void }) {
                     {direction === 'perps-to-spot' ? 'Perps' : 'Spot'}
                   </span>
                 </div>
-                <p className="text-[10px] sm:text-xs text-gray-500 mt-1">
+                <p className="text-[10px] sm:text-xs text-[#68686f] mt-1">
                   ${direction === 'perps-to-spot' ? (fullBalance?.withdrawable?.toFixed(2) || '0.00') : spotAvailableUsdc.toFixed(2)}
                 </p>
               </div>
@@ -1927,7 +1932,7 @@ function TransferModal({ onClose }: { onClose: () => void }) {
 
               {/* To */}
               <div className="flex-1 text-right">
-                <p className="text-[10px] sm:text-xs text-gray-500 mb-1">To</p>
+                <p className="text-[10px] sm:text-xs text-[#68686f] mb-1">To</p>
                 <div className="flex items-center justify-end gap-1.5 sm:gap-2">
                   <span className="text-white text-sm sm:text-base font-normal">
                     {direction === 'perps-to-spot' ? 'Spot' : 'Perps'}
@@ -1937,7 +1942,7 @@ function TransferModal({ onClose }: { onClose: () => void }) {
                     direction === 'perps-to-spot' ? 'bg-[#16DE93]' : 'bg-purple-400'
                   )} />
                 </div>
-                <p className="text-[10px] sm:text-xs text-gray-500 mt-1">
+                <p className="text-[10px] sm:text-xs text-[#68686f] mt-1">
                   ${direction === 'perps-to-spot' ? spotAvailableUsdc.toFixed(2) : (fullBalance?.withdrawable?.toFixed(2) || '0.00')}
                 </p>
               </div>
@@ -1950,7 +1955,7 @@ function TransferModal({ onClose }: { onClose: () => void }) {
             {isUnifiedAccount && (
               <div className="p-3 sm:p-4 bg-[#16DE93]/10 border border-[#16DE93]/20 text-center">
                 <p className="text-xs sm:text-sm text-[#16DE93] font-normal mb-1">Unified Account Active</p>
-                <p className="text-[10px] sm:text-xs text-gray-400">
+                <p className="text-[10px] sm:text-xs text-white">
                   Your Spot and Perps balances are combined automatically. No transfers needed.
                 </p>
               </div>
@@ -1959,7 +1964,7 @@ function TransferModal({ onClose }: { onClose: () => void }) {
             {/* Amount */}
             <div>
               <div className="flex items-center justify-between mb-1.5 sm:mb-2">
-                <label className="text-[10px] sm:text-xs text-gray-500 font-normal">Amount</label>
+                <label className="text-[10px] sm:text-xs text-[#68686f] font-normal">Amount</label>
                 <button
                   onClick={() => setAmount(maxAmount)}
                   className="text-[10px] sm:text-xs text-[#16DE93] hover:text-[#16DE93] font-normal transition-colors"
@@ -1973,7 +1978,7 @@ function TransferModal({ onClose }: { onClose: () => void }) {
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="0.00"
                 disabled={isUnifiedAccount}
-                className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-gray-800 text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 disabled:opacity-50 placeholder-gray-600"
+                className="w-full px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-[#2a2a2f] text-white text-xs sm:text-sm font-normal focus:outline-none focus:border-[#16DE93]/50 disabled:opacity-50 placeholder-gray-600"
               />
 
               {/* Quick Percentage Buttons */}
@@ -1983,7 +1988,7 @@ function TransferModal({ onClose }: { onClose: () => void }) {
                     key={pct}
                     onClick={() => setAmount((parseFloat(maxAmount) * pct / 100).toFixed(2))}
                     disabled={isTransferring || isUnifiedAccount}
-                    className="py-1.5 sm:py-2 text-[10px] sm:text-xs font-normal bg-[#0a0a0a] border border-gray-800 text-gray-400 hover:text-white hover:border-gray-600 transition-colors disabled:opacity-50"
+                    className="py-1.5 sm:py-2 text-[10px] sm:text-xs font-normal bg-[#0a0a0a] border border-[#2a2a2f] text-white hover:text-white hover:border-gray-600 transition-colors disabled:opacity-50"
                   >
                     {pct}%
                   </button>
@@ -1995,7 +2000,7 @@ function TransferModal({ onClose }: { onClose: () => void }) {
             <button
               onClick={handleTransfer}
               disabled={isTransferring || isUnifiedAccount || !amount || parseFloat(amount) <= 0}
-              className="w-full py-2.5 sm:py-3 bg-[#16DE93] hover:bg-[#16DE93] text-white font-normal text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed"
+              className="w-full py-2.5 sm:py-3 bg-[#16DE93] hover:bg-[#16DE93] text-white font-normal text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-[#68686f] disabled:cursor-not-allowed"
             >
               {isTransferring ? (
                 <span className="flex items-center justify-center gap-2">

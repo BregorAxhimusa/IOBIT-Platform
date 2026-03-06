@@ -30,7 +30,7 @@ export function OrderBook({ symbol, onPriceClick }: OrderBookProps) {
       <div className="flex items-center justify-center h-full bg-[#0a0a0c]">
         <div className="flex flex-col items-center gap-3">
           <div className="w-6 h-6 border-2 border-[#16DE93]/30 border-t-[#16DE93] rounded-full animate-spin" />
-          <span className="text-gray-500 text-xs">Loading order book...</span>
+          <span className="text-[#68686f] text-xs">Loading order book...</span>
         </div>
       </div>
     );
@@ -39,7 +39,7 @@ export function OrderBook({ symbol, onPriceClick }: OrderBookProps) {
   return (
     <div className="flex flex-col h-full bg-[#0a0a0c]">
       {/* Column Headers */}
-      <div className="grid grid-cols-3 gap-1 sm:gap-2 px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs text-gray-500 font-normal border-b border-[#1a1a1f] bg-[#0a0a0a]">
+      <div className="grid grid-cols-3 gap-1 sm:gap-2 px-3 sm:px-4 py-2.5 text-[10px] sm:text-xs text-[#68686f] font-normal border-b border-[#1a1a1f] bg-[#0a0a0a]">
         <div className="text-left">Price</div>
         <div className="text-right">Size</div>
         <div className="text-right">Total</div>
@@ -73,10 +73,10 @@ export function OrderBook({ symbol, onPriceClick }: OrderBookProps) {
                     maximumFractionDigits: 2,
                   })}
                 </div>
-                <div className="text-right text-gray-300 relative z-10 tabular-nums">
+                <div className="text-right text-white relative z-10 tabular-nums">
                   {parseFloat(ask.size).toFixed(4)}
                 </div>
-                <div className="text-right text-gray-500 relative z-10 tabular-nums">
+                <div className="text-right text-[#68686f] relative z-10 tabular-nums">
                   {cumulative.toFixed(4)}
                 </div>
               </button>
@@ -87,7 +87,7 @@ export function OrderBook({ symbol, onPriceClick }: OrderBookProps) {
         {/* Spread */}
         <div className="px-3 sm:px-4 py-2 bg-[#0a0a0a] border-y border-[#1a1a1f]">
           <div className="flex items-center justify-between text-[10px] sm:text-xs">
-            <span className="text-gray-500 font-normal">Spread</span>
+            <span className="text-[#68686f] font-normal">Spread</span>
             <span className="text-white font-normal tabular-nums">
               {spread ? (
                 <span className="flex items-center gap-2">
@@ -130,10 +130,10 @@ export function OrderBook({ symbol, onPriceClick }: OrderBookProps) {
                     maximumFractionDigits: 2,
                   })}
                 </div>
-                <div className="text-right text-gray-300 relative z-10 tabular-nums">
+                <div className="text-right text-white relative z-10 tabular-nums">
                   {parseFloat(bid.size).toFixed(4)}
                 </div>
-                <div className="text-right text-gray-500 relative z-10 tabular-nums">
+                <div className="text-right text-[#68686f] relative z-10 tabular-nums">
                   {cumulative.toFixed(4)}
                 </div>
               </button>

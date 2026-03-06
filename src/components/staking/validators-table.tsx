@@ -49,7 +49,7 @@ export function ValidatorsTable({ validators, isLoading, onStake }: ValidatorsTa
 
   if (isLoading) {
     return (
-      <div className="bg-[#0a0a0c] border border-gray-800 p-5">
+      <div className="bg-[#0a0a0c] border border-[#2a2a2f] p-5">
         <h3 className="text-white font-normal text-sm mb-4">Validators</h3>
         <div className="space-y-3">
           {Array.from({ length: 5 }).map((_, i) => (
@@ -61,7 +61,7 @@ export function ValidatorsTable({ validators, isLoading, onStake }: ValidatorsTa
   }
 
   return (
-    <div className="bg-[#0a0a0c] border border-gray-800 p-5">
+    <div className="bg-[#0a0a0c] border border-[#2a2a2f] p-5">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-white font-normal text-sm">Validators ({filtered.length})</h3>
         <input
@@ -75,7 +75,7 @@ export function ValidatorsTable({ validators, isLoading, onStake }: ValidatorsTa
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="text-gray-400 text-xs border-b border-gray-800">
+            <tr className="text-white text-xs border-b border-[#2a2a2f]">
               <th className="text-left py-2 font-normal">#</th>
               <th className="text-left py-2 font-normal cursor-pointer hover:text-white" onClick={() => handleSort('name')}>
                 Validator {sortField === 'name' ? (sortDesc ? '▼' : '▲') : ''}
@@ -92,12 +92,12 @@ export function ValidatorsTable({ validators, isLoading, onStake }: ValidatorsTa
           </thead>
           <tbody>
             {pageValidators.map((v, i) => (
-              <tr key={v.validator} className="border-b border-gray-800/50 hover:bg-gray-800/30">
-                <td className="py-3 text-gray-400">{startIdx + i + 1}</td>
+              <tr key={v.validator} className="border-b border-[#2a2a2f]/50 hover:bg-gray-800/30">
+                <td className="py-3 text-white">{startIdx + i + 1}</td>
                 <td className="py-3">
                   <div>
                     <p className="text-white text-sm">{v.name || 'Unknown'}</p>
-                    <p className="text-gray-500 text-[10px]">{formatAddress(v.validator)}</p>
+                    <p className="text-[#68686f] text-[10px]">{formatAddress(v.validator)}</p>
                   </div>
                 </td>
                 <td className="py-3 text-right text-white">{(parseFloat(v.commission) * 100).toFixed(1)}%</td>

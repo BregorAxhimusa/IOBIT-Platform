@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils/cn';
 
 const VOLUME_MILESTONES = [
   { label: 'Bronze', volume: 1_000_000, color: 'text-amber-600' },
-  { label: 'Silver', volume: 10_000_000, color: 'text-gray-300' },
+  { label: 'Silver', volume: 10_000_000, color: 'text-white' },
   { label: 'Gold', volume: 50_000_000, color: 'text-yellow-400' },
   { label: 'Platinum', volume: 250_000_000, color: 'text-cyan-300' },
   { label: 'Diamond', volume: 1_000_000_000, color: 'text-purple-400' },
@@ -23,7 +23,7 @@ export function FeeSavingsCard() {
 
   if (isLoading) {
     return (
-      <div className="bg-[#0a0a0c] border border-gray-800 p-4 animate-pulse">
+      <div className="bg-[#0a0a0c] border border-[#2a2a2f] p-4 animate-pulse">
         <div className="h-4 bg-gray-700 rounded w-1/3 mb-3" />
         <div className="h-6 bg-gray-700 rounded w-1/2 mb-2" />
         <div className="h-3 bg-gray-700 rounded w-full" />
@@ -51,7 +51,7 @@ export function FeeSavingsCard() {
     : 100;
 
   return (
-    <div className="bg-[#0a0a0c] border border-gray-800 p-4">
+    <div className="bg-[#0a0a0c] border border-[#2a2a2f] p-4">
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-sm font-normal text-white">Fee Status</h3>
         {currentMilestone && (
@@ -64,13 +64,13 @@ export function FeeSavingsCard() {
       {/* Rates */}
       <div className="grid grid-cols-2 gap-3 mb-3">
         <div>
-          <div className="text-[10px] text-gray-500 uppercase">Maker</div>
+          <div className="text-[10px] text-[#68686f] uppercase">Maker</div>
           <div className="text-sm text-white font-normal">
             {(makerRate * 100).toFixed(4)}%
           </div>
         </div>
         <div>
-          <div className="text-[10px] text-gray-500 uppercase">Taker</div>
+          <div className="text-[10px] text-[#68686f] uppercase">Taker</div>
           <div className="text-sm text-white font-normal">
             {(takerRate * 100).toFixed(4)}%
           </div>
@@ -92,8 +92,8 @@ export function FeeSavingsCard() {
       {/* Volume Progress */}
       <div>
         <div className="flex items-center justify-between mb-1">
-          <span className="text-[10px] text-gray-500">14-Day Volume</span>
-          <span className="text-xs text-gray-300">{formatVolume(totalVolume)}</span>
+          <span className="text-[10px] text-[#68686f]">14-Day Volume</span>
+          <span className="text-xs text-white">{formatVolume(totalVolume)}</span>
         </div>
         {nextMilestone && (
           <>
@@ -103,7 +103,7 @@ export function FeeSavingsCard() {
                 style={{ width: `${Math.min(progressToNext, 100)}%` }}
               />
             </div>
-            <div className="text-[10px] text-gray-500 mt-1">
+            <div className="text-[10px] text-[#68686f] mt-1">
               {formatVolume(nextMilestone.volume - totalVolume)} to {nextMilestone.label}
             </div>
           </>

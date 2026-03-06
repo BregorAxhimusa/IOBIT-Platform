@@ -93,8 +93,8 @@ export function InfoPanels({ topEarners, biggestMovers, isLoading }: InfoPanelsP
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
       {/* Top Earners / High Volume */}
-      <div className="bg-[#0a0a0c] border border-gray-800">
-        <div className="px-4 py-3 border-b border-gray-800 flex items-center gap-2">
+      <div className="bg-[#0a0a0c] border border-[#2a2a2f]">
+        <div className="px-4 py-3 border-b border-[#2a2a2f] flex items-center gap-2">
           <h3 className="text-white text-sm font-normal">Earned by Stakers</h3>
           <span className="text-[10px] px-1.5 py-0.5 rounded-lg text-[#16DE93] shadow-[inset_0_0.5px_8px_rgba(22,222,147,0.10)] backdrop-blur-[2.5px]">
             NEW
@@ -108,8 +108,8 @@ export function InfoPanels({ topEarners, biggestMovers, isLoading }: InfoPanelsP
       </div>
 
       {/* Biggest Movers */}
-      <div className="bg-[#0a0a0c] border border-gray-800">
-        <div className="px-4 py-3 border-b border-gray-800 flex items-center gap-2">
+      <div className="bg-[#0a0a0c] border border-[#2a2a2f]">
+        <div className="px-4 py-3 border-b border-[#2a2a2f] flex items-center gap-2">
           <h3 className="text-white text-sm font-normal">Biggest Movers</h3>
           <span className="text-[10px] px-1.5 py-0.5 rounded-lg text-[#16DE93] shadow-[inset_0_0.5px_8px_rgba(22,222,147,0.10)] backdrop-blur-[2.5px]">
             24h

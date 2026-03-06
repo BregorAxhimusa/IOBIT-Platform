@@ -29,8 +29,8 @@ export function StakingHistory({ rewards, history, validators, isLoading }: Stak
   ];
 
   return (
-    <div className="bg-[#0a0a0c] border border-gray-800 p-5">
-      <div className="flex border-b border-gray-800 mb-4">
+    <div className="bg-[#0a0a0c] border border-[#2a2a2f] p-5">
+      <div className="flex border-b border-[#2a2a2f] mb-4">
         {tabs.map((t) => (
           <button
             key={t.value}
@@ -65,7 +65,7 @@ export function StakingHistory({ rewards, history, validators, isLoading }: Stak
           ) : (
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-gray-400 text-xs border-b border-gray-800">
+                <tr className="text-white text-xs border-b border-[#2a2a2f]">
                   <th className="text-left py-2 font-normal">Date</th>
                   <th className="text-left py-2 font-normal">Source</th>
                   <th className="text-right py-2 font-normal">Amount</th>
@@ -73,9 +73,9 @@ export function StakingHistory({ rewards, history, validators, isLoading }: Stak
               </thead>
               <tbody>
                 {rewards.slice().sort((a, b) => b.time - a.time).map((r, i) => (
-                  <tr key={i} className="border-b border-gray-800/50">
-                    <td className="py-2 text-gray-300 text-xs">{new Date(r.time).toLocaleDateString()}</td>
-                    <td className="py-2 text-gray-300 text-xs capitalize">{r.source}</td>
+                  <tr key={i} className="border-b border-[#2a2a2f]/50">
+                    <td className="py-2 text-white text-xs">{new Date(r.time).toLocaleDateString()}</td>
+                    <td className="py-2 text-white text-xs capitalize">{r.source}</td>
                     <td className="py-2 text-right text-[#16DE93] text-xs">+{parseFloat(r.totalAmount).toFixed(4)} HYPE</td>
                   </tr>
                 ))}
@@ -99,7 +99,7 @@ export function StakingHistory({ rewards, history, validators, isLoading }: Stak
           ) : (
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-gray-400 text-xs border-b border-gray-800">
+                <tr className="text-white text-xs border-b border-[#2a2a2f]">
                   <th className="text-left py-2 font-normal">Date</th>
                   <th className="text-left py-2 font-normal">Action</th>
                   <th className="text-right py-2 font-normal">Amount</th>
@@ -128,8 +128,8 @@ export function StakingHistory({ rewards, history, validators, isLoading }: Stak
                   }
 
                   return (
-                    <tr key={i} className="border-b border-gray-800/50">
-                      <td className="py-2 text-gray-300 text-xs">{new Date(h.time).toLocaleDateString()}</td>
+                    <tr key={i} className="border-b border-[#2a2a2f]/50">
+                      <td className="py-2 text-white text-xs">{new Date(h.time).toLocaleDateString()}</td>
                       <td className="py-2 text-xs">
                         <span className={cn(
                           action === 'Delegate' || action === 'Deposit' ? 'text-[#16DE93]' : 'text-[#f6465d]'
@@ -138,7 +138,7 @@ export function StakingHistory({ rewards, history, validators, isLoading }: Stak
                         </span>
                       </td>
                       <td className="py-2 text-right text-white text-xs">{formatCompactNumber(amount)} HYPE</td>
-                      <td className="py-2 text-right text-gray-400 text-xs">{validator || '—'}</td>
+                      <td className="py-2 text-right text-white text-xs">{validator || '—'}</td>
                     </tr>
                   );
                 })}

@@ -24,7 +24,7 @@ function RewardCard({ label, value, description, accent = false }: RewardCardPro
       'bg-[#0a0a0a]  p-4',
       accent && 'border border-[#16DE93]/20'
     )}>
-      <p className="text-gray-400 text-xs mb-1">{label}</p>
+      <p className="text-white text-xs mb-1">{label}</p>
       <p className={cn(
         'text-lg font-normal',
         accent ? 'text-[#16DE93]' : 'text-white'
@@ -32,7 +32,7 @@ function RewardCard({ label, value, description, accent = false }: RewardCardPro
         {value}
       </p>
       {description && (
-        <p className="text-gray-500 text-xs mt-1">{description}</p>
+        <p className="text-[#68686f] text-xs mt-1">{description}</p>
       )}
     </div>
   );
@@ -54,7 +54,7 @@ export function RewardsSection({
   }, [canClaim, isClaiming, onClaim]);
 
   return (
-    <div className="bg-[#0a0a0c] border border-gray-800 p-4">
+    <div className="bg-[#0a0a0c] border border-[#2a2a2f] p-4">
       <h3 className="text-white font-normal mb-4 flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#16DE93]" viewBox="0 0 20 20" fill="currentColor">
           <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
@@ -81,7 +81,7 @@ export function RewardsSection({
 
       <div className="flex items-center justify-between bg-[#0a0a0a]  p-3">
         <div>
-          <p className="text-gray-400 text-xs">
+          <p className="text-white text-xs">
             {canClaim
               ? `You have ${formatUSD(unclaimedRewards)} available to claim.`
               : 'Minimum $1.00 to claim. Rewards go to your spot balance.'}
@@ -94,7 +94,7 @@ export function RewardsSection({
             'px-5 py-2  text-sm font-normal transition-all shrink-0 ml-3',
             canClaim && !isClaiming
               ? 'bg-[#16DE93] hover:bg-[#16DE93] text-white'
-              : 'bg-gray-700 text-gray-500 cursor-not-allowed'
+              : 'bg-gray-700 text-[#68686f] cursor-not-allowed'
           )}
         >
           {isClaiming ? (
@@ -112,7 +112,7 @@ export function RewardsSection({
       </div>
 
       {!canClaim && parseFloat(unclaimedRewards) > 0 && (
-        <p className="text-gray-500 text-xs mt-3">
+        <p className="text-[#68686f] text-xs mt-3">
           You have {formatUSD(unclaimedRewards)} in unclaimed rewards, but the minimum claim amount is $1.00.
           Continue referring users to accumulate more rewards.
         </p>

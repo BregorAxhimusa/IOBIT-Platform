@@ -4,10 +4,16 @@ import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
+import { useAppKit, useAppKitAccount, useAppKitNetwork } from '@reown/appkit/react';
 import { cn } from '@/lib/utils/cn';
 import { formatAddress } from '@/lib/utils/format';
 import { AccountSwitcher } from '@/components/layout/account-switcher';
+
+// Chain icons mapping
+const CHAIN_ICONS: Record<number, { icon: string; name: string; color: string }> = {
+  42161: { icon: '/iobit/chain/arb.svg', name: 'Arbitrum', color: '#28A0F0' },
+  1: { icon: '/iobit/chain/etherium.svg', name: 'Ethereum', color: '#627EEA' },
+};
 
 // Main navigation links
 const mainNavLinks = [
@@ -88,6 +94,7 @@ function AirdropButton({ onClick }: { onClick?: () => void }) {
           width={14}
           height={14}
           className="group-hover:opacity-80 transition-opacity duration-300"
+          style={{ width: 'auto', height: 'auto' }}
         />
         <span className="w-[70px] text-[15px] font-normal text-[#17DD92] group-hover:text-white transition-colors duration-300">
           {displayText}<span className="animate-pulse">|</span>
@@ -146,6 +153,51 @@ function WalletButtonInner() {
   );
 }
 
+// Chain Indicator Component
+function ChainIndicator() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
+  return <ChainIndicatorInner />;
+}
+
+// Inner component that uses AppKit hooks (only rendered on client)
+function ChainIndicatorInner() {
+  const { open } = useAppKit();
+  const { caipNetwork } = useAppKitNetwork();
+  const { isConnected } = useAppKitAccount();
+
+  if (!isConnected || !caipNetwork) return null;
+
+  const chainId = caipNetwork.id as number;
+  const chainInfo = CHAIN_ICONS[chainId] || { icon: '', name: caipNetwork.name || 'Unknown', color: '#888888' };
+
+  return (
+    <button
+      onClick={() => open({ view: 'Networks' })}
+      className="p-2 rounded-lg bg-[#111111] border border-[#1a1a1f] hover:border-[#2a2a2f] hover:bg-[#1a1a1a] transition-all"
+      title={`Switch Network (${chainInfo.name})`}
+    >
+      {chainInfo.icon && (
+        <Image
+          src={chainInfo.icon}
+          alt={chainInfo.name}
+          width={18}
+          height={18}
+          className="rounded-full"
+        />
+      )}
+    </button>
+  );
+}
+
 export function Navbar() {
   const pathname = usePathname();
   const { isConnected } = useAppKitAccount();
@@ -173,7 +225,7 @@ export function Navbar() {
   const isMoreActive = moreLinks.some(link => pathname?.startsWith(link.href));
 
   return (
-    <nav className="border-b border-[#1a1a1f] bg-[#0a0a0c]" role="navigation" aria-label="Main navigation">
+    <nav className="border-b border-[#1a1a1f] bg-[#0a0a0c] py-2" role="navigation" aria-label="Main navigation">
       <div className="mx-auto flex h-14 items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Left Side - Logo + Navigation Links */}
         <div className="flex items-center gap-6">
@@ -185,6 +237,7 @@ export function Navbar() {
               width={98}
               height={34}
               priority
+              style={{ width: '98px', height: 'auto' }}
             />
           </Link>
 
@@ -241,7 +294,7 @@ export function Navbar() {
 
               {/* Dropdown Menu */}
               {moreDropdownOpen && (
-                <div className="absolute top-full right-0 mt-2 w-48 bg-[#0a0a0a] border border-[#1a1a1f] rounded-xl shadow-xl z-50 py-2">
+                <div className="absolute top-full right-0 mt-3 w-48 bg-[#0a0a0a] border border-[#1a1a1f] shadow-xl z-50">
                   {moreLinks.map((link) => {
                     const isActive = pathname?.startsWith(link.href);
                     return (
@@ -252,11 +305,17 @@ export function Navbar() {
                         className={cn(
                           'flex items-center gap-3 px-4 py-2.5 text-sm transition-all',
                           isActive
-                            ? 'bg-white text-black'
+                            ? 'bg-[#29292B] text-[#16DE93]'
                             : 'text-white/70 hover:text-white'
                         )}
                       >
-                        <Image src={link.icon} alt={link.label} width={16} height={16} />
+                        <Image
+                          src={link.icon}
+                          alt={link.label}
+                          width={16}
+                          height={16}
+                          style={isActive ? { filter: 'brightness(0) saturate(100%) invert(78%) sepia(52%) saturate(652%) hue-rotate(97deg) brightness(92%) contrast(87%)' } : undefined}
+                        />
                         {link.label}
                       </Link>
                     );
@@ -267,9 +326,10 @@ export function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Right Side - Wallet + Menu Button */}
+        {/* Mobile Right Side - Wallet + Chain + Menu Button */}
         <div className="flex md:hidden items-center gap-2">
           <WalletButton />
+          <ChainIndicator />
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-2 rounded-lg transition-all"
@@ -285,27 +345,11 @@ export function Navbar() {
           </button>
         </div>
 
-        {/* Desktop Right Side - Account Switcher + Settings + Wallet */}
+        {/* Desktop Right Side - Account Switcher + Wallet + Chain */}
         <div className="hidden md:flex items-center space-x-2">
           {isConnected && <AccountSwitcher />}
-          {isConnected && (
-            <Link
-              href="/settings"
-              className={cn(
-                'p-2 rounded-lg transition-all',
-                pathname?.startsWith('/settings')
-                  ? 'bg-white text-black'
-                  : 'text-white/70 hover:text-white'
-              )}
-              title="Account Settings"
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-            </Link>
-          )}
           <WalletButton />
+          <ChainIndicator />
         </div>
       </div>
 

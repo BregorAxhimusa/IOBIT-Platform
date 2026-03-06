@@ -18,9 +18,9 @@ export function MyDelegations({ delegations, validators, onUndelegate, isDelegat
 
   if (delegations.length === 0) {
     return (
-      <div className="bg-[#0a0a0c] border border-gray-800 p-5">
+      <div className="bg-[#0a0a0c] border border-[#2a2a2f] p-5">
         <h3 className="text-white font-normal text-sm mb-4">My Delegations</h3>
-        <div className="flex flex-col items-center justify-center py-8 text-gray-500">
+        <div className="flex flex-col items-center justify-center py-8 text-[#68686f]">
           <p className="text-sm">No active delegations</p>
           <p className="text-xs mt-1">Choose a validator below to start staking</p>
         </div>
@@ -29,12 +29,12 @@ export function MyDelegations({ delegations, validators, onUndelegate, isDelegat
   }
 
   return (
-    <div className="bg-[#0a0a0c] border border-gray-800 p-5">
+    <div className="bg-[#0a0a0c] border border-[#2a2a2f] p-5">
       <h3 className="text-white font-normal text-sm mb-4">My Delegations</h3>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="text-gray-400 text-xs border-b border-gray-800">
+            <tr className="text-white text-xs border-b border-[#2a2a2f]">
               <th className="text-left py-2 font-normal">Validator</th>
               <th className="text-right py-2 font-normal">Staked</th>
               <th className="text-right py-2 font-normal">Status</th>
@@ -47,7 +47,7 @@ export function MyDelegations({ delegations, validators, onUndelegate, isDelegat
               const lockRemaining = isLocked ? Math.ceil((d.lockedUntil - Date.now()) / (1000 * 60 * 60)) : 0;
 
               return (
-                <tr key={d.validator} className="border-b border-gray-800/50">
+                <tr key={d.validator} className="border-b border-[#2a2a2f]/50">
                   <td className="py-3 text-white">{getValidatorName(d.validator)}</td>
                   <td className="py-3 text-right text-white">{formatCompactNumber(d.amount)} HYPE</td>
                   <td className="py-3 text-right">

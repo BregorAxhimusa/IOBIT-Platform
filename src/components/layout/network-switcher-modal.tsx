@@ -41,7 +41,7 @@ export function NetworkSwitcherModal({ isOpen, onClose }: NetworkSwitcherModalPr
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-gray-500 hover:text-white hover:bg-white/10 transition-colors z-10"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-[#68686f] hover:text-white hover:bg-white/10 transition-colors z-10"
         >
           <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -57,7 +57,7 @@ export function NetworkSwitcherModal({ isOpen, onClose }: NetworkSwitcherModalPr
               </svg>
             </div>
             <h2 className="text-lg sm:text-xl font-normal text-white">Select Network</h2>
-            <p className="text-gray-500 text-xs sm:text-sm mt-1">Choose your trading environment</p>
+            <p className="text-[#68686f] text-xs sm:text-sm mt-1">Choose your trading environment</p>
           </div>
 
           {/* Network Options */}
@@ -80,7 +80,7 @@ export function NetworkSwitcherModal({ isOpen, onClose }: NetworkSwitcherModalPr
                   )} />
                   <div>
                     <span className="text-white text-sm sm:text-base font-normal block">Mainnet</span>
-                    <span className="text-gray-500 text-[10px] sm:text-xs">Real trading with actual funds</span>
+                    <span className="text-[#68686f] text-[10px] sm:text-xs">Real trading with actual funds</span>
                   </div>
                 </div>
                 {selectedNetwork === 'mainnet' && (
@@ -109,7 +109,7 @@ export function NetworkSwitcherModal({ isOpen, onClose }: NetworkSwitcherModalPr
                   )} />
                   <div>
                     <span className="text-white text-sm sm:text-base font-normal block">Testnet</span>
-                    <span className="text-gray-500 text-[10px] sm:text-xs">Practice trading with test funds</span>
+                    <span className="text-[#68686f] text-[10px] sm:text-xs">Practice trading with test funds</span>
                   </div>
                 </div>
                 {selectedNetwork === 'testnet' && (
@@ -146,7 +146,7 @@ export function NetworkSwitcherModal({ isOpen, onClose }: NetworkSwitcherModalPr
             <button
               onClick={handleSwitchNetwork}
               disabled={selectedNetwork === network}
-              className="flex-1 py-2.5 sm:py-3 bg-[#16DE93] hover:bg-[#16DE93] text-white font-normal text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed"
+              className="flex-1 py-2.5 sm:py-3 bg-[#16DE93] hover:bg-[#16DE93] text-white font-normal text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-[#68686f] disabled:cursor-not-allowed"
             >
               Switch Network
             </button>

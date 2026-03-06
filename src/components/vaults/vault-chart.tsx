@@ -43,10 +43,10 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
 
   return (
     <div className="bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 shadow-lg">
-      <p className="text-gray-400 text-xs mb-1">{label}</p>
+      <p className="text-white text-xs mb-1">{label}</p>
       {payload.map((item, index) => (
         <div key={index} className="flex items-center justify-between gap-4">
-          <span className="text-gray-400 text-xs">PnL</span>
+          <span className="text-white text-xs">PnL</span>
           <span
             className={cn(
               'text-xs font-normal',

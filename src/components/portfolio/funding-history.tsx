@@ -58,11 +58,11 @@ export function FundingHistory({ funding, isLoading }: FundingHistoryProps) {
     <div>
       {/* Summary */}
       <div className="flex items-center justify-between mb-3 px-1">
-        <span className="text-gray-400 text-xs">
+        <span className="text-white text-xs">
           {funding.length} payment{funding.length !== 1 ? 's' : ''}
         </span>
         <div className="flex items-center gap-1">
-          <span className="text-gray-400 text-xs">Total:</span>
+          <span className="text-white text-xs">Total:</span>
           <span className={cn('text-xs font-normal', totalFunding >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]')}>
             {totalFunding >= 0 ? '+' : ''}${totalFunding.toFixed(4)}
           </span>
@@ -70,7 +70,7 @@ export function FundingHistory({ funding, isLoading }: FundingHistoryProps) {
       </div>
 
       {/* Table Header */}
-      <div className="grid grid-cols-5 gap-2 px-3 py-2 text-xs text-gray-500 border-b border-gray-800">
+      <div className="grid grid-cols-5 gap-2 px-3 py-2 text-xs text-[#68686f] border-b border-[#2a2a2f]">
         <span>Time</span>
         <span>Coin</span>
         <span className="text-right">Payment</span>
@@ -87,17 +87,17 @@ export function FundingHistory({ funding, isLoading }: FundingHistoryProps) {
           return (
             <div
               key={`${payment.time}-${payment.coin}-${index}`}
-              className="grid grid-cols-5 gap-2 px-3 py-2 text-xs border-b border-gray-800/50 hover:bg-[#0a0a0a]/50"
+              className="grid grid-cols-5 gap-2 px-3 py-2 text-xs border-b border-[#2a2a2f]/50 hover:bg-[#0a0a0a]/50"
             >
-              <span className="text-gray-400">{formatTime(payment.time)}</span>
+              <span className="text-white">{formatTime(payment.time)}</span>
               <span className="text-white font-normal">{payment.coin}</span>
               <span className={cn('text-right', isPositive ? 'text-[#16DE93]' : 'text-[#f6465d]')}>
                 {isPositive ? '+' : ''}${usdc.toFixed(4)}
               </span>
-              <span className="text-right text-gray-300">
+              <span className="text-right text-white">
                 {parseFloat(payment.szi).toFixed(4)}
               </span>
-              <span className="text-right text-gray-400">
+              <span className="text-right text-white">
                 {(parseFloat(payment.fundingRate) * 100).toFixed(4)}%
               </span>
             </div>

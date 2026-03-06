@@ -46,7 +46,7 @@ export class ErrorBoundary extends Component<Props, State> {
           <div className="text-center space-y-4 max-w-md">
             <div className="text-[#f6465d] text-5xl">⚠️</div>
             <h2 className="text-xl font-normal text-white">Something went wrong</h2>
-            <p className="text-gray-400 text-sm">
+            <p className="text-white text-sm">
               {this.state.error?.message || 'An unexpected error occurred'}
             </p>
             <button
@@ -71,11 +71,11 @@ export function TradingErrorBoundary({ children }: { children: ReactNode }) {
   return (
     <ErrorBoundary
       fallback={
-        <div className="flex items-center justify-center p-8 bg-gray-900 rounded-lg border border-gray-800">
+        <div className="flex items-center justify-center p-8 bg-gray-900 rounded-lg border border-[#2a2a2f]">
           <div className="text-center space-y-3">
             <div className="text-[#f6465d] text-3xl">⚠️</div>
             <h3 className="text-lg font-normal text-white">Trading Error</h3>
-            <p className="text-gray-400 text-sm">
+            <p className="text-white text-sm">
               Unable to load trading interface
             </p>
             <button
@@ -103,10 +103,10 @@ export function ChartErrorBoundary({ children }: { children: ReactNode }) {
   return (
     <ErrorBoundary
       fallback={
-        <div className="flex items-center justify-center h-full bg-gray-900 rounded-lg border border-gray-800">
+        <div className="flex items-center justify-center h-full bg-gray-900 rounded-lg border border-[#2a2a2f]">
           <div className="text-center space-y-2">
             <div className="text-yellow-500 text-2xl">📊</div>
-            <p className="text-gray-400 text-sm">Unable to load chart</p>
+            <p className="text-white text-sm">Unable to load chart</p>
           </div>
         </div>
       }
@@ -126,10 +126,10 @@ export function DataErrorBoundary({ children }: { children: ReactNode }) {
   return (
     <ErrorBoundary
       fallback={
-        <div className="flex items-center justify-center p-6 bg-gray-900 rounded-lg border border-gray-800">
+        <div className="flex items-center justify-center p-6 bg-gray-900 rounded-lg border border-[#2a2a2f]">
           <div className="text-center space-y-2">
             <div className="text-[#f6465d] text-2xl">⚠️</div>
-            <p className="text-gray-400 text-sm">Failed to load data</p>
+            <p className="text-white text-sm">Failed to load data</p>
             <button
               onClick={() => window.location.reload()}
               className="px-3 py-1 text-xs bg-gray-700 hover:bg-gray-600 text-white rounded transition-colors"

@@ -86,7 +86,7 @@ export function VaultDepositModal({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-gray-500 hover:text-white hover:bg-white/10 transition-colors z-10"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-[#68686f] hover:text-white hover:bg-white/10 transition-colors z-10"
         >
           <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -115,7 +115,7 @@ export function VaultDepositModal({
             <h2 className="text-lg sm:text-xl font-normal text-white">
               {mode === 'deposit' ? 'Deposit to Vault' : 'Withdraw from Vault'}
             </h2>
-            <p className="text-gray-500 text-xs sm:text-sm mt-1 truncate max-w-full">{vaultName}</p>
+            <p className="text-[#68686f] text-xs sm:text-sm mt-1 truncate max-w-full">{vaultName}</p>
           </div>
 
           {/* Tabs */}
@@ -150,7 +150,7 @@ export function VaultDepositModal({
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1.5 sm:gap-2">
                   <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#16DE93] rounded-full" />
-                  <span className="text-gray-400 text-xs sm:text-sm">Available Balance</span>
+                  <span className="text-white text-xs sm:text-sm">Available Balance</span>
                 </div>
                 <span className="text-white text-sm sm:text-base font-normal">${availableBalance.toFixed(2)}</span>
               </div>
@@ -159,7 +159,7 @@ export function VaultDepositModal({
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5 sm:gap-2">
                     <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-purple-400 rounded-full" />
-                    <span className="text-gray-400 text-xs sm:text-sm">Your Equity</span>
+                    <span className="text-white text-xs sm:text-sm">Your Equity</span>
                   </div>
                   <span className="text-white text-sm sm:text-base font-normal">${currentEquity.toFixed(2)}</span>
                 </div>
@@ -181,7 +181,7 @@ export function VaultDepositModal({
           {/* Amount Input */}
           <div className="mb-3 sm:mb-4">
             <div className="flex items-center justify-between mb-1.5 sm:mb-2">
-              <label className="text-[10px] sm:text-xs text-gray-500 font-normal">Amount (USDC)</label>
+              <label className="text-[10px] sm:text-xs text-[#68686f] font-normal">Amount (USDC)</label>
               <button
                 onClick={handleMaxClick}
                 className="text-[10px] sm:text-xs text-[#16DE93] hover:text-[#16DE93] font-normal transition-colors"
@@ -229,8 +229,8 @@ export function VaultDepositModal({
             className={cn(
               'w-full py-2.5 sm:py-3 font-normal text-xs sm:text-sm transition-colors',
               mode === 'deposit'
-                ? 'bg-[#16DE93] hover:bg-[#16DE93] text-white disabled:bg-gray-700 disabled:text-gray-500'
-                : 'bg-[#f6465d] hover:bg-[#f6465d] text-white disabled:bg-gray-700 disabled:text-gray-500',
+                ? 'bg-[#16DE93] hover:bg-[#16DE93] text-white disabled:bg-gray-700 disabled:text-[#68686f]'
+                : 'bg-[#f6465d] hover:bg-[#f6465d] text-white disabled:bg-gray-700 disabled:text-[#68686f]',
               'disabled:cursor-not-allowed'
             )}
           >

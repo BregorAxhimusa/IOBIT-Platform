@@ -95,21 +95,21 @@ export function TwapProgress({ activeTwap, onCancel, isCancelling }: TwapProgres
       </div>
 
       {/* Details Grid */}
-      <div className="grid grid-cols-2 gap-1.5 text-xs text-gray-400 mb-2">
+      <div className="grid grid-cols-2 gap-1.5 text-xs text-white mb-2">
         <div>
-          <span className="text-gray-500">Executed: </span>
+          <span className="text-[#68686f]">Executed: </span>
           {activeTwap.executedSize.toFixed(4)} / {activeTwap.totalSize.toFixed(4)}
         </div>
         <div className="text-right">
-          <span className="text-gray-500">Slices: </span>
+          <span className="text-[#68686f]">Slices: </span>
           {activeTwap.executedSlices} / {activeTwap.totalSlices}
         </div>
         <div>
-          <span className="text-gray-500">Duration: </span>
+          <span className="text-[#68686f]">Duration: </span>
           {activeTwap.durationMinutes}min
         </div>
         <div className="text-right">
-          <span className="text-gray-500">
+          <span className="text-[#68686f]">
             {isActive ? 'Remaining: ' : 'Ended'}
           </span>
           {isActive && formatTimeRemaining(timeRemaining)}

@@ -34,7 +34,7 @@ export function DelegateModal({ isOpen, onClose, validator, availableBalance, on
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-gray-500 hover:text-white hover:bg-white/10 transition-colors z-10"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-[#68686f] hover:text-white hover:bg-white/10 transition-colors z-10"
         >
           <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -50,14 +50,14 @@ export function DelegateModal({ isOpen, onClose, validator, availableBalance, on
               </svg>
             </div>
             <h2 className="text-lg sm:text-xl font-normal text-white">Delegate HYPE</h2>
-            <p className="text-gray-500 text-xs sm:text-sm mt-1">Stake with a validator</p>
+            <p className="text-[#68686f] text-xs sm:text-sm mt-1">Stake with a validator</p>
           </div>
 
           {/* Validator Info */}
           <div className="bg-[#0a0a0a] border border-[#1a1a1f] p-3 sm:p-4 mb-3 sm:mb-4">
             <div className="flex items-start justify-between mb-2 sm:mb-3">
               <div>
-                <p className="text-[10px] sm:text-xs text-gray-500 mb-1">Validator</p>
+                <p className="text-[10px] sm:text-xs text-[#68686f] mb-1">Validator</p>
                 <p className="text-white text-sm sm:text-base font-normal">{validator.name || 'Unknown'}</p>
                 <p className="text-gray-600 text-[10px] sm:text-xs mt-0.5">{formatAddress(validator.validator)}</p>
               </div>
@@ -69,11 +69,11 @@ export function DelegateModal({ isOpen, onClose, validator, availableBalance, on
             </div>
             <div className="grid grid-cols-2 gap-2 sm:gap-3 pt-2 sm:pt-3 border-t border-[#1a1a1f]">
               <div>
-                <p className="text-gray-500 text-[10px] sm:text-xs">Commission</p>
+                <p className="text-[#68686f] text-[10px] sm:text-xs">Commission</p>
                 <p className="text-white text-xs sm:text-sm font-normal">{(parseFloat(validator.commission) * 100).toFixed(1)}%</p>
               </div>
               <div>
-                <p className="text-gray-500 text-[10px] sm:text-xs">Total Stake</p>
+                <p className="text-[#68686f] text-[10px] sm:text-xs">Total Stake</p>
                 <p className="text-white text-xs sm:text-sm font-normal">{formatCompactNumber(validator.stake)} HYPE</p>
               </div>
             </div>
@@ -94,8 +94,8 @@ export function DelegateModal({ isOpen, onClose, validator, availableBalance, on
           {/* Amount Input */}
           <div className="mb-3 sm:mb-4">
             <div className="flex items-center justify-between mb-1.5 sm:mb-2">
-              <label className="text-[10px] sm:text-xs text-gray-500 font-normal">Amount (HYPE)</label>
-              <span className="text-[10px] sm:text-xs text-gray-500">
+              <label className="text-[10px] sm:text-xs text-[#68686f] font-normal">Amount (HYPE)</label>
+              <span className="text-[10px] sm:text-xs text-[#68686f]">
                 Available: <span className="text-[#16DE93]">{formatCompactNumber(availableBalance)}</span>
               </span>
             </div>
@@ -120,7 +120,7 @@ export function DelegateModal({ isOpen, onClose, validator, availableBalance, on
           <button
             onClick={handleSubmit}
             disabled={isDelegating || !amount || parseFloat(amount) <= 0}
-            className="w-full py-2.5 sm:py-3 font-normal text-xs sm:text-sm bg-[#16DE93] hover:bg-[#16DE93] text-white disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors"
+            className="w-full py-2.5 sm:py-3 font-normal text-xs sm:text-sm bg-[#16DE93] hover:bg-[#16DE93] text-white disabled:bg-gray-700 disabled:text-[#68686f] disabled:cursor-not-allowed transition-colors"
           >
             {isDelegating ? (
               <span className="flex items-center justify-center gap-2">

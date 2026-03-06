@@ -66,16 +66,16 @@ export function PositionsTable() {
     <div className="overflow-x-auto">
       <table className="w-full text-xs sm:text-sm">
         <thead>
-          <tr className="border-b border-gray-800">
-            <th className="text-left py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">Coin</th>
-            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">Size</th>
-            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400 hidden sm:table-cell">Position Value</th>
-            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">Entry Price</th>
-            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">Mark Price</th>
-            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">PNL (ROE%)</th>
-            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400 hidden sm:table-cell">Liq. Price</th>
-            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400 hidden md:table-cell">Margin</th>
-            <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">Close</th>
+          <tr className="border-b border-[#2a2a2f]">
+            <th className="text-left py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-white">Coin</th>
+            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-white">Size</th>
+            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-white hidden sm:table-cell">Position Value</th>
+            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-white">Entry Price</th>
+            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-white">Mark Price</th>
+            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-white">PNL (ROE%)</th>
+            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-white hidden sm:table-cell">Liq. Price</th>
+            <th className="text-right py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-white hidden md:table-cell">Margin</th>
+            <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-white">Close</th>
           </tr>
         </thead>
         <tbody>
@@ -90,7 +90,7 @@ export function PositionsTable() {
             return (
               <tr
                 key={position.symbol}
-                className="border-b border-gray-800 hover:bg-[#0a0a0a]/50 transition-colors"
+                className="border-b border-[#2a2a2f] hover:bg-[#0a0a0a]/50 transition-colors"
               >
                 {/* Coin: symbol + leverage badge (like Hyperliquid "BTC 5x") */}
                 <td className="py-2 sm:py-3 px-2 sm:px-4 whitespace-nowrap">
@@ -109,18 +109,18 @@ export function PositionsTable() {
                 {/* Size: amount + coin (like "0.00038 BTC") */}
                 <td className="py-2 sm:py-3 px-2 sm:px-4 text-right">
                   <span className={sideColor}>{position.size}</span>
-                  <span className="text-gray-500 text-[10px] ml-1">{position.symbol}</span>
+                  <span className="text-[#68686f] text-[10px] ml-1">{position.symbol}</span>
                 </td>
                 {/* Position Value */}
-                <td className="py-2 sm:py-3 px-2 sm:px-4 text-right text-gray-300 hidden sm:table-cell">
-                  {positionValue.toFixed(2)} <span className="text-gray-500 text-[10px]">USDC</span>
+                <td className="py-2 sm:py-3 px-2 sm:px-4 text-right text-white hidden sm:table-cell">
+                  {positionValue.toFixed(2)} <span className="text-[#68686f] text-[10px]">USDC</span>
                 </td>
                 {/* Entry Price */}
-                <td className="py-2 sm:py-3 px-2 sm:px-4 text-right text-gray-300">
+                <td className="py-2 sm:py-3 px-2 sm:px-4 text-right text-white">
                   {parseFloat(position.entryPrice).toLocaleString(undefined, { minimumFractionDigits: 1 })}
                 </td>
                 {/* Mark Price */}
-                <td className="py-2 sm:py-3 px-2 sm:px-4 text-right text-gray-300">
+                <td className="py-2 sm:py-3 px-2 sm:px-4 text-right text-white">
                   {markPriceNum.toLocaleString(undefined, { minimumFractionDigits: 1 })}
                 </td>
                 {/* PNL (ROE%) */}
@@ -133,13 +133,13 @@ export function PositionsTable() {
                   </div>
                 </td>
                 {/* Liq. Price */}
-                <td className="py-2 sm:py-3 px-2 sm:px-4 text-right text-gray-300 hidden sm:table-cell">
+                <td className="py-2 sm:py-3 px-2 sm:px-4 text-right text-white hidden sm:table-cell">
                   {position.liquidationPrice
                     ? parseFloat(position.liquidationPrice).toLocaleString(undefined, { minimumFractionDigits: 1 })
                     : '-'}
                 </td>
                 {/* Margin */}
-                <td className="py-2 sm:py-3 px-2 sm:px-4 text-right text-gray-300 hidden md:table-cell">
+                <td className="py-2 sm:py-3 px-2 sm:px-4 text-right text-white hidden md:table-cell">
                   ${parseFloat(position.margin).toFixed(2)}
                 </td>
                 {/* Close / TP/SL */}
@@ -154,7 +154,7 @@ export function PositionsTable() {
                     <button
                       onClick={() => handleOpenClose(position.symbol, position.side, position.size, position.markPrice, position.entryPrice)}
                       disabled={isClosing}
-                      className="px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs bg-[#0a0a0a] hover:bg-[#2a3038] disabled:bg-gray-800 disabled:text-gray-500 disabled:cursor-not-allowed text-white rounded transition-colors border border-gray-700"
+                      className="px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs bg-[#0a0a0a] hover:bg-[#2a3038] disabled:bg-gray-800 disabled:text-[#68686f] disabled:cursor-not-allowed text-white rounded transition-colors border border-gray-700"
                     >
                       {isClosing ? '...' : 'Close'}
                     </button>
@@ -166,7 +166,7 @@ export function PositionsTable() {
         </tbody>
         <tfoot>
           <tr className="border-t border-gray-700">
-            <td colSpan={5} className="py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-gray-400">
+            <td colSpan={5} className="py-2 sm:py-3 px-2 sm:px-4 text-[10px] sm:text-xs font-normal text-white">
               Total PnL
             </td>
             <td className="py-2 sm:py-3 px-2 sm:px-4 text-right">
@@ -232,7 +232,7 @@ function CloseModal({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-white text-lg z-10"
+          className="absolute top-4 right-4 text-white hover:text-white text-lg z-10"
         >
           ✕
         </button>
@@ -240,7 +240,7 @@ function CloseModal({
         <div className="p-6">
           {/* Title */}
           <h2 className="text-base font-normal text-white text-center mb-2">Confirm Close</h2>
-          <p className="text-sm text-gray-500 text-center mb-6">
+          <p className="text-sm text-[#68686f] text-center mb-6">
             This will close your {position.symbol} position and cancel associated TP/SL orders.
           </p>
 
@@ -394,7 +394,7 @@ function TPSLModal({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-white text-lg z-10"
+          className="absolute top-4 right-4 text-white hover:text-white text-lg z-10"
         >
           ✕
         </button>
@@ -406,21 +406,21 @@ function TPSLModal({
           {/* Position Info */}
           <div className="space-y-2.5 mb-6">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-400">Coin</span>
+              <span className="text-sm text-white">Coin</span>
               <span className="text-sm text-white font-normal">{position.symbol}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-400">Position</span>
+              <span className="text-sm text-white">Position</span>
               <span className={cn('text-sm font-normal', isLong ? 'text-[#16DE93]' : 'text-[#f6465d]')}>
                 {position.size} {position.symbol}
               </span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-400">Entry Price</span>
+              <span className="text-sm text-white">Entry Price</span>
               <span className="text-sm text-white">{formatPrice(entryPriceNum)}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-400">Mark Price</span>
+              <span className="text-sm text-white">Mark Price</span>
               <span className="text-sm text-white">{formatPrice(markPriceNum)}</span>
             </div>
           </div>
@@ -461,9 +461,9 @@ function TPSLModal({
                     setTpMode('price');
                   }
                 }}
-                className="flex items-center gap-1.5 px-3 py-2.5 bg-[#111111] border border-gray-700 rounded-lg text-sm text-gray-300 hover:border-gray-600 transition-colors min-w-[80px] justify-center"
+                className="flex items-center gap-1.5 px-3 py-2.5 bg-[#111111] border border-gray-700 rounded-lg text-sm text-white hover:border-gray-600 transition-colors min-w-[80px] justify-center"
               >
-                Gain <span className="text-gray-500">{tpMode === 'percent' ? '%' : '$'}</span>
+                Gain <span className="text-[#68686f]">{tpMode === 'percent' ? '%' : '$'}</span>
               </button>
             </div>
 
@@ -501,15 +501,15 @@ function TPSLModal({
                     setSlMode('price');
                   }
                 }}
-                className="flex items-center gap-1.5 px-3 py-2.5 bg-[#111111] border border-gray-700 rounded-lg text-sm text-gray-300 hover:border-gray-600 transition-colors min-w-[80px] justify-center"
+                className="flex items-center gap-1.5 px-3 py-2.5 bg-[#111111] border border-gray-700 rounded-lg text-sm text-white hover:border-gray-600 transition-colors min-w-[80px] justify-center"
               >
-                Loss <span className="text-gray-500">{slMode === 'percent' ? '%' : '$'}</span>
+                Loss <span className="text-[#68686f]">{slMode === 'percent' ? '%' : '$'}</span>
               </button>
             </div>
 
             {/* Preview calculations */}
             {(hasTP || hasSL) && (
-              <div className="text-xs text-gray-500 space-y-1 px-1">
+              <div className="text-xs text-[#68686f] space-y-1 px-1">
                 {hasTP && (
                   <div className="flex justify-between">
                     <span>TP triggers at</span>

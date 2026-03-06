@@ -4,11 +4,15 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useMarketStore } from '@/store/market-store';
 import { cn } from '@/lib/utils/cn';
+import { CoinIcon, hasCoinIcon } from '@/components/ui/coin-icon';
 
 function TickerItem({ symbol, price, change }: { symbol: string; price: string; change: number }) {
   const isPositive = change >= 0;
+  // Extract coin symbol (remove USD suffix)
+  const coinSymbol = symbol.replace(/USD$/, '');
   return (
     <span className="inline-flex items-center gap-2 px-4 whitespace-nowrap">
+      <CoinIcon symbol={coinSymbol} size="sm" />
       <span className="text-white text-xs">{symbol}</span>
       <span className={cn(
         'text-xs',
@@ -31,8 +35,9 @@ export function StatusFooter() {
     return null;
   }
 
-  // Get top markets by volume for the ticker
+  // Get top markets by volume for the ticker - only coins with icons
   const tickerMarkets = allMarkets
+    .filter(m => hasCoinIcon(m.symbol)) // Only show coins that have icons
     .sort((a, b) => parseFloat(b.volume24h) - parseFloat(a.volume24h))
     .slice(0, 20)
     .map(m => {
@@ -56,6 +61,7 @@ export function StatusFooter() {
           alt=""
           width={16}
           height={16}
+          style={{ width: 'auto', height: 'auto' }}
         />
         <span className="text-white text-xs font-medium">Operational</span>
       </div>
@@ -67,6 +73,7 @@ export function StatusFooter() {
           alt=""
           width={16}
           height={16}
+          style={{ width: 'auto', height: 'auto' }}
         />
       </div>
 

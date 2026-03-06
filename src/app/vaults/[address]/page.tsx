@@ -62,7 +62,7 @@ export default function VaultDetailPage() {
           <Link href="/vaults" className="text-[#16DE93] text-sm hover:underline mb-4 inline-block">
             &larr; Back to Vaults
           </Link>
-          <div className="flex items-center justify-center py-16 text-gray-500">
+          <div className="flex items-center justify-center py-16 text-[#68686f]">
             Vault not found
           </div>
         </div>
@@ -95,10 +95,10 @@ export default function VaultDetailPage() {
           <div>
             <h1 className="text-xl font-normal text-white">{summary.name}</h1>
             <div className="flex items-center gap-3 mt-1">
-              <span className="text-gray-400 text-xs">
+              <span className="text-white text-xs">
                 Leader: {formatAddress(summary.leader)}
               </span>
-              <span className="text-gray-400 text-xs">
+              <span className="text-white text-xs">
                 Commission: {(summary.leaderCommission * 100).toFixed(0)}%
               </span>
               {summary.isClosed && (
@@ -108,7 +108,7 @@ export default function VaultDetailPage() {
               )}
             </div>
             {summary.description && (
-              <p className="text-gray-400 text-sm mt-2 max-w-lg">{summary.description}</p>
+              <p className="text-white text-sm mt-2 max-w-lg">{summary.description}</p>
             )}
           </div>
 
@@ -126,12 +126,12 @@ export default function VaultDetailPage() {
 
         {/* Stats Row */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-          <div className="bg-[#0a0a0c] border border-gray-800 rounded-lg p-3">
-            <p className="text-gray-400 text-xs mb-1">TVL</p>
+          <div className="bg-[#0a0a0c] border border-[#2a2a2f] rounded-lg p-3">
+            <p className="text-white text-xs mb-1">TVL</p>
             <p className="text-white text-sm font-normal">{formatCurrency(tvl)}</p>
           </div>
-          <div className="bg-[#0a0a0c] border border-gray-800 rounded-lg p-3">
-            <p className="text-gray-400 text-xs mb-1">All-time PnL</p>
+          <div className="bg-[#0a0a0c] border border-[#2a2a2f] rounded-lg p-3">
+            <p className="text-white text-xs mb-1">All-time PnL</p>
             <p
               className={cn(
                 'text-sm font-normal',
@@ -142,8 +142,8 @@ export default function VaultDetailPage() {
               {formatCurrency(totalPnl)}
             </p>
           </div>
-          <div className="bg-[#0a0a0c] border border-gray-800 rounded-lg p-3">
-            <p className="text-gray-400 text-xs mb-1">APR</p>
+          <div className="bg-[#0a0a0c] border border-[#2a2a2f] rounded-lg p-3">
+            <p className="text-white text-xs mb-1">APR</p>
             <p
               className={cn(
                 'text-sm font-normal',
@@ -154,8 +154,8 @@ export default function VaultDetailPage() {
               {summary.apr.toFixed(1)}%
             </p>
           </div>
-          <div className="bg-[#0a0a0c] border border-gray-800 rounded-lg p-3">
-            <p className="text-gray-400 text-xs mb-1">Followers</p>
+          <div className="bg-[#0a0a0c] border border-[#2a2a2f] rounded-lg p-3">
+            <p className="text-white text-xs mb-1">Followers</p>
             <p className="text-white text-sm font-normal">
               {summary.followerCount?.toLocaleString() || 0}
             </p>
@@ -173,7 +173,7 @@ export default function VaultDetailPage() {
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-gray-400 text-xs">Your PnL</p>
+                <p className="text-white text-xs">Your PnL</p>
                 <p
                   className={cn(
                     'text-sm font-normal',
@@ -190,14 +190,14 @@ export default function VaultDetailPage() {
 
         {/* Chart */}
         {summary.portfolioPeriods && summary.portfolioPeriods.length > 0 && (
-          <div className="bg-[#0a0a0c] border border-gray-800 rounded-lg p-4 mb-6">
+          <div className="bg-[#0a0a0c] border border-[#2a2a2f] rounded-lg p-4 mb-6">
             <h3 className="text-white font-normal text-sm mb-3">Performance</h3>
             <VaultChart periods={summary.portfolioPeriods} />
           </div>
         )}
 
         {/* Tabs */}
-        <div className="flex border-b border-gray-800 mb-4">
+        <div className="flex border-b border-[#2a2a2f] mb-4">
           {tabs.map((t) => (
             <button
               key={t.value}
@@ -215,13 +215,13 @@ export default function VaultDetailPage() {
         </div>
 
         {/* Tab Content */}
-        <div className="bg-[#0a0a0c] border border-gray-800 rounded-lg">
+        <div className="bg-[#0a0a0c] border border-[#2a2a2f] rounded-lg">
           {tab === 'positions' && (
             <div className="overflow-x-auto">
               {portfolio && portfolio.length > 0 ? (
                 <table className="w-full text-xs">
                   <thead>
-                    <tr className="text-gray-400 border-b border-gray-800">
+                    <tr className="text-white border-b border-[#2a2a2f]">
                       <th className="text-left py-2 px-3 font-normal">Coin</th>
                       <th className="text-right py-2 px-3 font-normal">Size</th>
                       <th className="text-right py-2 px-3 font-normal">Entry Price</th>
@@ -238,7 +238,7 @@ export default function VaultDetailPage() {
                       return (
                         <tr
                           key={pos.coin}
-                          className="border-b border-gray-800/50 hover:bg-[#0a0a0a]/50 transition-colors"
+                          className="border-b border-[#2a2a2f]/50 hover:bg-[#0a0a0a]/50 transition-colors"
                         >
                           <td className="py-2 px-3">
                             <div className="flex items-center gap-2">
@@ -258,10 +258,10 @@ export default function VaultDetailPage() {
                           <td className="py-2 px-3 text-right text-white">
                             {Math.abs(size).toFixed(4)}
                           </td>
-                          <td className="py-2 px-3 text-right text-gray-300">
+                          <td className="py-2 px-3 text-right text-white">
                             ${parseFloat(pos.entryPx).toLocaleString()}
                           </td>
-                          <td className="py-2 px-3 text-right text-gray-300">
+                          <td className="py-2 px-3 text-right text-white">
                             ${parseFloat(pos.positionValue).toLocaleString()}
                           </td>
                           <td className="py-2 px-3 text-right">
@@ -308,16 +308,16 @@ export default function VaultDetailPage() {
                     return (
                       <div
                         key={period.period}
-                        className="flex items-center justify-between py-2 border-b border-gray-800/50 last:border-0"
+                        className="flex items-center justify-between py-2 border-b border-[#2a2a2f]/50 last:border-0"
                       >
-                        <span className="text-gray-400 text-xs">{period.period}</span>
+                        <span className="text-white text-xs">{period.period}</span>
                         <div className="flex items-center gap-6">
-                          <span className="text-gray-400 text-xs">
+                          <span className="text-white text-xs">
                             APR: <span className={cn(
                               period.apr >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]'
                             )}>{period.apr.toFixed(1)}%</span>
                           </span>
-                          <span className="text-gray-400 text-xs">
+                          <span className="text-white text-xs">
                             PnL:{' '}
                             <span
                               className={cn(
@@ -329,7 +329,7 @@ export default function VaultDetailPage() {
                               {formatCurrency(pnl)}
                             </span>
                           </span>
-                          <span className="text-gray-400 text-xs">
+                          <span className="text-white text-xs">
                             Vol: {formatCurrency(parseFloat(period.vlm))}
                           </span>
                         </div>

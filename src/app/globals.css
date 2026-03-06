@@ -60,7 +60,32 @@ body {
   font-weight: 600;
 }
 
-/* Scrollbar styling */
+/* Global scrollbar styling */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0c;
+}
+::-webkit-scrollbar-thumb {
+  background: #1a1a1f;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #16DE93;
+}
+::-webkit-scrollbar-corner {
+  background: #0a0a0c;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #1a1a1f #0a0a0c;
+}
+
+/* Scrollbar hide utility */
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
@@ -70,41 +95,41 @@ body {
 }
 
 .scrollbar-thin::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+  width: 3px;
+  height: 3px;
 }
 .scrollbar-thin::-webkit-scrollbar-track {
   background: transparent;
 }
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background: #2a2a3a;
+  background: #1a1a1f;
   border-radius: 2px;
 }
 .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background: #3a3a4a;
+  background: #16DE93;
 }
 
 /* Custom dark scrollbar for tables - very subtle */
 .scrollbar-dark::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+  width: 3px;
+  height: 3px;
 }
 .scrollbar-dark::-webkit-scrollbar-track {
   background: transparent;
 }
 .scrollbar-dark::-webkit-scrollbar-thumb {
-  background: #252528;
+  background: #1a1a1f;
   border-radius: 2px;
 }
 .scrollbar-dark::-webkit-scrollbar-thumb:hover {
-  background: #3a3a3f;
+  background: #16DE93;
 }
 .scrollbar-dark::-webkit-scrollbar-corner {
   background: transparent;
 }
 .scrollbar-dark {
   scrollbar-width: thin;
-  scrollbar-color: #252528 transparent;
+  scrollbar-color: #1a1a1f transparent;
 }
 
 /* Button press effect */
@@ -210,4 +235,106 @@ body {
 .tradingview-widget-container iframe {
   background: #0a0a0c !important;
   border-color: #1a1a1f !important;
+}
+
+/* AppKit/Reown Modal Styling */
+:root {
+  --w3m-color-mix: #0a0a0c !important;
+  --w3m-color-mix-strength: 100 !important;
+  --w3m-accent: #16DE93 !important;
+  --w3m-border-radius-master: 0px !important;
+  --wui-color-modal-bg: #0a0a0c !important;
+  --wui-color-bg-100: #0a0a0c !important;
+  --wui-color-bg-125: #0a0a0c !important;
+  --wui-color-bg-150: #111111 !important;
+  --wui-color-bg-175: #1a1a1f !important;
+  --wui-color-bg-200: #1a1a1f !important;
+  --wui-color-bg-225: #2a2a2f !important;
+  --wui-color-bg-250: #2a2a2f !important;
+  --wui-color-bg-275: #333338 !important;
+  --wui-color-bg-300: #333338 !important;
+  --wui-gray-glass-001: rgba(10, 10, 12, 0.01) !important;
+  --wui-gray-glass-002: rgba(10, 10, 12, 0.02) !important;
+  --wui-gray-glass-005: rgba(10, 10, 12, 0.05) !important;
+  --wui-gray-glass-010: rgba(10, 10, 12, 0.1) !important;
+  --wui-gray-glass-015: rgba(10, 10, 12, 0.15) !important;
+  --wui-gray-glass-020: rgba(10, 10, 12, 0.2) !important;
+  --wui-gray-glass-025: rgba(10, 10, 12, 0.25) !important;
+  --wui-gray-glass-030: rgba(10, 10, 12, 0.3) !important;
+  --wui-gray-glass-060: rgba(10, 10, 12, 0.6) !important;
+  --wui-gray-glass-080: rgba(10, 10, 12, 0.8) !important;
+  --wui-color-accent-100: #16DE93 !important;
+  --wui-color-accent-090: #14c583 !important;
+  --wui-color-accent-080: #12ac73 !important;
+  --wui-border-radius-l: 0px !important;
+  --wui-border-radius-m: 0px !important;
+  --wui-border-radius-s: 0px !important;
+  --wui-border-radius-xs: 0px !important;
+  --wui-border-radius-xxs: 0px !important;
+  --wui-border-radius-3xl: 0px !important;
+  --wui-border-radius-4xl: 0px !important;
+  --wui-border-radius-5xl: 0px !important;
+}
+
+w3m-modal,
+appkit-modal {
+  --wui-color-modal-bg: #0a0a0c !important;
+  --wui-color-bg-100: #0a0a0c !important;
+  --wui-color-bg-125: #0a0a0c !important;
+  --wui-color-bg-150: #111111 !important;
+  --wui-color-bg-175: #1a1a1f !important;
+  --wui-color-bg-200: #1a1a1f !important;
+  --w3m-color-mix: #0a0a0c !important;
+  --w3m-accent: #16DE93 !important;
+}
+
+w3m-modal::part(modal),
+appkit-modal::part(modal) {
+  border-radius: 0 !important;
+  border: 1px solid #2a2a2f !important;
+  background: #0a0a0c !important;
+  background-color: #0a0a0c !important;
+}
+
+wui-card,
+wui-flex {
+  border-radius: 0 !important;
+}
+
+/* Force all modal backgrounds */
+w3m-modal *,
+appkit-modal * {
+  --wui-color-modal-bg: #0a0a0c !important;
+  --wui-color-bg-100: #0a0a0c !important;
+  --wui-color-bg-125: #0a0a0c !important;
+}
+
+/* Modal card backgrounds */
+wui-card {
+  background: #0a0a0c !important;
+  background-color: #0a0a0c !important;
+}
+
+/* Modal backdrop */
+w3m-modal::part(overlay),
+appkit-modal::part(overlay) {
+  background: rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Input fields in modal */
+wui-input-text,
+wui-search-bar {
+  background: #111111 !important;
+  border-color: #2a2a2f !important;
+  border-radius: 0 !important;
+}
+
+/* List items */
+wui-list-item {
+  background: #0a0a0c !important;
+  border-radius: 0 !important;
+}
+
+wui-list-item:hover {
+  background: #111111 !important;
 }

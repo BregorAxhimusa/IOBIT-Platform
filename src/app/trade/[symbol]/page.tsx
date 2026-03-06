@@ -114,7 +114,7 @@ export default function TradingPage({ params }: TradingPageProps) {
                 <button
                   onClick={() => setRightTab('orderbook')}
                   className={cn(
-                    'flex-1 px-3 py-3 text-sm font-normal transition-all relative',
+                    'flex-1 px-3 py-3 text-sm font-normal transition-all relative border-r border-[#1a1a1f]',
                     rightTab === 'orderbook'
                       ? 'text-[#16DE93]'
                       : 'text-white/70 hover:text-white'
@@ -122,7 +122,7 @@ export default function TradingPage({ params }: TradingPageProps) {
                 >
                   Order Book
                   {rightTab === 'orderbook' && (
-                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-16 h-0.5 bg-gradient-to-r from-[#16DE93] to-cyan-400 rounded-full" />
+                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#16DE93]" />
                   )}
                 </button>
                 <button
@@ -136,7 +136,7 @@ export default function TradingPage({ params }: TradingPageProps) {
                 >
                   Recent Trades
                   {rightTab === 'trades' && (
-                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-16 h-0.5 bg-gradient-to-r from-[#16DE93] to-cyan-400 rounded-full" />
+                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#16DE93]" />
                   )}
                 </button>
               </div>
@@ -161,7 +161,7 @@ export default function TradingPage({ params }: TradingPageProps) {
               <button
                 onClick={() => setRightTab('orderbook')}
                 className={cn(
-                  'flex-1 px-3 py-3 text-xs sm:text-sm font-normal transition-all relative',
+                  'flex-1 px-3 py-3 text-xs sm:text-sm font-normal transition-all relative border-r border-[#1a1a1f]',
                   rightTab === 'orderbook'
                     ? 'text-[#16DE93]'
                     : 'text-white/70 hover:text-white'
@@ -169,7 +169,7 @@ export default function TradingPage({ params }: TradingPageProps) {
               >
                 Order Book
                 {rightTab === 'orderbook' && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-14 sm:w-16 h-0.5 bg-gradient-to-r from-[#16DE93] to-cyan-400 rounded-full" />
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#16DE93]" />
                 )}
               </button>
               <button
@@ -183,7 +183,7 @@ export default function TradingPage({ params }: TradingPageProps) {
               >
                 Recent Trades
                 {rightTab === 'trades' && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-14 sm:w-16 h-0.5 bg-gradient-to-r from-[#16DE93] to-cyan-400 rounded-full" />
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#16DE93]" />
                 )}
               </button>
             </div>
@@ -215,7 +215,7 @@ export default function TradingPage({ params }: TradingPageProps) {
               >
                 Positions
                 {activeTab === 'positions' && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 lg:w-14 h-0.5 bg-gradient-to-r from-[#16DE93] to-cyan-400 rounded-full" />
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#16DE93]" />
                 )}
               </button>
               <button
@@ -229,7 +229,7 @@ export default function TradingPage({ params }: TradingPageProps) {
               >
                 Open Orders
                 {activeTab === 'orders' && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-14 lg:w-16 h-0.5 bg-gradient-to-r from-[#16DE93] to-cyan-400 rounded-full" />
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#16DE93]" />
                 )}
               </button>
               <button
@@ -243,7 +243,7 @@ export default function TradingPage({ params }: TradingPageProps) {
               >
                 Order History
                 {activeTab === 'history' && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-14 lg:w-16 h-0.5 bg-gradient-to-r from-[#16DE93] to-cyan-400 rounded-full" />
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#16DE93]" />
                 )}
               </button>
               <button
@@ -257,7 +257,7 @@ export default function TradingPage({ params }: TradingPageProps) {
               >
                 Trade History
                 {activeTab === 'trades' && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-14 lg:w-16 h-0.5 bg-gradient-to-r from-[#16DE93] to-cyan-400 rounded-full" />
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#16DE93]" />
                 )}
               </button>
               {isSpot && (
@@ -272,7 +272,7 @@ export default function TradingPage({ params }: TradingPageProps) {
                 >
                   Balances
                   {activeTab === 'balances' && (
-                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 lg:w-14 h-0.5 bg-gradient-to-r from-[#16DE93] to-cyan-400 rounded-full" />
+                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#16DE93]" />
                   )}
                 </button>
               )}

@@ -19,6 +19,22 @@ interface MarketInfoBarProps {
   symbol: string;
 }
 
+// Known symbols with coin icons - only include symbols that have actual icon files
+const SYMBOLS_WITH_ICONS = new Set([
+  'AAVE', 'ADA', 'AERO', 'ALGO', 'APE', 'APT', 'AR', 'ARB', 'ATOM', 'AVAX',
+  'AXS', 'BCH', 'BERA', 'BLUR', 'BLZ', 'BNB', 'BOME', 'BONK', 'BSV', 'BTC',
+  'CAKE', 'CELO', 'COMP', 'CRV', 'DASH', 'DOGE', 'DOT', 'DYDX', 'DYM', 'EIGEN',
+  'ENA', 'ENJ', 'ENS', 'EOS', 'ETC', 'ETH', 'ETHFI', 'FET', 'FIL', 'FTM',
+  'FTT', 'FXS', 'GALA', 'GMT', 'GMX', 'GRT', 'HBAR', 'HYPE', 'ICP', 'IMX',
+  'INJ', 'IO', 'IOTA', 'JTO', 'JUP', 'KAS', 'LDO', 'LINK', 'LTC', 'MANA',
+  'MANTA', 'MATIC', 'MEME', 'MKR', 'MOVE', 'NEAR', 'NEO', 'NOT', 'OM', 'OMNI',
+  'ONDO', 'OP', 'ORDI', 'PAXG', 'PENDLE', 'PENGU', 'PEOPLE', 'PEPE', 'PNUT',
+  'POPCAT', 'PYTH', 'RENDER', 'RNDR', 'RSR', 'RUNE', 'SAGA', 'SAND', 'SEI',
+  'SHIB', 'SNX', 'SOL', 'STRK', 'STX', 'SUI', 'SUSHI', 'TAO', 'TIA', 'TON',
+  'TRUMP', 'TRX', 'UNI', 'USUAL', 'VET', 'VIRTUAL', 'W', 'WIF', 'WLD', 'XLM',
+  'XMR', 'XRP', 'YGG', 'ZEC', 'ZETA', 'ZK', 'ZRO'
+]);
+
 export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
   const router = useRouter();
   const { market } = useSymbolData(symbol);
@@ -27,10 +43,6 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
   const [mounted, setMounted] = useState(false);
   const [searchMode, setSearchMode] = useState<'strict' | 'all'>('all');
   const [activeFilter, setActiveFilter] = useState<string>('All');
-  const [dropdownPosition, setDropdownPosition] = useState({
-    top: 80,
-    left: 24,
-  });
   const dropdownRef = useRef<HTMLDivElement>(null);
   const dropdownContentRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -44,26 +56,26 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
     setMounted(true);
   }, []);
 
-  // Calculate dropdown position when button is clicked, window resizes, or page scrolls
+  // Close dropdown on scroll (but not when scrolling inside the dropdown)
   useEffect(() => {
-    const updatePosition = () => {
-      if (buttonRef.current) {
-        const rect = buttonRef.current.getBoundingClientRect();
-
-        setDropdownPosition({
-          top: rect.bottom + 4, // Position just below the button + small gap
-          left: rect.left,
-        });
+    const handleScroll = (e: Event) => {
+      if (showMarketsDropdown) {
+        // Check if the scroll is happening inside the dropdown
+        const target = e.target as Node;
+        if (dropdownContentRef.current?.contains(target)) {
+          return; // Don't close if scrolling inside the modal
+        }
+        setShowMarketsDropdown(false);
+        setSearchTerm('');
+        setSearchMode('all');
+        setActiveFilter('All');
       }
     };
 
     if (showMarketsDropdown) {
-      updatePosition();
-      window.addEventListener('resize', updatePosition);
-      window.addEventListener('scroll', updatePosition, true); // Capture phase to catch all scrolls
+      window.addEventListener('scroll', handleScroll, true);
       return () => {
-        window.removeEventListener('resize', updatePosition);
-        window.removeEventListener('scroll', updatePosition, true);
+        window.removeEventListener('scroll', handleScroll, true);
       };
     }
   }, [showMarketsDropdown]);
@@ -136,8 +148,15 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
       }
     }
 
-    // Sort by volume (high to low)
+    // Sort: symbols with icons first (sorted by volume), then rest by volume
     filtered.sort((a, b) => {
+      const aHasIcon = SYMBOLS_WITH_ICONS.has(a.symbol);
+      const bHasIcon = SYMBOLS_WITH_ICONS.has(b.symbol);
+
+      if (aHasIcon && !bHasIcon) return -1;
+      if (!aHasIcon && bHasIcon) return 1;
+
+      // Both have or both don't have icons, sort by volume
       const volA = parseFloat(a.volume24h || '0');
       const volB = parseFloat(b.volume24h || '0');
       return volB - volA;
@@ -181,31 +200,40 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
       ? createPortal(
           <div
             ref={dropdownContentRef}
-            className="fixed w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] md:w-[90%] lg:w-[900px] max-w-[900px] bg-gradient-to-b from-gray-900 to-black border border-gray-700/40 rounded-xl shadow-2xl overflow-hidden backdrop-blur-xl"
+            className="fixed w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] md:w-[95%] lg:w-[1100px] max-w-[1200px] bg-[#0a0a0c] border border-[#1a1a1f] shadow-2xl overflow-hidden"
             style={{
               zIndex: 99998,
-              top: `${dropdownPosition.top}px`,
-              left: `${dropdownPosition.left}px`,
+              top: '128.6px',
+              left: '0px',
             }}
           >
             {/* Search Bar */}
-            <div className="p-3 sm:p-4 border-b border-gray-800/40 flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
-              <input
-                type="text"
-                placeholder="Search markets..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 bg-gray-800/60 border border-[#1a1a1f] rounded-lg text-white text-xs sm:text-sm placeholder-gray-500 focus:outline-none focus:border-[#16DE93]/50 focus:ring-2 focus:ring-[#16DE93]/20 transition-all"
-                autoFocus
-              />
-              <div className="flex gap-2 sm:gap-3">
+            <div className="p-2 sm:p-3 border-b border-[#2a2a2f] flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+              <div className="relative flex-1">
+                <svg
+                  className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#68686f]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <input
+                  type="text"
+                  placeholder="Search markets..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-8 pr-2.5 py-1.5 bg-[#56565B]/30 border border-[#1a1a1f] text-white text-xs placeholder-gray-500 focus:outline-none focus:border-[#16DE93]/50 focus:ring-1 focus:ring-[#16DE93]/20 transition-all"
+                />
+              </div>
+              <div className="flex gap-1.5">
                 <button
                   onClick={() => setSearchMode('strict')}
                   className={cn(
-                    'flex-1 sm:flex-initial px-4 sm:px-5 py-2 sm:py-2.5 text-white text-xs sm:text-sm font-normal rounded-lg transition-all duration-200',
+                    'flex-1 sm:flex-initial px-3 py-1.5 text-xs font-normal transition-all duration-200',
                     searchMode === 'strict'
-                      ? 'bg-gradient-to-r from-[#16DE93] to-[#16DE93] hover:from-[#16DE93] hover:to-[#16DE93] shadow-lg hover:shadow-[#16DE93]/30'
-                      : 'bg-gray-700/70 hover:bg-gray-600/70'
+                      ? 'text-[#16DE93] shadow-[inset_0_0.5px_8px_rgba(22,222,147,0.10)] backdrop-blur-[2.5px]'
+                      : 'text-white bg-[#56565B]/30 hover:bg-[#56565B]/50'
                   )}
                 >
                   Strict
@@ -213,10 +241,10 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                 <button
                   onClick={() => setSearchMode('all')}
                   className={cn(
-                    'flex-1 sm:flex-initial px-4 sm:px-5 py-2 sm:py-2.5 text-white text-xs sm:text-sm font-normal rounded-lg transition-all duration-200',
+                    'flex-1 sm:flex-initial px-3 py-1.5 text-xs font-normal transition-all duration-200',
                     searchMode === 'all'
-                      ? 'bg-gradient-to-r from-[#16DE93] to-[#16DE93] hover:from-[#16DE93] hover:to-[#16DE93] shadow-lg hover:shadow-[#16DE93]/30'
-                      : 'bg-gray-700/70 hover:bg-gray-600/70'
+                      ? 'text-[#16DE93] shadow-[inset_0_0.5px_8px_rgba(22,222,147,0.10)] backdrop-blur-[2.5px]'
+                      : 'text-white bg-[#56565B]/30 hover:bg-[#56565B]/50'
                   )}
                 >
                   All
@@ -225,7 +253,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
             </div>
 
             {/* Filter Tabs - Scrollable on mobile */}
-            <div className="flex border-b border-gray-800/40 text-xs px-2 sm:px-4 gap-1 overflow-x-auto scrollbar-hide">
+            <div className="flex border-b border-[#2a2a2f] text-xs px-2 sm:px-4 gap-1 overflow-x-auto scrollbar-hide py-2">
               {[
                 'All',
                 'Perps',
@@ -240,10 +268,10 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                   key={filter}
                   onClick={() => setActiveFilter(filter)}
                   className={cn(
-                    'px-3 sm:px-4 py-2 sm:py-2.5 rounded-t-lg transition-all duration-200 font-normal whitespace-nowrap flex-shrink-0',
+                    'px-3 py-1.5 rounded-lg transition-all duration-200 font-normal whitespace-nowrap flex-shrink-0',
                     activeFilter === filter
-                      ? 'text-white bg-gray-800/50 border-b-2 border-[#16DE93]'
-                      : 'text-white/70 hover:text-white hover:bg-gray-800/50'
+                      ? 'text-[#16DE93] shadow-[inset_0_0.5px_8px_rgba(22,222,147,0.10)] backdrop-blur-[2.5px]'
+                      : 'text-white/70 hover:text-white'
                   )}
                 >
                   {filter}
@@ -252,7 +280,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
             </div>
 
             {/* Column Headers - Responsive */}
-            <div className="grid grid-cols-12 gap-1 sm:gap-2 px-3 sm:px-5 py-2 sm:py-3 text-[10px] sm:text-[11px] text-gray-500 border-b border-gray-800/40 font-normal uppercase tracking-wider bg-gray-900/50">
+            <div className="grid grid-cols-12 gap-1 sm:gap-2 px-3 sm:px-5 py-2 sm:py-3 text-[10px] sm:text-[11px] text-[#68686f] border-b border-[#2a2a2f] font-normal uppercase tracking-wider bg-[#0a0a0c]">
               <div className="col-span-4 sm:col-span-2">Symbol</div>
               <div className="col-span-3 sm:col-span-2 text-right">Price</div>
               <div className="col-span-3 sm:col-span-2 text-right">24h %</div>
@@ -268,7 +296,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
             {/* Markets List */}
             <div className="max-h-[300px] sm:max-h-[400px] md:max-h-[450px] overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-700 hover:scrollbar-thumb-gray-600">
               {markets.size === 0 ? (
-                <div className="flex items-center justify-center py-12 sm:py-16 text-gray-400 text-xs sm:text-sm">
+                <div className="flex items-center justify-center py-12 sm:py-16 text-white text-xs sm:text-sm">
                   <div className="text-center">
                     <div className="animate-spin rounded-full h-8 w-8 sm:h-10 sm:w-10 border-b-3 border-[#16DE93] mx-auto mb-2 sm:mb-3"></div>
                     <div className="font-normal">Loading markets...</div>
@@ -321,7 +349,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                         }
                       }}
                       className={cn(
-                        'grid grid-cols-12 gap-1 sm:gap-2 px-3 sm:px-5 py-2 sm:py-3 border-b border-gray-800/20 hover:bg-gray-800/40 transition-all duration-150 text-[10px] sm:text-xs group',
+                        'grid grid-cols-12 gap-1 sm:gap-2 px-3 sm:px-5 py-2 sm:py-3 border-b border-[#2a2a2f] hover:bg-gray-800/40 transition-all duration-150 text-[10px] sm:text-xs group',
                         isActive &&
                           'bg-[#16DE93]/10 border-l-2 border-l-[#16DE93]'
                       )}
@@ -338,19 +366,34 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                         >
                           {isFav ? '★' : '☆'}
                         </button>
-                        <span className="font-normal text-white group-hover:text-[#16DE93] transition-colors truncate">
+                        {SYMBOLS_WITH_ICONS.has(m.symbol) && (
+                          <Image
+                            src={`/icons/coins/${m.symbol}.png`}
+                            alt={m.symbol}
+                            width={16}
+                            height={16}
+                            className="w-4 h-4 rounded-full"
+                          />
+                        )}
+                        <span className={cn(
+                            'font-normal transition-colors truncate',
+                            isActive ? 'text-[#16DE93]' : 'text-white group-hover:text-[#16DE93]'
+                          )}>
                           {m.symbol}
                         </span>
-                        <span className="hidden sm:inline text-gray-600 text-[9px]">
-                          -USDC
+                        <span className={cn(
+                            'hidden sm:inline text-[9px]',
+                            isActive ? 'text-[#16DE93]/60' : 'text-gray-600'
+                          )}>
+                          USDC
                         </span>
-                        <span className="hidden lg:inline px-1.5 py-0.5 bg-[#16DE93]/20 text-[#16DE93] text-[9px] font-normal rounded">
+                        <span className="hidden lg:inline text-[10px] px-1.5 py-0.5 rounded bg-[#F7931A]/10 text-[#F7931A] font-medium">
                           40x
                         </span>
                       </div>
 
                       {/* Last Price */}
-                      <div className="col-span-3 sm:col-span-2 text-right text-gray-300 font-normal flex items-center justify-end group-hover:text-white transition-colors">
+                      <div className="col-span-3 sm:col-span-2 text-right text-white font-normal flex items-center justify-end group-hover:text-white transition-colors">
                         {marketPrice > 0
                           ? marketPrice.toLocaleString(undefined, {
                               minimumFractionDigits:
@@ -381,14 +424,14 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                       </div>
 
                       {/* 8H Funding - Hidden on mobile */}
-                      <div className="hidden sm:flex sm:col-span-2 text-right text-gray-400 font-normal items-center justify-end group-hover:text-gray-300 transition-colors">
+                      <div className="hidden sm:flex sm:col-span-2 text-right text-white font-normal items-center justify-end group-hover:text-white transition-colors">
                         {marketFunding !== 0
                           ? `${(marketFunding * 100).toFixed(4)}%`
                           : '--'}
                       </div>
 
                       {/* Volume */}
-                      <div className="col-span-2 sm:col-span-2 text-right text-gray-400 font-normal flex items-center justify-end group-hover:text-gray-300 transition-colors">
+                      <div className="col-span-2 sm:col-span-2 text-right text-white font-normal flex items-center justify-end group-hover:text-white transition-colors">
                         {marketVolume > 0
                           ? `$${
                               marketVolume >= 1000000000
@@ -403,7 +446,7 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
                       </div>
 
                       {/* Open Interest - Hidden on mobile and tablet */}
-                      <div className="hidden lg:flex lg:col-span-2 text-right text-gray-400 font-normal items-center justify-end group-hover:text-gray-300 transition-colors">
+                      <div className="hidden lg:flex lg:col-span-2 text-right text-white font-normal items-center justify-end group-hover:text-white transition-colors">
                         {marketOI > 0
                           ? `$${
                               marketOI >= 1000000000
@@ -429,23 +472,35 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
   return (
     <div className="border-b border-[#1a1a1f] bg-[#0a0a0c]">
       <div className="w-full px-2 sm:px-4 md:px-6">
-        <div className="flex items-center justify-between h-[72px] gap-3">
+        <div className="flex items-center justify-between gap-3">
           {/* Left Side - All Market Info */}
           <div className="flex items-center gap-2 sm:gap-3 md:gap-4 overflow-x-auto scrollbar-hide">
             {/* Markets Dropdown */}
-            <div className="relative flex items-center flex-shrink-0" ref={dropdownRef}>
+            <div className="relative flex items-center flex-shrink-0 py-2" ref={dropdownRef}>
               <button
                 ref={buttonRef}
                 onClick={() => setShowMarketsDropdown(!showMarketsDropdown)}
                 className="flex items-center gap-2 hover:opacity-80 transition-all group"
               >
-                <span className="w-2.5 h-2.5 rounded-full bg-[#16DE93]" />
+                <Image
+                  src={`/icons/coins/${symbol}.png`}
+                  alt={symbol}
+                  width={20}
+                  height={20}
+                  className="w-5 h-5 rounded-full"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = 'none';
+                  }}
+                />
                 <span className="text-lg font-normal text-white whitespace-nowrap">
-                  {isSpot ? symbol : `${symbol}/USDC`}
+                  {isSpot ? symbol : `${symbol}/USD`}
+                </span>
+                <span className="text-sm text-[#6b6b6b] whitespace-nowrap">
+                  [{symbol}-USDC]
                 </span>
                 <svg
                   className={cn(
-                    'w-4 h-4 text-gray-500 transition-all duration-200',
+                    'w-4 h-4 text-[#68686f] transition-all duration-200',
                     showMarketsDropdown && 'rotate-180 text-white'
                   )}
                   fill="none"
@@ -458,16 +513,16 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
             </div>
 
             {/* Main Price with Change Badge */}
-            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 border-l border-[#1a1a1f] pl-4">
+            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 border-l border-[#1a1a1f] pl-4 py-2">
               <span className="text-lg sm:text-2xl font-normal text-white tabular-nums">
                 ${price > 0 ? formatPrice(price, price > 100 ? 2 : 4) : '--'}
               </span>
               <span
                 className={cn(
-                  'px-2 py-1 rounded-lg text-xs sm:text-sm font-normal tabular-nums',
+                  'px-2 py-1 rounded-lg text-xs sm:text-sm font-normal tabular-nums backdrop-blur-[2.5px]',
                   isPositive
-                    ? 'bg-[#16DE93]/20 text-[#16DE93] border border-[#16DE93]/30'
-                    : 'bg-[#f6465d]/20 text-[#f6465d] border border-[#f6465d]/30'
+                    ? 'text-[#16DE93] shadow-[inset_0_0.5px_8px_rgba(22,222,147,0.10)]'
+                    : 'text-[#f6465d] shadow-[inset_0_0.5px_8px_rgba(246,70,93,0.10)]'
                 )}
               >
                 {market ? formatPercentage(change24h) : '--'}
@@ -476,8 +531,8 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
 
             {/* Stats - Vertical layout like reference */}
             {/* 24h Volume */}
-            <div className="hidden md:flex flex-col px-4 flex-shrink-0 border-l border-[#1a1a1f]">
-              <span className="text-[10px] text-gray-500 uppercase tracking-wider">24H Volume</span>
+            <div className="hidden md:flex flex-col px-4 flex-shrink-0 border-l border-[#1a1a1f] py-2">
+              <span className="text-[10px] text-[#68686f] uppercase tracking-wider">24H Volume</span>
               <span className="text-sm font-normal text-white tabular-nums">
                 ${market ? formatCompactNumber(volume24h) : '--'}
               </span>
@@ -485,8 +540,8 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
 
             {/* Open Interest - Perps only */}
             {!isSpot && (
-              <div className="hidden md:flex flex-col px-4 flex-shrink-0 border-l border-[#1a1a1f]">
-                <span className="text-[10px] text-gray-500 uppercase tracking-wider">Open Interest</span>
+              <div className="hidden md:flex flex-col px-4 flex-shrink-0 border-l border-[#1a1a1f] py-2">
+                <span className="text-[10px] text-[#68686f] uppercase tracking-wider">Open Interest</span>
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-normal text-white tabular-nums">
                     ${market ? formatCompactNumber(openInterest) : '--'}
@@ -497,15 +552,19 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
 
             {/* 24h High/Low - Perps only */}
             {!isSpot && market && (
-              <div className="hidden lg:flex flex-col px-4 flex-shrink-0 border-l border-[#1a1a1f]">
-                <span className="text-[10px] text-gray-500 uppercase tracking-wider">24H Range</span>
+              <div className="hidden lg:flex flex-col px-4 flex-shrink-0 border-l border-[#1a1a1f] py-2">
+                <span className="text-[10px] text-[#68686f] uppercase tracking-wider">24H Range</span>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-xs text-[#16DE93]">↗</span>
+                  <svg className="w-3 h-3 text-[#16DE93]" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 6.414l-3.293 3.293a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                  </svg>
                   <span className="text-sm font-normal text-white tabular-nums">
                     ${formatPrice(price * 1.02, price > 100 ? 2 : 4)}
                   </span>
                   <span className="text-gray-600 mx-1">/</span>
-                  <span className="text-xs text-[#f6465d]">↘</span>
+                  <svg className="w-3 h-3 text-[#f6465d]" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L10 13.586l3.293-3.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
                   <span className="text-sm font-normal text-white tabular-nums">
                     ${formatPrice(price * 0.98, price > 100 ? 2 : 4)}
                   </span>
@@ -515,8 +574,8 @@ export function MarketInfoBar({ symbol }: MarketInfoBarProps) {
 
             {/* Funding Rate - Perps only */}
             {!isSpot && (
-              <div className="hidden xl:flex flex-col px-4 flex-shrink-0 border-l border-[#1a1a1f]">
-                <span className="text-[10px] text-gray-500 uppercase tracking-wider">Funding Rate</span>
+              <div className="hidden xl:flex flex-col px-4 flex-shrink-0 border-l border-[#1a1a1f] py-2">
+                <span className="text-[10px] text-[#68686f] uppercase tracking-wider">Funding Rate</span>
                 <span className={cn(
                   'text-sm font-normal tabular-nums',
                   parseFloat(funding) >= 0 ? 'text-[#16DE93]' : 'text-[#f6465d]'

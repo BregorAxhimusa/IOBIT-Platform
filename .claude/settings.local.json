@@ -48,7 +48,11 @@
       "WebFetch(domain:www.tradingview.com)",
       "WebFetch(domain:tradingview.github.io)",
       "WebFetch(domain:github.com)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Bash(ls:*)",
+      "Bash(xargs:*)",
+      "Bash(comm -23:*)",
+      "Bash(npx tsc:*)"
     ]
   }
 }

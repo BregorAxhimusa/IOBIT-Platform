@@ -51,14 +51,14 @@ function HasCodeView({ code }: { code: string }) {
     <div className="space-y-4">
       <div className="flex items-center gap-3">
         <div className="bg-[#0a0a0a] border border-[#16DE93]/30  px-5 py-3 flex-1">
-          <p className="text-gray-400 text-xs mb-1">Your Referral Code</p>
+          <p className="text-white text-xs mb-1">Your Referral Code</p>
           <p className="text-[#16DE93] text-xl font-normal tracking-wider">{code}</p>
         </div>
       </div>
 
       <div className="flex items-center gap-2">
         <div className="bg-[#0a0a0a] border border-gray-700  px-3 py-2 flex-1 overflow-hidden">
-          <p className="text-gray-300 text-sm truncate">{referralLink}</p>
+          <p className="text-white text-sm truncate">{referralLink}</p>
         </div>
         <button
           onClick={handleCopy}
@@ -73,8 +73,8 @@ function HasCodeView({ code }: { code: string }) {
         </button>
       </div>
 
-      <div className="bg-[#0a0a0a] border border-gray-800  p-3">
-        <p className="text-gray-400 text-xs">
+      <div className="bg-[#0a0a0a] border border-[#2a2a2f]  p-3">
+        <p className="text-white text-xs">
           Share this link with friends. You earn a portion of their trading fees, and they get a 4% fee discount
           on their first $25M in volume.
         </p>
@@ -139,7 +139,7 @@ function CreateCodeView({
             'px-4 py-2  text-sm font-normal transition-all shrink-0',
             isValidCode && !isCreating
               ? 'bg-[#16DE93] hover:bg-[#16DE93] text-white'
-              : 'bg-gray-700 text-gray-500 cursor-not-allowed'
+              : 'bg-gray-700 text-[#68686f] cursor-not-allowed'
           )}
         >
           {isCreating ? (
@@ -160,7 +160,7 @@ function CreateCodeView({
         <p className="text-[#f6465d] text-sm">{error}</p>
       )}
 
-      <p className="text-gray-500 text-xs">
+      <p className="text-[#68686f] text-xs">
         Alphanumeric characters only (A-Z, 0-9). Minimum 3, maximum 20 characters.
       </p>
     </div>
@@ -174,14 +174,14 @@ function NeedsVolumeView({ currentVolume }: { currentVolume: string }) {
 
   return (
     <div className="space-y-4">
-      <div className="bg-[#0a0a0a] border border-gray-800 p-4">
-        <p className="text-gray-300 text-sm mb-3">
+      <div className="bg-[#0a0a0a] border border-[#2a2a2f] p-4">
+        <p className="text-white text-sm mb-3">
           You need <span className="text-[#16DE93] font-normal">$10,000</span> in trading volume to create a referral code.
         </p>
 
         <div className="space-y-2">
           <div className="flex items-center justify-between text-xs">
-            <span className="text-gray-400">Current Volume</span>
+            <span className="text-white">Current Volume</span>
             <span className="text-white font-normal">${formatCompactNumber(currentVolume)}</span>
           </div>
 
@@ -193,13 +193,13 @@ function NeedsVolumeView({ currentVolume }: { currentVolume: string }) {
           </div>
 
           <div className="flex items-center justify-between text-xs">
-            <span className="text-gray-500">{progress.toFixed(1)}% complete</span>
-            <span className="text-gray-500">$10,000</span>
+            <span className="text-[#68686f]">{progress.toFixed(1)}% complete</span>
+            <span className="text-[#68686f]">$10,000</span>
           </div>
         </div>
       </div>
 
-      <p className="text-gray-500 text-xs">
+      <p className="text-[#68686f] text-xs">
         Start trading to build up your volume. Once you reach $10,000 in cumulative volume,
         you will be able to create your own referral code.
       </p>
@@ -215,7 +215,7 @@ export function ReferralCodeSection({
   const scenario = getScenario(referralInfo);
 
   return (
-    <div className="bg-[#0a0a0c] border border-gray-800 p-4">
+    <div className="bg-[#0a0a0c] border border-[#2a2a2f] p-4">
       <h3 className="text-white font-normal mb-4 flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#16DE93]" viewBox="0 0 20 20" fill="currentColor">
           <path fillRule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clipRule="evenodd" />

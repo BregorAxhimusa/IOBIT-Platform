@@ -13,7 +13,7 @@ export function SpotBalancesTable() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-32 text-gray-400 text-sm">
+      <div className="flex items-center justify-center h-32 text-white text-sm">
         Loading balances...
       </div>
     );
@@ -27,7 +27,7 @@ export function SpotBalancesTable() {
 
   if (nonZeroBalances.length === 0) {
     return (
-      <div className="flex items-center justify-center h-32 text-gray-400 text-sm">
+      <div className="flex items-center justify-center h-32 text-white text-sm">
         No spot balances. Transfer USDC from Perps to start trading.
       </div>
     );
@@ -37,7 +37,7 @@ export function SpotBalancesTable() {
     <div className="overflow-x-auto">
       <table className="w-full text-xs">
         <thead>
-          <tr className="text-gray-400 border-b border-gray-800">
+          <tr className="text-white border-b border-[#2a2a2f]">
             <th className="text-left py-2 px-3 font-normal">Token</th>
             <th className="text-right py-2 px-3 font-normal">Total</th>
             <th className="text-right py-2 px-3 font-normal">Available</th>
@@ -59,7 +59,7 @@ export function SpotBalancesTable() {
             return (
               <tr
                 key={balance.coin}
-                className="border-b border-gray-800/50 hover:bg-[#0a0a0a]/50 transition-colors"
+                className="border-b border-[#2a2a2f]/50 hover:bg-[#0a0a0a]/50 transition-colors"
               >
                 <td className="py-2 px-3 font-normal text-white">
                   {balance.coin}
@@ -70,7 +70,7 @@ export function SpotBalancesTable() {
                 <td className="py-2 px-3 text-right text-white">
                   {available.toFixed(balance.coin === 'USDC' ? 2 : 4)}
                 </td>
-                <td className="py-2 px-3 text-right text-gray-400">
+                <td className="py-2 px-3 text-right text-white">
                   {hold > 0 ? hold.toFixed(balance.coin === 'USDC' ? 2 : 4) : '-'}
                 </td>
                 <td className="py-2 px-3 text-right text-white">

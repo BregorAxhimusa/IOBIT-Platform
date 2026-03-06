@@ -69,10 +69,10 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
 
   return (
     <div className="bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 shadow-lg">
-      <p className="text-gray-400 text-xs mb-2">{label}</p>
+      <p className="text-white text-xs mb-2">{label}</p>
       {payload.map((item, index) => (
         <div key={index} className="flex items-center justify-between gap-4">
-          <span className="text-gray-400 text-xs capitalize">
+          <span className="text-white text-xs capitalize">
             {item.dataKey === 'cumulativePnl' ? 'Cumulative PnL' :
              item.dataKey === 'totalPnl' ? 'Daily PnL' :
              item.dataKey === 'realizedPnl' ? 'Realized' :
@@ -103,7 +103,7 @@ export function PortfolioChart({
     return (
       <div className={cn(hideHeader ? '' : 'bg-[#0a0a0c] sm:border sm:border-[#1a1a1f] p-2 sm:p-4')}>
         <div className={cn(hideHeader ? 'h-full' : 'h-[350px]', 'flex items-center justify-center')}>
-          <div className="animate-pulse text-gray-500">Loading chart data...</div>
+          <div className="animate-pulse text-[#68686f]">Loading chart data...</div>
         </div>
       </div>
     );
@@ -118,7 +118,7 @@ export function PortfolioChart({
           </div>
         )}
         <div className={cn(hideHeader ? 'h-full' : 'h-[350px]', 'flex items-center justify-center')}>
-          <p className="text-gray-500">No trading data available for this period</p>
+          <p className="text-[#68686f]">No trading data available for this period</p>
         </div>
       </div>
     );
@@ -145,7 +145,7 @@ export function PortfolioChart({
               <span className={cn('text-lg font-normal', isPositive ? 'text-[#16DE93]' : 'text-[#f6465d]')}>
                 {isPositive ? '+' : ''}{formatCurrency(totalPnl)}
               </span>
-              <span className="text-gray-500 text-sm">cumulative PnL</span>
+              <span className="text-[#68686f] text-sm">cumulative PnL</span>
             </div>
           </div>
 

@@ -58,7 +58,7 @@ export default function VaultsPage() {
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-2xl font-normal text-white mb-1">Vaults</h1>
-          <p className="text-gray-400 text-sm">
+          <p className="text-white text-sm">
             Deposit into vaults managed by top traders. Earn returns based on their performance.
           </p>
         </div>
@@ -108,7 +108,7 @@ export default function VaultsPage() {
 
               {/* Sort */}
               <div className="flex items-center gap-2">
-                <span className="text-gray-400 text-xs">Sort by:</span>
+                <span className="text-white text-xs">Sort by:</span>
                 <div className="flex bg-[#0a0a0a]  p-0.5">
                   {SORT_OPTIONS.map((opt) => (
                     <button
@@ -144,7 +144,7 @@ export default function VaultsPage() {
                   'px-3 py-1.5 text-xs  border transition-colors',
                   showClosedVaults
                     ? 'border-gray-600 text-white bg-gray-800'
-                    : 'border-gray-700 text-gray-400 hover:text-white'
+                    : 'border-gray-700 text-white hover:text-white'
                 )}
               >
                 {showClosedVaults ? 'Hide Closed' : 'Show Closed'}
@@ -157,7 +157,7 @@ export default function VaultsPage() {
                 {Array.from({ length: 6 }).map((_, i) => (
                   <div
                     key={i}
-                    className="bg-[#0a0a0c] border border-gray-800  p-4 animate-pulse"
+                    className="bg-[#0a0a0c] border border-[#2a2a2f]  p-4 animate-pulse"
                   >
                     <div className="h-4 bg-gray-700 rounded w-3/4 mb-3" />
                     <div className="h-3 bg-gray-700 rounded w-1/2 mb-4" />
@@ -215,7 +215,7 @@ export default function VaultsPage() {
                 {Array.from({ length: 3 }).map((_, i) => (
                   <div
                     key={i}
-                    className="bg-[#0a0a0c] border border-gray-800  p-4 animate-pulse"
+                    className="bg-[#0a0a0c] border border-[#2a2a2f]  p-4 animate-pulse"
                   >
                     <div className="h-4 bg-gray-700 rounded w-1/3 mb-2" />
                     <div className="h-3 bg-gray-700 rounded w-1/2" />
@@ -223,7 +223,7 @@ export default function VaultsPage() {
                 ))}
               </div>
             ) : equities.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-16 text-gray-500">
+              <div className="flex flex-col items-center justify-center py-16 text-[#68686f]">
                 <p className="text-sm mb-2">You haven&apos;t deposited into any vaults yet</p>
                 <button
                   onClick={() => setTab('all')}
@@ -245,14 +245,14 @@ export default function VaultsPage() {
                       href={`/vaults/${eq.vaultAddress}`}
                       className="block"
                     >
-                      <div className="bg-[#0a0a0c] border border-gray-800  p-4 hover:border-gray-600 transition-colors">
+                      <div className="bg-[#0a0a0c] border border-[#2a2a2f]  p-4 hover:border-gray-600 transition-colors">
                         <div className="flex items-center justify-between">
                           <div>
                             <p className="text-white text-sm">
                               {formatAddress(eq.vaultAddress)}
                             </p>
                             <div className="flex items-center gap-4 mt-1">
-                              <span className="text-gray-400 text-xs">
+                              <span className="text-white text-xs">
                                 Equity: <span className="text-white">{formatCurrency(equity)}</span>
                               </span>
                               <span className="text-xs">
@@ -275,7 +275,7 @@ export default function VaultsPage() {
                                 Locked
                               </span>
                             )}
-                            <span className="text-gray-400 text-sm">&rarr;</span>
+                            <span className="text-white text-sm">&rarr;</span>
                           </div>
                         </div>
                       </div>

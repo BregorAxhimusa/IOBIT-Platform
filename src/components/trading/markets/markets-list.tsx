@@ -85,7 +85,7 @@ export function MarketsList({ currentSymbol }: MarketsListProps) {
   return (
     <div className="flex flex-col h-full bg-[#0a0a0a]">
       {/* Search */}
-      <div className="p-2 border-b border-gray-800/50">
+      <div className="p-2 border-b border-[#2a2a2f]/50">
         <input
           type="text"
           placeholder="Search"
@@ -96,7 +96,7 @@ export function MarketsList({ currentSymbol }: MarketsListProps) {
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex border-b border-gray-800/50 text-[11px]">
+      <div className="flex border-b border-[#2a2a2f]/50 text-[11px]">
         {(['All', 'Perps', 'Spot'] as const).map((filter) => (
           <button
             key={filter}
@@ -114,7 +114,7 @@ export function MarketsList({ currentSymbol }: MarketsListProps) {
       </div>
 
       {/* Column Headers */}
-      <div className="grid grid-cols-12 gap-1 px-2 py-1 text-[10px] text-gray-600 border-b border-gray-800/50 font-normal bg-[#0a0a0a]">
+      <div className="grid grid-cols-12 gap-1 px-2 py-1 text-[10px] text-gray-600 border-b border-[#2a2a2f]/50 font-normal bg-[#0a0a0a]">
         <div className="col-span-4">Symbol</div>
         <div className="col-span-3 text-right">Price</div>
         <div className="col-span-2 text-right">24h%</div>
@@ -144,7 +144,7 @@ export function MarketsList({ currentSymbol }: MarketsListProps) {
                 href={market.href}
                 onClick={() => setMarketType(market.type)}
                 className={cn(
-                  'grid grid-cols-12 gap-1 px-2 py-1 border-b border-gray-800/30 hover:bg-[#1a1a1a] transition-colors text-[10px]',
+                  'grid grid-cols-12 gap-1 px-2 py-1 border-b border-[#2a2a2f]/30 hover:bg-[#1a1a1a] transition-colors text-[10px]',
                   isActive && 'bg-[#1a1a1a] border-l-2 border-l-blue-500'
                 )}
               >
@@ -155,7 +155,7 @@ export function MarketsList({ currentSymbol }: MarketsListProps) {
                 </div>
 
                 {/* Price */}
-                <div className="col-span-3 text-right text-gray-400 text-[10px] flex items-center justify-end">
+                <div className="col-span-3 text-right text-white text-[10px] flex items-center justify-end">
                   {market.price > 0
                     ? market.price.toLocaleString(undefined, {
                         minimumFractionDigits: market.price < 1 ? 4 : market.price < 100 ? 3 : 2,
@@ -182,7 +182,7 @@ export function MarketsList({ currentSymbol }: MarketsListProps) {
                 </div>
 
                 {/* Volume */}
-                <div className="col-span-3 text-right text-gray-500 text-[10px] flex items-center justify-end">
+                <div className="col-span-3 text-right text-[#68686f] text-[10px] flex items-center justify-end">
                   {market.volume24h > 0
                     ? market.volume24h >= 1000000000
                       ? `${(market.volume24h / 1000000000).toFixed(2)}B`

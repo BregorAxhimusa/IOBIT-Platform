@@ -25,15 +25,15 @@ function AlreadyReferredView({ referrer, code }: { referrer: string; code: strin
             <p className="text-white text-sm font-normal">
               Referred by {formatAddress(referrer)}
             </p>
-            <p className="text-gray-400 text-xs mt-0.5">
+            <p className="text-white text-xs mt-0.5">
               Code: <span className="text-[#16DE93] font-normal">{code}</span>
             </p>
           </div>
         </div>
       </div>
 
-      <div className="bg-[#0a0a0a] border border-gray-800  p-3">
-        <p className="text-gray-400 text-xs">
+      <div className="bg-[#0a0a0a] border border-[#2a2a2f]  p-3">
+        <p className="text-white text-xs">
           You get a <span className="text-[#16DE93] font-normal">4% fee discount</span> on your first $25M in trading volume.
         </p>
       </div>
@@ -103,7 +103,7 @@ function SetReferrerView({
             'px-4 py-2  text-sm font-normal transition-all shrink-0',
             isValidCode && !isSetting
               ? 'bg-[#16DE93] hover:bg-[#16DE93] text-white'
-              : 'bg-gray-700 text-gray-500 cursor-not-allowed'
+              : 'bg-gray-700 text-[#68686f] cursor-not-allowed'
           )}
         >
           {isSetting ? (
@@ -124,7 +124,7 @@ function SetReferrerView({
         <p className="text-[#f6465d] text-sm">{error}</p>
       )}
 
-      <p className="text-gray-500 text-xs">
+      <p className="text-[#68686f] text-xs">
         Enter a referral code from a friend to get a 4% fee discount on your first $25M in volume.
       </p>
     </div>
@@ -139,7 +139,7 @@ export function ReferredBySection({
   const isReferred = referralInfo?.referredBy !== null && referralInfo?.referredBy !== undefined;
 
   return (
-    <div className="bg-[#0a0a0c] border border-gray-800 p-4">
+    <div className="bg-[#0a0a0c] border border-[#2a2a2f] p-4">
       <h3 className="text-white font-normal mb-4 flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#16DE93]" viewBox="0 0 20 20" fill="currentColor">
           <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />

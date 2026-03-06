@@ -33,14 +33,14 @@ export function StakingBalance({ stakingState, spotHypeBalance, onDeposit, onWit
   };
 
   return (
-    <div className="bg-[#0a0a0c] border border-gray-800 p-5">
+    <div className="bg-[#0a0a0c] border border-[#2a2a2f] p-5">
       <h3 className="text-white font-normal text-sm mb-4">Staking Balance</h3>
 
       <div className="space-y-3">
         {/* Spot HYPE */}
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-gray-400 text-xs">Spot HYPE Balance</p>
+            <p className="text-white text-xs">Spot HYPE Balance</p>
             <p className="text-white font-normal">{formatCompactNumber(spotHypeBalance)} HYPE</p>
           </div>
           <button
@@ -81,7 +81,7 @@ export function StakingBalance({ stakingState, spotHypeBalance, onDeposit, onWit
         {/* Staking Balance */}
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-gray-400 text-xs">Staking Balance (Undelegated)</p>
+            <p className="text-white text-xs">Staking Balance (Undelegated)</p>
             <p className="text-white font-normal">{formatCompactNumber(stakingState?.undelegated ?? '0')} HYPE</p>
           </div>
           <button

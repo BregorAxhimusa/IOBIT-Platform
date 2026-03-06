@@ -32,7 +32,7 @@ export function CreateSubModal({ isOpen, onClose, onSuccess }: CreateSubModalPro
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-gray-500 hover:text-white hover:bg-white/10 transition-colors z-10"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-[#68686f] hover:text-white hover:bg-white/10 transition-colors z-10"
         >
           <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -48,7 +48,7 @@ export function CreateSubModal({ isOpen, onClose, onSuccess }: CreateSubModalPro
               </svg>
             </div>
             <h2 className="text-lg sm:text-xl font-normal text-white">Create Sub-Account</h2>
-            <p className="text-gray-500 text-xs sm:text-sm mt-1 text-center">
+            <p className="text-[#68686f] text-xs sm:text-sm mt-1 text-center">
               Separate balances and positions
             </p>
           </div>
@@ -59,7 +59,7 @@ export function CreateSubModal({ isOpen, onClose, onSuccess }: CreateSubModalPro
               <svg className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <p className="text-gray-400 text-[10px] sm:text-xs leading-relaxed">
+              <p className="text-white text-[10px] sm:text-xs leading-relaxed">
                 Sub-accounts share your master wallet for signing but have separate balances and positions.
               </p>
             </div>
@@ -67,7 +67,7 @@ export function CreateSubModal({ isOpen, onClose, onSuccess }: CreateSubModalPro
 
           {/* Input */}
           <div className="mb-3 sm:mb-4">
-            <label className="text-[10px] sm:text-xs text-gray-500 font-normal mb-1.5 sm:mb-2 block">Account Name</label>
+            <label className="text-[10px] sm:text-xs text-[#68686f] font-normal mb-1.5 sm:mb-2 block">Account Name</label>
             <input
               type="text"
               value={name}
@@ -83,7 +83,7 @@ export function CreateSubModal({ isOpen, onClose, onSuccess }: CreateSubModalPro
           <button
             onClick={handleSubmit}
             disabled={isCreating || !name.trim()}
-            className="w-full py-2.5 sm:py-3 font-normal text-xs sm:text-sm bg-[#16DE93] hover:bg-[#16DE93] text-white disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors"
+            className="w-full py-2.5 sm:py-3 font-normal text-xs sm:text-sm bg-[#16DE93] hover:bg-[#16DE93] text-white disabled:bg-gray-700 disabled:text-[#68686f] disabled:cursor-not-allowed transition-colors"
           >
             {isCreating ? (
               <span className="flex items-center justify-center gap-2">

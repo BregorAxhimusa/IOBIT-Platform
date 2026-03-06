@@ -65,7 +65,7 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-gray-500 hover:text-white hover:bg-white/10 transition-colors z-10"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-[#68686f] hover:text-white hover:bg-white/10 transition-colors z-10"
         >
           <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -76,7 +76,7 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
           {/* Header */}
           <div className="flex flex-col items-center mb-4 sm:mb-6">
             <h2 className="text-lg sm:text-xl font-normal text-white">Transfer USDC</h2>
-            <p className="text-gray-500 text-xs sm:text-sm mt-1 truncate max-w-full">
+            <p className="text-[#68686f] text-xs sm:text-sm mt-1 truncate max-w-full">
               {subAccount.name || 'Sub-Account'}{' '}
               <span className="text-gray-600">
                 ({formatAddress(subAccount.subAccountUser)})
@@ -115,7 +115,7 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
             <div className="flex items-center justify-between">
               {/* From */}
               <div className="flex-1">
-                <p className="text-[10px] sm:text-xs text-gray-500 mb-1">From</p>
+                <p className="text-[10px] sm:text-xs text-[#68686f] mb-1">From</p>
                 <div className="flex items-center gap-1.5 sm:gap-2">
                   <span className={cn(
                     "w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full",
@@ -125,7 +125,7 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
                     {direction === 'toSub' ? 'Master' : 'Sub-Account'}
                   </span>
                 </div>
-                <p className="text-[10px] sm:text-xs text-gray-500 mt-1">
+                <p className="text-[10px] sm:text-xs text-[#68686f] mt-1">
                   ${(direction === 'toSub' ? masterBalance : subBalance).toFixed(2)}
                 </p>
               </div>
@@ -139,7 +139,7 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
 
               {/* To */}
               <div className="flex-1 text-right">
-                <p className="text-[10px] sm:text-xs text-gray-500 mb-1">To</p>
+                <p className="text-[10px] sm:text-xs text-[#68686f] mb-1">To</p>
                 <div className="flex items-center justify-end gap-1.5 sm:gap-2">
                   <span className="text-white text-sm sm:text-base font-normal">
                     {direction === 'toSub' ? 'Sub-Account' : 'Master'}
@@ -149,7 +149,7 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
                     direction === 'toSub' ? 'bg-[#16DE93]' : 'bg-purple-400'
                   )} />
                 </div>
-                <p className="text-[10px] sm:text-xs text-gray-500 mt-1">
+                <p className="text-[10px] sm:text-xs text-[#68686f] mt-1">
                   ${(direction === 'toSub' ? subBalance : masterBalance).toFixed(2)}
                 </p>
               </div>
@@ -159,7 +159,7 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
           {/* Amount Input */}
           <div className="mb-3 sm:mb-4">
             <div className="flex items-center justify-between mb-1.5 sm:mb-2">
-              <label className="text-[10px] sm:text-xs text-gray-500 font-normal">Amount (USDC)</label>
+              <label className="text-[10px] sm:text-xs text-[#68686f] font-normal">Amount (USDC)</label>
               <button
                 onClick={handleMaxClick}
                 className="text-[10px] sm:text-xs text-[#16DE93] hover:text-[#16DE93] font-normal transition-colors"
@@ -180,7 +180,7 @@ export function TransferModal({ isOpen, onClose, subAccount, onSuccess }: Transf
           <button
             onClick={handleSubmit}
             disabled={isTransferring || !canTransfer}
-            className="w-full py-2.5 sm:py-3 font-normal text-xs sm:text-sm bg-[#16DE93] hover:bg-[#16DE93] text-white disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors"
+            className="w-full py-2.5 sm:py-3 font-normal text-xs sm:text-sm bg-[#16DE93] hover:bg-[#16DE93] text-white disabled:bg-gray-700 disabled:text-[#68686f] disabled:cursor-not-allowed transition-colors"
           >
             {isTransferring ? (
               <span className="flex items-center justify-center gap-2">

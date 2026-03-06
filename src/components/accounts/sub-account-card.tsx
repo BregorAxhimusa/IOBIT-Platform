@@ -38,19 +38,19 @@ export function SubAccountCard({ subAccount, onTransfer }: SubAccountCardProps) 
     : 0;
 
   return (
-    <div className="bg-[#0a0a0c] border border-gray-800 p-4 hover:border-gray-600 transition-colors">
+    <div className="bg-[#0a0a0c] border border-[#2a2a2f] p-4 hover:border-gray-600 transition-colors">
       <div className="flex items-center justify-between mb-3">
         <div>
           <h3 className="text-white font-normal text-sm">
             {subAccount.name || 'Unnamed'}
           </h3>
-          <p className="text-gray-500 text-xs mt-0.5">
+          <p className="text-[#68686f] text-xs mt-0.5">
             {formatAddress(subAccount.subAccountUser)}
           </p>
         </div>
         <button
           onClick={() => onTransfer(subAccount)}
-          className="px-3 py-1.5 text-xs bg-[#0a0a0a] text-gray-300 hover:text-white rounded-lg border border-gray-700 hover:border-gray-500 transition-colors"
+          className="px-3 py-1.5 text-xs bg-[#0a0a0a] text-white hover:text-white rounded-lg border border-gray-700 hover:border-gray-500 transition-colors"
         >
           Transfer
         </button>
@@ -58,11 +58,11 @@ export function SubAccountCard({ subAccount, onTransfer }: SubAccountCardProps) 
 
       <div className="grid grid-cols-3 gap-3">
         <div>
-          <p className="text-gray-400 text-[10px] mb-0.5">Account Value</p>
+          <p className="text-white text-[10px] mb-0.5">Account Value</p>
           <p className="text-white text-xs font-normal">{formatCurrency(accountValue)}</p>
         </div>
         <div>
-          <p className="text-gray-400 text-[10px] mb-0.5">Unrealized PnL</p>
+          <p className="text-white text-[10px] mb-0.5">Unrealized PnL</p>
           <p
             className={cn(
               'text-xs font-normal',
@@ -74,7 +74,7 @@ export function SubAccountCard({ subAccount, onTransfer }: SubAccountCardProps) 
           </p>
         </div>
         <div>
-          <p className="text-gray-400 text-[10px] mb-0.5">Positions</p>
+          <p className="text-white text-[10px] mb-0.5">Positions</p>
           <p className="text-white text-xs font-normal">{positionCount}</p>
         </div>
       </div>

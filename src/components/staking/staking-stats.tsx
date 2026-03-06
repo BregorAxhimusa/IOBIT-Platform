@@ -11,10 +11,10 @@ interface StakingStatsProps {
 
 function StatCard({ label, value, icon }: { label: string; value: string; icon: React.ReactNode }) {
   return (
-    <div className="bg-[#0a0a0c] border border-gray-800 p-4">
+    <div className="bg-[#0a0a0c] border border-[#2a2a2f] p-4">
       <div className="flex items-center gap-2 mb-2">
         <div className="text-[#16DE93]">{icon}</div>
-        <p className="text-gray-400 text-xs">{label}</p>
+        <p className="text-white text-xs">{label}</p>
       </div>
       <p className="text-white text-lg font-normal">{value}</p>
     </div>
@@ -23,7 +23,7 @@ function StatCard({ label, value, icon }: { label: string; value: string; icon: 
 
 function StatCardSkeleton() {
   return (
-    <div className="bg-[#0a0a0c] border border-gray-800 p-4 animate-pulse">
+    <div className="bg-[#0a0a0c] border border-[#2a2a2f] p-4 animate-pulse">
       <div className="flex items-center gap-2 mb-2">
         <div className="h-4 w-4 bg-gray-700 rounded" />
         <div className="h-3 bg-gray-700 rounded w-24" />

@@ -42,7 +42,7 @@ export function AccountSwitcher() {
         className={cn(
           'flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-normal transition-colors border',
           isMaster
-            ? 'border-gray-700 text-gray-300 hover:text-white hover:border-gray-500'
+            ? 'border-gray-700 text-white hover:text-white hover:border-gray-500'
             : 'border-[#16DE93]/50 text-[#16DE93] bg-[#16DE93]/10 hover:bg-[#16DE93]/20'
         )}
       >
@@ -72,7 +72,7 @@ export function AccountSwitcher() {
           >
             <div>
               <div className="text-white font-normal">Main Account</div>
-              <div className="text-gray-500 text-[10px]">{formatAddress(address)}</div>
+              <div className="text-[#68686f] text-[10px]">{formatAddress(address)}</div>
             </div>
             {isMaster && (
               <span className="text-[#16DE93] text-[10px]">Active</span>
@@ -80,7 +80,7 @@ export function AccountSwitcher() {
           </button>
 
           {subAccounts.length > 0 && (
-            <div className="border-t border-gray-800 my-1" />
+            <div className="border-t border-[#2a2a2f] my-1" />
           )}
 
           {/* Sub-Accounts */}
@@ -100,7 +100,7 @@ export function AccountSwitcher() {
               >
                 <div>
                   <div className="text-white font-normal">{sub.name || 'Sub-Account'}</div>
-                  <div className="text-gray-500 text-[10px]">
+                  <div className="text-[#68686f] text-[10px]">
                     {formatAddress(sub.subAccountUser)}
                   </div>
                 </div>

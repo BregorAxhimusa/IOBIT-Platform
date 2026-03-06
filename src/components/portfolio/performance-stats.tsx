@@ -31,7 +31,7 @@ interface StatCardProps {
 function StatCard({ label, value, colorClass = 'text-white' }: StatCardProps) {
   return (
     <div className="bg-[#0a0a0a] rounded-lg p-3">
-      <p className="text-gray-400 text-xs mb-1">{label}</p>
+      <p className="text-white text-xs mb-1">{label}</p>
       <p className={cn('text-sm font-normal', colorClass)}>{value}</p>
     </div>
   );
@@ -40,7 +40,7 @@ function StatCard({ label, value, colorClass = 'text-white' }: StatCardProps) {
 export function PerformanceStatsSection({ stats, isLoading }: PerformanceStatsProps) {
   if (isLoading) {
     return (
-      <div className="bg-[#0a0a0c] border border-gray-800 p-4">
+      <div className="bg-[#0a0a0c] border border-[#2a2a2f] p-4">
         <h3 className="text-white font-normal mb-3">Performance Analytics</h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
           {Array.from({ length: 10 }).map((_, i) => (
@@ -56,15 +56,15 @@ export function PerformanceStatsSection({ stats, isLoading }: PerformanceStatsPr
 
   if (!stats) {
     return (
-      <div className="bg-[#0a0a0c] border border-gray-800 p-4">
+      <div className="bg-[#0a0a0c] border border-[#2a2a2f] p-4">
         <h3 className="text-white font-normal mb-3">Performance Analytics</h3>
-        <p className="text-gray-500 text-sm">Connect wallet to view performance stats</p>
+        <p className="text-[#68686f] text-sm">Connect wallet to view performance stats</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-[#0a0a0c] border border-gray-800 p-4">
+    <div className="bg-[#0a0a0c] border border-[#2a2a2f] p-4">
       <h3 className="text-white font-normal mb-3">Performance Analytics</h3>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">

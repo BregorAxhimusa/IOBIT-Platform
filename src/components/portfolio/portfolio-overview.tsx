@@ -392,7 +392,7 @@ export function PortfolioOverview() {
                               setShowCloseModal(true);
                             }}
                             disabled={isClosing}
-                            className="px-2 sm:px-3 py-1 text-[10px] sm:text-xs bg-[#0a0a0a] hover:bg-[#1a1a1f] disabled:bg-gray-800 disabled:text-gray-500 disabled:cursor-not-allowed text-white rounded transition-colors border border-[#1a1a1f]"
+                            className="px-2 sm:px-3 py-1 text-[10px] sm:text-xs bg-[#0a0a0a] hover:bg-[#1a1a1f] disabled:bg-gray-800 disabled:text-[#68686f] disabled:cursor-not-allowed text-white rounded transition-colors border border-[#1a1a1f]"
                           >
                             {isClosing ? '...' : 'Close'}
                           </button>
@@ -549,7 +549,7 @@ function DepositModal({ onClose }: { onClose: () => void }) {
         <button
           onClick={onClose}
           disabled={isDepositing}
-          className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-gray-500 hover:text-white hover:bg-white/10 transition-colors disabled:opacity-50"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-[#68686f] hover:text-white hover:bg-white/10 transition-colors disabled:opacity-50"
         >
           <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -567,7 +567,7 @@ function DepositModal({ onClose }: { onClose: () => void }) {
             <h2 className="text-lg sm:text-xl font-normal text-white">
               {isTestnet ? 'Get Testnet USDC' : 'Deposit USDC'}
             </h2>
-            <p className="text-gray-500 text-xs sm:text-sm mt-1">
+            <p className="text-[#68686f] text-xs sm:text-sm mt-1">
               {isTestnet ? 'Practice trading with test funds' : 'From Arbitrum network'}
             </p>
             {isTestnet && (
@@ -581,7 +581,7 @@ function DepositModal({ onClose }: { onClose: () => void }) {
           {isTestnet && (
             <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-amber-500/5 border border-amber-500/20">
               <h3 className="text-xs sm:text-sm font-normal text-amber-400 mb-2">Get Free Test USDC</h3>
-              <p className="text-[10px] sm:text-xs text-gray-400 mb-3 sm:mb-4">
+              <p className="text-[10px] sm:text-xs text-white mb-3 sm:mb-4">
                 Request free testnet USDC to practice trading without real funds.
               </p>
               <button
@@ -591,7 +591,7 @@ function DepositModal({ onClose }: { onClose: () => void }) {
               >
                 {isRequestingFaucet ? 'Requesting...' : 'Request 10,000 Test USDC'}
               </button>
-              <p className="text-[10px] sm:text-xs text-gray-500 mt-2 sm:mt-3 text-center">
+              <p className="text-[10px] sm:text-xs text-[#68686f] mt-2 sm:mt-3 text-center">
                 Or visit{' '}
                 <a
                   href={process.env.NEXT_PUBLIC_HYPERLIQUID_TESTNET_APP || 'https://app.hyperliquid-testnet.xyz'}
@@ -611,14 +611,14 @@ function DepositModal({ onClose }: { onClose: () => void }) {
               {/* Asset & Chain */}
               <div className="grid grid-cols-2 gap-2 sm:gap-3">
                 <div>
-                  <label className="block text-[10px] sm:text-xs text-gray-500 font-normal mb-1.5 sm:mb-2">Asset</label>
+                  <label className="block text-[10px] sm:text-xs text-[#68686f] font-normal mb-1.5 sm:mb-2">Asset</label>
                   <div className="px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-[#1a1a1f] text-white text-xs sm:text-sm flex items-center gap-2">
                     <span className="w-4 h-4 sm:w-5 sm:h-5 bg-blue-500 text-[8px] sm:text-[10px] font-normal flex items-center justify-center text-white">$</span>
                     USDC
                   </div>
                 </div>
                 <div>
-                  <label className="block text-[10px] sm:text-xs text-gray-500 font-normal mb-1.5 sm:mb-2">Chain</label>
+                  <label className="block text-[10px] sm:text-xs text-[#68686f] font-normal mb-1.5 sm:mb-2">Chain</label>
                   <div className="px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-[#1a1a1f] text-white text-xs sm:text-sm flex items-center gap-2">
                     <span className="w-4 h-4 sm:w-5 sm:h-5 bg-blue-600 text-[8px] sm:text-[10px] flex items-center justify-center">A</span>
                     Arbitrum
@@ -629,7 +629,7 @@ function DepositModal({ onClose }: { onClose: () => void }) {
               {/* Amount */}
               <div>
                 <div className="flex items-center justify-between mb-1.5 sm:mb-2">
-                  <label className="text-[10px] sm:text-xs text-gray-500 font-normal">Amount</label>
+                  <label className="text-[10px] sm:text-xs text-[#68686f] font-normal">Amount</label>
                   <button
                     onClick={() => setAmount(maxAmount)}
                     className="text-[10px] sm:text-xs text-[#16DE93] hover:text-[#16DE93] font-normal transition-colors"
@@ -653,7 +653,7 @@ function DepositModal({ onClose }: { onClose: () => void }) {
                       key={pct}
                       onClick={() => handlePercentageClick(pct)}
                       disabled={isDepositing}
-                      className="py-1.5 sm:py-2 text-[10px] sm:text-xs font-normal bg-[#0a0a0a] border border-[#1a1a1f] text-gray-400 hover:text-white hover:border-gray-600 transition-colors disabled:opacity-50"
+                      className="py-1.5 sm:py-2 text-[10px] sm:text-xs font-normal bg-[#0a0a0a] border border-[#1a1a1f] text-white hover:text-white hover:border-gray-600 transition-colors disabled:opacity-50"
                     >
                       {pct}%
                     </button>
@@ -678,7 +678,7 @@ function DepositModal({ onClose }: { onClose: () => void }) {
               <button
                 onClick={handleDeposit}
                 disabled={!canDeposit}
-                className="w-full py-2.5 sm:py-3 bg-[#16DE93] hover:bg-[#16DE93] text-white font-normal text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed"
+                className="w-full py-2.5 sm:py-3 bg-[#16DE93] hover:bg-[#16DE93] text-white font-normal text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-[#68686f] disabled:cursor-not-allowed"
               >
                 {isDepositing ? (
                   <span className="flex items-center justify-center gap-2">
@@ -741,7 +741,7 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-gray-500 hover:text-white hover:bg-white/10 transition-colors"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-[#68686f] hover:text-white hover:bg-white/10 transition-colors"
         >
           <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -757,7 +757,7 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
               </svg>
             </div>
             <h2 className="text-lg sm:text-xl font-normal text-white">Withdraw USDC</h2>
-            <p className="text-gray-500 text-xs sm:text-sm mt-1 text-center">
+            <p className="text-[#68686f] text-xs sm:text-sm mt-1 text-center">
               To Arbitrum network • 1 USDC fee
             </p>
           </div>
@@ -767,14 +767,14 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
             {/* Asset & Chain */}
             <div className="grid grid-cols-2 gap-2 sm:gap-3">
               <div>
-                <label className="block text-[10px] sm:text-xs text-gray-500 font-normal mb-1.5 sm:mb-2">Asset</label>
+                <label className="block text-[10px] sm:text-xs text-[#68686f] font-normal mb-1.5 sm:mb-2">Asset</label>
                 <div className="px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-[#1a1a1f] text-white text-xs sm:text-sm flex items-center gap-2">
                   <span className="w-4 h-4 sm:w-5 sm:h-5 bg-blue-500 text-[8px] sm:text-[10px] font-normal flex items-center justify-center text-white">$</span>
                   USDC
                 </div>
               </div>
               <div>
-                <label className="block text-[10px] sm:text-xs text-gray-500 font-normal mb-1.5 sm:mb-2">Chain</label>
+                <label className="block text-[10px] sm:text-xs text-[#68686f] font-normal mb-1.5 sm:mb-2">Chain</label>
                 <div className="px-3 py-2 sm:px-4 sm:py-3 bg-[#0a0a0a] border border-[#1a1a1f] text-white text-xs sm:text-sm flex items-center gap-2">
                   <span className="w-4 h-4 sm:w-5 sm:h-5 bg-blue-600 text-[8px] sm:text-[10px] flex items-center justify-center">A</span>
                   Arbitrum
@@ -786,17 +786,17 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
             {(spotUsdc > 0 || perpsWithdrawable > 0) && (
               <div className="flex items-center justify-between px-3 py-2 bg-[#0a0a0a] border border-[#1a1a1f] text-[10px] sm:text-xs">
                 <div className="flex items-center gap-3">
-                  <span className="text-gray-500">Perps: <span className="text-white">${perpsWithdrawable.toFixed(2)}</span></span>
-                  <span className="text-gray-500">Spot: <span className="text-white">${spotUsdc.toFixed(2)}</span></span>
+                  <span className="text-[#68686f]">Perps: <span className="text-white">${perpsWithdrawable.toFixed(2)}</span></span>
+                  <span className="text-[#68686f]">Spot: <span className="text-white">${spotUsdc.toFixed(2)}</span></span>
                 </div>
-                <span className="text-gray-400">Total: <span className="text-white">${maxAmount}</span></span>
+                <span className="text-white">Total: <span className="text-white">${maxAmount}</span></span>
               </div>
             )}
 
             {/* Amount */}
             <div>
               <div className="flex items-center justify-between mb-1.5 sm:mb-2">
-                <label className="text-[10px] sm:text-xs text-gray-500 font-normal">Amount</label>
+                <label className="text-[10px] sm:text-xs text-[#68686f] font-normal">Amount</label>
                 <button
                   onClick={() => setAmount(maxAmount)}
                   className="text-[10px] sm:text-xs text-[#16DE93] hover:text-[#16DE93] font-normal transition-colors"
@@ -819,7 +819,7 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
                     key={pct}
                     onClick={() => setAmount((totalAvailable * pct / 100).toFixed(2))}
                     disabled={isProcessing}
-                    className="py-1.5 sm:py-2 text-[10px] sm:text-xs font-normal bg-[#0a0a0a] border border-[#1a1a1f] text-gray-400 hover:text-white hover:border-gray-600 transition-colors disabled:opacity-50"
+                    className="py-1.5 sm:py-2 text-[10px] sm:text-xs font-normal bg-[#0a0a0a] border border-[#1a1a1f] text-white hover:text-white hover:border-gray-600 transition-colors disabled:opacity-50"
                   >
                     {pct}%
                   </button>
@@ -831,7 +831,7 @@ function WithdrawModal({ onClose }: { onClose: () => void }) {
             <button
               onClick={handleWithdraw}
               disabled={isProcessing || !amount || amountNum <= 0 || amountNum > totalAvailable}
-              className="w-full py-2.5 sm:py-3 bg-[#16DE93] hover:bg-[#16DE93] text-white font-normal text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed"
+              className="w-full py-2.5 sm:py-3 bg-[#16DE93] hover:bg-[#16DE93] text-white font-normal text-xs sm:text-sm transition-colors disabled:bg-gray-700 disabled:text-[#68686f] disabled:cursor-not-allowed"
             >
               {isProcessing ? (
                 <span className="flex items-center justify-center gap-2">
@@ -875,7 +875,7 @@ function CloseModal({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-white text-lg z-10"
+          className="absolute top-4 right-4 text-white hover:text-white text-lg z-10"
         >
           ✕
         </button>
@@ -883,7 +883,7 @@ function CloseModal({
         <div className="p-6">
           {/* Title */}
           <h2 className="text-base font-normal text-white text-center mb-2">Confirm Close</h2>
-          <p className="text-sm text-gray-500 text-center mb-6">
+          <p className="text-sm text-[#68686f] text-center mb-6">
             This will close your {position.symbol} position and cancel associated TP/SL orders.
           </p>
 
@@ -1033,7 +1033,7 @@ function TPSLModal({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-white text-lg z-10"
+          className="absolute top-4 right-4 text-white hover:text-white text-lg z-10"
         >
           ✕
         </button>
@@ -1045,21 +1045,21 @@ function TPSLModal({
           {/* Position Info */}
           <div className="space-y-2.5 mb-6">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-400">Coin</span>
+              <span className="text-sm text-white">Coin</span>
               <span className="text-sm text-white font-normal">{position.symbol}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-400">Position</span>
+              <span className="text-sm text-white">Position</span>
               <span className={cn('text-sm font-normal', isLong ? 'text-[#16DE93]' : 'text-[#F6465D]')}>
                 {position.size} {position.symbol}
               </span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-400">Entry Price</span>
+              <span className="text-sm text-white">Entry Price</span>
               <span className="text-sm text-white">{formatPrice(entryPriceNum)}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-400">Mark Price</span>
+              <span className="text-sm text-white">Mark Price</span>
               <span className="text-sm text-white">{formatPrice(markPriceNum)}</span>
             </div>
           </div>
@@ -1100,9 +1100,9 @@ function TPSLModal({
                     setTpMode('price');
                   }
                 }}
-                className="flex items-center gap-1.5 px-3 py-2.5 bg-[#111111] border border-[#1a1a1f] rounded-lg text-sm text-gray-300 hover:border-gray-600 transition-colors min-w-[80px] justify-center"
+                className="flex items-center gap-1.5 px-3 py-2.5 bg-[#111111] border border-[#1a1a1f] rounded-lg text-sm text-white hover:border-gray-600 transition-colors min-w-[80px] justify-center"
               >
-                Gain <span className="text-gray-500">{tpMode === 'percent' ? '%' : '$'}</span>
+                Gain <span className="text-[#68686f]">{tpMode === 'percent' ? '%' : '$'}</span>
               </button>
             </div>
 
@@ -1140,15 +1140,15 @@ function TPSLModal({
                     setSlMode('price');
                   }
                 }}
-                className="flex items-center gap-1.5 px-3 py-2.5 bg-[#111111] border border-[#1a1a1f] rounded-lg text-sm text-gray-300 hover:border-gray-600 transition-colors min-w-[80px] justify-center"
+                className="flex items-center gap-1.5 px-3 py-2.5 bg-[#111111] border border-[#1a1a1f] rounded-lg text-sm text-white hover:border-gray-600 transition-colors min-w-[80px] justify-center"
               >
-                Loss <span className="text-gray-500">{slMode === 'percent' ? '%' : '$'}</span>
+                Loss <span className="text-[#68686f]">{slMode === 'percent' ? '%' : '$'}</span>
               </button>
             </div>
 
             {/* Preview calculations */}
             {(hasTP || hasSL) && (
-              <div className="text-xs text-gray-500 space-y-1 px-1">
+              <div className="text-xs text-[#68686f] space-y-1 px-1">
                 {hasTP && (
                   <div className="flex justify-between">
                     <span>TP triggers at</span>

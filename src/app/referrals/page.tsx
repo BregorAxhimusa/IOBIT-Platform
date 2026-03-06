@@ -22,7 +22,7 @@ export default function ReferralsPage() {
     return (
       <div className="min-h-screen bg-[#0a0a0c] text-white">
         <div className="w-full px-6 py-6">
-          <div className="flex items-center justify-center py-16 text-gray-500">
+          <div className="flex items-center justify-center py-16 text-[#68686f]">
             Please connect your wallet to view referrals
           </div>
         </div>
@@ -36,7 +36,7 @@ export default function ReferralsPage() {
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-xl font-normal text-white">Referral Program</h1>
-          <p className="text-gray-400 text-sm mt-1">
+          <p className="text-white text-sm mt-1">
             Earn 10% of referred users&apos; fees. Referred users get 4% fee discount.
           </p>
         </div>
@@ -78,7 +78,7 @@ export default function ReferralsPage() {
         </div>
 
         {/* How It Works */}
-        <div className="mt-4 bg-[#0a0a0c] border border-gray-800 p-5">
+        <div className="mt-4 bg-[#0a0a0c] border border-[#2a2a2f] p-5">
           <h3 className="text-white font-normal mb-4">How It Works</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
             {[
@@ -96,13 +96,13 @@ export default function ReferralsPage() {
                   {item.step}
                 </div>
                 <p className="text-white text-sm font-normal">{item.title}</p>
-                <p className="text-gray-500 text-xs mt-0.5">{item.desc}</p>
+                <p className="text-[#68686f] text-xs mt-0.5">{item.desc}</p>
               </div>
             ))}
           </div>
 
           <div className="mt-4 bg-[#0a0a0a] p-3">
-            <p className="text-gray-400 text-xs leading-relaxed">
+            <p className="text-white text-xs leading-relaxed">
               <span className="text-amber-400 font-normal">Note:</span> Referral rewards are valid up to $1B volume per referred user.
               Fee discounts are valid up to $25M volume per referred user.
               Vaults and sub-accounts do not benefit from referral discounts.

@@ -18,13 +18,13 @@ export function ApiWalletCard({ wallet }: ApiWalletCardProps) {
     : 'Never';
 
   return (
-    <div className="bg-[#0a0a0c] border border-gray-800 p-4 hover:border-gray-600 transition-colors">
+    <div className="bg-[#0a0a0c] border border-[#2a2a2f] p-4 hover:border-gray-600 transition-colors">
       <div className="flex items-center justify-between mb-2">
         <div>
           <h3 className="text-white font-normal text-sm">
             {wallet.name || 'Unnamed Wallet'}
           </h3>
-          <p className="text-gray-500 text-xs mt-0.5">
+          <p className="text-[#68686f] text-xs mt-0.5">
             {formatAddress(wallet.address)}
           </p>
         </div>
@@ -41,12 +41,12 @@ export function ApiWalletCard({ wallet }: ApiWalletCardProps) {
 
       <div className="flex items-center gap-4 mt-3">
         <div>
-          <p className="text-gray-400 text-[10px] mb-0.5">Expires</p>
-          <p className="text-gray-300 text-xs">{expiryDate}</p>
+          <p className="text-white text-[10px] mb-0.5">Expires</p>
+          <p className="text-white text-xs">{expiryDate}</p>
         </div>
         <div>
-          <p className="text-gray-400 text-[10px] mb-0.5">Permissions</p>
-          <p className="text-gray-300 text-xs">
+          <p className="text-white text-[10px] mb-0.5">Permissions</p>
+          <p className="text-white text-xs">
             {wallet.allowedActions.length > 0
               ? wallet.allowedActions.join(', ')
               : 'All'}

@@ -16,7 +16,7 @@ export function TableSkeleton({ rows = 5, columns = 6 }: { rows?: number; column
   return (
     <div className="space-y-3">
       {/* Header Row */}
-      <div className="flex gap-4 pb-3 border-b border-gray-800">
+      <div className="flex gap-4 pb-3 border-b border-[#2a2a2f]">
         {Array.from({ length: columns }).map((_, i) => (
           <Skeleton key={i} className="h-4 flex-1" />
         ))}
@@ -39,7 +39,7 @@ export function TableSkeleton({ rows = 5, columns = 6 }: { rows?: number; column
  */
 export function ChartSkeleton() {
   return (
-    <div className="h-full flex flex-col p-4 bg-gray-950 border border-gray-800 rounded-lg">
+    <div className="h-full flex flex-col p-4 bg-gray-950 border border-[#2a2a2f] rounded-lg">
       <div className="flex items-center justify-between mb-4">
         <Skeleton className="h-6 w-32" />
         <div className="flex gap-2">
@@ -59,7 +59,7 @@ export function ChartSkeleton() {
  */
 export function OrderBookSkeleton() {
   return (
-    <div className="h-full flex flex-col p-4 bg-gray-950 border border-gray-800 rounded-lg">
+    <div className="h-full flex flex-col p-4 bg-gray-950 border border-[#2a2a2f] rounded-lg">
       <div className="mb-4">
         <Skeleton className="h-6 w-32" />
       </div>
@@ -106,7 +106,7 @@ export function OrderBookSkeleton() {
  */
 export function RecentTradesSkeleton() {
   return (
-    <div className="h-full flex flex-col p-4 bg-gray-950 border border-gray-800 rounded-lg">
+    <div className="h-full flex flex-col p-4 bg-gray-950 border border-[#2a2a2f] rounded-lg">
       <div className="mb-4">
         <Skeleton className="h-6 w-32" />
       </div>
@@ -137,7 +137,7 @@ export function RecentTradesSkeleton() {
  */
 export function MarketsListSkeleton() {
   return (
-    <div className="h-full flex flex-col p-4 bg-gray-950 border border-gray-800 rounded-lg">
+    <div className="h-full flex flex-col p-4 bg-gray-950 border border-[#2a2a2f] rounded-lg">
       <div className="mb-4">
         <Skeleton className="h-10 w-full" />
       </div>
@@ -170,7 +170,7 @@ export function MarketsListSkeleton() {
  */
 export function TradingPanelSkeleton() {
   return (
-    <div className="h-full flex flex-col p-4 bg-gray-950 border border-gray-800 rounded-lg">
+    <div className="h-full flex flex-col p-4 bg-gray-950 border border-[#2a2a2f] rounded-lg">
       <div className="mb-4 flex gap-2">
         <Skeleton className="h-10 flex-1" />
         <Skeleton className="h-10 flex-1" />
@@ -206,7 +206,7 @@ export function TradingPanelSkeleton() {
  */
 export function MarketInfoBarSkeleton() {
   return (
-    <div className="px-4 py-3 bg-gray-950 border-b border-gray-800">
+    <div className="px-4 py-3 bg-gray-950 border-b border-[#2a2a2f]">
       <div className="flex items-center gap-6">
         <Skeleton className="h-6 w-32" />
         <Skeleton className="h-6 w-24" />

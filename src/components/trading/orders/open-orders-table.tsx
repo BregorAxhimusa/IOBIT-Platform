@@ -73,7 +73,7 @@ export function OpenOrdersTable() {
         <button
           onClick={handleCancelAll}
           disabled={isCanceling || openOrders.length === 0}
-          className="px-3 py-1 text-xs bg-[#f6465d]/10 hover:bg-[#f6465d]/20 disabled:bg-gray-800 disabled:text-gray-500 text-[#f6465d] rounded transition-colors border border-[#f6465d]/20"
+          className="px-3 py-1 text-xs bg-[#f6465d]/10 hover:bg-[#f6465d]/20 disabled:bg-gray-800 disabled:text-[#68686f] text-[#f6465d] rounded transition-colors border border-[#f6465d]/20"
         >
           {isCanceling ? 'Canceling...' : 'Cancel All'}
         </button>
@@ -81,17 +81,17 @@ export function OpenOrdersTable() {
 
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-gray-800">
-            <th className="text-left py-3 px-4 text-xs font-normal text-gray-400">Time</th>
-            <th className="text-left py-3 px-4 text-xs font-normal text-gray-400">Symbol</th>
-            <th className="text-left py-3 px-4 text-xs font-normal text-gray-400">Type</th>
-            <th className="text-left py-3 px-4 text-xs font-normal text-gray-400">Side</th>
-            <th className="text-right py-3 px-4 text-xs font-normal text-gray-400">Price</th>
-            <th className="text-right py-3 px-4 text-xs font-normal text-gray-400">Trigger</th>
-            <th className="text-right py-3 px-4 text-xs font-normal text-gray-400">Size</th>
-            <th className="text-right py-3 px-4 text-xs font-normal text-gray-400">Filled</th>
-            <th className="text-left py-3 px-4 text-xs font-normal text-gray-400">Status</th>
-            <th className="text-center py-3 px-4 text-xs font-normal text-gray-400">Actions</th>
+          <tr className="border-b border-[#2a2a2f]">
+            <th className="text-left py-3 px-4 text-xs font-normal text-white">Time</th>
+            <th className="text-left py-3 px-4 text-xs font-normal text-white">Symbol</th>
+            <th className="text-left py-3 px-4 text-xs font-normal text-white">Type</th>
+            <th className="text-left py-3 px-4 text-xs font-normal text-white">Side</th>
+            <th className="text-right py-3 px-4 text-xs font-normal text-white">Price</th>
+            <th className="text-right py-3 px-4 text-xs font-normal text-white">Trigger</th>
+            <th className="text-right py-3 px-4 text-xs font-normal text-white">Size</th>
+            <th className="text-right py-3 px-4 text-xs font-normal text-white">Filled</th>
+            <th className="text-left py-3 px-4 text-xs font-normal text-white">Status</th>
+            <th className="text-center py-3 px-4 text-xs font-normal text-white">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -108,11 +108,11 @@ export function OpenOrdersTable() {
             return (
               <tr
                 key={order.id}
-                className="border-b border-gray-800 hover:bg-[#0a0a0a]/50 transition-colors"
+                className="border-b border-[#2a2a2f] hover:bg-[#0a0a0a]/50 transition-colors"
               >
-                <td className="py-3 px-4 text-gray-400 text-xs">{timeStr}</td>
+                <td className="py-3 px-4 text-white text-xs">{timeStr}</td>
                 <td className="py-3 px-4 font-normal text-white">{order.symbol}</td>
-                <td className="py-3 px-4 text-gray-300 capitalize">
+                <td className="py-3 px-4 text-white capitalize">
                   {order.type === 'stop-market'
                     ? 'Stop Market'
                     : order.type === 'stop-limit'
@@ -131,14 +131,14 @@ export function OpenOrdersTable() {
                     {order.side.toUpperCase()}
                   </span>
                 </td>
-                <td className="py-3 px-4 text-right text-gray-300">
+                <td className="py-3 px-4 text-right text-white">
                   {order.type === 'market' ? 'Market' : `$${parseFloat(order.price).toLocaleString()}`}
                 </td>
-                <td className="py-3 px-4 text-right text-gray-300">
+                <td className="py-3 px-4 text-right text-white">
                   {order.triggerPrice ? `$${parseFloat(order.triggerPrice).toLocaleString()}` : '-'}
                 </td>
-                <td className="py-3 px-4 text-right text-gray-300">{order.size}</td>
-                <td className="py-3 px-4 text-right text-gray-300">
+                <td className="py-3 px-4 text-right text-white">{order.size}</td>
+                <td className="py-3 px-4 text-right text-white">
                   {order.filledSize} ({filledPercent.toFixed(1)}%)
                 </td>
                 <td className="py-3 px-4">
@@ -151,7 +151,7 @@ export function OpenOrdersTable() {
                         ? 'bg-[#F59E0B]/10 text-[#F59E0B]'
                         : order.status === 'filled'
                         ? 'bg-[#16DE93]/10 text-[#16DE93]'
-                        : 'bg-gray-500/10 text-gray-400'
+                        : 'bg-gray-500/10 text-white'
                     )}
                   >
                     {order.status}
@@ -170,7 +170,7 @@ export function OpenOrdersTable() {
                     <button
                       onClick={() => handleCancelOrder(order.id, order.symbol, order.oid)}
                       disabled={isCanceling}
-                      className="px-3 py-1 text-xs bg-[#0a0a0a] hover:bg-[#2a3038] disabled:bg-gray-800 disabled:text-gray-500 text-white rounded transition-colors border border-gray-700"
+                      className="px-3 py-1 text-xs bg-[#0a0a0a] hover:bg-[#2a3038] disabled:bg-gray-800 disabled:text-[#68686f] text-white rounded transition-colors border border-gray-700"
                     >
                       {isCanceling ? 'Canceling...' : 'Cancel'}
                     </button>
@@ -238,7 +238,7 @@ function ModifyOrderModal({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-white text-xl z-10"
+          className="absolute top-4 right-4 text-white hover:text-white text-xl z-10"
         >
           ✕
         </button>
@@ -247,7 +247,7 @@ function ModifyOrderModal({
           {/* Header */}
           <div className="mb-6">
             <h2 className="text-lg font-normal text-white mb-1">Modify Order</h2>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-white">
               {order.symbol} · {order.side.toUpperCase()} · {order.type.toUpperCase()}
             </p>
           </div>
@@ -256,7 +256,7 @@ function ModifyOrderModal({
           <div className="space-y-4">
             {/* Price */}
             <div>
-              <label className="block text-sm text-gray-400 mb-2">
+              <label className="block text-sm text-white mb-2">
                 Price (USDC)
               </label>
               <input
@@ -267,14 +267,14 @@ function ModifyOrderModal({
                 step="0.01"
                 className="w-full px-3 py-2.5 bg-[#111111] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#16DE93]"
               />
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-[#68686f] mt-1">
                 Current: ${parseFloat(order.price).toLocaleString()}
               </p>
             </div>
 
             {/* Size */}
             <div>
-              <label className="block text-sm text-gray-400 mb-2">
+              <label className="block text-sm text-white mb-2">
                 Size ({order.symbol})
               </label>
               <input
@@ -285,13 +285,13 @@ function ModifyOrderModal({
                 step="0.0001"
                 className="w-full px-3 py-2.5 bg-[#111111] border border-gray-700 rounded text-white text-sm focus:outline-none focus:border-[#16DE93]"
               />
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-[#68686f] mt-1">
                 Current: {order.size}
               </p>
             </div>
 
             {/* Info */}
-            <div className="text-xs text-gray-500 bg-[#111111] p-3 rounded">
+            <div className="text-xs text-[#68686f] bg-[#111111] p-3 rounded">
               <p>• Modifying an order requires a new signature</p>
               <p>• Order ID and timestamp will be updated</p>
             </div>

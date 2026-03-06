@@ -46,16 +46,16 @@ export function OrderHistoryTable() {
 
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-gray-800">
-            <th className="text-left py-3 px-4 text-xs font-normal text-gray-400">Time</th>
-            <th className="text-left py-3 px-4 text-xs font-normal text-gray-400">Symbol</th>
-            <th className="text-left py-3 px-4 text-xs font-normal text-gray-400">Type</th>
-            <th className="text-left py-3 px-4 text-xs font-normal text-gray-400">Side</th>
-            <th className="text-right py-3 px-4 text-xs font-normal text-gray-400">Price</th>
-            <th className="text-right py-3 px-4 text-xs font-normal text-gray-400">Trigger</th>
-            <th className="text-right py-3 px-4 text-xs font-normal text-gray-400">Size</th>
-            <th className="text-right py-3 px-4 text-xs font-normal text-gray-400">Filled</th>
-            <th className="text-left py-3 px-4 text-xs font-normal text-gray-400">Status</th>
+          <tr className="border-b border-[#2a2a2f]">
+            <th className="text-left py-3 px-4 text-xs font-normal text-white">Time</th>
+            <th className="text-left py-3 px-4 text-xs font-normal text-white">Symbol</th>
+            <th className="text-left py-3 px-4 text-xs font-normal text-white">Type</th>
+            <th className="text-left py-3 px-4 text-xs font-normal text-white">Side</th>
+            <th className="text-right py-3 px-4 text-xs font-normal text-white">Price</th>
+            <th className="text-right py-3 px-4 text-xs font-normal text-white">Trigger</th>
+            <th className="text-right py-3 px-4 text-xs font-normal text-white">Size</th>
+            <th className="text-right py-3 px-4 text-xs font-normal text-white">Filled</th>
+            <th className="text-left py-3 px-4 text-xs font-normal text-white">Status</th>
           </tr>
         </thead>
         <tbody>
@@ -72,11 +72,11 @@ export function OrderHistoryTable() {
             return (
               <tr
                 key={order.id}
-                className="border-b border-gray-800 hover:bg-[#0a0a0a]/50 transition-colors"
+                className="border-b border-[#2a2a2f] hover:bg-[#0a0a0a]/50 transition-colors"
               >
-                <td className="py-3 px-4 text-gray-400 text-xs">{dateStr}</td>
+                <td className="py-3 px-4 text-white text-xs">{dateStr}</td>
                 <td className="py-3 px-4 font-normal text-white">{order.symbol}</td>
-                <td className="py-3 px-4 text-gray-300 capitalize">
+                <td className="py-3 px-4 text-white capitalize">
                   {order.type === 'stop-market'
                     ? 'Stop Market'
                     : order.type === 'stop-limit'
@@ -95,14 +95,14 @@ export function OrderHistoryTable() {
                     {order.side.toUpperCase()}
                   </span>
                 </td>
-                <td className="py-3 px-4 text-right text-gray-300">
+                <td className="py-3 px-4 text-right text-white">
                   {order.type === 'market' ? 'Market' : `$${parseFloat(order.price).toLocaleString()}`}
                 </td>
-                <td className="py-3 px-4 text-right text-gray-300">
+                <td className="py-3 px-4 text-right text-white">
                   {order.triggerPrice ? `$${parseFloat(order.triggerPrice).toLocaleString()}` : '-'}
                 </td>
-                <td className="py-3 px-4 text-right text-gray-300">{order.size}</td>
-                <td className="py-3 px-4 text-right text-gray-300">
+                <td className="py-3 px-4 text-right text-white">{order.size}</td>
+                <td className="py-3 px-4 text-right text-white">
                   {order.filledSize} ({filledPercent.toFixed(1)}%)
                 </td>
                 <td className="py-3 px-4">
@@ -113,7 +113,7 @@ export function OrderHistoryTable() {
                         ? 'bg-[#16DE93]/10 text-[#16DE93]'
                         : order.status === 'cancelled'
                         ? 'bg-[#f6465d]/10 text-[#f6465d]'
-                        : 'bg-gray-500/10 text-gray-400'
+                        : 'bg-gray-500/10 text-white'
                     )}
                   >
                     {order.status}
